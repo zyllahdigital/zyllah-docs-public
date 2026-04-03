@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Zyllah · Prompt Conversão 9:16</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Cinzel:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1A1714;--gold:#B8976A;--gold-light:#D4B896;--cream:#FAF7F2;--cream-mid:#F0EBE1;--border:rgba(184,151,106,.18);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color:var(--ink);padding:0 0 80px;}
+.header{background:var(--ink);padding:40px 56px 36px;border-bottom:3px solid var(--gold);}
+.header-tag{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);opacity:.7;display:block;margin-bottom:10px;}
+.header-titulo{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#fff;line-height:1.1;margin-bottom:8px;}
+.header-titulo em{font-style:italic;color:var(--gold-light);}
+.header-sub{font-size:13px;color:rgba(255,255,255,.35);line-height:1.75;max-width:560px;}
+.page{max-width:860px;margin:0 auto;padding:32px 56px 0;}
+
+.secao{margin-top:36px;}
+.secao-label{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:3px;display:flex;align-items:center;gap:10px;}
+.secao-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.secao-titulo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--ink);margin-bottom:16px;}
+.secao-titulo em{font-style:italic;color:var(--gold);}
+
+.prompt-box{background:var(--ink);border-radius:2px;overflow:hidden;margin-bottom:3px;}
+.prompt-box-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(184,151,106,.1);}
+.prompt-box-label{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:rgba(184,151,106,.5);}
+.btn-copy{padding:5px 14px;background:rgba(184,151,106,.1);border:1px solid rgba(184,151,106,.2);border-radius:2px;color:rgba(184,151,106,.8);font-family:'Jost',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;letter-spacing:.05em;}
+.btn-copy:hover{background:rgba(184,151,106,.18);}
+.btn-copy.ok{background:rgba(42,92,58,.2);border-color:rgba(42,92,58,.4);color:#8ACA8A;}
+.prompt-text{padding:20px 18px;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.9;white-space:pre-wrap;}
+.prompt-text .var{color:#D4B896;font-weight:500;}
+
+.nota{background:rgba(184,151,106,.05);border:1px solid var(--border);border-left:3px solid rgba(184,151,106,.3);padding:12px 16px;font-size:12px;color:rgba(26,23,20,.6);line-height:1.6;margin-bottom:3px;}
+.nota::before{content:'💡  ';}
+
+.exemplos{background:#fff;border:1px solid var(--border);padding:20px 24px;margin-top:3px;}
+.exemplos-titulo{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:rgba(184,151,106,.6);margin-bottom:14px;}
+.exemplo-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.6;}
+.exemplo-item:last-child{border-bottom:none;padding-bottom:0;}
+.exemplo-num{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--gold);flex-shrink:0;line-height:1.2;}
+.exemplo-desc{color:rgba(26,23,20,.6);}
+.exemplo-desc strong{color:var(--ink);font-weight:500;}
+.exemplo-desc em{color:rgba(184,151,106,.8);font-style:italic;}
+
+.nao-usar{background:rgba(138,58,58,.04);border:1px solid rgba(138,58,58,.12);border-left:3px solid rgba(138,58,58,.3);padding:16px 20px;margin-top:16px;}
+.nao-usar-titulo{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:rgba(138,58,58,.6);margin-bottom:10px;}
+.nao-usar-item{font-size:13px;color:rgba(26,23,20,.55);line-height:1.6;padding:4px 0;}
+.nao-usar-item::before{content:'✗  ';color:rgba(138,58,58,.5);font-weight:600;}
+
+.rodape{font-size:11px;color:rgba(26,23,20,.25);margin-top:32px;padding-top:20px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-tag">Zyllah Digital · Prompt Genérico · Conversão para 9:16</span>
+  <h1 class="header-titulo">Prompt de<br><em>Conversão 9:16</em></h1>
+  <p class="header-sub">Um prompt único que funciona para qualquer imagem. Substitua os campos em destaque pelo contexto da imagem que você quer converter. Usar no Gemini com a imagem anexada.</p>
+</div>
+
+<div class="page">
+
+<div class="secao">
+  <div class="secao-label">Prompt principal</div>
+  <h2 class="secao-titulo">Versão <em>com imagem anexada</em></h2>
+
+  <div class="prompt-box">
+    <div class="prompt-box-header">
+      <span class="prompt-box-label">Copiar e substituir os campos em dourado</span>
+      <button class="btn-copy" onclick="copiar('p1', this)">Copiar</button>
+    </div>
+    <div class="prompt-text" id="p1">Recompose this image for a 9:16 vertical format (1080x1920px) optimized for Instagram Reels, TikTok, and YouTube Shorts.
+
+The image shows: <span class="var">[DESCREVER O QUE TEM NA IMAGEM — ex: "a tired doctor sitting at a desk looking at his phone"]</span>
+
+The most important visual element to keep centered and fully visible: <span class="var">[ELEMENTO PRINCIPAL — ex: "the doctor's face and upper body" / "the phone screen with the Instagram profile" / "the watch on the wrist"]</span>
+
+Instructions:
+— Extend the background naturally above and below to fill the 9:16 frame
+— Keep the main subject sharp and centered in the vertical composition
+— Maintain the same lighting, color grading, and photorealistic quality of the original
+— Do NOT add text, logos, watermarks, or UI elements
+— Do NOT crop any important part of the main subject
+— The result must look like it was originally shot in vertical format, not like a cropped horizontal photo
+— Output: 1080x1920px, photorealistic, no illustration style</div>
+  </div>
+
+  <div class="nota">Anexar a imagem original no Gemini antes de colar o prompt. O Gemini 2.0 Flash aceita imagem + texto no mesmo prompt.</div>
+</div>
+
+<div class="secao">
+  <div class="secao-label">Exemplos preenchidos</div>
+  <h2 class="secao-titulo">Como preencher<br><em>para cada imagem</em></h2>
+
+  <div class="exemplos">
+    <div class="exemplos-titulo">Substituições por imagem</div>
+
+    <div class="exemplo-item">
+      <div class="exemplo-num">12</div>
+      <div class="exemplo-desc">
+        <strong>Médico exausto no consultório</strong><br>
+        Imagem: <em>"a tired male doctor in a white coat sitting at his desk at night, resting his head on his hand, looking exhausted"</em><br>
+        Elemento principal: <em>"the doctor's face and upper body, the desk lamp, and the Harrison's book on the desk"</em>
+      </div>
+    </div>
+
+    <div class="exemplo-item">
+      <div class="exemplo-num">14</div>
+      <div class="exemplo-desc">
+        <strong>Consultório premium</strong><br>
+        Imagem: <em>"a premium minimalist medical consultory with a wooden desk, iMac computer, grey chair, and floor-to-ceiling windows"</em><br>
+        Elemento principal: <em>"the desk and the window with natural light — keep the full desk visible"</em>
+      </div>
+    </div>
+
+    <div class="exemplo-item">
+      <div class="exemplo-num">15</div>
+      <div class="exemplo-desc">
+        <strong>Relógio sobre jaleco</strong><br>
+        Imagem: <em>"a macro close-up of a premium wristwatch on a wrist wearing a white medical coat"</em><br>
+        Elemento principal: <em>"the watch face and the white coat fabric — keep the watch fully visible and sharp"</em>
+      </div>
+    </div>
+
+    <div class="exemplo-item">
+      <div class="exemplo-num">16</div>
+      <div class="exemplo-desc">
+        <strong>Tablet médico</strong><br>
+        Imagem: <em>"a doctor's hands holding a tablet with medical data charts in a hospital setting"</em><br>
+        Elemento principal: <em>"the tablet screen with the medical dashboard and the doctor's hands — keep the full tablet visible"</em>
+      </div>
+    </div>
+
+    <div class="exemplo-item">
+      <div class="exemplo-num">11/13</div>
+      <div class="exemplo-desc">
+        <strong>Agenda médica + celular</strong><br>
+        Imagem: <em>"an open appointment book on a marble desk with a smartphone showing Instagram, a coffee cup, and two pens"</em><br>
+        Elemento principal: <em>"the appointment book open in the center and the smartphone screen — keep both fully visible"</em>
+      </div>
+    </div>
+
+    <div class="exemplo-item">
+      <div class="exemplo-num">2</div>
+      <div class="exemplo-desc">
+        <strong>Dra. Helena Souza (feed bem posicionado)</strong><br>
+        Imagem: <em>"a professional female doctor standing next to a smartphone showing her Instagram profile in a premium medical office"</em><br>
+        Elemento principal: <em>"the doctor and the smartphone screen — keep both the doctor's face and the phone screen fully visible"</em>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nao-usar">
+    <div class="nao-usar-titulo">Não usar este prompt para</div>
+    <div class="nao-usar-item">Imagens 1, 5, 17 — já são verticais/9:16 nativamente, não precisam converter</div>
+    <div class="nao-usar-item">Imagens 6, 7, 8, 9, 10 — telas de computador 16:9. Converter corta informação importante. Usar zoom no CapCut sobre a parte relevante.</div>
+    <div class="nao-usar-item">Imagem 3 e 4 — posts de celular com fundo. Recortar no CapCut é mais preciso do que regenerar.</div>
+  </div>
+</div>
+
+<div class="secao">
+  <div class="secao-label">Variação</div>
+  <h2 class="secao-titulo">Se o Gemini não aceitar<br><em>a imagem anexada</em></h2>
+
+  <div class="prompt-box">
+    <div class="prompt-box-header">
+      <span class="prompt-box-label">Prompt alternativo — descrever a imagem sem anexar</span>
+      <button class="btn-copy" onclick="copiar('p2', this)">Copiar</button>
+    </div>
+    <div class="prompt-text" id="p2">Generate a new image in 9:16 vertical format (1080x1920px) — optimized for Instagram Reels and TikTok.
+
+Scene: <span class="var">[COLAR A DESCRIÇÃO COMPLETA DO PROMPT ORIGINAL QUE GEROU A IMAGEM]</span>
+
+Additional composition instructions for vertical format:
+— Main subject centered vertically, with breathing room above and below
+— Background fills the full vertical frame naturally
+— Shot as if originally composed for mobile vertical viewing
+— Same lighting and photorealistic quality
+— No text, no watermarks, no UI elements
+— 1080x1920px output</div>
+  </div>
+
+  <div class="nota">Neste caso, colar o prompt original que gerou a imagem (ex: o prompt BR1, BR2, etc.) e adicionar as instruções de composição vertical no final.</div>
+</div>
+
+<p class="rodape">Zyllah Digital · Prompt Genérico Conversão 9:16 · 31 de março de 2026 · Uso interno</p>
+</div>
+
+<script>
+function copiar(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.innerText.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('ok'); }, 2500);
+  }).catch(() => {
+    const t = document.createElement('textarea');
+    t.value = text;
+    document.body.appendChild(t);
+    t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('ok'); }, 2500);
+  });
+}
+</script>
+</body>
+</html>
