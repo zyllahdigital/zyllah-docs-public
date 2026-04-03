@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah — Relatório de Sessão · 05 mar 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+    --gold: #B8976A; --gold-light: #D4B896;
+    --sage: #7A9B8A; --rose: #C47A7A;
+  }
+  body { font-family: 'Jost', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); line-height: 1.75; font-size: 16px; }
+
+  .hero { background: var(--ink); padding: 64px 80px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(184,151,106,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(184,151,106,0.03) 1px, transparent 1px); background-size: 48px 48px; }
+  .hero-tag { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 2; }
+  .hero-tag::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+  .hero-titulo { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: white; line-height: 1.05; position: relative; z-index: 2; margin-bottom: 12px; }
+  .hero-titulo em { font-style: italic; color: var(--gold-light); }
+  .hero-sub { font-size: 14px; color: rgba(255,255,255,0.4); position: relative; z-index: 2; }
+  .hero-divider { height: 1px; background: linear-gradient(90deg, var(--gold), transparent); margin-top: 40px; position: relative; z-index: 2; }
+
+  .corpo { max-width: 860px; margin: 0 auto; padding: 60px 60px 100px; }
+
+  .bloco { margin-bottom: 56px; }
+  .bloco-tag { font-size: 10px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .bloco-tag::after { content: ''; flex: 1; height: 1px; background: rgba(184,151,106,0.2); }
+  .bloco-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--ink); margin-bottom: 20px; line-height: 1.2; }
+  .bloco-titulo em { color: var(--gold); font-style: italic; }
+
+  /* ITENS */
+  .itens { display: flex; flex-direction: column; gap: 2px; }
+  .item { display: flex; gap: 0; }
+  .item-cor { width: 4px; flex-shrink: 0; }
+  .item-cor.feito { background: var(--sage); }
+  .item-cor.pendente { background: var(--gold); }
+  .item-cor.decisao { background: var(--rose); }
+  .item-cor.aprendizado { background: #7A8A9B; }
+  .item-body { flex: 1; background: white; padding: 18px 22px; border-top: 1px solid rgba(184,151,106,0.08); }
+  .item-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 5px; }
+  .item-label.feito { color: var(--sage); }
+  .item-label.pendente { color: var(--gold); }
+  .item-label.decisao { color: var(--rose); }
+  .item-label.aprendizado { color: #4A6A8A; }
+  .item-titulo { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .item-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.7; }
+
+  /* NOTA */
+  .nota { background: var(--ink); padding: 28px 32px; margin: 32px 0; }
+  .nota-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .nota-texto { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.8; }
+  .nota-texto strong { color: var(--gold-light); font-weight: 400; }
+
+  /* PRÓXIMOS PASSOS */
+  .passos { display: flex; flex-direction: column; gap: 2px; counter-reset: passo; }
+  .passo { display: flex; gap: 0; counter-increment: passo; }
+  .passo-num { background: var(--ink); width: 48px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 22px; color: rgba(184,151,106,0.4); }
+  .passo-body { flex: 1; background: var(--cream-mid); padding: 18px 22px; }
+  .passo-titulo { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .passo-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.65; }
+
+  .rodape { background: var(--ink); padding: 28px 80px; display: flex; justify-content: space-between; align-items: center; }
+  .rodape-marca { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(184,151,106,0.5); letter-spacing: 0.2em; }
+  .rodape-data { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+  @media (max-width: 700px) {
+    .hero { padding: 48px 24px; }
+    .corpo { padding: 40px 20px 80px; }
+    .hero-titulo { font-size: 36px; }
+    .rodape { padding: 24px; flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">Zyllah Digital · Registro interno</div>
+  <h1 class="hero-titulo">Relatório de<br><em>Sessão</em></h1>
+  <p class="hero-sub">05 de março de 2026 · A partir das 02h13 · Guilherme Caetano</p>
+  <div class="hero-divider"></div>
+</div>
+
+<div class="corpo">
+
+  <!-- ENTREGAS -->
+  <div class="bloco">
+    <span class="bloco-tag">O que foi feito</span>
+    <h2 class="bloco-titulo">Entregas da <em>sessão</em></h2>
+    <div class="itens">
+
+      <div class="item">
+        <div class="item-cor feito"></div>
+        <div class="item-body">
+          <div class="item-label feito">Entregue</div>
+          <div class="item-titulo">index.html — remoção da seção de depoimentos</div>
+          <div class="item-desc">A seção "O que dizem / Quem confia na Zyllah" ainda estava visível após upload. CSS residual removido, zero referências a testimonials. Arquivo corrigido e entregue.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-cor feito"></div>
+        <div class="item-body">
+          <div class="item-label feito">Entregue</div>
+          <div class="item-titulo">Google Analytics — leitura e orientação</div>
+          <div class="item-desc">Relatório de tráfego analisado: 3 usuários únicos, Nova Friburgo (3) e Rio de Janeiro (1), tempo médio de engajamento 9min25s — alto para site novo. Pico identificado em torno de 22–25 fev. Caminho para Aquisição de Tráfego mapeado via Biblioteca do GA4.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-cor feito"></div>
+        <div class="item-body">
+          <div class="item-label feito">Entregue</div>
+          <div class="item-titulo">Fotos da Fernanda — análise e Nano Banana</div>
+          <div class="item-desc">4 fotos dos kits analisadas. Iluminação aprovada — luz difusa, sem sombra dura. Revelado que os fundos foram trocados pelo Nano Banana (IA do Gemini), imperceptível. Conclusão: banco de imagens existente tem qualidade suficiente para edição em lote com o mesmo app.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-cor feito"></div>
+        <div class="item-body">
+          <div class="item-label feito">Entregue</div>
+          <div class="item-titulo">Guia de Fotografia Instagram — zyllah_guia_fotografia.html</div>
+          <div class="item-desc">Documento operacional adaptado ao espaço real: quarto/escritório com janela sudeste, TV como monitor. Cobre quando cada tipo de post precisa de foto, setup por contexto (manifesto/serviço/bastidor/educativo), horários ideais de luz e checklist de 2 minutos. Adicionado ao hub.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-cor feito"></div>
+        <div class="item-body">
+          <div class="item-label feito">Entregue</div>
+          <div class="item-titulo">Vinheta animada — 1:1 e 9:16</div>
+          <div class="item-desc">Dois arquivos HTML com animação CSS: grade, scan, cantos, Z isolado entrando e sendo substituído pelo logo SVG completo, linha dourada, tagline em Cormorant itálico, ornamento ✦. Replay por toque na tela. Versão 9:16 com cartão centralizado e sobra lateral. Regra de marca respeitada: zero texto tipográfico — logo apenas em SVG vetorial.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DECISÕES -->
+  <div class="bloco">
+    <span class="bloco-tag">Decisões tomadas</span>
+    <h2 class="bloco-titulo">Definições e <em>direcionamentos</em></h2>
+    <div class="itens">
+
+      <div class="item">
+        <div class="item-cor decisao"></div>
+        <div class="item-body">
+          <div class="item-label decisao">Decisão</div>
+          <div class="item-titulo">Regra de marca reforçada — nome apenas em SVG</div>
+          <div class="item-desc">O nome "Zyllah Digital" nunca aparece em fonte tipográfica — somente como logo vetorial. Erro identificado no primeiro post do LinkedIn. Vinhetas corrigidas para respeitar essa regra.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-cor decisao"></div>
+        <div class="item-body">
+          <div class="item-label decisao">Decisão</div>
+          <div class="item-titulo">Parceria Daniel — call marcada para semana que vem</div>
+          <div class="item-desc">Daniel trabalha com IA e performance: software de gestão, agentes de IA para vendas/processos, crescimento orgânico de Instagram. Os dois primeiros são complementares à Zyllah e potencialmente o 5º pilar. Instagram orgânico via software: avaliar na call antes de qualquer compromisso. Terça confirmada.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-cor decisao"></div>
+        <div class="item-body">
+          <div class="item-label decisao">Decisão</div>
+          <div class="item-titulo">Seção de depoimentos guardada para quando houver 3 testemunhos reais</div>
+          <div class="item-desc">O arquivo antigo com a seção foi preservado. Quando houver 3 depoimentos reais, relança com conteúdo verdadeiro.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-cor decisao"></div>
+        <div class="item-body">
+          <div class="item-label decisao">Decisão</div>
+          <div class="item-titulo">Alltype será feito em HTML para captura de tela</div>
+          <div class="item-desc">Criação de alltypes não requer Canva — Claude gera o HTML, você abre no navegador e faz print ou captura. Mais rápido e sem dependência da ferramenta externa.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- APRENDIZADOS -->
+  <div class="bloco">
+    <span class="bloco-tag">Aprendizados e correções</span>
+    <h2 class="bloco-titulo">O que foi <em>ajustado</em></h2>
+    <div class="itens">
+
+      <div class="item">
+        <div class="item-cor aprendizado"></div>
+        <div class="item-body">
+          <div class="item-label aprendizado">Correção</div>
+          <div class="item-titulo">Bastidor de precariedade não combina com posicionamento de alto padrão</div>
+          <div class="item-desc">Sugestão inicial de usar teclado faltando tecla como narrativa de bastidor foi equivocada — o público-alvo são médicos de alto padrão. Precariedade pode gerar dissonância antes de estabelecer confiança. O enquadramento resolve na fotografia, a história pode ser contada de outra forma no futuro.</div>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-cor aprendizado"></div>
+        <div class="item-body">
+          <div class="item-label aprendizado">Correção</div>
+          <div class="item-titulo">Vinheta 9:16 — problema de layout não resolvido</div>
+          <div class="item-desc">Tentativas de empilhar Z e logo completo resultaram em layout quebrado. Estrutura mal construída — dois elementos em fluxo normal quando deveriam estar sobrepostos. A ser refeito do zero com estrutura limpa quando houver disposição.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PRÓXIMOS PASSOS -->
+  <div class="bloco">
+    <span class="bloco-tag">Fila aberta</span>
+    <h2 class="bloco-titulo">Próximos <em>passos</em></h2>
+    <div class="passos">
+
+      <div class="passo">
+        <div class="passo-num">1</div>
+        <div class="passo-body">
+          <div class="passo-titulo">LinkedIn — próxima postagem pessoal</div>
+          <div class="passo-desc">Narrativa — história pessoal com aprendizado. Texto pronto no banco. Conta: Guilherme Caetano.</div>
+        </div>
+      </div>
+
+      <div class="passo">
+        <div class="passo-num">2</div>
+        <div class="passo-body">
+          <div class="passo-titulo">LinkedIn — próxima postagem empresa</div>
+          <div class="passo-desc">Insight — observação sobre mercado de saúde digital. Texto pronto no banco. Conta: Zyllah Digital.</div>
+        </div>
+      </div>
+
+      <div class="passo">
+        <div class="passo-num">3</div>
+        <div class="passo-body">
+          <div class="passo-titulo">Call com Daniel — semana que vem, terça</div>
+          <div class="passo-desc">Preparar roteiro: o que quer saber, o que quer comunicar, onde estão os limites confortáveis. Transcrição via Google Recorder ou Meet.</div>
+        </div>
+      </div>
+
+      <div class="passo">
+        <div class="passo-num">4</div>
+        <div class="passo-body">
+          <div class="passo-titulo">Alltype — primeira peça</div>
+          <div class="passo-desc">Definir qual texto/frase do banco de conteúdo vai virar o primeiro alltype. Claude gera HTML, você captura.</div>
+        </div>
+      </div>
+
+      <div class="passo">
+        <div class="passo-num">5</div>
+        <div class="passo-body">
+          <div class="passo-titulo">Diagnóstico Fernanda — 3 incongruências</div>
+          <div class="passo-desc">Leitura completa pendente. Anotar os 3 pontos identificados para correção na próxima sessão.</div>
+        </div>
+      </div>
+
+      <div class="passo">
+        <div class="passo-num">6</div>
+        <div class="passo-body">
+          <div class="passo-titulo">Nano Banana — teste em lote com fotos difíceis</div>
+          <div class="passo-desc">Testar com 3–4 fotos de temas diferentes (com balões, com escada, simples). Se passar, banco inteiro em lote.</div>
+        </div>
+      </div>
+
+      <div class="passo">
+        <div class="passo-num">7</div>
+        <div class="passo-body">
+          <div class="passo-titulo">Vinheta 9:16 — refazer do zero</div>
+          <div class="passo-desc">Estrutura limpa, Z e logo sobrepostos com position absolute dentro de wrapper de altura fixa. Sem mistura de fluxo normal com absoluto.</div>
+        </div>
+      </div>
+
+      <div class="passo">
+        <div class="passo-num">8</div>
+        <div class="passo-body">
+          <div class="passo-titulo">Instagram — destaques e grade inicial</div>
+          <div class="passo-desc">Destaques aguardam computador. Grade: semanas 1 e 2 são tipográficas — sem necessidade de foto. Primeiro post pode sair.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="nota">
+    <div class="nota-label">Contexto emocional</div>
+    <div class="nota-texto">Sessão longa e densa. <strong>Sensação de falta de perspectiva relatada no meio da sessão</strong> — natural após dia com muita decisão técnica e pouco resultado visível imediato. O que foi construído hoje é sólido: guia fotográfico, vinheta funcional, regras de marca reforçadas, parceria mapeada. O emocional ruim não combina com a qualidade do que está sendo feito.</div>
+  </div>
+
+</div>
+
+<footer class="rodape">
+  <div class="rodape-marca">Zyllah Digital</div>
+  <div class="rodape-data">Relatório · 05 mar 2026 · Sessão noturna</div>
+</footer>
+
+</body>
+</html>
