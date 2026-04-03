@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah — Mensagem Pré-Sessão</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --gold: #B8976A; --gold-light: #D4B896;
+    --cream: #FAF7F2;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); padding: 0 0 80px; }
+
+  .header { background: var(--ink); padding: 48px 64px 40px; }
+  .header-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; display: block; }
+  .header-titulo { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: white; line-height: 1.05; margin-bottom: 10px; }
+  .header-titulo em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.4); max-width: 500px; line-height: 1.8; }
+
+  .container { max-width: 780px; margin: 0 auto; padding: 0 48px; }
+
+  .secao-tag { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin: 48px 0 12px; display: flex; align-items: center; gap: 12px; }
+  .secao-tag::after { content: ''; flex: 1; height: 1px; background: rgba(184,151,106,0.2); }
+  .secao-titulo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--ink); margin-bottom: 20px; }
+  .secao-titulo em { font-style: italic; color: var(--gold); }
+
+  /* CAMPOS DE PERSONALIZAÇÃO */
+  .campos { background: white; border: 1px solid rgba(184,151,106,0.15); padding: 24px 28px; margin-bottom: 24px; }
+  .campo-grupo { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+  .campo-grupo:last-child { margin-bottom: 0; }
+  .campo { flex: 1; min-width: 200px; }
+  .campo-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(61,56,48,0.4); margin-bottom: 6px; display: block; }
+  .campo-input { width: 100%; background: var(--cream); border: 1px solid rgba(184,151,106,0.2); padding: 10px 14px; font-family: 'Jost', sans-serif; font-size: 14px; color: var(--ink); outline: none; transition: border-color 0.2s; }
+  .campo-input:focus { border-color: var(--gold); }
+
+  /* PREVIEW DA MENSAGEM */
+  .msg-preview { background: var(--ink); padding: 28px 32px; position: relative; }
+  .msg-label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(184,151,106,0.5); margin-bottom: 16px; display: block; }
+  .msg-texto { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.9; white-space: pre-line; font-family: 'Jost', sans-serif; }
+  .msg-texto .destaque { color: var(--gold-light); }
+
+  .btn-copiar { background: var(--gold); color: var(--ink); border: none; padding: 12px 28px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; font-weight: 500; margin-top: 20px; display: inline-block; }
+  .btn-copiar:hover { background: var(--gold-light); }
+
+  /* VERSÃO LEMBRETE */
+  .msg-preview.lembrete { background: rgba(61,56,48,0.06); border: 1px solid rgba(184,151,106,0.15); }
+  .msg-preview.lembrete .msg-texto { color: var(--ink-soft); }
+  .msg-preview.lembrete .msg-label { color: rgba(184,151,106,0.6); }
+
+  .instrucao { background: rgba(184,151,106,0.07); border-left: 3px solid var(--gold); padding: 12px 16px; font-size: 13px; color: var(--ink-soft); line-height: 1.7; margin-top: 16px; }
+  .instrucao strong { font-weight: 400; color: var(--ink); }
+
+  .data { font-size: 11px; color: rgba(61,56,48,0.4); margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(184,151,106,0.1); }
+
+  @media (max-width: 640px) {
+    .header { padding: 40px 24px; }
+    .container { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-tag">Produção · Uso interno</span>
+  <h1 class="header-titulo">Mensagem<br><em>pré-sessão</em></h1>
+  <p class="header-sub">Template de WhatsApp para enviar ao cliente 48h antes da sessão fotográfica. Preencha os campos e copie a mensagem pronta.</p>
+</div>
+
+<div class="container">
+
+  <!-- CAMPOS -->
+  <div class="secao-tag">Personalizar</div>
+  <h2 class="secao-titulo">Preencha os<br><em>dados da sessão</em></h2>
+
+  <div class="campos">
+    <div class="campo-grupo">
+      <div class="campo">
+        <label class="campo-label">Nome do cliente (ex: Dra. Lídia)</label>
+        <input class="campo-input" id="nome" type="text" placeholder="Dra. Lídia" oninput="atualizar()">
+      </div>
+      <div class="campo">
+        <label class="campo-label">Data da sessão (ex: segunda, dia 7)</label>
+        <input class="campo-input" id="data" type="text" placeholder="segunda, dia 7 de abril" oninput="atualizar()">
+      </div>
+    </div>
+    <div class="campo-grupo">
+      <div class="campo">
+        <label class="campo-label">Horário (ex: 14h)</label>
+        <input class="campo-input" id="hora" type="text" placeholder="14h" oninput="atualizar()">
+      </div>
+      <div class="campo">
+        <label class="campo-label">Link do guia (URL da página do cliente)</label>
+        <input class="campo-input" id="link" type="text" placeholder="zyllah.com.br/guia-sessao" oninput="atualizar()">
+      </div>
+    </div>
+  </div>
+
+  <!-- MENSAGEM 48H ANTES -->
+  <div class="secao-tag">Mensagem principal</div>
+  <h2 class="secao-titulo">Enviar<br><em>48h antes</em></h2>
+
+  <div class="msg-preview">
+    <span class="msg-label">Preview — WhatsApp · 48h antes da sessão</span>
+    <div class="msg-texto" id="msg-48h">Dra. Lídia, tudo certo para nossa sessão segunda, dia 7 de abril às 14h! 📸
+
+Preparei um guia com tudo que você precisa saber para aproveitar ao máximo o tempo que temos juntos.
+
+🔗 zyllah.com.br/guia-sessao
+
+São orientações simples de figurino, preparação do rosto e organização do consultório — leva 5 minutos para ler. Vale muito a pena!
+
+Qualquer dúvida, estou à disposição. Nos vemos na segunda!</div>
+    <button class="btn-copiar" onclick="copiar('msg-48h', this)">Copiar mensagem</button>
+  </div>
+
+  <div class="instrucao">
+    <strong>Quando enviar:</strong> exatamente 48h antes — não menos. O cliente precisa de tempo para providenciar o pó compacto, passar o jaleco e organizar o consultório. Enviar na véspera já é tarde demais.
+  </div>
+
+  <!-- LEMBRETE NO DIA ANTERIOR -->
+  <div class="secao-tag" style="margin-top:48px;">Lembrete</div>
+  <h2 class="secao-titulo">Enviar na<br><em>véspera</em></h2>
+
+  <div class="msg-preview lembrete">
+    <span class="msg-label">Preview — WhatsApp · Véspera da sessão</span>
+    <div class="msg-texto" id="msg-vespera">Dra. Lídia, lembrando que amanhã é nossa sessão às 14h! 🙂
+
+Lembrou do guia que enviei? Os dois itens mais importantes:
+• Pó compacto translúcido (tira o brilho do rosto na foto)
+• Mesa organizada no consultório
+
+Nos vemos amanhã!</div>
+    <button class="btn-copiar" onclick="copiar('msg-vespera', this)" style="background: var(--ink); color: var(--gold-light); border: 1px solid rgba(184,151,106,0.3);">Copiar lembrete</button>
+  </div>
+
+  <div class="instrucao">
+    <strong>Por que dois contatos:</strong> a primeira mensagem entrega o guia completo. A segunda, na véspera, destaca apenas os dois itens que mais impactam o resultado. O cliente que esqueceu de ler o guia ainda tem tempo de fazer o mínimo essencial.
+  </div>
+
+  <p class="data">Template criado em 28 de março de 2026 · Zyllah Digital · Uso interno</p>
+
+</div>
+
+<script>
+function atualizar() {
+  const nome = document.getElementById('nome').value || 'Dra. Lídia';
+  const data = document.getElementById('data').value || 'segunda, dia 7 de abril';
+  const hora = document.getElementById('hora').value || '14h';
+  const link = document.getElementById('link').value || 'zyllah.com.br/guia-sessao';
+
+  document.getElementById('msg-48h').textContent =
+`${nome}, tudo certo para nossa sessão ${data} às ${hora}! 📸
+
+Preparei um guia com tudo que você precisa saber para aproveitar ao máximo o tempo que temos juntos.
+
+🔗 ${link}
+
+São orientações simples de figurino, preparação do rosto e organização do consultório — leva 5 minutos para ler. Vale muito a pena!
+
+Qualquer dúvida, estou à disposição. Nos vemos na ${data.split(',')[0] || data}!`;
+
+  // Extrai só o primeiro nome para o lembrete
+  const primeiroNome = nome.replace(/^(Dr\.|Dra\.) /, '').split(' ')[0];
+  const tratamento = nome.startsWith('Dra.') ? `Dra. ${primeiroNome}` : nome.startsWith('Dr.') ? `Dr. ${primeiroNome}` : primeiroNome;
+
+  document.getElementById('msg-vespera').textContent =
+`${tratamento}, lembrando que amanhã é nossa sessão às ${hora}! 🙂
+
+Lembrou do guia que enviei? Os dois itens mais importantes:
+• Pó compacto translúcido (tira o brilho do rosto na foto)
+• Mesa organizada no consultório
+
+Nos vemos amanhã!`;
+}
+
+function copiar(id, btn) {
+  const texto = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    const original = btn.textContent;
+    btn.textContent = 'Copiado ✓';
+    setTimeout(() => btn.textContent = original, 2000);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Zyllah · Roteiro Vídeo 1 — YouTube</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --gold: #B8976A; --gold-light: #D4B896;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+    --red: #8B3A3A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); padding: 0 0 100px; }
+
+  .header { background: var(--ink); padding: 56px 80px 48px; }
+  .header-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .header-titulo { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: white; line-height: 1.05; margin-bottom: 12px; }
+  .header-titulo em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 14px; color: rgba(255,255,255,0.45); max-width: 580px; line-height: 1.85; }
+  .header-meta { display: flex; gap: 32px; margin-top: 28px; }
+  .meta-item { text-align: left; }
+  .meta-valor { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--gold-light); }
+  .meta-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 2px; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 0 48px; }
+
+  .secao-tag { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin: 56px 0 12px; display: flex; align-items: center; gap: 12px; }
+  .secao-tag::after { content: ''; flex: 1; height: 1px; background: rgba(184,151,106,0.2); }
+  .secao-titulo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--ink); margin-bottom: 24px; }
+  .secao-titulo em { font-style: italic; color: var(--gold); }
+
+  .intro-box { background: var(--ink); padding: 28px 32px; margin: 40px 0 0; }
+  .intro-box p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.85; }
+  .intro-box p + p { margin-top: 10px; }
+  .intro-box strong { color: var(--gold-light); font-weight: 400; }
+
+  /* CENAS */
+  .cena { background: white; border: 1px solid rgba(184,151,106,0.12); margin-bottom: 12px; overflow: hidden; }
+  .cena-header { display: flex; align-items: stretch; }
+  .cena-num { background: var(--ink); padding: 20px 24px; font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--gold); line-height: 1; display: flex; align-items: center; min-width: 72px; justify-content: center; flex-shrink: 0; }
+  .cena-info { padding: 16px 20px; flex: 1; }
+  .cena-titulo { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .cena-tipo { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+  .cena-tempo { font-size: 11px; color: rgba(61,56,48,0.4); margin-left: auto; padding: 16px 20px; display: flex; align-items: center; flex-shrink: 0; }
+
+  .cena-corpo { padding: 0 20px 20px 72px; display: flex; flex-direction: column; gap: 12px; }
+
+  .bloco { }
+  .bloco-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(61,56,48,0.4); margin-bottom: 6px; }
+
+  .voz { background: rgba(184,151,106,0.06); border-left: 3px solid var(--gold); padding: 14px 18px; font-size: 15px; color: var(--ink); line-height: 1.9; font-style: italic; }
+  .voz::before { content: '🎙 '; font-style: normal; }
+
+  .tela { background: rgba(26,23,20,0.04); border-left: 3px solid rgba(61,56,48,0.2); padding: 14px 18px; font-size: 13px; color: var(--ink-soft); line-height: 1.75; }
+  .tela::before { content: '🖥 '; }
+
+  .nota { background: rgba(139,58,58,0.05); border-left: 3px solid rgba(139,58,58,0.3); padding: 12px 16px; font-size: 12px; color: var(--red); line-height: 1.7; }
+  .nota::before { content: '⚠ '; }
+
+  .dica { background: rgba(184,151,106,0.07); border-left: 3px solid rgba(184,151,106,0.4); padding: 12px 16px; font-size: 12px; color: var(--ink-soft); line-height: 1.7; }
+  .dica::before { content: '💡 '; }
+
+  /* PRODUÇÃO */
+  .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+  .prod-card { background: white; border: 1px solid rgba(184,151,106,0.12); padding: 20px; }
+  .prod-card-titulo { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 8px; letter-spacing: 0.05em; }
+  .prod-card-texto { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+
+  /* YOUTUBE */
+  .yt-box { background: var(--ink); padding: 28px 32px; margin-top: 4px; }
+  .yt-label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; display: block; }
+  .yt-titulo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: white; margin-bottom: 8px; line-height: 1.3; }
+  .yt-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.8; }
+  .yt-tags { margin-top: 12px; font-size: 12px; color: rgba(184,151,106,0.7); }
+
+  .divisor { height: 1px; background: rgba(184,151,106,0.12); margin: 40px 0; }
+  .data { font-size: 11px; color: rgba(61,56,48,0.4); margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(184,151,106,0.1); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-tag">YouTube · Vídeo 1 de 5 · Roteiro completo</span>
+  <h1 class="header-titulo">O que o Google encontra<br><em>quando pesquisam seu nome</em></h1>
+  <p class="header-sub">Voz over com tela gravada. Sem câmera. Mostra buscas reais de médicos — perfis inconsistentes, fotos antigas, sites abandonados. Dor imediata de reconhecimento. Inclui prova de método via case documentado — sem revelar setor, prazo ou custo.</p>
+  <div class="header-meta">
+    <div class="meta-item">
+      <div class="meta-valor">3'00"–3'30"</div>
+      <div class="meta-label">Duração estimada</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-valor">Sem câmera</div>
+      <div class="meta-label">Formato</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-valor">Médicos especialistas</div>
+      <div class="meta-label">Público</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-valor">OBS Studio ou Loom</div>
+      <div class="meta-label">Gravação de tela</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="intro-box">
+    <p><strong>Conceito:</strong> o médico vê no vídeo exatamente o que um paciente novo veria ao pesquisar seu nome. A maioria nunca fez esse teste — e o resultado os incomoda. Você não precisa aparecer. A dor fala por si.</p>
+    <p><strong>Prova de método (cena 5-A):</strong> o case de um negócio local é usado como evidência de que o método existe, foi aplicado e produziu resultado documentado. O setor não é revelado. Nunca mencionar prazo de execução nem custo de infraestrutura — o que impressiona não é velocidade, é consistência e profundidade do trabalho.</p>
+    <p><strong>Regra de ouro deste vídeo:</strong> nunca revelar o nome real dos médicos mostrados. Mostre o tipo de problema — foto de perfil ruim, bio genérica, última postagem de 8 meses atrás — sem expor ninguém. Se precisar, use perfis fictícios criados para a demonstração.</p>
+  </div>
+
+  <!-- CENAS -->
+  <div class="secao-tag">Roteiro</div>
+  <h2 class="secao-titulo">Cena a cena —<br><em>voz e tela</em></h2>
+
+  <!-- CENA 1 -->
+  <div class="cena">
+    <div class="cena-header">
+      <div class="cena-num">1</div>
+      <div class="cena-info">
+        <div class="cena-titulo">Abertura — a pergunta que incomoda</div>
+        <div class="cena-tipo">Tela preta · Texto animado · Sem som</div>
+      </div>
+      <div class="cena-tempo">0:00 – 0:15</div>
+    </div>
+    <div class="cena-corpo">
+      <div class="bloco">
+        <div class="bloco-label">Tela</div>
+        <div class="tela">Tela preta. Aparece o texto em branco, palavra por palavra: "Pesquise o seu nome agora." Pausa de 3 segundos. Depois: "O que um paciente novo encontra?"</div>
+      </div>
+      <div class="bloco">
+        <div class="bloco-label">Voz</div>
+        <div class="voz">Silêncio durante o texto. Só trilha ambiente muito baixa — algo sóbrio, sem melodia forte.</div>
+      </div>
+      <div class="dica">O silêncio nos primeiros 10 segundos é intencional. Cria tensão. Não coloque música alta aqui.</div>
+    </div>
+  </div>
+
+  <!-- CENA 2 -->
+  <div class="cena">
+    <div class="cena-header">
+      <div class="cena-num">2</div>
+      <div class="cena-info">
+        <div class="cena-titulo">A busca — o que o Google mostra</div>
+        <div class="cena-tipo">Gravação de tela · Navegador · Voz over</div>
+      </div>
+      <div class="cena-tempo">0:15 – 0:50</div>
+    </div>
+    <div class="cena-corpo">
+      <div class="bloco">
+        <div class="bloco-label">Tela</div>
+        <div class="tela">Abra o navegador ao vivo. Digite no Google: "Dr. [nome fictício] cardiologista". Mostre os resultados — página sem foto, perfil do CRM desatualizado, LinkedIn com foto de 2015, Instagram com última postagem de 7 meses atrás. Role lentamente para que o espectador processe cada problema.</div>
+      </div>
+      <div class="bloco">
+        <div class="bloco-label">Voz</div>
+        <div class="voz">Isso é o que aparece. Uma página do CRM sem foto. Um LinkedIn que parece abandonado. Um Instagram com a última postagem de sete meses atrás. E um site — quando existe — que não abre direito no celular. É isso que o paciente encontra antes de decidir se vai ou não marcar a consulta.</div>
+      </div>
+      <div class="nota">Use perfis genéricos ou criados para demonstração. Nunca exponha um médico real sem autorização — mesmo que o perfil seja público.</div>
+    </div>
+  </div>
+
+  <!-- CENA 3 -->
+  <div class="cena">
+    <div class="cena-header">
+      <div class="cena-num">3</div>
+      <div class="cena-info">
+        <div class="cena-titulo">O problema — a decisão acontece antes da consulta</div>
+        <div class="cena-tipo">Tela com texto · Voz over</div>
+      </div>
+      <div class="cena-tempo">0:50 – 1:20</div>
+    </div>
+    <div class="cena-corpo">
+      <div class="bloco">
+        <div class="bloco-label">Tela</div>
+        <div class="tela">Mostre a tela dividida: de um lado, o perfil desatualizado. Do outro, o mesmo médico — mas com foto profissional, bio clara, posts recentes com identidade visual consistente. Não precisa ser um case real — pode ser uma simulação que você mesmo monta.</div>
+      </div>
+      <div class="bloco">
+        <div class="bloco-label">Voz</div>
+        <div class="voz">O paciente não decide na consulta. Ele decide antes. Às vezes dias antes. Ele pesquisa o seu nome, olha o que encontra, e naquele momento — em silêncio, sem você saber — ele já formou uma opinião. Sobre quem você é. Sobre o nível do seu trabalho. Sobre se você merece a confiança dele.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENA 4 -->
+  <div class="cena">
+    <div class="cena-header">
+      <div class="cena-num">4</div>
+      <div class="cena-info">
+        <div class="cena-titulo">O diagnóstico — os três sinais de presença que sabota</div>
+        <div class="cena-tipo">Gravação de tela · Lista animada · Voz over</div>
+      </div>
+      <div class="cena-tempo">1:20 – 2:00</div>
+    </div>
+    <div class="cena-corpo">
+      <div class="bloco">
+        <div class="bloco-label">Tela</div>
+        <div class="tela">Mostre três exemplos reais ou simulados, um de cada vez: 1) Foto de perfil tirada em confraternização ou com qualidade ruim. 2) Bio do Instagram genérica — "Médico | CRM 12345 | Consultas: WhatsApp". 3) Feed com posts de datas comemorativas sem identidade visual.</div>
+      </div>
+      <div class="bloco">
+        <div class="bloco-label">Voz</div>
+        <div class="voz">Existem três sinais que comunicam, involuntariamente, que o profissional não cuida da própria imagem. Primeiro: foto de perfil que não transmite autoridade. Segundo: bio que lista informações mas não diz nada sobre quem você é de verdade. Terceiro: feed inconsistente — posts que parecem de pessoas diferentes, sem identidade, sem linha. Cada um desses sinais faz o paciente hesitar. Os três juntos fazem ele procurar outro nome.</div>
+      </div>
+      <div class="dica">Grave esses exemplos devagar. O espectador precisa de tempo para reconhecer o próprio perfil no que está vendo.</div>
+    </div>
+  </div>
+
+  <!-- CENA 5 -->
+  <div class="cena">
+    <div class="cena-header">
+      <div class="cena-num">5</div>
+      <div class="cena-info">
+        <div class="cena-titulo">O contraste — o que presença de alto padrão comunica</div>
+        <div class="cena-tipo">Gravação de tela · Exemplos positivos · Voz over</div>
+      </div>
+      <div class="cena-tempo">2:00 – 2:25</div>
+    </div>
+    <div class="cena-corpo">
+      <div class="bloco">
+        <div class="bloco-label">Tela</div>
+        <div class="tela">Mostre um perfil com identidade visual consistente — foto profissional, bio precisa, posts com paleta definida. Pode ser um perfil que você mesmo cria como demonstração da Zyllah, ou um caso real com autorização. Role o feed lentamente.</div>
+      </div>
+      <div class="bloco">
+        <div class="bloco-label">Voz</div>
+        <div class="voz">Quando a presença digital está alinhada com quem o profissional é, acontece algo diferente. O paciente não precisa de convencimento. Ele já chegou convencido. A consulta começa com outro nível de confiança — e termina com outro nível de resultado para os dois.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CENA 5-A -->
+  <div class="cena">
+    <div class="cena-header">
+      <div class="cena-num" style="font-size:18px;">5A</div>
+      <div class="cena-info">
+        <div class="cena-titulo">Prova de método — resultado documentado no mundo real</div>
+        <div class="cena-tipo">Tela com documento · Scroll lento · Voz over</div>
+      </div>
+      <div class="cena-tempo">2:25 – 2:55</div>
+    </div>
+    <div class="cena-corpo">
+      <div class="bloco">
+        <div class="bloco-label">Tela</div>
+        <div class="tela">Mostre a tela com um relatório de presença digital — pode ser o PDF ou HTML do case. Role lentamente pela estrutura: seções organizadas, canais listados, decisões documentadas. Não precisa ser legível em detalhe — a densidade visual já comunica. Evite qualquer referência ao setor de atuação do negócio.</div>
+      </div>
+      <div class="bloco">
+        <div class="bloco-label">Voz</div>
+        <div class="voz">Antes de trabalhar com especialistas de saúde, eu precisava saber se o método funcionava de verdade. Então apliquei em um negócio local — do zero. O que você está vendo é o relatório desse trabalho. Cada canal com uma função. Cada decisão explicada. Cada entregável registrado. Não mostro isso para impressionar. Mostro porque você merece saber que o que vai receber não foi montado na improviso — foi construído com método.</div>
+      </div>
+      <div class="nota">Nunca mencionar prazo de execução, número de dias nem custo. O que comunica valor aqui é a profundidade e a organização — não a velocidade. Scroll lento, postura sóbria.</div>
+      <div class="dica">Se o relatório estiver em HTML, grave direto no navegador. Se for PDF, use o visualizador do sistema. O importante é mostrar estrutura e densidade — não fazer o espectador ler o conteúdo.</div>
+    </div>
+  </div>
+
+  <!-- CENA 6 -->
+  <div class="cena">
+    <div class="cena-header">
+      <div class="cena-num">6</div>
+      <div class="cena-info">
+        <div class="cena-titulo">Encerramento — chamada para ação sem venda</div>
+        <div class="cena-tipo">Tela com texto · Voz over · Logo</div>
+      </div>
+      <div class="cena-tempo">2:55 – 3:30</div>
+    </div>
+    <div class="cena-corpo">
+      <div class="bloco">
+        <div class="bloco-label">Tela</div>
+        <div class="tela">Aparece o texto: "Pesquise o seu nome agora." Pausa. Depois: "O que você encontrou?" Logo da Zyllah Digital aparece no rodapé. Link na descrição.</div>
+      </div>
+      <div class="bloco">
+        <div class="bloco-label">Voz</div>
+        <div class="voz">Faça o teste agora. Abra o Google, pesquise o seu nome, e olhe com os olhos do seu próximo paciente. Se o que você viu te incomodou — é porque a percepção e a realidade estão desalinhadas. No próximo vídeo, eu explico por que o problema não é quantidade de posts. É algo bem diferente.</div>
+      </div>
+      <div class="dica">A CTA não é "contrate a Zyllah". É "faça o teste" — uma ação que gera reflexão imediata. Quem faz o teste e se incomoda já está qualificado. A menção ao próximo vídeo retém quem quer a solução, não só o diagnóstico.</div>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- PRODUÇÃO -->
+  <div class="secao-tag">Produção</div>
+  <h2 class="secao-titulo">Como gravar —<br><em>setup mínimo</em></h2>
+
+  <div class="prod-grid">
+    <div class="prod-card">
+      <div class="prod-card-titulo">Gravação de tela</div>
+      <div class="prod-card-texto">OBS Studio (gratuito) ou Loom. Grave em 1080p. Use o navegador em tela cheia. Feche abas desnecessárias antes de gravar — a barra de abas não pode mostrar outros sites abertos.</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-card-titulo">Áudio</div>
+      <div class="prod-card-texto">Grave a voz separada da tela se possível — no Audacity ou direto no OBS. Ambiente silencioso. Fale devagar — mais devagar do que parece natural. O espectador está lendo a tela ao mesmo tempo que ouve.</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-card-titulo">Trilha</div>
+      <div class="prod-card-texto">Música ambiente sóbria, sem melodia dominante. Sugestão: buscar "dark academia ambient" no YouTube Audio Library (gratuito e livre de direitos). Volume muito baixo — 10% do volume da voz.</div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-card-titulo">Edição</div>
+      <div class="prod-card-texto">CapCut para desktop ou DaVinci Resolve. Corte as pausas longas. Adicione legendas — 80% dos vídeos do YouTube são assistidos com som. Coloque o logo da Zyllah no canto inferior direito durante todo o vídeo, pequeno e discreto.</div>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- YOUTUBE SEO -->
+  <div class="secao-tag">YouTube</div>
+  <h2 class="secao-titulo">Título, descrição<br><em>e tags</em></h2>
+
+  <div class="yt-box">
+    <span class="yt-label">Título principal</span>
+    <div class="yt-titulo">O que aparece no Google quando pesquisam o nome do seu médico (e por que isso importa)</div>
+  </div>
+
+  <div class="yt-box" style="margin-top:8px;">
+    <span class="yt-label">Título alternativo — mais direto</span>
+    <div class="yt-titulo">Pesquise seu nome agora: o que o paciente encontra antes de marcar consulta</div>
+  </div>
+
+  <div class="yt-box" style="margin-top:8px;">
+    <span class="yt-label">Descrição — primeiras 3 linhas (aparecem antes do "ver mais")</span>
+    <div class="yt-desc">Antes de marcar uma consulta, seu próximo paciente vai pesquisar seu nome. O que ele encontra naquele momento decide se ele vai ou não te contatar. Neste vídeo, mostro os três sinais que comunicam despreparo — e o que uma presença digital alinhada comunica diferente.</div>
+    <div class="yt-tags">Tags sugeridas: marketing médico · presença digital médico · como médico aparecer no Google · marketing para especialistas · CFM publicidade médica · identidade visual médico</div>
+  </div>
+
+  <p class="data">Roteiro criado em 25 de março de 2026 · Atualizado em 28 de março de 2026 (cena 5-A: prova de método) · Zyllah Digital · Série YouTube — Vídeo 1 de 5</p>
+
+</div>
+</body>
+</html>

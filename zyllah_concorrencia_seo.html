@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Zyllah — Concorrência e SEO Local</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1714;
+    --ink-soft: #3D3830;
+    --gold: #B8976A;
+    --gold-light: #D4B896;
+    --cream: #FAF7F2;
+    --cream-mid: #F0EBE1;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); padding: 0 0 100px; }
+
+  .header { background: var(--ink); padding: 56px 80px 48px; }
+  .header-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .header-titulo { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: white; line-height: 1.05; margin-bottom: 12px; }
+  .header-titulo em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 14px; color: rgba(255,255,255,0.5); max-width: 580px; line-height: 1.85; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 48px; }
+
+  .secao-tag { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin: 56px 0 12px; display: flex; align-items: center; gap: 12px; }
+  .secao-tag::after { content: ''; flex: 1; height: 1px; background: rgba(184,151,106,0.2); }
+  .secao-titulo { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; color: var(--ink); margin-bottom: 28px; }
+  .secao-titulo em { font-style: italic; color: var(--gold); }
+
+  .intro-box { background: var(--ink); padding: 32px 36px; margin: 40px 0 0; }
+  .intro-box p { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.85; }
+  .intro-box p + p { margin-top: 12px; }
+  .intro-box strong { color: var(--gold-light); font-weight: 400; }
+
+  .card { background: white; border: 1px solid rgba(184,151,106,0.12); margin-bottom: 16px; padding: 28px; }
+  .card-titulo { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 24px; font-weight: 300; color: var(--ink); margin-bottom: 6px; }
+  .card-subtitulo { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(61,56,48,0.45); margin-bottom: 8px; display: block; margin-top: 20px; }
+  .label:first-of-type { margin-top: 0; }
+  .texto { font-size: 15px; line-height: 1.85; color: var(--ink-soft); }
+  .texto strong { font-weight: 400; color: var(--ink); }
+
+  .gatilho { background: rgba(184,151,106,0.07); border-left: 3px solid var(--gold); padding: 12px 16px; font-size: 13px; line-height: 1.7; color: var(--ink-soft); margin-top: 12px; }
+  .alerta { background: rgba(196,100,100,0.06); border-left: 3px solid #c46464; padding: 12px 16px; font-size: 13px; line-height: 1.7; color: var(--ink-soft); margin-top: 12px; }
+  .destaque { background: rgba(184,151,106,0.07); border: 1px solid rgba(184,151,106,0.2); padding: 24px 28px; margin: 24px 0 0; }
+  .destaque p { font-size: 15px; line-height: 1.85; color: var(--ink-soft); }
+  .destaque p + p { margin-top: 10px; }
+  .destaque strong { font-weight: 400; color: var(--ink); }
+
+  .tabela { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .tabela th { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); padding: 10px 14px; border-bottom: 1px solid rgba(184,151,106,0.2); text-align: left; }
+  .tabela td { font-size: 14px; color: var(--ink-soft); padding: 12px 14px; border-bottom: 1px solid rgba(184,151,106,0.08); line-height: 1.6; }
+  .tabela tr:last-child td { border-bottom: none; }
+  .tabela td:first-child { color: var(--ink); font-weight: 400; }
+
+  .tag { display: inline-block; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 3px 10px; border: 1px solid rgba(184,151,106,0.3); color: var(--gold); margin-bottom: 16px; }
+  .tag.vermelho { border-color: rgba(196,100,100,0.3); color: #c46464; }
+  .tag.verde { border-color: rgba(100,180,100,0.3); color: #64b464; }
+
+  .script-box { background: var(--ink); padding: 28px 32px; margin-top: 24px; }
+  .script-box p { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.9; font-style: italic; }
+  .script-box .script-label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; display: block; font-style: normal; }
+
+  .seo-item { display: flex; gap: 20px; align-items: flex-start; padding: 18px 0; border-bottom: 1px solid rgba(184,151,106,0.1); }
+  .seo-item:last-child { border-bottom: none; }
+  .seo-status { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+  .seo-corpo { flex: 1; }
+  .seo-titulo { font-size: 15px; color: var(--ink); font-weight: 400; margin-bottom: 4px; }
+  .seo-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+
+  .data { font-size: 11px; color: rgba(61,56,48,0.4); margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(184,151,106,0.1); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-tag">Estratégia · Uso interno</span>
+  <h1 class="header-titulo">Concorrência e<br><em>SEO Local</em></h1>
+  <p class="header-sub">Mapa competitivo de Nova Friburgo, posicionamento diferenciado da Zyllah e status da presença nos buscadores. Atualizado em 25 de março de 2026.</p>
+</div>
+
+<div class="container">
+
+  <div class="intro-box">
+    <p><strong>Contexto:</strong> pesquisa realizada em 25/03/2026 via IA do Google para a busca "marketing médico Nova Friburgo". Dois players reais identificados: Axiom Marketing Médico e DF Comunicação & Marketing. Demais resultados são agregações nacionais sem presença local relevante verificada.</p>
+    <p>Conclusão principal: <strong>nenhum player local ocupa o espaço de presença digital de alto padrão para especialistas</strong> — que é exatamente o posicionamento da Zyllah.</p>
+  </div>
+
+  <!-- CONCORRENTES -->
+  <div class="secao-tag">Concorrência</div>
+  <h2 class="secao-titulo">Os players<br><em>do mercado local</em></h2>
+
+  <div class="card">
+    <span class="tag">Aceleradora de negócios</span>
+    <div class="card-titulo">Axiom Marketing Médico</div>
+    <div class="card-subtitulo">Grupo Axiom · Nova Friburgo</div>
+
+    <span class="label">Posicionamento</span>
+    <p class="texto">Aceleradora de negócios de saúde. Foco em gestão de autoridade médica combinada com governança financeira e valuation. Assinatura de venda: <strong>"diplomas iguais geram faturamentos opostos."</strong> Operam no modelo high ticket com médicos que querem transformar consultório em ativo.</p>
+
+    <span class="label">Serviços</span>
+    <p class="texto">Governança e gestão financeira de clínicas, marketing digital de autoridade, educação continuada para médicos e gestores. Abordagem 360º que une marketing à gestão do negócio.</p>
+
+    <span class="label">Canais</span>
+    <p class="texto">@axiom_mktmedico (autoridade) · @grupoaxiom (ecossistema) · LinkedIn ativo</p>
+
+    <span class="label">Sócios</span>
+    <p class="texto">Heder Bragança (finanças e valuation) · Marcelo Ribeiro · Jéssica Lobeiro</p>
+
+    <div class="gatilho">💡 A Axiom não é concorrente direta. O médico que a contrata quer escalar negócio — outro momento, outra conversa, outro perfil. Não disputamos o mesmo cliente.</div>
+  </div>
+
+  <div class="card">
+    <span class="tag">Agência local</span>
+    <div class="card-titulo">DF Comunicação & Marketing</div>
+    <div class="card-subtitulo">Nova Friburgo · @dfcomunicacao</div>
+
+    <span class="label">Posicionamento</span>
+    <p class="texto">Agência de comunicação visual com expansão para marketing digital. Forte presença offline — fachadas, sinalização, materiais impressos. Atende profissionais liberais e pequenas empresas locais.</p>
+
+    <span class="label">Serviços</span>
+    <p class="texto">Identidade visual, logomarcas, comunicação física de clínicas, gestão de redes sociais, anúncios. Forte capilaridade local — atende marcas conhecidas em Nova Friburgo.</p>
+
+    <span class="label">Contato</span>
+    <p class="texto">WhatsApp (22) 98149-1041 · Facebook e Instagram @dfcomunicacao</p>
+
+    <div class="gatilho">💡 A DF resolve identidade visual e presença básica. O médico que a contrata quer resolver um problema imediato — não construir autoridade de longo prazo. Perfis distintos.</div>
+  </div>
+
+  <!-- MAPA COMPARATIVO -->
+  <div class="secao-tag">Análise</div>
+  <h2 class="secao-titulo">Onde a Zyllah<br><em>vive nesse mapa</em></h2>
+
+  <div class="card">
+    <table class="tabela">
+      <thead>
+        <tr>
+          <th>Critério</th>
+          <th>Axiom</th>
+          <th>DF Comunicação</th>
+          <th>Zyllah</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Perfil do cliente</td>
+          <td>Médico que quer escalar negócio</td>
+          <td>Profissional que precisa de identidade visual</td>
+          <td>Especialista que quer ser percebido como referência</td>
+        </tr>
+        <tr>
+          <td>Escopo</td>
+          <td>Gestão 360º — marketing + finanças</td>
+          <td>Comunicação visual + digital básico</td>
+          <td>Presença digital de alto padrão + estratégia de conteúdo</td>
+        </tr>
+        <tr>
+          <td>Nível de entrega</td>
+          <td>Consultoria estratégica</td>
+          <td>Operacional / criativo</td>
+          <td>Estratégico + execução audiovisual interna</td>
+        </tr>
+        <tr>
+          <td>Diferencial central</td>
+          <td>Valuation e equity clínico</td>
+          <td>Presença física + proximidade local</td>
+          <td>20 anos de audiovisual + posicionamento de nicho</td>
+        </tr>
+        <tr>
+          <td>Ponto de tensão</td>
+          <td>Pode ser distante para quem não quer escala</td>
+          <td>Falta visão de autoridade e estratégia</td>
+          <td>Sem cases ainda — em construção</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="destaque">
+    <p><strong>O oceano azul:</strong> nenhum player local ocupa com clareza o espaço do especialista que já tem excelência clínica, quer ser percebido como referência no digital, mas não quer transformar a clínica em empresa nem se contentar com identidade visual genérica.</p>
+    <p>Nem aceleradora de negócios. Nem gráfica digital. <strong>Presença de alto padrão com estratégia de posicionamento.</strong> Esse espaço é da Zyllah — e está vazio em Nova Friburgo.</p>
+  </div>
+
+  <!-- NARRATIVA DE DIFERENCIAÇÃO -->
+  <div class="secao-tag">Vendas</div>
+  <h2 class="secao-titulo">Resposta pronta para<br><em>quando mencionarem concorrente</em></h2>
+
+  <div class="script-box">
+    <span class="script-label">Quando o prospect disser que já foi abordado por outra agência</span>
+    <p>"A Axiom trabalha com médicos que querem transformar clínica em negócio — governança, valuation, escala. A DF resolve identidade visual e presença local. A Zyllah faz uma coisa diferente: constrói a percepção de referência de quem você já é clinicamente, no digital, com padrão visual e estratégia de conteúdo que sustentam esse posicionamento. São propostas distintas para momentos distintos."</p>
+  </div>
+
+  <div class="alerta">⚠️ Nunca atacar concorrentes diretamente. A resposta acima posiciona sem diminuir — reconhece o que cada um faz e clarifica onde a Zyllah está. Isso transmite segurança, não defensividade.</div>
+
+  <!-- SEO LOCAL -->
+  <div class="secao-tag">SEO Local</div>
+  <h2 class="secao-titulo">Status da presença<br><em>nos buscadores</em></h2>
+
+  <div class="card">
+    <div class="seo-item">
+      <div class="seo-status">✅</div>
+      <div class="seo-corpo">
+        <div class="seo-titulo">Google Meu Negócio — verificado</div>
+        <div class="seo-desc">Categoria: Agência de marketing digital · Áreas: Nova Friburgo + Rio de Janeiro · Horário: seg-sex 9h–18h · Site: zyllah.com.br · Verificado em 24/03/2026.</div>
+      </div>
+    </div>
+    <div class="seo-item">
+      <div class="seo-status">✅</div>
+      <div class="seo-corpo">
+        <div class="seo-titulo">Google Search Console — verificado</div>
+        <div class="seo-desc">Verificação via DNS Cloudflare · Sitemap submetido: zyllah.com.br/sitemap.xml · Primeiros dados esperados em 3–7 dias.</div>
+      </div>
+    </div>
+    <div class="seo-item">
+      <div class="seo-status">✅</div>
+      <div class="seo-corpo">
+        <div class="seo-titulo">index.html — otimizado</div>
+        <div class="seo-desc">Title: "Zyllah Digital — Presença Digital para Profissionais de Saúde em Nova Friburgo" · Meta description com localização · Schema.org LocalBusiness · Open Graph · Canonical URL.</div>
+      </div>
+    </div>
+    <div class="seo-item">
+      <div class="seo-status">⏳</div>
+      <div class="seo-corpo">
+        <div class="seo-titulo">Foto de perfil — Google Meu Negócio</div>
+        <div class="seo-desc">Pendente: adicionar logo como foto principal do perfil.</div>
+      </div>
+    </div>
+    <div class="seo-item">
+      <div class="seo-status">⏳</div>
+      <div class="seo-corpo">
+        <div class="seo-titulo">Página de conteúdo local — a fazer</div>
+        <div class="seo-desc">Criar seção ou página no site com texto natural contendo "marketing médico Nova Friburgo" e variações. Prioridade após o primeiro cliente — um case real indexado vale mais do que qualquer texto genérico.</div>
+      </div>
+    </div>
+    <div class="seo-item">
+      <div class="seo-status">⏳</div>
+      <div class="seo-corpo">
+        <div class="seo-titulo">Backlinks locais — a fazer</div>
+        <div class="seo-desc">Menções em diretórios, associações e parceiros da região. Constrói autoridade geográfica aos olhos do Google. Prazo realista: médio prazo, após primeiros clientes.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="destaque">
+    <p><strong>Prazo realista para primeira página orgânica:</strong> 3 a 6 meses de consistência. Google Meu Negócio com avaliações reais pode aparecer em semanas. O fator mais acelerador agora é conseguir as primeiras avaliações de clientes no perfil do Google.</p>
+  </div>
+
+  <p class="data">Documento gerado em 25 de março de 2026 · Zyllah Digital · Uso interno</p>
+
+</div>
+</body>
+</html>

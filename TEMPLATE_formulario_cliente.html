@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{NOME_CLIENTE}} — Formulário de Briefing · Zyllah Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8976A; --gold-light: #D4B896; --gold-dark: #8A6A3E;
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+  }
+  body { font-family: 'Jost', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); }
+
+  /* ── SENHA ── */
+  #senha-tela {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #1A1714; display: flex; align-items: center; justify-content: center;
+  }
+  .senha-box { width: 100%; max-width: 400px; padding: 48px; display: flex; flex-direction: column; gap: 20px; }
+  .senha-logo { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(184,151,106,0.5); letter-spacing: 0.3em; }
+  .senha-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: white; line-height: 1.1; }
+  .senha-titulo em { font-style: italic; color: #D4B896; }
+  .senha-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(184,151,106,0.35); padding: 14px 0; font-family: 'Jost', sans-serif; font-size: 18px; color: white; outline: none; letter-spacing: 0.1em; transition: border-color 0.2s; }
+  .senha-input:focus { border-bottom-color: #B8976A; }
+  .senha-input::placeholder { color:rgba(255,255,255,0.55); font-size: 14px; letter-spacing: 0.2em; }
+  .senha-btn { background: #B8976A; color: #1A1714; border: none; padding: 14px 32px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; align-self: flex-start; }
+  .senha-btn:hover { background: #D4B896; }
+  .senha-erro { font-size: 13px; color: rgba(210,100,100,0.9); letter-spacing: 0.08em; min-height: 18px; }
+  .senha-hint { font-size: 12px; color:rgba(255,255,255,0.55); letter-spacing: 0.08em; }
+
+  .nav { background: var(--ink); padding: 16px 48px; display: flex; justify-content: space-between; align-items: center; }
+  .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--gold); letter-spacing: 0.2em; }
+  .nav-cliente { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color:rgba(255,255,255,0.55); }
+
+  .hero { background: var(--ink); padding: 64px 80px 48px; }
+  .hero-tag { font-size: 12px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; display: flex; align-items: center; gap: 14px; }
+  .hero-tag::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px, 4vw, 52px); font-weight: 300; color: white; line-height: 1.05; margin-bottom: 16px; }
+  .hero-title em { font-style: italic; color: var(--gold-light); }
+  .hero-sub { font-size: 15px; color: rgba(255,255,255,0.38); line-height: 1.8; max-width: 520px; }
+  .hero-divider { width: 100%; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); margin-top: 36px; }
+
+  .container { max-width: 720px; margin: 0 auto; padding: 56px 48px 72px; }
+
+  .intro-box { background: rgba(184,151,106,0.07); border-left: 3px solid var(--gold); padding: 22px 26px; margin-bottom: 48px; }
+  .intro-box p { font-size: 15px; color: var(--ink-soft); line-height: 1.8; }
+
+  .bloco { margin-bottom: 44px; }
+  .bloco-titulo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--ink); margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid rgba(184,151,106,0.18); }
+  .bloco-titulo em { font-style: italic; color: var(--gold); }
+
+  .campo { margin-bottom: 24px; }
+  .campo-label { font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 7px; display: block; }
+  .campo-hint { font-size: 13px; color:rgba(61,56,48,0.65); margin-bottom: 8px; font-style: italic; }
+  .campo-input { width: 100%; background: white; border: 1px solid rgba(184,151,106,0.18); border-bottom: 2px solid rgba(184,151,106,0.28); padding: 13px 15px; font-family: 'Jost', sans-serif; font-size: 15px; color: var(--ink); outline: none; transition: border-color 0.2s; resize: none; }
+  .campo-input:focus { border-color: var(--gold); border-bottom-color: var(--gold); }
+  .campo-input::placeholder { color: rgba(61,56,48,0.28); }
+
+  .opcoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .opcao { padding: 8px 15px; background: white; border: 1px solid rgba(184,151,106,0.2); font-size: 13px; color: var(--ink-soft); cursor: pointer; transition: all 0.18s; user-select: none; }
+  .opcao:hover { border-color: var(--gold); background: var(--cream-mid); }
+  .opcao.sel { background: var(--gold); color: white; border-color: var(--gold); }
+
+  .divisor { height: 1px; background: rgba(184,151,106,0.1); margin: 40px 0; }
+
+  .envio-titulo { font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 6px; }
+  .envio-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.75; margin-bottom: 20px; }
+
+  .btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+  .btn-enviar { flex: 1; min-width: 180px; padding: 16px 28px; background: var(--ink); color: var(--gold); border: none; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+  .btn-enviar:hover { background: var(--ink-soft); }
+  .btn-pdf { padding: 16px 24px; background: transparent; color: var(--ink-soft); border: 1px solid rgba(61,56,48,0.25); font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .btn-pdf:hover { border-color: var(--gold); color: var(--ink); }
+
+  .msg { display: none; margin-top: 20px; padding: 18px 22px; }
+  .msg-ok { background: rgba(80,160,80,0.07); border: 1px solid rgba(80,160,80,0.2); }
+  .msg-ok p { font-size: 14px; color: rgba(60,140,60,0.9); line-height: 1.7; }
+  .msg-err { background: rgba(180,80,80,0.07); border: 1px solid rgba(180,80,80,0.2); }
+  .msg-err p { font-size: 14px; color: rgba(180,80,80,0.9); line-height: 1.7; }
+
+  @media print { .nav, .btns, .msg { display: none; } .hero { padding: 32px; } .container { padding: 24px; } }
+  @media (max-width: 600px) { .hero, .container { padding-left: 20px; padding-right: 20px; } .nav { padding: 14px 20px; } }
+</style>
+
+<script>
+(function() {
+  var SENHA = '{{SENHA}}';
+  var KEY = 'zyl_form_{{CHAVE}}';
+  if (sessionStorage.getItem(KEY) === '1') return;
+  var tela = document.getElementById('senha-tela');
+  if (tela) tela.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  window.verificarSenha = function() {
+    var inp = document.getElementById('senha-input');
+    var err = document.getElementById('senha-erro');
+    if (inp.value === SENHA) {
+      sessionStorage.setItem(KEY, '1');
+      tela.style.transition = 'opacity 0.3s'; tela.style.opacity = '0';
+      setTimeout(function() { tela.style.display = 'none'; document.body.style.overflow = ''; }, 300);
+    } else {
+      err.textContent = 'Senha incorreta.'; inp.value = ''; inp.focus();
+      setTimeout(function() { err.textContent = ''; }, 2000);
+    }
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    var inp = document.getElementById('senha-input');
+    if (inp) { inp.focus(); inp.addEventListener('keydown', function(e) { if (e.key==='Enter') verificarSenha(); }); }
+  });
+})();
+</script>
+</head>
+<body>
+
+<div id="senha-tela" style="display:none;">
+  <div class="senha-box">
+    <div class="senha-logo">Zyllah Digital</div>
+    <div class="senha-titulo">Acesso<br><em>restrito</em></div>
+    <input id="senha-input" type="password" class="senha-input" placeholder="senha" autocomplete="off">
+    <div id="senha-erro" class="senha-erro"></div>
+    <button class="senha-btn" onclick="verificarSenha()">Entrar →</button>
+    <div class="senha-hint">Dificuldades? Entre em contato com a Zyllah Digital.</div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-logo">Zyllah Digital</div>
+  <div class="nav-cliente">{{NOME_CLIENTE}} · Briefing</div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Formulário de Briefing</div>
+  <h1 class="hero-title">Conheça <em>sua marca</em><br>antes de criá-la</h1>
+  <p class="hero-sub">Respostas honestas aqui poupam retrabalho depois. Não existe certo ou errado — existe o que é verdadeiro para o seu negócio.</p>
+  <div class="hero-divider"></div>
+</div>
+
+<div class="container">
+  <div class="intro-box">
+    <p>Este formulário é o ponto de partida para criar a identidade visual, os templates de conteúdo e a estratégia digital de <strong>{{NOME_CLIENTE}}</strong>. Preencha com calma — pode ser feito em partes.</p>
+  </div>
+
+  <form id="briefing-form" action="https://formspree.io/f/{{FORMSPREE_ID}}" method="POST">
+    <input type="hidden" name="_subject" value="Briefing {{NOME_CLIENTE}} — Nova resposta">
+    <input type="hidden" name="cliente" value="{{NOME_CLIENTE}}">
+
+    <!-- BLOCO 1 -->
+    <div class="bloco">
+      <div class="bloco-titulo">01 · <em>O negócio</em></div>
+
+      <div class="campo">
+        <label class="campo-label">Como você se apresenta quando alguém pergunta o que você faz?</label>
+        <div class="campo-hint">Não o nome da empresa — o que você diz naturalmente numa conversa.</div>
+        <textarea name="apresentacao" class="campo-input" rows="3" placeholder="&quot;Eu faço / ofereço / ajudo...&quot;"></textarea>
+      </div>
+      <div class="campo">
+        <label class="campo-label">O que você mais gosta no seu trabalho?</label>
+        <textarea name="gosta" class="campo-input" rows="3" placeholder="Um momento, uma sensação, um tipo de cliente..."></textarea>
+      </div>
+      <div class="campo">
+        <label class="campo-label">O que você menos gosta ou que te cansa?</label>
+        <textarea name="nao_gosta" class="campo-input" rows="3" placeholder="O que eliminaria se pudesse..."></textarea>
+      </div>
+      <div class="campo">
+        <label class="campo-label">Qual o maior problema que você resolve para o seu cliente?</label>
+        <textarea name="problema" class="campo-input" rows="3" placeholder="O que muda na vida de quem contrata você..."></textarea>
+      </div>
+      <div class="campo">
+        <label class="campo-label">Qual a maior dúvida ou objeção que os clientes têm antes de contratar?</label>
+        <textarea name="objecao" class="campo-input" rows="3" placeholder="O que eles perguntam mais, o que os faz hesitar..."></textarea>
+      </div>
+    </div>
+
+    <div class="divisor"></div>
+
+    <!-- BLOCO 2 -->
+    <div class="bloco">
+      <div class="bloco-titulo">02 · <em>Quem compra</em></div>
+
+      <div class="campo">
+        <label class="campo-label">Descreva o perfil do seu cliente típico</label>
+        <div class="campo-hint">Idade, contexto de vida, como encontra você, o que valoriza.</div>
+        <textarea name="perfil_cliente" class="campo-input" rows="4" placeholder="&quot;Meu cliente típico é...&quot;"></textarea>
+      </div>
+      <div class="campo">
+        <label class="campo-label">O que faz ele escolher você em vez do concorrente?</label>
+        <textarea name="diferencial_percebido" class="campo-input" rows="3" placeholder="Mesmo que ainda não tenha certeza — o que ele costuma dizer?"></textarea>
+      </div>
+      <div class="campo">
+        <label class="campo-label">O que faz ele NÃO fechar quando entra em contato?</label>
+        <textarea name="motivo_nao_fechar" class="campo-input" rows="3" placeholder="Vai pensar e some, acha caro, prefere outro..."></textarea>
+      </div>
+    </div>
+
+    <div class="divisor"></div>
+
+    <!-- BLOCO 3 -->
+    <div class="bloco">
+      <div class="bloco-titulo">03 · <em>Visual e personalidade</em></div>
+
+      <div class="campo">
+        <label class="campo-label">Se o seu negócio fosse uma pessoa, como ela seria?</label>
+        <div class="opcoes" id="personalidade">
+          <div class="opcao" onclick="toggle(this)">Carinhosa</div>
+          <div class="opcao" onclick="toggle(this)">Divertida</div>
+          <div class="opcao" onclick="toggle(this)">Séria</div>
+          <div class="opcao" onclick="toggle(this)">Sofisticada</div>
+          <div class="opcao" onclick="toggle(this)">Acessível</div>
+          <div class="opcao" onclick="toggle(this)">Criativa</div>
+          <div class="opcao" onclick="toggle(this)">Confiável</div>
+          <div class="opcao" onclick="toggle(this)">Alegre</div>
+          <div class="opcao" onclick="toggle(this)">Delicada</div>
+          <div class="opcao" onclick="toggle(this)">Prática</div>
+          <div class="opcao" onclick="toggle(this)">Ousada</div>
+          <div class="opcao" onclick="toggle(this)">Minimalista</div>
+        </div>
+      </div>
+      <div class="campo">
+        <label class="campo-label">Cores que ama para a marca</label>
+        <input type="text" name="cor_ama" class="campo-input" placeholder="Tons, sensações, referências...">
+      </div>
+      <div class="campo">
+        <label class="campo-label">Cores que jamais usaria</label>
+        <input type="text" name="cor_odeia" class="campo-input" placeholder="Qualquer cor que não representa o que quer transmitir...">
+      </div>
+      <div class="campo">
+        <label class="campo-label">Existe alguma marca que você admira a comunicação visual?</label>
+        <div class="campo-hint">Qualquer setor — o que importa é o que você gosta nela.</div>
+        <textarea name="marca_referencia" class="campo-input" rows="3" placeholder="Nome da marca + o que gosta nela..."></textarea>
+      </div>
+    </div>
+
+    <div class="divisor"></div>
+
+    <!-- BLOCO 4 -->
+    <div class="bloco">
+      <div class="bloco-titulo">04 · <em>Para onde vai</em></div>
+
+      <div class="campo">
+        <label class="campo-label">Daqui a 1 ano, como você imagina o negócio?</label>
+        <textarea name="visao_1_ano" class="campo-input" rows="4" placeholder="Mais clientes, nova cidade, produto diferente, renda maior..."></textarea>
+      </div>
+      <div class="campo">
+        <label class="campo-label">Quanto gostaria de faturar por mês?</label>
+        <input type="text" name="meta_faturamento" class="campo-input" placeholder="R$...">
+      </div>
+      <div class="campo">
+        <label class="campo-label">Algo que quer acrescentar</label>
+        <textarea name="observacoes" class="campo-input" rows="4" placeholder="Ideias, dúvidas, o que está na cabeça há tempo..."></textarea>
+      </div>
+    </div>
+
+    <div class="divisor"></div>
+
+    <!-- IDENTIFICAÇÃO -->
+    <div>
+      <div class="envio-titulo">Identificação e envio</div>
+      <div class="envio-desc">Ao enviar, as respostas chegam diretamente à Zyllah Digital. Campos não preenchidos são ignorados.</div>
+
+      <div class="campo">
+        <label class="campo-label">Seu nome</label>
+        <input type="text" name="nome" class="campo-input" placeholder="Como prefere ser chamado(a)">
+      </div>
+      <div class="campo">
+        <label class="campo-label">WhatsApp <span style="font-size:11px;color:rgba(61,56,48,0.65);letter-spacing:0;">(opcional)</span></label>
+        <input type="tel" name="whatsapp" class="campo-input" placeholder="(00) 99999-9999">
+      </div>
+
+      <div class="btns">
+        <button type="submit" class="btn-enviar" id="btn-enviar">Enviar respostas →</button>
+        <button type="button" class="btn-pdf" onclick="window.print()">Salvar PDF</button>
+      </div>
+
+      <div id="msg-ok" class="msg msg-ok"><p>✓ &nbsp;Respostas enviadas. A Zyllah Digital vai analisar e entrar em contato em breve.</p></div>
+      <div id="msg-err" class="msg msg-err"><p>Erro ao enviar. Tente novamente ou salve como PDF e envie por WhatsApp.</p></div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+function toggle(el) { el.classList.toggle('sel'); }
+
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.getElementById('briefing-form');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('btn-enviar');
+    btn.textContent = 'Enviando...'; btn.disabled = true;
+    var data = new FormData(form);
+    var sel = document.querySelectorAll('#personalidade .opcao.sel');
+    data.append('personalidade', Array.from(sel).map(function(o){ return o.textContent; }).join(', '));
+    fetch(form.action, { method:'POST', body:data, headers:{'Accept':'application/json'} })
+      .then(function(r) {
+        if (r.ok) { document.getElementById('msg-ok').style.display='block'; form.reset(); document.querySelectorAll('.opcao.sel').forEach(function(o){o.classList.remove('sel');}); }
+        else { document.getElementById('msg-err').style.display='block'; }
+        btn.textContent='Enviar respostas →'; btn.disabled=false;
+      }).catch(function() { document.getElementById('msg-err').style.display='block'; btn.textContent='Enviar respostas →'; btn.disabled=false; });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Zyllah — Banco de Objeções</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1714;
+    --ink-soft: #3D3830;
+    --gold: #B8976A;
+    --gold-light: #D4B896;
+    --cream: #FAF7F2;
+    --cream-mid: #F0EBE1;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); padding: 0 0 100px; }
+
+  .header { background: var(--ink); padding: 56px 80px 48px; }
+  .header-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .header-titulo { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: white; line-height: 1.05; margin-bottom: 12px; }
+  .header-titulo em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 14px; color: rgba(255,255,255,0.5); max-width: 580px; line-height: 1.85; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 48px; }
+
+  .secao-tag { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin: 56px 0 12px; display: flex; align-items: center; gap: 12px; }
+  .secao-tag::after { content: ''; flex: 1; height: 1px; background: rgba(184,151,106,0.2); }
+  .secao-titulo { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 300; color: var(--ink); margin-bottom: 28px; }
+  .secao-titulo em { font-style: italic; color: var(--gold); }
+
+  .card { background: white; border: 1px solid rgba(184,151,106,0.12); margin-bottom: 16px; }
+  .card-header { padding: 24px 28px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .card-objecao { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 22px; font-weight: 300; color: var(--ink); line-height: 1.2; flex: 1; }
+  .card-tag { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; border: 1px solid rgba(184,151,106,0.3); color: var(--gold); white-space: nowrap; flex-shrink: 0; margin-top: 4px; }
+  .card-tag.preco { border-color: rgba(184,100,100,0.3); color: #c46464; }
+  .card-tag.tempo { border-color: rgba(100,150,184,0.3); color: #6496b8; }
+  .card-tag.confianca { border-color: rgba(120,184,100,0.3); color: #78b864; }
+  .card-tag.processo { border-color: rgba(184,151,106,0.3); color: var(--gold); }
+  .card-tag.pessoal { border-color: rgba(150,100,184,0.3); color: #9664b8; }
+
+  .card-body { padding: 16px 28px 24px; }
+  .label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(61,56,48,0.45); margin-bottom: 8px; display: block; margin-top: 16px; }
+  .resposta { font-size: 15px; line-height: 1.85; color: var(--ink-soft); }
+  .resposta strong { font-weight: 400; color: var(--ink); }
+  .gatilho { background: rgba(184,151,106,0.07); border-left: 3px solid var(--gold); padding: 12px 16px; font-size: 13px; line-height: 1.7; color: var(--ink-soft); margin-top: 8px; }
+  .alerta { background: rgba(196,100,100,0.06); border-left: 3px solid #c46464; padding: 12px 16px; font-size: 13px; line-height: 1.7; color: var(--ink-soft); margin-top: 8px; }
+
+  .intro-box { background: var(--ink); padding: 32px 36px; margin: 40px 0 0; }
+  .intro-box p { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.85; }
+  .intro-box p + p { margin-top: 12px; }
+  .intro-box strong { color: var(--gold-light); font-weight: 400; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-tag">Vendas · Uso interno</span>
+  <h1 class="header-titulo">Banco de<br><em>objeções</em></h1>
+  <p class="header-sub">Todas as resistências possíveis — e como responder com calma, sem defensividade e sem perder o controle da conversa.</p>
+</div>
+
+<div class="container">
+
+  <div class="intro-box">
+    <p><strong>Princípio fundamental:</strong> toda objeção é um pedido de mais informação. Não é rejeição — é a pessoa tentando entender se vale a pena. Quem objeta ainda está na conversa.</p>
+    <p>Nunca rebata. <strong>Valide primeiro</strong>, depois reposicione. A sequência é sempre: reconhecer → concordar parcialmente → devolver a pergunta certa.</p>
+  </div>
+
+  <!-- PREÇO -->
+  <div class="secao-tag">Preço</div>
+  <h2 class="secao-titulo">Objeções de <em>preço</em></h2>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Está muito caro."</div>
+      <div class="card-tag preco">Preço</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Faz sentido comparar. Só preciso entender o que você está comparando — um post isolado, uma identidade visual avulsa ou um sistema completo de presença? São produtos diferentes. A Zyllah não vende post. Vende o sistema que faz o paciente certo te encontrar, reconhecer sua autoridade e decidir antes de ligar. Esse sistema tem um custo, sim. A pergunta mais honesta não é "a Zyllah é cara?" — é "quanto custa continuar com uma presença que não representa o que você entrega?"</div>
+      <div class="gatilho">💡 Gatilho útil: "Um paciente do perfil errado que abandona o tratamento no meio — qual é o custo disso para você? Financeiro, emocional, de agenda?"</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Outra agência cobra muito menos."</div>
+      <div class="card-tag preco">Preço</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Com certeza existem opções mais baratas. A diferença está no que você recebe: a maioria das agências entrega volume — posts sem identidade, sem estratégia de nicho, sem entender que médico não pode usar antes/depois e que psicólogo tem outra linguagem. Nós fomos construídos especificamente para saúde. Você pode contratar mais barato. Só precisa saber o que está comprando.</div>
+      <div class="alerta">⚠️ Nunca fale mal da concorrência diretamente. Reposicione pelo que a Zyllah faz, não pelo que a outra não faz.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Não tenho orçamento agora."</div>
+      <div class="card-tag preco">Preço</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Entendo. Me pergunto só uma coisa: quando o orçamento aparecer, o que vai ter mudado na sua situação digital? Porque se a resposta for "nada" — a questão não é orçamento, é prioridade. E isso é legítimo. Mas se a presença digital é de fato uma dor, adiar tem um custo que não aparece na planilha: pacientes que te pesquisaram e foram para outro.</div>
+      <div class="gatilho">💡 Ofereça o piloto com 50% de desconto se for um dos 3 primeiros clientes. Isso resolve o "sem orçamento" sem destruir o posicionamento de preço.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Por que tem taxa de implantação?"</div>
+      <div class="card-tag preco">Preço</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">A implantação cobre o trabalho de diagnóstico, brand book, identidade visual e toda a configuração inicial — que é a parte mais intensiva do projeto. A mensalidade cobre a operação contínua. São dois momentos com naturezas diferentes. Sem a implantação, a operação não tem base para funcionar. No piloto, a implantação está isenta — exatamente para eliminar essa barreira de entrada.</div>
+    </div>
+  </div>
+
+  <!-- TEMPO -->
+  <div class="secao-tag">Tempo e disponibilidade</div>
+  <h2 class="secao-titulo">Objeções de <em>tempo</em></h2>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Não tenho tempo para me envolver."</div>
+      <div class="card-tag tempo">Tempo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Esse é exatamente o problema que a Zyllah resolve. O sistema foi desenhado para profissionais sem tempo — você participa de uma sessão mensal de 2 horas. Pronto. O resto — criação, publicação, resposta de comentários, relatório — é com a gente. Você não gerencia rede social. Você só aparece quando agendamos.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Não tenho tempo para gravar vídeo toda semana."</div>
+      <div class="card-tag tempo">Tempo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Não precisa. Fazemos sessões concentradas de 2 horas, uma vez por mês ou trimestral dependendo do plano. Nessa sessão produzimos material suficiente para todo o ciclo. Você não grava nada fora do agendado — e o agendado é planejado com antecedência para encaixar na sua semana.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Estou em um momento muito corrido. Talvez daqui a 3 meses."</div>
+      <div class="card-tag tempo">Tempo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Perfeito — anote na agenda: daqui a 3 meses. Só deixo uma reflexão: nos próximos 3 meses, quantos pacientes vão te pesquisar online e encontrar uma presença que não representa o que você entrega? Não é pressão — é só o custo real do adiamento. Se quiser, podemos marcar uma conversa rápida em 3 meses mesmo.</div>
+      <div class="alerta">⚠️ Nunca force o fechamento. Plante a semente e deixe em aberto com data concreta.</div>
+    </div>
+  </div>
+
+  <!-- CONFIANÇA -->
+  <div class="secao-tag">Confiança e credibilidade</div>
+  <h2 class="secao-titulo">Objeções de <em>confiança</em></h2>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Já tentei agência antes e não funcionou."</div>
+      <div class="card-tag confianca">Confiança</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Essa é a objeção mais importante que você pode me trazer — porque me diz exatamente o que eu preciso fazer diferente. Me conta o que aconteceu? Na maioria dos casos: conteúdo sem identidade, agência que não entendeu as restrições do CFM/CFO, ou simplesmente volume sem estratégia. A Zyllah foi construída especificamente para esse problema. Mas quero entender o seu caso antes de prometer qualquer coisa.</div>
+      <div class="gatilho">💡 Ouça mais do que fala aqui. Quanto mais ele explica o que deu errado antes, mais você entende o que valorizar na sua proposta.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Você é novo no mercado. Não tem portfólio."</div>
+      <div class="card-tag confianca">Confiança</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Verdade — e vou ser direto sobre isso. Tenho 16 anos de produção audiovisual e construção de marca, mas a Zyllah é nova. Por isso ofereço condições de piloto para os primeiros clientes: metade do preço, implantação isenta, e em troca peço liberdade criativa para aplicar o método e autorização para usar o resultado como case. É uma troca consciente — você obtém resultado real por um investimento menor, eu construo portfólio com consistência.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Como eu sei que vai funcionar?"</div>
+      <div class="card-tag confianca">Confiança</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Não sei dar garantia de resultado — ninguém honesto no marketing dá. O que posso garantir é processo: identidade construída com método, conteúdo planejado com estratégia de nicho, e relatório mensal com métricas reais para você acompanhar o que está mudando. O resultado é uma consequência do processo feito certo. E o processo, eu garanto.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Vocês respondem as mensagens dos meus pacientes?"</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Sim — gestão de comunidade faz parte do serviço. Respondemos comentários, DMs de relacionamento e interações de conteúdo no tom e na voz que construímos juntos no brand book. O que não fazemos é triagem clínica: mensagem de paciente perguntando sobre sintoma, agendamento ou orçamento — essas vão para você ou para sua recepção. A linha é clara: comunicação de marca é com a gente, relação clínica é sua.</div>
+      <div class="alerta">⚠️ Versão maliciosa: o prospect quer terceirizar tudo, inclusive o que é responsabilidade do profissional de saúde. Deixe o limite explícito desde o início — evita atrito depois.</div>
+      <div class="gatilho">💡 Se ele insistir em delegar também o contato clínico, é sinal de que precisa de um sistema de atendimento (Zyllah Flow) — abre uma conversa sobre o Plano Presença ou Autoridade.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Preciso consultar meu contador / sócio / esposa."</div>
+      <div class="card-tag confianca">Confiança</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Claro — faz todo sentido. Posso te mandar o material completo para você compartilhar com eles? Tenho uma apresentação que explica o método, os entregáveis e o retorno esperado de forma bem objetiva. Assim a conversa com eles fica mais fácil. Quando você acha que tem resposta?</div>
+      <div class="gatilho">💡 Sempre termine com uma data concreta. "Quando você acha que tem resposta?" evita que o prospect desapareça sem fechar nem recusar.</div>
+    </div>
+  </div>
+
+  <!-- PROCESSO -->
+  <div class="secao-tag">Processo e entregáveis</div>
+  <h2 class="secao-titulo">Objeções de <em>processo</em></h2>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"O digital realmente traz pacientes?"</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">É uma dúvida legítima. Por isso a meta inicial não é volume — é qualidade. O primeiro objetivo é que sua presença digital atraia o paciente certo, não qualquer paciente. Aumento de volume vem depois, quando a base está construída. E isso é mensurável: você saberá exatamente o que mudou a cada mês. O que o digital faz de imediato é eliminar a barreira de credibilidade — o paciente que te foi indicado pesquisa seu nome antes de ligar. O que ele encontra define se liga ou não.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"O que vocês entregam exatamente? Quero ver no papel."</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Ótima pergunta — gosto de clientes que pedem isso. [Abrir o material de apresentação.] Cada plano tem entregáveis específicos listados item a item. O que não muda entre planos: brand book completo, calendário editorial, produção e publicação dos posts, e relatório mensal. O que escala: vídeo, LinkedIn, Nexa Ads e frequência das sessões estratégicas. Qual aspecto você quer detalhar mais?</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Posso cancelar quando quiser?"</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">O contrato tem mínimo de 6 meses (12 no Autoridade). Não porque a Zyllah precisa de reféns — mas porque presença digital tem prazo de maturação. Resultado real em menos de 6 meses é possível, mas construção de autoridade leva tempo. Se encerramos antes, você perde o investimento da implantação sem ter colhido o resultado. O mínimo protege você, não a gente.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Eu mesmo posso fazer as publicações. Por que pagar?"</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Pode, sim. A questão é: você consegue manter consistência de identidade, cadência semanal e qualidade de produção enquanto atende pacientes, faz plantão e estuda? A maioria dos profissionais de saúde que tenta isso some do Instagram em 30 a 60 dias. O valor da Zyllah não é só execução — é método, consistência e o sistema que não quebra quando você está ocupado.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Quero só o site. Não quero redes sociais."</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Entendo a lógica. O problema é que site sem tráfego é vitrine em rua deserta. As redes sociais são o que traz a pessoa até o site — e o site converte. Os dois sozinhos funcionam pela metade. Dito isso, posso montar uma proposta só de site se for o caso. Mas antes quero entender: o que você espera que o site faça por você?</div>
+    </div>
+  </div>
+
+  <!-- PESSOAL / COMPORTAMENTAL -->
+  <div class="secao-tag">Comportamental</div>
+  <h2 class="secao-titulo">Objeções <em>comportamentais</em></h2>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Preciso pensar. Te falo depois."</div>
+      <div class="card-tag pessoal">Comportamental</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Claro. Só peço que avalie uma coisa específica: o custo de adiar. Cada semana com uma presença que não reflete o que você é, é uma semana com pacientes chegando pelo motivo errado — ou não chegando. Não tenho pressa. Mas o seu tempo tem valor. Quando você acha que consegue dar um retorno?</div>
+      <div class="alerta">⚠️ "Preciso pensar" sem prazo definido = sumiu. Sempre amarre uma data de retorno.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Não me sinto confortável aparecendo nas redes."</div>
+      <div class="card-tag pessoal">Comportamental</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Isso é mais comum do que parece — e é totalmente válido. A boa notícia: você não precisa aparecer toda hora. Presença de autoridade não é dançar no Reels. É ter um perfil que comunica quem você é, o que você trata e por que alguém deveria te escolher. Muita coisa pode ser feita sem aparecer no vídeo: infográficos, textos, imagens do espaço, citações. Construímos isso juntos no que você se sentir confortável.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Sou novo. Ainda não tenho muitos pacientes."</div>
+      <div class="card-tag pessoal">Comportamental</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Melhor momento para começar. Construir a identidade certa desde o início é muito mais eficiente do que tentar corrigir uma reputação digital já consolidada errada. Os primeiros 100 pacientes formam a base da sua cartela para sempre — vale muito investir em quem são eles. Quem começa certo cresce mais rápido.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Falar de dinheiro me parece pouco ético para profissional de saúde."</div>
+      <div class="card-tag pessoal">Comportamental</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Entendo — e esse pudor é sinal de integridade. Só quero separar duas coisas: cobrar pelo seu trabalho não é ganância, é viabilidade. Consultório que não funciona financeiramente fecha — e aí ninguém é atendido. Comunicar o que você faz não é vanglória, é informação que o paciente certo precisa para te encontrar. Você não precisa vender. Precisa aparecer para quem já está procurando o que você oferece.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Minha indicação boca a boca já funciona. Para que digital?"</div>
+      <div class="card-tag pessoal">Comportamental</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Ótimo — indicação boca a boca é o melhor tráfego que existe. Mas há dois problemas: primeiro, você não controla o volume. Segundo — e mais importante — quem foi indicado vai te pesquisar online antes de ligar. O que ele encontra hoje? Se o seu digital não valida o que a indicação prometeu, você perde o lead que já estava convencido. O digital não substitui a indicação. Ele garante que a indicação converta.</div>
+    </div>
+  </div>
+
+
+  <!-- JOÃO SEM BRAÇO -->
+  <div class="secao-tag">João sem braço</div>
+  <h2 class="secao-titulo">Má-fé disfarçada de <em>dúvida</em></h2>
+
+  <div class="intro-box">
+    <p>Essas não são objeções legítimas — são tentativas de extrair vantagem, testar seus limites ou desvalorizar o trabalho. A resposta certa não é ceder. É <strong>manter o posicionamento com calma</strong> e deixar claro que você conhece o jogo.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Me faz um desconto e eu te indico mais clientes."</div>
+      <div class="card-tag preco">Preço</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Agradeço a intenção. Mas desconto baseado em promessa de indicação futura não é uma troca justa — é uma especulação. Se você trouxer um cliente fechado, tenho um programa de indicação com benefício real. O preço do seu projeto, porém, não muda por isso.</div>
+      <div class="alerta">⚠️ Nunca desconte em troca de indicação prometida. Indicação que não veio ainda não vale nada. E quem negocia assim raramente indica.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Posso pagar depois que começar a dar resultado?"</div>
+      <div class="card-tag preco">Preço</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Não trabalho com pagamento condicionado a resultado — nenhuma agência séria trabalha. O serviço tem custo fixo independente do desempenho: horas de trabalho, ferramentas, produção. O que posso oferecer é transparência total nas métricas para você acompanhar a evolução mês a mês. Resultado é consequência de processo — e o processo começa no primeiro pagamento.</div>
+      <div class="alerta">⚠️ Esse modelo transfere todo o risco para você e zero para ele. É inviável e abre precedente péssimo.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Você pode fazer um mês de teste antes de eu assinar?"</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Não — e vou explicar por quê faz sentido. Presença digital não tem resultado em 30 dias. O que entregaria num mês de teste seria implantação, brand book e início de conteúdo — exatamente o trabalho mais intensivo do projeto. Fazer isso sem contrato é trabalhar de graça. O piloto existe exatamente para reduzir a barreira de entrada com condições especiais — essa é a forma correta de começar com segurança para os dois lados.</div>
+      <div class="alerta">⚠️ "Mês de teste" é o mesmo que pedir a parte mais cara do serviço sem pagar. Não existe.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Você faz o material e eu pago se gostar."</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Não trabalho assim. Todo projeto começa com briefing, alinhamento de expectativas e aprovação de direção criativa antes de qualquer produção. Você aprova a direção antes de eu executar — não o contrário. Pagamento condicionado a gosto subjetivo não é um contrato, é uma armadilha para os dois lados.</div>
+      <div class="gatilho">💡 Se ele insistir nisso, é sinal de que não confia no processo — ou não tem intenção real de fechar. Qualifique antes de continuar investindo tempo.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Meu sobrinho faz isso por R$ 300. Por que pagar mais?"</div>
+      <div class="card-tag preco">Preço</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">O sobrinho é uma ótima opção se o objetivo é ter posts. Se o objetivo é construir autoridade, atrair o paciente certo e ter um sistema que funciona quando você está no consultório — são produtos diferentes. Não compito com R$ 300. Compito com o custo de uma presença que não representa o que você vale.</div>
+      <div class="alerta">⚠️ Não tente convencer quem está confortável com R$ 300. Quem valoriza "barato" acima de tudo não é seu cliente.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Vocês ficam com a senha das minhas redes. Como eu sei que não vão fazer algo errado?"</div>
+      <div class="card-tag confianca">Confiança</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">É uma preocupação legítima — e a resposta é: contrato. Tudo que publicamos passa por aprovação prévia sua no início. Com o tempo, o nível de autonomia é calibrado conforme a confiança for estabelecida. Acesso às redes é gerenciado via ferramentas profissionais, não pela senha pessoal. E o contrato especifica responsabilidades claramente — você tem respaldo jurídico.</div>
+      <div class="gatilho">💡 Se a desconfiança for excessiva e ele querer aprovação de cada vírgula, avalie se é um cliente que vai travar o trabalho. Autonomia mínima é condição para o serviço funcionar.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Quero que vocês criem tudo mas eu vou revisar e mudar o que quiser antes de publicar."</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Revisão faz parte do processo — até dois rounds por peça, conforme o contrato. O que não funciona é revisão ilimitada ou alterações que desconstroem a identidade visual e a estratégia definidas no brand book. Mudança de conteúdo dentro da linha aprovada: ok. Mudança de fonte, cor, posicionamento a cada post: não. Você contrata um sistema — não uma gráfica que executa pedidos avulsos.</div>
+      <div class="alerta">⚠️ Cliente que quer controlar cada detalhe de execução não precisa de agência — precisa de freelancer. Esse perfil gera retrabalho infinito e nunca fica satisfeito.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Se eu não gostar nos primeiros meses, posso cancelar sem pagar o restante?"</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">O contrato tem cláusula de rescisão — com aviso prévio e carência mínima. O que não existe é cancelamento sem ônus antes do prazo mínimo, porque o investimento de implantação já foi realizado. Se em algum momento o trabalho não estiver entregando o acordado, a conversa é sobre ajuste — não sobre rescisão unilateral. Problemas se resolvem na reunião mensal, não na saída.</div>
+      <div class="alerta">⚠️ Quem pergunta isso antes de assinar está planejando a saída antes de entrar. Sinal de baixo comprometimento.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Você me passa o brand book e eu toco daqui pra frente sozinho."</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">O brand book é entregue ao cliente ao final do projeto — é seu. Mas ele é um documento de identidade, não um manual de operação. Saber quem você é na comunicação não é a mesma coisa que executar conteúdo com consistência, frequência e estratégia. Quem tenta tocar sozinho com o brand book geralmente abandona em 30 dias. Você é livre para seguir sozinho. Só esteja consciente do que isso historicamente produz.</div>
+      <div class="gatilho">💡 Se ele insistir, entregue o brand book como acordado e deixe a porta aberta. Em 2 meses ele volta.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-objecao">"Posso contratar só a parte que me interessa e montar o restante com outros fornecedores?"</div>
+      <div class="card-tag processo">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="label">Resposta</span>
+      <div class="resposta">Tecnicamente pode — mas o resultado vai ser fragmentado. A força da Zyllah está na integração: identidade, conteúdo e consistência funcionam juntos porque foram construídos com a mesma lógica. Quando você divide entre fornecedores, perde coerência e o resultado é uma presença remendada. Posso fazer uma proposta para a parte que você quer — mas vou ser honesto sobre o que ela entrega sozinha.</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

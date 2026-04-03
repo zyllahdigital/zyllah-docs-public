@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah — O Raciocínio por Trás</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8976A; --gold-light: #D4B896;
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+  }
+  body { font-family: 'Jost', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); font-size: 17px; line-height: 1.9; }
+
+  .header { background: var(--ink); padding: 72px 80px; }
+  .header-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: block; }
+  .header-titulo { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 5vw, 60px); font-weight: 300; color: white; line-height: 1.05; margin-bottom: 16px; }
+  .header-titulo em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 15px; color:rgba(255,255,255,0.55); max-width: 580px; line-height: 1.85; }
+  .header-aviso { margin-top: 32px; padding: 20px 24px; background: rgba(184,151,106,0.08); border-left: 2px solid rgba(184,151,106,0.4); font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.75; max-width: 580px; }
+
+  .corpo { max-width: 780px; margin: 0 auto; padding: 72px 60px 100px; }
+
+  .capitulo { margin-bottom: 80px; }
+  .capitulo-num { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; display: block; }
+  .capitulo-titulo { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 300; color: var(--ink); line-height: 1.15; margin-bottom: 8px; }
+  .capitulo-titulo em { font-style: italic; color: var(--gold); }
+  .capitulo-linha { width: 48px; height: 1px; background: rgba(184,151,106,0.4); margin: 20px 0 32px; }
+
+  p { margin-bottom: 20px; color: var(--ink-soft); }
+  p strong { color: var(--ink); font-weight: 400; }
+  p em { font-style: italic; }
+
+  .destaque {
+    background: var(--ink);
+    padding: 32px 40px;
+    margin: 36px 0;
+    position: relative;
+  }
+  .destaque p { color: rgba(255,255,255,0.7); margin-bottom: 0; }
+  .destaque p strong { color: white; }
+  .destaque p em { color: var(--gold-light); font-style: italic; }
+
+  .pergunta {
+    border-left: 3px solid var(--gold);
+    padding: 4px 0 4px 24px;
+    margin: 32px 0 16px;
+  }
+  .pergunta-texto { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: var(--ink); line-height: 1.4; }
+
+  .regra {
+    background: rgba(184,151,106,0.06);
+    border: 1px solid rgba(184,151,106,0.15);
+    padding: 20px 24px;
+    margin: 20px 0;
+  }
+  .regra-label { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; display: block; }
+  .regra p { margin-bottom: 0; font-size: 15px; }
+
+  .divisor { height: 1px; background: rgba(184,151,106,0.12); margin: 64px 0; }
+
+  .checklist { margin: 24px 0; }
+  .check-item { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; font-size: 15px; color: var(--ink-soft); line-height: 1.7; }
+  .check-item::before { content: '—'; color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+
+  @media (max-width: 640px) {
+    .header { padding: 48px 28px; }
+    .corpo { padding: 48px 24px 80px; }
+  }
+
+  #senha-tela { position: fixed; inset: 0; z-index: 99999; background: #1A1714; display: flex; align-items: center; justify-content: center; }
+  .senha-box { width: 100%; max-width: 400px; padding: 48px; display: flex; flex-direction: column; gap: 20px; }
+  .senha-logo { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(184,151,106,0.5); letter-spacing: 0.3em; }
+  .senha-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: white; line-height: 1.1; }
+  .senha-titulo em { font-style: italic; color: #D4B896; }
+  .senha-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(184,151,106,0.35); padding: 14px 0; font-family: 'Jost', sans-serif; font-size: 18px; color: white; outline: none; letter-spacing: 0.1em; }
+  .senha-input::placeholder { color:rgba(255,255,255,0.55); font-size: 14px; letter-spacing: 0.2em; }
+  .senha-btn { background: #B8976A; color: #1A1714; border: none; padding: 14px 32px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; cursor: pointer; align-self: flex-start; }
+  .senha-erro { font-size: 13px; color: rgba(210,100,100,0.9); min-height: 18px; }
+</style>
+
+<script>
+(function() {
+  var SENHA = 'SsW!a6DOaNSD';
+  var KEY = 'zh_raciocinio';
+  if (sessionStorage.getItem(KEY) === '1') return;
+  document.addEventListener('DOMContentLoaded', function() {
+    var tela = document.getElementById('senha-tela');
+    if (tela) tela.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  });
+  window.verificarSenha = function() {
+    var inp = document.getElementById('senha-input');
+    var err = document.getElementById('senha-erro');
+    if (inp.value === SENHA) {
+      sessionStorage.setItem(KEY, '1');
+      var tela = document.getElementById('senha-tela');
+      tela.style.transition = 'opacity 0.3s';
+      tela.style.opacity = '0';
+      setTimeout(function() { tela.style.display = 'none'; document.body.style.overflow = ''; }, 300);
+    } else {
+      err.textContent = 'Senha incorreta.';
+      inp.value = ''; inp.focus();
+      setTimeout(function() { err.textContent = ''; }, 2000);
+    }
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    var inp = document.getElementById('senha-input');
+    if (inp) { inp.focus(); inp.addEventListener('keydown', function(e) { if (e.key==='Enter') verificarSenha(); }); }
+  });
+})();
+</script>
+</head>
+<body>
+
+<div id="senha-tela" style="display:none;">
+  <div class="senha-box">
+    <div class="senha-logo">Zyllah Digital</div>
+    <div class="senha-titulo">Acesso<br><em>restrito</em></div>
+    <input id="senha-input" type="password" class="senha-input" placeholder="senha" autocomplete="off">
+    <div id="senha-erro" class="senha-erro"></div>
+    <button class="senha-btn" onclick="verificarSenha()">Entrar →</button>
+  </div>
+</div>
+
+<div class="header">
+  <span class="header-tag">Documento de Raciocínio · Uso interno</span>
+  <h1 class="header-titulo">O porquê de<br><em>cada decisão</em></h1>
+  <p class="header-sub">Este documento não explica o que fazer. Explica por que as decisões foram tomadas — para que você possa tomar as próximas sozinho, com qualquer ferramenta ou sem nenhuma.</p>
+  <div class="header-aviso">Este é um documento vivo. Atualize-o toda vez que tomar uma decisão importante. Escreva o raciocínio enquanto ainda está fresco — não o resultado, o motivo.</div>
+</div>
+
+<div class="corpo">
+
+  <!-- CAPÍTULO 1 -->
+  <div class="capitulo">
+    <span class="capitulo-num">01</span>
+    <h2 class="capitulo-titulo">Por que <em>saúde</em><br>como nicho</h2>
+    <div class="capitulo-linha"></div>
+
+    <p>A escolha do nicho não foi arbitrária. Partiu de uma análise de onde existe dinheiro disponível, problema real e ausência de solução de qualidade.</p>
+
+    <div class="pergunta">
+      <div class="pergunta-texto">Por que profissionais de saúde têm dinheiro mas presença digital ruim?</div>
+    </div>
+
+    <p>Porque a formação deles é longa, técnica e absorvente. Um médico passa 6 anos na faculdade, 2-3 de residência, e começa a clinicar com 30 anos ou mais. Nesse período, o mercado digital mudou completamente — e eles não acompanharam. <strong>Não é falta de interesse. É falta de tempo e de alguém que fale a língua deles.</strong></p>
+
+    <p>A maioria das agências de marketing fala em "funis", "tráfego pago", "conversão". O profissional de saúde não se identifica com esse vocabulário. Ele quer saber se vai ter mais pacientes, se vai ser reconhecido como referência, se vai parar de depender 100% de indicação.</p>
+
+    <div class="destaque">
+      <p><strong>A lógica central:</strong> quando você fala a língua de alguém — quando entende como ele pensa, o que o preocupa, como ele toma decisões — você deixa de ser mais um fornecedor e passa a ser <em>o único que realmente entende</em>. Isso justifica preço maior, gera fidelidade e produz indicações espontâneas.</p>
+    </div>
+
+    <p>O nicho de saúde também tem uma característica importante: <strong>os mesmos problemas se repetem</strong>. Todo médico recém-formado abrindo consultório enfrenta a mesma situação. Todo dentista estabelecido quer ser referência na sua especialidade. Isso significa que você resolve o mesmo problema melhor a cada cliente — e pode criar processos, templates e metodologia que escalam.</p>
+
+    <div class="regra">
+      <span class="regra-label">Regra que guiou essa decisão</span>
+      <p>Nicho bom = problema real + dinheiro disponível + ausência de solução especializada + problema que se repete. Saúde atende todos os quatro.</p>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- CAPÍTULO 2 -->
+  <div class="capitulo">
+    <span class="capitulo-num">02</span>
+    <h2 class="capitulo-titulo">Por que <em>fundador</em><br>no LinkedIn, não candidato</h2>
+    <div class="capitulo-linha"></div>
+
+    <p>O perfil anterior — "Analista de Customer Success | Foco em Retenção | Trabalho Remoto" — criava um problema de credibilidade duplo. Para recrutadores, o histórico audiovisual gerava desconfiança. Para prospects, o #OpenToWork sinalizava que você precisava de emprego, não que estava construindo algo.</p>
+
+    <div class="pergunta">
+      <div class="pergunta-texto">Por que não manter os dois — buscar emprego e construir a Zyllah ao mesmo tempo?</div>
+    </div>
+
+    <p>Porque cada mensagem que você envia no LinkedIn precisa trabalhar para atrair o próximo cliente da Zyllah. Com 4 meses de runway, não há margem para mensagens neutras. Um perfil dual não convence ninguém completamente — gera hesitação em recrutadores ("ele quer mesmo trabalhar aqui?") e em prospects ("ele está comprometido com isso?").</p>
+
+    <p><strong>A decisão foi clareza em vez de segurança.</strong> Clareza de propósito atrai as pessoas certas com mais força do que um perfil que tenta agradar todos.</p>
+
+    <div class="destaque">
+      <p>O 16 anos de audiovisual não foi jogado fora — foi reposicionado. A narrativa mudou de "trabalhei em audiovisual, agora quero CS" para <em>"16 anos entendendo como histórias funcionam, agora aplico isso para resolver um problema específico"</em>. O mesmo histórico, lido de forma diferente.</p>
+    </div>
+
+    <div class="regra">
+      <span class="regra-label">Regra que guiou essa decisão</span>
+      <p>Posicionamento é escolha. Escolher um público e falar diretamente com ele sempre supera tentar falar com todos ao mesmo tempo. Quem tenta agradar todos não convence ninguém.</p>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- CAPÍTULO 3 -->
+  <div class="capitulo">
+    <span class="capitulo-num">03</span>
+    <h2 class="capitulo-titulo">Por que <em>zyllah.com.br</em><br>e não zyllahdigital.com.br</h2>
+    <div class="capitulo-linha"></div>
+
+    <p>Domínios curtos são mais fáceis de falar, de lembrar e de digitar. "Digital" no nome do domínio é redundante — qualquer agência digital tem "digital" no nome. Isso é genérico.</p>
+
+    <p>Mais importante: <strong>o domínio não deve limitar o futuro do negócio</strong>. Se um dia a Zyllah expandir para consultoria presencial, treinamentos, ou outro formato que não seja "digital", o domínio ainda funciona. `zyllahdigital.com.br` prenderia a marca a um formato.</p>
+
+    <div class="regra">
+      <span class="regra-label">Regra que guiou essa decisão</span>
+      <p>Nome de domínio = identidade de longo prazo. Prefira o mais curto disponível. Evite adjetivos que descrevem o que você faz hoje — a empresa vai mudar, o domínio não.</p>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- CAPÍTULO 4 -->
+  <div class="capitulo">
+    <span class="capitulo-num">04</span>
+    <h2 class="capitulo-titulo">Por que três tiers<br><em>de preço</em></h2>
+    <div class="capitulo-linha"></div>
+
+    <p>A precificação em três níveis não é arbitrária. Existe uma lógica psicológica e comercial bem documentada por trás dela.</p>
+
+    <div class="pergunta">
+      <div class="pergunta-texto">Por que não um preço único e simples?</div>
+    </div>
+
+    <p>Porque preço único força o cliente a decidir entre "sim" e "não". Três níveis forçam o cliente a decidir entre "básico", "completo" e "premium" — a pergunta muda de "vou contratar?" para "qual vou contratar?". <strong>Isso aumenta conversão.</strong></p>
+
+    <p>O tier do meio é deliberadamente o mais atraente — tem o melhor custo-benefício percebido. A maioria dos clientes escolhe o meio. O tier alto existe para fazer o meio parecer razoável. O tier baixo existe para não perder clientes com orçamento menor e para criar entrada no relacionamento.</p>
+
+    <div class="destaque">
+      <p>A regra de ouro da precificação em saúde: <strong>nunca seja o mais barato</strong>. Profissional de saúde associa preço baixo com qualidade baixa. Se você cobra menos que a concorrência sem uma razão clara, gera desconfiança. <em>Cobre o que vale. Explique por quê vale.</em></p>
+    </div>
+
+    <div class="regra">
+      <span class="regra-label">Regra que guiou essa decisão</span>
+      <p>Três opções de preço sempre superam uma. A âncora alta faz a do meio parecer justa. A baixa captura quem não compraria de outra forma. Nunca apresente preço sem contexto — o valor percebido vem antes do número.</p>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- CAPÍTULO 5 -->
+  <div class="capitulo">
+    <span class="capitulo-num">05</span>
+    <h2 class="capitulo-titulo">Por que briefing<br><em>antes de qualquer coisa</em></h2>
+    <div class="capitulo-linha"></div>
+
+    <p>Todo retrabalho tem a mesma origem: começar sem entender o suficiente. O briefing não é burocracia — é proteção. Sua e do cliente.</p>
+
+    <div class="pergunta">
+      <div class="pergunta-texto">Por que o cliente resistiria a preencher um briefing?</div>
+    </div>
+
+    <p>Porque ele está ocupado e quer resultado rápido. A solução não é eliminar o briefing — é <strong>reduzir o custo percebido de preenchê-lo</strong>. Formulário online, campos opcionais onde possível, linguagem humana (não técnica), e uma explicação clara de por que as respostas importam.</p>
+
+    <p>O briefing também cumpre uma função menos óbvia: <strong>ele qualifica o cliente</strong>. Quem não tem tempo ou disposição para preencher um formulário de 15 minutos provavelmente também não terá para revisar entregas, dar feedback claro ou respeitar prazos. Saber isso antes é melhor do que descobrir no meio do projeto.</p>
+
+    <div class="destaque">
+      <p>Uma regra importante: <em>nunca altere o escopo sem alterar o contrato</em>. Se o cliente pede algo diferente do briefing original, isso é um novo item — com novo prazo e novo preço. Scope creep (expansão silenciosa do escopo) é a causa número um de projetos que não se pagam.</p>
+    </div>
+
+    <div class="regra">
+      <span class="regra-label">Regra que guiou essa decisão</span>
+      <p>Velocidade de entrega e qualidade de entrega dependem da qualidade das informações recebidas. Quanto melhor o briefing, menor o retrabalho, menor o prazo real, maior a margem.</p>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- CAPÍTULO 6 -->
+  <div class="capitulo">
+    <span class="capitulo-num">06</span>
+    <h2 class="capitulo-titulo">Como pensar<br><em>um novo cliente</em></h2>
+    <div class="capitulo-linha"></div>
+
+    <p>Toda vez que um prospect aparece, as mesmas perguntas precisam ser respondidas — nessa ordem:</p>
+
+    <div class="checklist">
+      <div class="check-item"><strong>Qual é o problema real dele?</strong> Não o que ele pediu — o que ele precisa. "Quero um site" quase sempre significa "quero mais pacientes" ou "quero ser reconhecido como referência".</div>
+      <div class="check-item"><strong>Ele tem orçamento compatível?</strong> Descobrir isso cedo poupa tempo dos dois. Uma pergunta direta como "você tem uma ideia de quanto quer investir nisso?" é honesta e profissional.</div>
+      <div class="check-item"><strong>Ele é o decisor?</strong> Em clínicas maiores, pode haver sócio, gestor financeiro ou cônjuge envolvido. Se não for o decisor único, entenda o processo de aprovação antes de investir tempo na proposta.</div>
+      <div class="check-item"><strong>Qual é o prazo dele?</strong> Urgência real ou urgência percebida? Isso afeta precificação e planejamento.</div>
+      <div class="check-item"><strong>O que ele já tentou?</strong> Se já contratou outra agência e ficou insatisfeito, entenda o motivo. Isso revela expectativas ocultas e possíveis armadilhas.</div>
+    </div>
+
+    <div class="destaque">
+      <p>O objetivo da primeira conversa não é vender. É <em>entender se faz sentido trabalhar juntos</em>. Clientes errados custam mais do que clientes perdidos — em tempo, energia e resultado final.</p>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- CAPÍTULO 7 -->
+  <div class="capitulo">
+    <span class="capitulo-num">07</span>
+    <h2 class="capitulo-titulo">Como pensar<br><em>conteúdo para o nicho</em></h2>
+    <div class="capitulo-linha"></div>
+
+    <p>Conteúdo para profissional de saúde segue uma lógica diferente de conteúdo para outros nichos. Três restrições específicas moldam tudo:</p>
+
+    <div class="checklist">
+      <div class="check-item"><strong>CFM e CFO têm regras sobre propaganda.</strong> Médicos e odontólogos não podem prometer resultados, usar antes/depois de procedimentos, ou fazer afirmações não comprovadas. Qualquer conteúdo que você criar precisa respeitar isso — não por burocracia, mas porque o cliente pode ser punido se não respeitar.</div>
+      <div class="check-item"><strong>A autoridade é o ativo principal.</strong> O profissional de saúde não está vendendo produto — está vendendo confiança. O conteúdo precisa construir autoridade, não apenas visibilidade.</div>
+      <div class="check-item"><strong>Educação converte melhor que promoção.</strong> Post que explica "o que é bruxismo e como tratar" performa melhor que "venha fazer sua consulta". Porque quem lê o primeiro já chega qualificado.</div>
+    </div>
+
+    <div class="pergunta">
+      <div class="pergunta-texto">Como criar conteúdo que funciona sem o cliente precisar aparecer todo dia?</div>
+    </div>
+
+    <p>Através de um banco de conteúdo — temas evergreen que não envelhecem, criados de uma vez e distribuídos ao longo do tempo. Um médico especialista em tireoide tem 20, 30 temas relevantes para o público dele. Esses temas rendem conteúdo por meses sem precisar de novidade constante.</p>
+
+    <div class="regra">
+      <span class="regra-label">Regra que guiou essa decisão</span>
+      <p>Consistência supera frequência. Três posts por semana durante 6 meses constroem mais do que 20 posts em uma semana e silêncio depois. A estratégia de conteúdo precisa ser sustentável pelo cliente — não depender de inspiração ou energia extra.</p>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- CAPÍTULO 8 -->
+  <div class="capitulo">
+    <span class="capitulo-num">08</span>
+    <h2 class="capitulo-titulo">Como tomar decisões<br><em>sem mim</em></h2>
+    <div class="capitulo-linha"></div>
+
+    <p>Toda decisão de negócio pode ser analisada com quatro perguntas. São simples — mas funcionam:</p>
+
+    <div class="checklist">
+      <div class="check-item"><strong>Qual problema isso resolve?</strong> Se não resolve um problema real do cliente ou do negócio, provavelmente não vale o tempo.</div>
+      <div class="check-item"><strong>Qual é o custo de não fazer?</strong> Às vezes a melhor decisão é não decidir agora. Mas é importante saber o que você perde esperando.</div>
+      <div class="check-item"><strong>Isso é reversível?</strong> Decisões reversíveis podem ser tomadas rápido e ajustadas depois. Decisões irreversíveis (contratos longos, investimentos altos, posicionamento público) merecem mais tempo.</div>
+      <div class="check-item"><strong>Quem já resolveu isso antes?</strong> Quase todo problema que você vai enfrentar já foi resolvido por alguém. Buscar referência não é fraqueza — é eficiência.</div>
+    </div>
+
+    <div class="destaque">
+      <p>Sobre usar IA como ferramenta: <em>a IA acelera execução, não substitui julgamento</em>. O raciocínio — o porquê das escolhas — precisa ser seu. Quando você entende o porquê, qualquer ferramenta serve para executar. Quando não entende, nenhuma ferramenta resolve.</p>
+    </div>
+
+    <p>O melhor investimento que você pode fazer agora, além de construir a Zyllah, é desenvolver o hábito de registrar o raciocínio das suas decisões. Não o resultado — o motivo. Com o tempo, você vai perceber padrões no seu próprio pensamento e vai confiar mais nele.</p>
+
+    <div class="regra">
+      <span class="regra-label">Uma última regra</span>
+      <p>Clareza do problema vale mais que qualidade da solução. Se você entende exatamente o problema que o cliente tem, uma solução mediana entregue bem supera uma solução excelente entregue para o problema errado.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:64px;padding:32px 40px;background:var(--ink);color:rgba(255,255,255,0.4);font-size:14px;line-height:1.85;">
+    <div style="font-size:11px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Nota sobre este documento</div>
+    <p style="color:rgba(255,255,255,0.4);margin-bottom:12px;">Este documento foi construído a partir das conversas entre Guilherme Caetano e a Zyllah Digital entre fevereiro e março de 2026. Representa o raciocínio por trás das decisões tomadas — não verdades absolutas.</p>
+    <p style="color:rgba(255,255,255,0.4);margin-bottom:0;">Atualize-o conforme o negócio evolui. O que faz sentido hoje pode não fazer daqui a seis meses — e isso é bom.</p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<title>Zyllah · Roteiro Vídeo 3 — YouTube</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"><style>
+  :root { --ink:#1A1714;--ink-soft:#3D3830;--gold:#B8976A;--gold-light:#D4B896;--cream:#FAF7F2;--red:#8B3A3A; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color:var(--ink);padding:0 0 100px;}
+  .header{background:var(--ink);padding:56px 80px 48px;}
+  .header-tag{font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:block;}
+  .header-titulo{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:white;line-height:1.05;margin-bottom:12px;}
+  .header-titulo em{font-style:italic;color:var(--gold-light);}
+  .header-sub{font-size:14px;color:rgba(255,255,255,.45);max-width:580px;line-height:1.85;}
+  .header-meta{display:flex;gap:32px;margin-top:28px;flex-wrap:wrap;}
+  .meta-item{text-align:left;}
+  .meta-valor{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--gold-light);}
+  .meta-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:2px;}
+  .container{max-width:860px;margin:0 auto;padding:0 48px;}
+  .secao-tag{font-size:11px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin:56px 0 12px;display:flex;align-items:center;gap:12px;}
+  .secao-tag::after{content:'';flex:1;height:1px;background:rgba(184,151,106,.2);}
+  .secao-titulo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--ink);margin-bottom:24px;}
+  .secao-titulo em{font-style:italic;color:var(--gold);}
+  .intro-box{background:var(--ink);padding:28px 32px;margin:40px 0 0;}
+  .intro-box p{font-size:14px;color:rgba(255,255,255,.55);line-height:1.85;}
+  .intro-box p+p{margin-top:10px;}
+  .intro-box strong{color:var(--gold-light);font-weight:400;}
+  .cena{background:white;border:1px solid rgba(184,151,106,.12);margin-bottom:12px;overflow:hidden;}
+  .cena-header{display:flex;align-items:stretch;}
+  .cena-num{background:var(--ink);padding:20px 24px;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold);line-height:1;display:flex;align-items:center;min-width:72px;justify-content:center;flex-shrink:0;}
+  .cena-info{padding:16px 20px;flex:1;}
+  .cena-titulo{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+  .cena-tipo{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);}
+  .cena-tempo{font-size:11px;color:rgba(61,56,48,.4);margin-left:auto;padding:16px 20px;display:flex;align-items:center;flex-shrink:0;}
+  .cena-corpo{padding:0 20px 20px 72px;display:flex;flex-direction:column;gap:12px;}
+  .bloco-label{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:rgba(61,56,48,.4);margin-bottom:6px;}
+  .voz{background:rgba(184,151,106,.06);border-left:3px solid var(--gold);padding:14px 18px;font-size:15px;color:var(--ink);line-height:1.9;font-style:italic;}
+  .voz::before{content:'🎙 ';font-style:normal;}
+  .cam{background:rgba(26,100,60,.05);border-left:3px solid rgba(26,100,60,.4);padding:14px 18px;font-size:15px;color:var(--ink);line-height:1.9;font-style:italic;}
+  .cam::before{content:'🎥 ';font-style:normal;}
+  .tela{background:rgba(26,23,20,.04);border-left:3px solid rgba(61,56,48,.2);padding:14px 18px;font-size:13px;color:var(--ink-soft);line-height:1.75;}
+  .tela::before{content:'🖥 ';}
+  .nota{background:rgba(139,58,58,.05);border-left:3px solid rgba(139,58,58,.3);padding:12px 16px;font-size:12px;color:var(--red);line-height:1.7;}
+  .nota::before{content:'⚠ ';}
+  .dica{background:rgba(184,151,106,.07);border-left:3px solid rgba(184,151,106,.4);padding:12px 16px;font-size:12px;color:var(--ink-soft);line-height:1.7;}
+  .dica::before{content:'💡 ';}
+  .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+  .prod-card{background:white;border:1px solid rgba(184,151,106,.12);padding:20px;}
+  .prod-card-titulo{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:8px;letter-spacing:.05em;}
+  .prod-card-texto{font-size:13px;color:var(--ink-soft);line-height:1.7;}
+  .yt-box{background:var(--ink);padding:28px 32px;margin-top:4px;}
+  .yt-label{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:block;}
+  .yt-titulo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:white;margin-bottom:8px;line-height:1.3;}
+  .yt-desc{font-size:13px;color:rgba(255,255,255,.5);line-height:1.8;}
+  .yt-tags{margin-top:12px;font-size:12px;color:rgba(184,151,106,.7);}
+  .divisor{height:1px;background:rgba(184,151,106,.12);margin:40px 0;}
+  .data{font-size:11px;color:rgba(61,56,48,.4);margin-top:48px;padding-top:24px;border-top:1px solid rgba(184,151,106,.1);}
+  .cfm-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:4px;}
+  .cfm-card{padding:20px 24px;}
+  .cfm-card.ok{background:rgba(26,100,60,.06);border-left:3px solid rgba(26,100,60,.4);}
+  .cfm-card.no{background:rgba(139,58,58,.06);border-left:3px solid rgba(139,58,58,.35);}
+  .cfm-title{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;}
+  .cfm-title.ok{color:rgba(26,100,60,.7);}
+  .cfm-title.no{color:var(--red);}
+  .cfm-item{font-size:13px;color:var(--ink-soft);line-height:1.7;padding:4px 0;border-bottom:1px solid rgba(184,151,106,.08);}
+  .cfm-item:last-child{border-bottom:none;}
+</style></head><body>
+<div class="header">
+  <span class="header-tag">YouTube · Vídeo 3 de 5 · Roteiro completo</span>
+  <h1 class="header-titulo">O que o CFM proíbe<br><em>que a maioria faz sem saber</em></h1>
+  <p class="header-sub">Voz over com tela gravada. Sem câmera. Mostra exemplos fictícios de posts que violam o CFM, explica o que a resolução diz, e apresenta o que é permitido. Conteúdo de alto valor para médico e alto risco para quem não sabe.</p>
+  <div class="header-meta">
+    <div class="meta-item"><div class="meta-valor">3'00"–3'30"</div><div class="meta-label">Duração estimada</div></div>
+    <div class="meta-item"><div class="meta-valor">Voz over + tela</div><div class="meta-label">Formato</div></div>
+    <div class="meta-item"><div class="meta-valor">Não aparece</div><div class="meta-label">Câmera</div></div>
+    <div class="meta-item"><div class="meta-valor">Médicos especialistas</div><div class="meta-label">Público</div></div>
+  </div>
+</div>
+<div class="container">
+
+<div class="intro-box">
+  <p><strong>Conceito:</strong> o médico que não conhece a Res. CFM nº 2.336/2023 está publicando por conta própria — e provavelmente errando. Este vídeo é utilidade pura: mostra o que é proibido com exemplos fictícios, o que é permitido, e por que agência genérica erra aqui com frequência.</p>
+  <p><strong>Regra deste vídeo:</strong> todos os perfis e posts mostrados são fictícios e criados para fins educativos. Incluir disclaimer no início do vídeo e na descrição. Nunca mostrar perfil real de médico — mesmo com rosto borrado.</p>
+  <p><strong>Fonte oficial:</strong> Resolução CFM nº 2.336/2023. Disponível em cfm.org.br. Citar a resolução pelo número no vídeo — dá credibilidade e especificidade.</p>
+</div>
+
+<div class="secao-tag">Roteiro</div>
+<h2 class="secao-titulo">Cena a cena —<br><em>voz e tela</em></h2>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">1</div>
+  <div class="cena-info"><div class="cena-titulo">Abertura — o risco que a maioria ignora</div><div class="cena-tipo">Tela preta · Texto · Voz over</div></div>
+  <div class="cena-tempo">0:00 – 0:20</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Tela</div><div class="tela">Texto aparece: "O CFM pode aplicar sanção por post no Instagram." Pausa. "Você sabe o que é permitido?"</div>
+    <div class="bloco-label">Voz</div><div class="voz">O Conselho Federal de Medicina tem uma resolução específica sobre publicidade médica. A Resolução 2.336 de 2023. E ela define, com precisão, o que médico pode e não pode publicar nas redes sociais. A maioria não leu. E algumas estão errando de um jeito que pode custar caro.</div>
+    <div class="nota">Disclaimer obrigatório em tela: "Todos os perfis e exemplos mostrados neste vídeo são fictícios e criados exclusivamente para fins educativos."</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">2</div>
+  <div class="cena-info"><div class="cena-titulo">O que é proibido — exemplos fictícios</div><div class="cena-tipo">Gravação de tela · Posts fictícios · Voz over</div></div>
+  <div class="cena-tempo">0:20 – 1:10</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Tela</div><div class="tela">Mostrar posts fictícios criados para o vídeo — nunca perfis reais. Exemplos a criar: (1) post com "resultado antes e depois" de procedimento estético; (2) post com preço de consulta em destaque; (3) depoimento de paciente identificado com nome e foto; (4) afirmação "resultados garantidos". Cada post entra em tela com um ícone de ⚠ vermelho aparecendo sobre ele.</div>
+    <div class="bloco-label">Voz</div><div class="voz">Antes e depois de procedimento: proibido. A resolução é explícita — imagens comparativas que sugerem resultado são vedadas. Preço de procedimento ou consulta em destaque como argumento de atração: proibido. Depoimento de paciente com identificação — nome, foto, perfil: proibido, mesmo que o paciente autorize. Promessa de resultado — "você vai sair diferente", "resultado garantido": proibido. Tudo isso está na resolução. E tudo isso eu vejo no feed de médicos toda semana.</div>
+    <div class="dica">Os posts fictícios precisam ser criados antes da gravação — use os mockups que já temos ou gere novos no Gemini. Nunca use screenshots de perfis reais.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">3</div>
+  <div class="cena-info"><div class="cena-titulo">O que é permitido — o espaço real</div><div class="cena-tipo">Gravação de tela · Posts fictícios corretos · Voz over</div></div>
+  <div class="cena-tempo">1:10 – 2:00</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Tela</div><div class="tela">Mostrar posts fictícios corretos — o Instagram bom que já temos como mockup. Exemplos: conteúdo educativo sobre condição de saúde, especialidade e área de atuação, localização e horário de atendimento, conquistas profissionais (título, especialização), anúncio informativo de pesquisa local.</div>
+    <div class="bloco-label">Voz</div><div class="voz">Mas o espaço do que é permitido é maior do que a maioria imagina. Conteúdo educativo sobre saúde: permitido. Informar especialidade, área de atuação, onde atende: permitido. Mostrar conquistas profissionais — uma especialização, um título, uma publicação: permitido. Anúncio informativo de pesquisa local no Google — "cardiologista em Nova Friburgo": permitido. Você pode construir uma presença sólida, relevante e que atrai o paciente certo — sem cruzar nenhuma dessas linhas.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">4</div>
+  <div class="cena-info"><div class="cena-titulo">Por que agências genéricas erram aqui</div><div class="cena-tipo">Voz over · Argumento</div></div>
+  <div class="cena-tempo">2:00 – 2:45</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Tela</div><div class="tela">Tela com texto animado — frases curtas aparecendo: "A agência não é médica." / "Ela não responde ao CFM." / "Você sim."</div>
+    <div class="bloco-label">Voz</div><div class="voz">A agência genérica aplica o mesmo template de antes e depois que usa para clínica de estética, academia e restaurante. Para ela, é conteúdo. Para você, é infração. E quando o CFM bate na porta, é o seu CRM que está em jogo — não o CNPJ da agência. Por isso, quem produz conteúdo para médico precisa conhecer a resolução antes de publicar a primeira arte.</div>
+    <div class="nota">Este é o diferencial mais concreto da Zyllah. Não mencionar concorrentes pelo nome. O argumento é estrutural, não comparativo.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">5</div>
+  <div class="cena-info"><div class="cena-titulo">Encerramento — o que fazer agora</div><div class="cena-tipo">Voz over · CTA</div></div>
+  <div class="cena-tempo">2:45 – 3:20</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Voz</div><div class="voz">Se você tem dúvida sobre algum post que já publicou, vale reler a resolução — o link está na descrição. E se você ainda não tem alguém gerenciando sua presença com isso em mente, esse é o primeiro critério que eu usaria para escolher. No próximo vídeo, eu falo sobre a diferença entre presença que acumula seguidores e presença que atrai o paciente certo — e por que essa diferença muda tudo.</div>
+    <div class="dica">Colocar o link da Res. CFM 2.336/2023 na descrição do vídeo. Isso aumenta a credibilidade e o tempo de permanência na página.</div>
+  </div>
+</div>
+
+<div class="divisor"></div>
+<div class="secao-tag">Referência CFM</div>
+<h2 class="secao-titulo">O que é proibido<br><em>e o que é permitido</em></h2>
+<div class="cfm-grid">
+  <div class="cfm-card no"><div class="cfm-title no">❌ Proibido</div>
+    <div class="cfm-item">Antes e depois de procedimentos</div>
+    <div class="cfm-item">Preço de consulta ou procedimento como destaque</div>
+    <div class="cfm-item">Depoimento de paciente com identificação</div>
+    <div class="cfm-item">Promessa ou garantia de resultado</div>
+    <div class="cfm-item">Uso de superlativo ("o melhor", "o mais experiente")</div>
+    <div class="cfm-item">Induzir necessidade de procedimento</div>
+  </div>
+  <div class="cfm-card ok"><div class="cfm-title ok">✓ Permitido</div>
+    <div class="cfm-item">Conteúdo educativo sobre condições de saúde</div>
+    <div class="cfm-item">Especialidade e área de atuação</div>
+    <div class="cfm-item">Localização e horário de atendimento</div>
+    <div class="cfm-item">Conquistas profissionais (títulos, publicações)</div>
+    <div class="cfm-item">Anúncio informativo de pesquisa local (Google Ads)</div>
+    <div class="cfm-item">Impulsionamento de post educativo (Meta Ads)</div>
+  </div>
+</div>
+
+<div class="divisor"></div>
+<div class="secao-tag">YouTube</div>
+<h2 class="secao-titulo">Título, descrição<br><em>e tags</em></h2>
+<div class="yt-box">
+  <span class="yt-label">Título principal</span>
+  <div class="yt-titulo">O que o CFM proíbe no Instagram do médico (Resolução 2.336/2023)</div>
+</div>
+<div class="yt-box" style="margin-top:8px;">
+  <span class="yt-label">Descrição (primeiras 3 linhas)</span>
+  <div class="yt-desc">A Resolução CFM 2.336/2023 define o que médico pode e não pode publicar nas redes sociais. Neste vídeo, mostro os erros mais comuns — e o que você pode fazer sem correr risco. Todos os exemplos são fictícios e criados para fins educativos.</div>
+  <div class="yt-tags">#CFM #MarketingMédico #PublicidadeMédica #PresençaDigital #MédicoEmpreendedor #ZyllahDigital</div>
+</div>
+<p class="data">Roteiro criado em 31 de março de 2026 · Zyllah Digital · Série YouTube — Vídeo 3 de 5</p>
+</div></body></html>

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital — Banco de Textos Instagram</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8976A; --gold-light: #D4B896;
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+    --ig: #E1306C;
+  }
+  body { font-family: 'Jost', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); font-size: 17px; line-height: 1.85; }
+
+  .header { background: var(--ink); padding: 56px 80px; position: relative; overflow: hidden; }
+  .header-z { position: absolute; right: -4%; bottom: -10%; width: 40%; opacity: 0.04; }
+  .header-tag { font-size: 12px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .header-title { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: white; line-height: 1.05; margin-bottom: 12px; }
+  .header-title em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 16px; color:rgba(255,255,255,0.55); max-width: 580px; line-height: 1.8; }
+
+  .corpo { max-width: 1000px; margin: 0 auto; padding: 72px 60px; }
+
+  /* ESTRATÉGIA */
+  .estrategia { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 72px; }
+  .estrategia-card { padding: 32px; background: var(--cream-mid); }
+  .estrategia-num { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: var(--gold); line-height: 1; margin-bottom: 12px; }
+  .estrategia-titulo { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; color: var(--ink); margin-bottom: 8px; }
+  .estrategia-desc { font-size: 14px; line-height: 1.7; color: var(--ink-soft); }
+
+  /* HEURÍSTICA */
+  .heuristica { background: var(--ink); padding: 56px; margin-bottom: 72px; }
+  .heuristica h2 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: white; margin-bottom: 8px; }
+  .heuristica h2 em { font-style: italic; color: var(--gold-light); }
+  .heuristica-sub { font-size: 15px; color: rgba(255,255,255,0.4); margin-bottom: 40px; max-width: 560px; }
+  .heuristica-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+  .h-tipo { padding: 24px 20px; border-top: 2px solid; }
+  .h-tipo.manifesto { border-color: var(--gold); background: rgba(184,151,106,0.06); }
+  .h-tipo.servico { border-color: #7A9B8A; background: rgba(122,155,138,0.06); }
+  .h-tipo.prova { border-color: #8A7A9B; background: rgba(138,122,155,0.06); }
+  .h-tipo.bastidor { border-color: #9B8A7A; background: rgba(155,138,122,0.06); }
+  .h-tipo.educativo { border-color: #7A8A9B; background: rgba(122,138,155,0.06); }
+  .h-tipo-nome { font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 10px; }
+  .manifesto .h-tipo-nome { color: var(--gold); }
+  .servico .h-tipo-nome { color: #7A9B8A; }
+  .prova .h-tipo-nome { color: #8A7A9B; }
+  .bastidor .h-tipo-nome { color: #9B8A7A; }
+  .educativo .h-tipo-nome { color: #7A8A9B; }
+  .h-tipo-desc { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+  .h-tipo-freq { font-size: 12px; color:rgba(255,255,255,0.55); margin-top: 12px; letter-spacing: 0.1em; }
+
+  /* CALENDÁRIO */
+  .calendario { margin-bottom: 72px; }
+  .cal-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--ink); margin-bottom: 8px; }
+  .cal-titulo em { font-style: italic; color: var(--gold); }
+  .cal-sub { font-size: 15px; color: var(--ink-soft); margin-bottom: 32px; }
+  .semana { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 2px; }
+  .dia { padding: 24px; }
+  .dia.seg { background: rgba(184,151,106,0.08); border-top: 2px solid var(--gold); }
+  .dia.qua { background: rgba(122,155,138,0.08); border-top: 2px solid #7A9B8A; }
+  .dia.sex { background: rgba(138,122,155,0.08); border-top: 2px solid #8A7A9B; }
+  .dia-nome { font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 6px; }
+  .seg .dia-nome { color: var(--gold); }
+  .qua .dia-nome { color: #7A9B8A; }
+  .sex .dia-nome { color: #8A7A9B; }
+  .dia-tipo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; color: var(--ink); margin-bottom: 6px; }
+  .dia-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+
+  /* BANCO DE TEXTOS */
+  .banco { margin-bottom: 56px; }
+  .banco-header { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+  .banco-linha { flex: 1; height: 1px; background: rgba(184,151,106,0.2); }
+  .banco-titulo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--ink); }
+  .banco-titulo em { font-style: italic; color: var(--gold); }
+  .banco-badge { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; padding: 5px 14px; border: 1px solid; }
+  .manifesto-badge { border-color: var(--gold); color: var(--gold); }
+  .servico-badge { border-color: #7A9B8A; color: #7A9B8A; }
+  .prova-badge { border-color: #8A7A9B; color: #8A7A9B; }
+  .bastidor-badge { border-color: #9B8A7A; color: #9B8A7A; }
+  .educativo-badge { border-color: #7A8A9B; color: #7A8A9B; }
+
+  .textos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .texto-card { background: var(--cream-mid); padding: 32px; position: relative; }
+  .texto-card:hover { background: var(--cream); }
+  .texto-num { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(184,151,106,0.4); margin-bottom: 16px; letter-spacing: 0.1em; }
+  .texto-visual { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--ink); line-height: 1.3; margin-bottom: 16px; font-style: italic; }
+  .texto-caption { font-size: 13px; color: var(--ink-soft); line-height: 1.7; margin-bottom: 16px; border-top: 1px solid rgba(184,151,106,0.15); padding-top: 14px; }
+  .texto-hashtags { font-size: 12px; color: rgba(184,151,106,0.6); letter-spacing: 0.05em; }
+  .texto-formato { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color:rgba(61,56,48,0.65); margin-bottom: 8px; }
+  .btn-copiar {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+    background: transparent; border: 1px solid rgba(184,151,106,0.2);
+    color: rgba(184,151,106,0.5); padding: 5px 12px; cursor: pointer;
+    transition: all 0.2s; font-family: 'Jost', sans-serif;
+  }
+  .btn-copiar:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-copiar.copiado { border-color: #7A9B8A; color: #7A9B8A; }
+
+  /* NOTA FREQUÊNCIA */
+  .nota-freq { background: var(--ink); padding: 40px 48px; margin: 40px 0; display: flex; gap: 40px; align-items: flex-start; }
+  .nota-freq-icon { font-family: 'Cormorant Garamond', serif; font-size: 36px; color: var(--gold); flex-shrink: 0; line-height: 1; }
+  .nota-freq h4 { font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .nota-freq p { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.8; }
+
+  .rodape { margin-top: 72px; padding-top: 32px; border-top: 1px solid rgba(184,151,106,0.15); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .rodape p { font-size: 12px; color: var(--ink-soft); letter-spacing: 0.08em; }
+  .voltar { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(184,151,106,0.3); padding-bottom: 2px; }
+  .voltar:hover { border-color: var(--gold); }
+
+  @media (max-width: 700px) {
+    .header { padding: 48px 32px; }
+    .corpo { padding: 48px 24px; }
+    .estrategia { grid-template-columns: 1fr; }
+    .heuristica-grid { grid-template-columns: 1fr 1fr; }
+    .semana { grid-template-columns: 1fr; }
+    .textos-grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 36px; }
+  }
+
+  /* ── SENHA ── */
+  #senha-tela {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #1A1714;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .senha-box {
+    width: 100%; max-width: 400px; padding: 48px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .senha-logo { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(184,151,106,0.5); letter-spacing: 0.3em; }
+  .senha-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: white; line-height: 1.1; }
+  .senha-titulo em { font-style: italic; color: #D4B896; }
+  .senha-input {
+    width: 100%; background: transparent;
+    border: none; border-bottom: 1px solid rgba(184,151,106,0.35);
+    padding: 14px 0; font-family: 'Jost', sans-serif; font-size: 18px;
+    color: white; outline: none; letter-spacing: 0.1em; transition: border-color 0.2s;
+  }
+  .senha-input:focus { border-bottom-color: #B8976A; }
+  .senha-input::placeholder { color:rgba(255,255,255,0.55); font-size: 14px; letter-spacing: 0.2em; }
+  .senha-btn {
+    background: #B8976A; color: #1A1714; border: none;
+    padding: 14px 32px; font-family: 'Jost', sans-serif;
+    font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; align-self: flex-start;
+  }
+  .senha-btn:hover { background: #D4B896; }
+  .senha-erro { font-size: 13px; color: rgba(210,100,100,0.9); letter-spacing: 0.08em; min-height: 18px; }
+  .senha-hint { font-size: 12px; color:rgba(255,255,255,0.55); letter-spacing: 0.08em; }
+</style>
+
+<script>
+(function() {
+  var SENHA = '4wrO9QI!lglQ';
+  var KEY = 'zyl_zyllahconteu';
+  if (sessionStorage.getItem(KEY) === '1') return;
+  var tela = document.getElementById('senha-tela');
+  if (tela) tela.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  window.verificarSenha = function() {
+    var inp = document.getElementById('senha-input');
+    var err = document.getElementById('senha-erro');
+    if (inp.value === SENHA) {
+      sessionStorage.setItem(KEY, '1');
+      tela.style.transition = 'opacity 0.3s';
+      tela.style.opacity = '0';
+      setTimeout(function() { tela.style.display = 'none'; document.body.style.overflow = ''; }, 300);
+    } else {
+      err.textContent = 'Senha incorreta.';
+      inp.value = ''; inp.focus();
+      setTimeout(function() { err.textContent = ''; }, 2000);
+    }
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    var inp = document.getElementById('senha-input');
+    if (inp) { inp.focus(); inp.addEventListener('keydown', function(e) { if (e.key==='Enter') verificarSenha(); }); }
+  });
+})();
+</script>
+</head>
+<body>
+
+<div id="senha-tela" style="display:none;">
+  <div class="senha-box">
+    <div class="senha-logo">Zyllah Digital</div>
+    <div class="senha-titulo">Acesso<br><em>restrito</em></div>
+    <input id="senha-input" type="password" class="senha-input" placeholder="senha" autocomplete="off">
+    <div id="senha-erro" class="senha-erro"></div>
+    <button class="senha-btn" onclick="verificarSenha()">Entrar →</button>
+    <div class="senha-hint">Dificuldades? Entre em contato com a Zyllah Digital.</div>
+  </div>
+</div>
+
+
+<div class="header">
+  <svg class="header-z" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+    <path fill="white" d="M336.72,395.72l-2.56-108.02,361.99-.56-139.33,201.49h-45.04l110.91-162.7-.32-2.46-251.57,1.13s-6.53,20.66-9.51,34.27c-3.2,14.6-8.17,36.75-8.17,36.75l-16.4.12Z"/>
+    <polygon fill="white" points="759.77 286.08 635.69 490.35 606.07 490.52 759.77 286.08"/>
+    <path fill="white" d="M368.72,571.78c6.36-8.49,19.37-22.49,34.43-35.86,25.37-22.52,52.29-32.93,78.89-35.68,46.33-4.78,93.95,16.68,142.93,17.94,48.53,1.26,74.37-15.75,110.42-42.55-20.82,26.1-56.02,56.17-91.17,61.61-8.66,1.47-16.88,1.46-25.57.7-30.3-2.63-73.16-13.06-106.56-15.9-33.4-1.42-65.74,5.49-96.63,20.78-14.22,7.04-38.42,21.82-46.67,28.94h-.06Z"/>
+    <path fill="white" d="M760.37,680.02l4.22,111.19-383.6,2.71,162.35-235.5h42.43l-135.01,197.18,1.16,3.58,272.41-2.04s6.95-18.53,11.82-39.42c3.94-16.88,6.47-37.43,6.47-37.43l17.73-.28Z"/>
+    <polygon fill="white" points="315.41 790.04 462.38 556.94 495.41 556.77 315.41 790.04"/>
+  </svg>
+  <span class="header-tag">Zyllah Digital · Estratégia de Conteúdo</span>
+  <h1 class="header-title">Banco de Textos<br><em>Instagram</em></h1>
+  <p class="header-sub">Heurística editorial, calendário semanal e textos prontos para 3 publicações por semana — sem mofo, sem inconsistência, sem improvisar na véspera.</p>
+</div>
+
+<div class="corpo">
+
+  <!-- ESTRATÉGIA ANTI-MOFO -->
+  <div style="margin-bottom:16px;">
+    <span style="font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px;">A resposta para não ter posts mofando</span>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--ink);margin-bottom:12px;">O problema não é <em style="color:var(--gold);">falta de ideia</em><br>— é falta de sistema.</h2>
+    <p style="font-size:17px;color:var(--ink-soft);max-width:680px;margin-bottom:40px;line-height:1.85;">Posts mofam quando dependem de inspiração. A solução é um sistema com tipos fixos, rotação definida e textos prontos para adaptar. Você nunca parte do zero.</p>
+  </div>
+
+  <div class="estrategia">
+    <div class="estrategia-card">
+      <div class="estrategia-num">3</div>
+      <div class="estrategia-titulo">Posts por semana</div>
+      <div class="estrategia-desc">Segunda, quarta e sexta. Cadência previsível = feed consistente = percepção de profissionalismo.</div>
+    </div>
+    <div class="estrategia-card">
+      <div class="estrategia-num">5</div>
+      <div class="estrategia-titulo">Tipos de conteúdo</div>
+      <div class="estrategia-desc">Manifesto, Serviço, Prova Social, Bastidor e Educativo. Cada semana usa 3 tipos diferentes em rotação.</div>
+    </div>
+    <div class="estrategia-card">
+      <div class="estrategia-num">∞</div>
+      <div class="estrategia-titulo">Textos reutilizáveis</div>
+      <div class="estrategia-desc">Cada texto pode ser adaptado ao cliente. A estrutura é fixa — o nome da especialidade e os detalhes mudam.</div>
+    </div>
+  </div>
+
+  <!-- HEURÍSTICA -->
+  <div class="heuristica">
+    <h2>Os 5 tipos de <em>conteúdo</em></h2>
+    <p class="heuristica-sub">Toda semana, cada post pertence a um desses tipos. Nunca dois iguais no mesmo dia. A rotação garante variedade sem precisar reinventar a roda.</p>
+    <div class="heuristica-grid">
+      <div class="h-tipo manifesto">
+        <div class="h-tipo-nome">Manifesto</div>
+        <div class="h-tipo-desc">Frases de posicionamento. Provoca reflexão. Não vende nada diretamente — constrói autoridade.</div>
+        <div class="h-tipo-freq">1x / semana</div>
+      </div>
+      <div class="h-tipo servico">
+        <div class="h-tipo-nome">Serviço</div>
+        <div class="h-tipo-desc">Apresenta o que a clínica faz — com sofisticação. Foca no resultado para o paciente, nunca no procedimento isolado.</div>
+        <div class="h-tipo-freq">1x / semana</div>
+      </div>
+      <div class="h-tipo prova">
+        <div class="h-tipo-nome">Prova Social</div>
+        <div class="h-tipo-desc">Depoimento adaptado, resultado documentado ou reconhecimento. A voz do paciente, não da clínica.</div>
+        <div class="h-tipo-freq">1x / 2 semanas</div>
+      </div>
+      <div class="h-tipo bastidor">
+        <div class="h-tipo-nome">Bastidor</div>
+        <div class="h-tipo-desc">Processo, ambiente, equipe, bastidor do consultório. Humaniza sem perder o alto padrão.</div>
+        <div class="h-tipo-freq">1x / 2 semanas</div>
+      </div>
+      <div class="h-tipo educativo">
+        <div class="h-tipo-nome">Educativo</div>
+        <div class="h-tipo-desc">Explica algo relevante para o paciente ideal. Demonstra conhecimento. Gera salvamentos.</div>
+        <div class="h-tipo-freq">1x / 2 semanas</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALENDÁRIO -->
+  <div class="calendario">
+    <h2 class="cal-titulo">Calendário<br><em>semanal padrão</em></h2>
+    <p class="cal-sub">Rotação de 4 semanas. Ao fim do ciclo, começa de novo — com novos textos do banco abaixo.</p>
+
+    <div class="semana">
+      <div class="dia seg"><div class="dia-nome">Semana 1 · Segunda</div><div class="dia-tipo">Manifesto</div><div class="dia-desc">Frase de posicionamento. Fundo escuro, Cormorant grande, sem CTA agressivo.</div></div>
+      <div class="dia qua"><div class="dia-nome">Semana 1 · Quarta</div><div class="dia-tipo">Serviço</div><div class="dia-desc">Apresenta um pilar do sistema da clínica. Foco na transformação, não no procedimento.</div></div>
+      <div class="dia sex"><div class="dia-nome">Semana 1 · Sexta</div><div class="dia-tipo">Educativo</div><div class="dia-desc">Conteúdo que o paciente vai salvar. Desmistifica algo da especialidade com autoridade.</div></div>
+    </div>
+    <div class="semana">
+      <div class="dia seg"><div class="dia-nome">Semana 2 · Segunda</div><div class="dia-tipo">Manifesto</div><div class="dia-desc">Novo ângulo de posicionamento. Pode ser provocação, verdade incômoda ou ponto de vista.</div></div>
+      <div class="dia qua"><div class="dia-nome">Semana 2 · Quarta</div><div class="dia-tipo">Prova Social</div><div class="dia-desc">Depoimento de paciente (com autorização) ou resultado documentado. Citação elegante.</div></div>
+      <div class="dia sex"><div class="dia-nome">Semana 2 · Sexta</div><div class="dia-tipo">Serviço</div><div class="dia-desc">Segundo pilar. Apresenta outro aspecto do que a clínica entrega — com a mesma elegância.</div></div>
+    </div>
+    <div class="semana">
+      <div class="dia seg"><div class="dia-nome">Semana 3 · Segunda</div><div class="dia-tipo">Manifesto</div><div class="dia-desc">Terceiro manifesto do ciclo. Pode ser mais pessoal — sobre a trajetória ou motivação.</div></div>
+      <div class="dia qua"><div class="dia-nome">Semana 3 · Quarta</div><div class="dia-tipo">Bastidor</div><div class="dia-desc">Ambiente, equipe, processo. Foto real da clínica ou do processo de atendimento.</div></div>
+      <div class="dia sex"><div class="dia-nome">Semana 3 · Sexta</div><div class="dia-tipo">Educativo</div><div class="dia-desc">Segundo educativo do ciclo. Responde uma dúvida frequente do paciente ideal.</div></div>
+    </div>
+    <div class="semana">
+      <div class="dia seg"><div class="dia-nome">Semana 4 · Segunda</div><div class="dia-tipo">Manifesto</div><div class="dia-desc">Fecha o ciclo. Tom reflexivo — convida o paciente a pensar sobre onde está e onde quer estar.</div></div>
+      <div class="dia qua"><div class="dia-nome">Semana 4 · Quarta</div><div class="dia-tipo">Prova Social</div><div class="dia-desc">Segundo depoimento do ciclo ou reconhecimento recebido (menção, indicação, premiação).</div></div>
+      <div class="dia sex"><div class="dia-nome">Semana 4 · Sexta</div><div class="dia-tipo">Serviço + CTA</div><div class="dia-desc">Fecha o mês com serviço + chamada para diagnóstico. O único post do mês com CTA explícito.</div></div>
+    </div>
+  </div>
+
+  <div class="nota-freq">
+    <div class="nota-freq-icon">✦</div>
+    <div>
+      <h4>A regra do CTA escasso</h4>
+      <p>Apenas 1 post por mês tem chamada explícita para ação ("solicite seu diagnóstico"). Os outros constroem autoridade silenciosamente. Quando o CTA aparece, o paciente já está convencido — e a chamada soa como oportunidade, não como pressão.</p>
+    </div>
+  </div>
+
+  <!-- BANCO MANIFESTO -->
+  <div class="banco">
+    <div class="banco-header">
+      <div class="banco-linha"></div>
+      <h3 class="banco-titulo"><em>Manifestos</em></h3>
+      <span class="banco-badge manifesto-badge">Posicionamento</span>
+      <div class="banco-linha"></div>
+    </div>
+    <div class="textos-grid">
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">M · 01</div>
+        <div class="texto-formato">Visual do post · Frase grande, fundo escuro</div>
+        <div class="texto-visual">Sua paciente decide antes de atravessar a sua porta.</div>
+        <div class="texto-caption">A primeira consulta acontece no digital. Ela pesquisa, compara, sente. O que encontra fala antes de você falar. Sua presença online não é marketing — é a primeira impressão que você nunca dá pessoalmente.
+
+Sua clínica está comunicando o que você representa?</div>
+        <div class="texto-hashtags">#presençadigital #medicinadeexcelencia #clínicadealtopadrão</div>
+      </div>
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">M · 02</div>
+        <div class="texto-formato">Visual do post · Número grande, fundo creme</div>
+        <div class="texto-visual">Você não precisa de mais seguidores. Precisa dos seguidores certos.</div>
+        <div class="texto-caption">Crescer o número não é o objetivo. É uma consequência — e muitas vezes, nem a mais importante.
+
+O que transforma uma presença digital em resultado real é precisão: comunicar para quem já está pronto para valorizar o que você entrega.
+
+Quantidade de pacientes do perfil errado custa mais do que poucos do perfil ideal.</div>
+        <div class="texto-hashtags">#posicionamento #clinicamedica #marcanapratica</div>
+      </div>
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">M · 03</div>
+        <div class="texto-formato">Visual do post · Frase em itálico, fundo escuro</div>
+        <div class="texto-visual">Reputação construída por anos. Percepção digital construída em segundos.</div>
+        <div class="texto-caption">Você levou anos para ser a referência que é. Uma paciente nova leva 8 segundos para decidir se continua ou fecha a aba.
+
+O digital não substitui sua competência. Mas pode ser o motivo pelo qual ela nunca chega até você.</div>
+        <div class="texto-hashtags">#identidadevisual #brandingmedico #presençadigital</div>
+      </div>
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">M · 04</div>
+        <div class="texto-formato">Visual do post · Pergunta grande, fundo creme</div>
+        <div class="texto-visual">O que sua clínica comunica quando você não está presente para falar por ela?</div>
+        <div class="texto-caption">Às 23h, uma paciente em potencial visita seu perfil. Não há recepcionista. Não há você.
+
+Há um feed, um site, uma primeira impressão.
+
+Essa impressão está à altura do que você realmente entrega?</div>
+        <div class="texto-hashtags">#gestãodeclínica #marketingmedico #altopAdrao</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BANCO SERVIÇO -->
+  <div class="banco">
+    <div class="banco-header">
+      <div class="banco-linha"></div>
+      <h3 class="banco-titulo"><em>Serviço</em></h3>
+      <span class="banco-badge servico-badge">O que entregamos</span>
+      <div class="banco-linha"></div>
+    </div>
+    <div class="textos-grid">
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">S · 01</div>
+        <div class="texto-formato">Visual do post · Tag de pilar, fundo escuro</div>
+        <div class="texto-visual">Identidade Visual — Pilar 01 do Sistema Zyllah</div>
+        <div class="texto-caption">Antes de qualquer palavra ser lida, sua marca comunica algo.
+
+Cor, tipografia, proporção — cada escolha cria uma percepção. Trabalhamos cada detalhe para que essa percepção seja: excelência.
+
+Porque sua paciente não decide pela especialidade. Ela decide pela confiança que sente.</div>
+        <div class="texto-hashtags">#brandingparamedicos #identidadevisual #clinicadesaltopadrao</div>
+      </div>
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">S · 02</div>
+        <div class="texto-formato">Visual do post · Foco em audiovisual</div>
+        <div class="texto-visual">Produção Audiovisual — Pilar 02</div>
+        <div class="texto-caption">A maioria das clínicas terceiriza o audiovisual para quem nunca pisou em um consultório.
+
+Na Zyllah, os 20 anos de produção são internos. Cada vídeo, cada foto é concebido com o mesmo nível de cuidado técnico que você dedica a cada protocolo.
+
+O resultado: conteúdo que parece profissional porque é profissional.</div>
+        <div class="texto-hashtags">#producaoaudiovisual #videoclinica #contentcreator</div>
+      </div>
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">S · 03</div>
+        <div class="texto-formato">Visual do post · Gestão de redes</div>
+        <div class="texto-visual">Gestão de Presença — Pilar 03</div>
+        <div class="texto-caption">Você não deveria estar pensando no próximo post às 22h de uma quinta-feira.
+
+Você deveria estar descansando — ou com quem você ama.
+
+Cuidamos da consistência da sua presença para que você apareça sem precisar aparecer o tempo todo.</div>
+        <div class="texto-hashtags">#gestaoderedes #socialmedia #clinicamedica</div>
+      </div>
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">S · 04</div>
+        <div class="texto-formato">Visual do post · Tráfego pago</div>
+        <div class="texto-visual">Tráfego Estratégico — Pilar 04</div>
+        <div class="texto-caption">Anúncios que atraem quem já está pronto para valorizar o que você entrega.
+
+Não trabalhamos com volume. Trabalhamos com precisão. Cada real investido deve trazer uma paciente do perfil certo — não apenas um clique.</div>
+        <div class="texto-hashtags">#trafegopago #anunciosdigitais #metaads</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BANCO PROVA SOCIAL -->
+  <div class="banco">
+    <div class="banco-header">
+      <div class="banco-linha"></div>
+      <h3 class="banco-titulo"><em>Prova Social</em></h3>
+      <span class="banco-badge prova-badge">Voz do cliente</span>
+      <div class="banco-linha"></div>
+    </div>
+    <div class="textos-grid">
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">P · 01</div>
+        <div class="texto-formato">Visual do post · Citação grande, fundo escuro</div>
+        <div class="texto-visual">"Pela primeira vez sinto que meu digital representa o nível do que eu entrego."</div>
+        <div class="texto-caption">— [Nome], [Especialidade] · Cliente Zyllah
+
+Isso é o que uma presença digital de alto padrão faz: alinha percepção e realidade.
+
+Quando as duas se encontram, a confiança chega antes da primeira consulta.</div>
+        <div class="texto-hashtags">#clientezyllah #resultados #presençadigital</div>
+      </div>
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">P · 02</div>
+        <div class="texto-formato">Visual do post · Dado + depoimento</div>
+        <div class="texto-visual">"Crescemos sem uma única paciente fora do perfil."</div>
+        <div class="texto-caption">— [Nome], [Especialidade] · Cliente Zyllah desde [data]
+
+É possível crescer sendo mais seletivo — não menos. Quando a comunicação atrai quem valoriza o que você entrega, a qualidade da cartela sobe junto com o volume.
+
+Esse é o objetivo de uma presença digital bem construída.</div>
+        <div class="texto-hashtags">#casozyllah #clinicadesucesso #brandingmedico</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BANCO EDUCATIVO -->
+  <div class="banco">
+    <div class="banco-header">
+      <div class="banco-linha"></div>
+      <h3 class="banco-titulo"><em>Educativo</em></h3>
+      <span class="banco-badge educativo-badge">Autoridade + salvamentos</span>
+      <div class="banco-linha"></div>
+    </div>
+    <div class="textos-grid">
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">E · 01</div>
+        <div class="texto-formato">Visual do post · Lista elegante</div>
+        <div class="texto-visual">3 sinais de que seu digital está afastando pacientes do perfil certo.</div>
+        <div class="texto-caption">01. Seu feed parece genérico — poderia ser de qualquer clínica.
+02. Você recebe consultas de pacientes que chegam pelo preço, não pelo valor.
+03. Sua bio não deixa claro para quem você trabalha.
+
+Nenhum desses problemas é sobre falta de conteúdo. São sobre falta de posicionamento.
+
+Salve este post e revise um por um.</div>
+        <div class="texto-hashtags">#presençadigital #marketingparamedicos #dicas</div>
+      </div>
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">E · 02</div>
+        <div class="texto-formato">Visual do post · Conceito único</div>
+        <div class="texto-visual">A diferença entre um perfil bonito e um perfil que converte.</div>
+        <div class="texto-caption">Um perfil bonito tem estética.
+Um perfil que converte tem estratégia.
+
+A estética cria a primeira impressão. A estratégia cria o próximo passo: uma mensagem, uma consulta, uma decisão.
+
+Beleza sem direção é decoração. Beleza com propósito é posicionamento.
+
+Qual dos dois é o seu perfil agora?</div>
+        <div class="texto-hashtags">#estrategiadigital #perfildoinstagram #clinicamedica</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BANCO BASTIDOR -->
+  <div class="banco">
+    <div class="banco-header">
+      <div class="banco-linha"></div>
+      <h3 class="banco-titulo"><em>Bastidor</em></h3>
+      <span class="banco-badge bastidor-badge">Humanização</span>
+      <div class="banco-linha"></div>
+    </div>
+    <div class="textos-grid">
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">B · 01</div>
+        <div class="texto-formato">Visual do post · Foto do ambiente + texto</div>
+        <div class="texto-visual">O ambiente também cuida.</div>
+        <div class="texto-caption">[Adaptar para a clínica do cliente: descrever um elemento do ambiente — iluminação, materiais, detalhe do consultório]
+
+Cada escolha do espaço é intencional. Porque o cuidado começa antes de qualquer procedimento — começa no momento em que a paciente cruza a porta.
+
+[Nome da clínica] · [Cidade]</div>
+        <div class="texto-hashtags">#consultorio #clínica #ambienteterapeutico</div>
+      </div>
+
+      <div class="texto-card">
+        <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+        <div class="texto-num">B · 02</div>
+        <div class="texto-formato">Visual do post · Processo / preparo</div>
+        <div class="texto-visual">Por trás de cada resultado, há preparação.</div>
+        <div class="texto-caption">[Adaptar: descrever brevemente o processo de preparação — atualização técnica, protocolo específico, formação contínua]
+
+Não há atalho para a excelência. E não gostaríamos que houvesse.</div>
+        <div class="texto-hashtags">#bastidores #processo #excelenciamedica</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="margin-top:48px;padding:40px;background:var(--cream-mid);border-left:2px solid var(--gold);">
+    <div style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Como usar este banco</div>
+    <p style="font-size:16px;line-height:1.8;color:var(--ink-soft);">Cada texto é um template com a estrutura pronta. Adapte o nome do cliente, da clínica e da especialidade nos campos indicados com [colchetes]. A voz, o ritmo e o posicionamento já estão calibrados para o alto padrão da Zyllah. Nunca publique sem personalizar — o cliente precisa sentir que o texto é genuinamente dele.</p>
+  </div>
+
+  <div class="rodape">
+    <a class="voltar" href="zyllah_hub.html">← Voltar ao Hub</a>
+    <p>Zyllah Digital · Banco de Textos Instagram · 2026</p>
+  </div>
+
+</div>
+
+<script>
+function copiar(btn) {
+  const card = btn.closest('.texto-card');
+  const visual = card.querySelector('.texto-visual').innerText;
+  const caption = card.querySelector('.texto-caption').innerText;
+  const hashtags = card.querySelector('.texto-hashtags').innerText;
+  const texto = visual + '\n\n' + caption + '\n\n' + hashtags;
+  navigator.clipboard.writeText(texto).then(() => {
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copiado');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copiado'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

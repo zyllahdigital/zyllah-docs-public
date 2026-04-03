@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah · Prompt de Pesquisa de Prospect</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Cinzel:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1A1714;--gold:#B8976A;--gold-light:#D4B896;--cream:#FAF7F2;--border:rgba(184,151,106,.18);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color:var(--ink);padding:0 0 80px;}
+.header{background:var(--ink);padding:40px 56px 36px;border-bottom:3px solid var(--gold);}
+.header-tag{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);opacity:.7;display:block;margin-bottom:10px;}
+.header-titulo{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:#fff;line-height:1.1;margin-bottom:8px;}
+.header-titulo em{font-style:italic;color:var(--gold-light);}
+.header-sub{font-size:13px;color:rgba(255,255,255,.35);line-height:1.75;max-width:600px;}
+.page{max-width:880px;margin:0 auto;padding:0 56px 0;}
+
+.secao{margin-top:36px;}
+.secao-label{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:3px;display:flex;align-items:center;gap:10px;}
+.secao-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.prompt-box{background:var(--ink);border-radius:2px;overflow:hidden;margin-bottom:3px;}
+.prompt-box-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid rgba(184,151,106,.1);}
+.prompt-box-label{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:rgba(184,151,106,.5);}
+.btn-copy{padding:5px 14px;background:rgba(184,151,106,.1);border:1px solid rgba(184,151,106,.2);border-radius:2px;color:rgba(184,151,106,.8);font-family:'Jost',sans-serif;font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;letter-spacing:.05em;}
+.btn-copy:hover{background:rgba(184,151,106,.18);}
+.btn-copy.ok{background:rgba(42,92,58,.2);border-color:rgba(42,92,58,.4);color:#8ACA8A;}
+.prompt-text{padding:20px 18px;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:rgba(255,255,255,.65);line-height:1.9;white-space:pre-wrap;}
+.prompt-text .var{color:#D4B896;font-weight:500;}
+
+.nota{background:rgba(184,151,106,.05);border:1px solid var(--border);border-left:3px solid rgba(184,151,106,.25);padding:12px 16px;font-size:13px;color:rgba(26,23,20,.6);line-height:1.6;margin-bottom:3px;}
+.nota::before{content:'💡  ';}
+
+.fluxo{background:#fff;border:1px solid var(--border);padding:24px 28px;margin-top:3px;}
+.fluxo-titulo{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:rgba(184,151,106,.6);margin-bottom:16px;}
+.passo{display:flex;gap:16px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.6;}
+.passo:last-child{border-bottom:none;padding-bottom:0;}
+.passo-num{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:rgba(184,151,106,.4);flex-shrink:0;line-height:1.1;}
+.passo-texto{color:rgba(26,23,20,.65);}
+.passo-texto strong{color:var(--ink);font-weight:500;}
+
+.rodape{font-size:11px;color:rgba(26,23,20,.25);margin-top:32px;padding-top:20px;border-top:1px solid var(--border);}
+@media(max-width:700px){.header,.page{padding-left:20px;padding-right:20px;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <span class="header-tag">Zyllah Digital · Prospecção · Prompt para Gemini</span>
+  <h1 class="header-titulo">Prompt de<br><em>Pesquisa de Prospect</em></h1>
+  <p class="header-sub">Cole este prompt no Gemini com o nome do prospect. O Gemini faz toda a pesquisa. Você traz o resultado para o Claude fazer o diagnóstico estratégico.</p>
+</div>
+
+<div class="page">
+
+<div class="secao">
+  <div class="secao-label">Prompt principal</div>
+  <div class="prompt-box">
+    <div class="prompt-box-header">
+      <span class="prompt-box-label">Copiar e substituir o campo em dourado</span>
+      <button class="btn-copy" onclick="copiar('p1', this)">Copiar</button>
+    </div>
+    <div class="prompt-text" id="p1">You are a research assistant helping me analyze the digital presence of healthcare professionals in Nova Friburgo, RJ, Brazil. I need a structured report to evaluate if they are a good prospect for a premium digital presence agency.
+
+Research this professional thoroughly:
+
+Name: <span class="var">[NOME COMPLETO DO PROSPECT]</span>
+Specialty: <span class="var">[ESPECIALIDADE]</span>
+City: Nova Friburgo, RJ, Brazil
+
+Please research and report on each of the following, being specific and factual. If you cannot find information, say "Not found" — do NOT invent or assume:
+
+1. INSTAGRAM
+- Handle (username)
+- Number of followers
+- Number of posts
+- Approximate date of most recent post
+- Visual consistency of feed (generic/cohesive/professional)
+- Bio quality (vague/clear/specialized)
+- Link in bio (yes/no, what it links to)
+
+2. GOOGLE PRESENCE
+- Does a Google Business Profile exist? (yes/no)
+- Star rating and number of reviews
+- Does the professional appear on page 1 when searching "[specialty] Nova Friburgo"?
+- Any other notable Google results (Doctoralia, CFM, site, etc.)
+
+3. LINKEDIN
+- Profile exists? (yes/no)
+- Headline quality (generic like "Médico" or specific and differentiated)
+- Number of connections
+- Recent activity (yes/no)
+
+4. WEBSITE
+- Own website exists? (yes/no)
+- URL if found
+- Quality assessment (generic/professional/premium)
+- Mobile-friendly? (yes/no/unknown)
+
+5. NOTABLE CREDENTIALS OR DIFFERENTIATORS
+- Any awards, recognitions, or notable credentials found
+- Institutional affiliations (hospitals, clinics, universities)
+- Any media appearances or publications found
+
+6. DIGITAL PRESENCE GAPS
+- List the 3 most significant gaps between this professional's real-world reputation and their online presence
+
+Format your response as a structured report with clear sections. Be concise and factual. Do not add opinions or recommendations — just the facts. I will analyze the strategic implications separately.</div>
+  </div>
+  <div class="nota">Usar no Gemini 2.0 Flash ou superior em gemini.google.com. O Gemini vai pesquisar a web automaticamente. Se ele não encontrar o Instagram, peça explicitamente: "Search specifically for the Instagram account of [nome] dermatologist Nova Friburgo Brazil."</div>
+</div>
+
+<div class="secao">
+  <div class="secao-label">Fluxo de uso</div>
+  <div class="fluxo">
+    <div class="fluxo-titulo">Como usar na prática</div>
+    <div class="passo">
+      <div class="passo-num">1</div>
+      <div class="passo-texto">Abrir <strong>gemini.google.com</strong> → novo chat.</div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">2</div>
+      <div class="passo-texto">Copiar o prompt acima → substituir <strong>[NOME COMPLETO]</strong> e <strong>[ESPECIALIDADE]</strong> pelo prospect.</div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">3</div>
+      <div class="passo-texto">Aguardar o relatório. Cada pesquisa leva 30–60 segundos.</div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">4</div>
+      <div class="passo-texto">Copiar o relatório gerado pelo Gemini → trazer para o Claude com a mensagem: <strong>"Aqui está o relatório do Gemini sobre [nome]. Faça o diagnóstico estratégico."</strong></div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">5</div>
+      <div class="passo-texto">Claude analisa o relatório → indica risco de abordagem → ajusta a mensagem de contato com base nos fatos reais encontrados.</div>
+    </div>
+  </div>
+</div>
+
+<div class="secao">
+  <div class="secao-label">Variação rápida — pesquisa em lote</div>
+  <div class="prompt-box">
+    <div class="prompt-box-header">
+      <span class="prompt-box-label">Para pesquisar vários prospects de uma vez</span>
+      <button class="btn-copy" onclick="copiar('p2', this)">Copiar</button>
+    </div>
+    <div class="prompt-text" id="p2">You are a research assistant. I need you to research the digital presence of multiple healthcare professionals in Nova Friburgo, RJ, Brazil. For each professional, provide a brief structured report covering: Instagram (handle, followers, last post date), Google Business Profile (yes/no, rating, reviews), own website (yes/no, URL), LinkedIn (yes/no, active), and the 2 most significant digital presence gaps.
+
+Be factual and concise. Say "Not found" when you cannot find something. Do not invent data.
+
+Professionals to research:
+<span class="var">1. [Nome] — [Especialidade]
+2. [Nome] — [Especialidade]
+3. [Nome] — [Especialidade]</span>
+
+Format as a table or structured list, one section per professional.</div>
+  </div>
+  <div class="nota">Use esta variação para pesquisar 3–5 prospects de uma vez quando quiser agilizar. O relatório fica menos detalhado, mas serve para triagem rápida de quem vale investigar mais.</div>
+</div>
+
+<p class="rodape">Zyllah Digital · Prompt de Pesquisa de Prospect · Abril 2026 · Uso interno</p>
+</div>
+
+<script>
+function copiar(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.innerText.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('ok'); }, 2500);
+  }).catch(() => {
+    const t = document.createElement('textarea');
+    t.value = text;
+    document.body.appendChild(t);
+    t.select();
+    document.execCommand('copy');
+    document.body.removeChild(t);
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('ok'); }, 2500);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah — Infraestrutura de Automação</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --gold: #B8976A; --gold-light: #D4B896;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+    --brown: #4A3F35;
+    --red: #7A3535; --green: #2E5E3E;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); padding: 0 0 120px; }
+
+  .header { background: var(--ink); padding: 64px 80px 56px; position: relative; overflow: hidden; }
+  .header::after { content: 'n8n'; position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-family: 'Cormorant Garamond', serif; font-size: 220px; font-weight: 300; color: rgba(184,151,106,0.04); line-height: 1; pointer-events: none; }
+  .header-badge { display: inline-flex; align-items: center; gap: 10px; background: rgba(46,94,62,0.2); border: 1px solid rgba(46,94,62,0.35); padding: 6px 16px; margin-bottom: 24px; }
+  .header-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #4CAF80; }
+  .header-badge-text { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: #4CAF80; }
+  .header-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .header-titulo { font-family: 'Cormorant Garamond', serif; font-size: 60px; font-weight: 300; color: white; line-height: 1.0; margin-bottom: 12px; }
+  .header-titulo em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 15px; color: rgba(255,255,255,0.4); max-width: 600px; line-height: 1.85; margin-top: 16px; }
+  .header-meta { display: flex; gap: 0; margin-top: 36px; border: 1px solid rgba(184,151,106,0.15); width: fit-content; }
+  .meta-item { padding: 14px 24px; border-right: 1px solid rgba(184,151,106,0.15); }
+  .meta-item:last-child { border-right: none; }
+  .meta-valor { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; color: var(--gold-light); }
+  .meta-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-top: 2px; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 48px; }
+
+  .secao-tag { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin: 64px 0 12px; display: flex; align-items: center; gap: 12px; }
+  .secao-tag::after { content: ''; flex: 1; height: 1px; background: rgba(184,151,106,0.2); }
+  .secao-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--ink); margin-bottom: 20px; line-height: 1.2; }
+  .secao-titulo em { font-style: italic; color: var(--gold); }
+  .secao-desc { font-size: 15px; color: var(--brown); line-height: 1.8; margin-bottom: 28px; max-width: 680px; }
+
+  /* OBJETIVO */
+  .objetivo-box { background: var(--ink); padding: 32px 40px; margin: 32px 0; }
+  .objetivo-box p { font-size: 20px; font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; color: white; line-height: 1.5; }
+  .objetivo-box em { color: var(--gold-light); }
+
+  /* FLUXO ARQUITETURA */
+  .fluxo-arq { display: flex; flex-direction: column; align-items: flex-start; gap: 0; margin: 28px 0; }
+  .fluxo-no { display: flex; align-items: stretch; gap: 0; }
+  .fluxo-no-conector { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 48px; }
+  .fluxo-no-num { width: 36px; height: 36px; background: var(--ink); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--gold); flex-shrink: 0; }
+  .fluxo-no-linha { width: 1px; background: rgba(184,151,106,0.2); flex: 1; min-height: 20px; }
+  .fluxo-no-corpo { flex: 1; padding: 4px 0 28px 16px; }
+  .fluxo-no-titulo { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .fluxo-no-tipo { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; display: block; }
+  .fluxo-no-desc { font-size: 13px; color: var(--brown); line-height: 1.7; }
+  .fluxo-no:last-child .fluxo-no-linha { display: none; }
+
+  /* CODE BLOCKS */
+  .code-block { background: var(--ink); padding: 20px 24px; margin: 12px 0; overflow-x: auto; }
+  .code-block pre { font-family: 'Courier New', monospace; font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; white-space: pre; }
+  .code-block pre .key { color: var(--gold-light); }
+  .code-block pre .val { color: rgba(255,255,255,0.5); }
+  .code-block pre .comment { color: rgba(184,151,106,0.5); }
+
+  /* TABELAS */
+  .tabela { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 13px; }
+  .tabela thead tr { background: var(--ink); }
+  .tabela thead th { padding: 12px 18px; text-align: left; font-weight: 400; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+  .tabela tbody tr { border-bottom: 1px solid rgba(184,151,106,0.1); }
+  .tabela tbody tr:nth-child(even) { background: rgba(184,151,106,0.03); }
+  .tabela tbody td { padding: 12px 18px; color: var(--brown); line-height: 1.5; vertical-align: top; }
+  .tabela tbody td:first-child { color: var(--ink); font-weight: 400; }
+  .tabela code { font-family: 'Courier New', monospace; font-size: 12px; background: rgba(184,151,106,0.1); padding: 2px 6px; color: var(--ink-soft); }
+
+  /* INFRA CARDS */
+  .infra-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0; }
+  .infra-card { background: white; border: 1px solid rgba(184,151,106,0.12); padding: 22px; }
+  .infra-card-nome { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(184,151,106,0.1); }
+  .infra-item { font-size: 12px; color: var(--brown); line-height: 1.7; margin-bottom: 4px; display: flex; gap: 8px; }
+  .infra-item-label { color: var(--gold); flex-shrink: 0; }
+  .infra-item code { font-family: 'Courier New', monospace; font-size: 11px; background: rgba(184,151,106,0.1); padding: 1px 5px; }
+
+  /* ALERTA */
+  .alerta { background: rgba(122,53,53,0.06); border-left: 3px solid var(--red); padding: 14px 20px; margin: 16px 0; font-size: 13px; color: var(--ink-soft); line-height: 1.75; }
+  .alerta strong { color: var(--red); font-weight: 500; }
+
+  /* NOTA */
+  .nota { background: rgba(184,151,106,0.07); border-left: 3px solid var(--gold); padding: 14px 20px; margin: 16px 0; font-size: 13px; color: var(--brown); line-height: 1.75; }
+  .nota strong { color: var(--ink); font-weight: 400; }
+
+  /* REPLICAR */
+  .passos { display: flex; flex-direction: column; gap: 0; margin: 24px 0; }
+  .passo { display: flex; gap: 20px; padding: 16px 0; border-bottom: 1px solid rgba(184,151,106,0.1); align-items: flex-start; }
+  .passo:last-child { border-bottom: none; }
+  .passo-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); opacity: 0.4; flex-shrink: 0; width: 32px; line-height: 1.1; }
+  .passo-corpo { flex: 1; font-size: 14px; color: var(--brown); line-height: 1.7; }
+  .passo-corpo strong { color: var(--ink); font-weight: 400; display: block; margin-bottom: 2px; }
+  .passo-corpo code { font-family: 'Courier New', monospace; font-size: 12px; background: rgba(184,151,106,0.1); padding: 1px 6px; color: var(--ink-soft); }
+
+  /* EVOLUÇÕES */
+  .evolucoes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 24px 0; }
+  .evolucao-card { background: white; border: 1px solid rgba(184,151,106,0.12); border-left: 3px solid rgba(184,151,106,0.3); padding: 18px 20px; }
+  .evolucao-nome { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .evolucao-desc { font-size: 12px; color: var(--brown); line-height: 1.6; }
+
+  .divisor { height: 1px; background: rgba(184,151,106,0.12); margin: 56px 0; }
+  .rodape { font-size: 11px; color: rgba(61,56,48,0.35); margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(184,151,106,0.1); line-height: 1.8; }
+  a.voltar { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(184,151,106,0.3); padding-bottom: 2px; display: inline-block; margin-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">
+    <div class="header-badge-dot"></div>
+    <span class="header-badge-text">Stack validado · Em uso</span>
+  </div>
+  <span class="header-tag">Zyllah Digital · Gestor de Clientes · Técnico</span>
+  <h1 class="header-titulo">Infraestrutura de<br><em>Automação</em></h1>
+  <p class="header-sub">Arquitetura, decisões técnicas e guia de replicação do sistema de automação da Zyllah Digital — construído do zero, documentado para escalar.</p>
+  <div class="header-meta">
+    <div class="meta-item">
+      <div class="meta-valor">n8n + Claude + Sheets</div>
+      <div class="meta-label">Stack principal</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-valor">Self-hosted</div>
+      <div class="meta-label">Modo</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-valor">v1.0 · Março 2026</div>
+      <div class="meta-label">Versão</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- OBJETIVO -->
+  <div class="secao-tag" style="margin-top:56px">Objetivo</div>
+  <div class="objetivo-box">
+    <p>Receber uma mensagem de lead, analisá-la com <em>IA</em> e salvar os dados classificados automaticamente em uma planilha — <em>sem intervenção humana.</em></p>
+  </div>
+
+  <!-- ARQUITETURA -->
+  <div class="secao-tag">Arquitetura</div>
+  <h2 class="secao-titulo">Fluxo completo —<br><em>nó por nó</em></h2>
+
+  <div class="fluxo-arq">
+
+    <div class="fluxo-no">
+      <div class="fluxo-no-conector">
+        <div class="fluxo-no-num">1</div>
+        <div class="fluxo-no-linha"></div>
+      </div>
+      <div class="fluxo-no-corpo">
+        <div class="fluxo-no-titulo">Webhook</div>
+        <span class="fluxo-no-tipo">n8n-nodes-base.webhook · Método POST</span>
+        <div class="fluxo-no-desc">Recebe a mensagem do lead. Path: <code style="font-family:monospace;font-size:12px;background:rgba(184,151,106,0.1);padding:1px 6px;">zyllah-lead</code> — URL de produção: <code style="font-family:monospace;font-size:12px;background:rgba(184,151,106,0.1);padding:1px 6px;">http://localhost:5678/webhook/zyllah-lead</code><br>Recebe os campos: <code style="font-family:monospace;font-size:12px;background:rgba(184,151,106,0.1);padding:1px 6px;">nome</code>, <code style="font-family:monospace;font-size:12px;background:rgba(184,151,106,0.1);padding:1px 6px;">telefone</code>, <code style="font-family:monospace;font-size:12px;background:rgba(184,151,106,0.1);padding:1px 6px;">mensagem</code></div>
+      </div>
+    </div>
+
+    <div class="fluxo-no">
+      <div class="fluxo-no-conector">
+        <div class="fluxo-no-num">2</div>
+        <div class="fluxo-no-linha"></div>
+      </div>
+      <div class="fluxo-no-corpo">
+        <div class="fluxo-no-titulo">HTTP Request — API Claude</div>
+        <span class="fluxo-no-tipo">n8n-nodes-base.httpRequest · POST → api.anthropic.com</span>
+        <div class="fluxo-no-desc">Envia a mensagem para a API Claude (Haiku) com prompt de classificação. Retorna JSON com <code style="font-family:monospace;font-size:12px;background:rgba(184,151,106,0.1);padding:1px 6px;">classificacao</code> (alto/medio/baixo) e <code style="font-family:monospace;font-size:12px;background:rgba(184,151,106,0.1);padding:1px 6px;">resposta_sugerida</code>.</div>
+        <div class="code-block" style="margin-top:12px">
+<pre><span class="key">Headers:</span>
+  x-api-key: SUA_CHAVE_SK-ANT
+  anthropic-version: 2023-06-01
+  content-type: application/json
+
+<span class="key">Body:</span>
+  model: claude-haiku-4-5-20251001
+  max_tokens: 1024
+  messages[0].content:
+    "Analise a mensagem abaixo e retorne APENAS um JSON
+     com 'classificacao' (alto/medio/baixo) e
+     'resposta_sugerida'. Mensagem: {{ $('Webhook').item.json.body.mensagem }}"</pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="fluxo-no">
+      <div class="fluxo-no-conector">
+        <div class="fluxo-no-num">3</div>
+        <div class="fluxo-no-linha"></div>
+      </div>
+      <div class="fluxo-no-corpo">
+        <div class="fluxo-no-titulo">Edit Fields (Set)</div>
+        <span class="fluxo-no-tipo">n8n-nodes-base.set · Todos os campos como String</span>
+        <div class="fluxo-no-desc">Processa e limpa os dados antes de gravar no Sheets. Extrai os valores do JSON retornado pela API com <code style="font-family:monospace;font-size:12px;background:rgba(184,151,106,0.1);padding:1px 6px;">.replace()</code> + <code style="font-family:monospace;font-size:12px;background:rgba(184,151,106,0.1);padding:1px 6px;">.match()</code>.</div>
+        <div class="alerta" style="margin-top:12px"><strong>⚠ Obrigatório:</strong> sempre usar o nó Set antes do Sheets. Expressões com funções longas aplicadas diretamente no Sheets causam o erro de <code style="font-family:monospace">= </code> sendo interpretado como fórmula.</div>
+        <table class="tabela" style="margin-top:12px">
+          <thead><tr><th>Campo</th><th>Expressão n8n</th></tr></thead>
+          <tbody>
+            <tr><td>nome</td><td><code>{{ $('Webhook').item.json.body.nome }}</code></td></tr>
+            <tr><td>telefone</td><td><code>{{ $('Webhook').item.json.body.telefone }}</code></td></tr>
+            <tr><td>mensagem</td><td><code>{{ $('Webhook').item.json.body.mensagem }}</code></td></tr>
+            <tr><td>classificacao</td><td><code>.match(/"classificacao":\s*"([^"]+)"/)[1]</code></td></tr>
+            <tr><td>resposta_sugerida</td><td><code>.match(/"resposta_sugerida":\s*"([^"]+)"/)[1]</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="fluxo-no">
+      <div class="fluxo-no-conector">
+        <div class="fluxo-no-num">4</div>
+      </div>
+      <div class="fluxo-no-corpo">
+        <div class="fluxo-no-titulo">Google Sheets — Append Row</div>
+        <span class="fluxo-no-tipo">n8n-nodes-base.googleSheets · Operação: append · Mapping: defineBelow</span>
+        <div class="fluxo-no-desc">Grava a linha no Sheets usando referências simples <code style="font-family:monospace;font-size:12px;background:rgba(184,151,106,0.1);padding:1px 6px;">={{ $json.campo }}</code> — nunca expressões longas diretamente aqui.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- INFRAESTRUTURA DE SUPORTE -->
+  <div class="secao-tag">Infraestrutura de suporte</div>
+  <h2 class="secao-titulo">Ferramentas e<br><em>configuração</em></h2>
+
+  <div class="infra-grid">
+    <div class="infra-card">
+      <div class="infra-card-nome">n8n (self-hosted)</div>
+      <div class="infra-item"><span class="infra-item-label">Instalação</span><span><code>npm install -g n8n</code></span></div>
+      <div class="infra-item"><span class="infra-item-label">Iniciar</span><span><code>n8n start</code> no CMD</span></div>
+      <div class="infra-item"><span class="infra-item-label">Interface</span><span><code>http://localhost:5678</code></span></div>
+      <div class="infra-item"><span class="infra-item-label">Modo</span><span>Self-hosted no Windows</span></div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-nome">Google Cloud</div>
+      <div class="infra-item"><span class="infra-item-label">Projeto</span><span>Zyllah n8n</span></div>
+      <div class="infra-item"><span class="infra-item-label">APIs</span><span>Sheets API + Drive API</span></div>
+      <div class="infra-item"><span class="infra-item-label">Auth</span><span>OAuth2</span></div>
+      <div class="infra-item"><span class="infra-item-label">Tela</span><span>Externo — email operador como usuário de teste</span></div>
+    </div>
+    <div class="infra-card">
+      <div class="infra-card-nome">Anthropic API</div>
+      <div class="infra-item"><span class="infra-item-label">Modelo</span><span><code>claude-haiku-4-5-20251001</code></span></div>
+      <div class="infra-item"><span class="infra-item-label">Chave</span><span>console.anthropic.com → API Keys</span></div>
+      <div class="infra-item"><span class="infra-item-label">Créditos</span><span>Mínimo $5 para começar</span></div>
+      <div class="infra-item"><span class="infra-item-label">Custo</span><span>Frações de centavo por interação</span></div>
+    </div>
+  </div>
+
+  <!-- PROBLEMAS E SOLUÇÕES -->
+  <div class="secao-tag">Problemas resolvidos</div>
+  <h2 class="secao-titulo">Erros encontrados —<br><em>e como resolver</em></h2>
+
+  <table class="tabela">
+    <thead>
+      <tr>
+        <th>Problema</th>
+        <th>Causa</th>
+        <th>Solução</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Webhook não registrado</td>
+        <td>Modo teste expira rápido</td>
+        <td>Publicar o workflow antes de testar</td>
+      </tr>
+      <tr>
+        <td><code>curl: Failed to connect port 443</code></td>
+        <td>Avast bloqueando HTTPS</td>
+        <td>Desativar proteção web do Avast</td>
+      </tr>
+      <tr>
+        <td><code>Error 403: access_denied</code></td>
+        <td>Email não autorizado no OAuth</td>
+        <td>Adicionar email em Público-alvo → Usuários de teste no Google Cloud</td>
+      </tr>
+      <tr>
+        <td><code>Column names were updated</code></td>
+        <td>Nome de coluna mudado após setup</td>
+        <td>Deletar e recriar o nó Google Sheets do zero</td>
+      </tr>
+      <tr>
+        <td><code>=valor</code> vira fórmula no Sheets</td>
+        <td>n8n adiciona <code>=</code> em expressões longas</td>
+        <td>Usar nó Set intermediário + referências simples <code>$json.campo</code> no Sheets</td>
+      </tr>
+      <tr>
+        <td>IA retorna JSON com <code>```json```</code></td>
+        <td>Comportamento padrão do modelo</td>
+        <td>Usar <code>.replace()</code> + <code>.match()</code> para extrair valores</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- COMO TESTAR -->
+  <div class="secao-tag">Como testar</div>
+  <h2 class="secao-titulo">Comando de teste —<br><em>curl</em></h2>
+
+  <div class="code-block">
+<pre>curl -X POST http://localhost:5678/webhook/zyllah-lead \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"nome\": \"Dr. João Silva\",
+    \"telefone\": \"22999999999\",
+    \"mensagem\": \"Quero saber mais sobre os serviços\"
+  }"
+
+<span class="comment"># Resposta esperada:</span>
+{"message":"Workflow was started"}</pre>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- REPLICAR PARA NOVO CLIENTE -->
+  <div class="secao-tag">Replicação</div>
+  <h2 class="secao-titulo">Como replicar para<br><em>um novo cliente</em></h2>
+  <p class="secao-desc">Sete passos para ter o sistema funcionando para um novo cliente sem criar nada do zero.</p>
+
+  <div class="passos">
+    <div class="passo">
+      <div class="passo-num">1</div>
+      <div class="passo-corpo">
+        <strong>Criar planilha no Google Sheets</strong>
+        Colunas: <code>nome</code>, <code>telefone</code>, <code>mensagem</code>, <code>classificacao</code>, <code>resposta_sugerida</code>
+      </div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">2</div>
+      <div class="passo-corpo">
+        <strong>Duplicar o workflow no n8n</strong>
+        Botão "Duplicate" no menu do workflow — nunca editar o original
+      </div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">3</div>
+      <div class="passo-corpo">
+        <strong>Atualizar o path do webhook</strong>
+        Renomear para o nome do cliente — ex: <code>cliente-dra-ana</code>
+      </div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">4</div>
+      <div class="passo-corpo">
+        <strong>Atualizar o prompt no HTTP Request</strong>
+        Substituir o contexto genérico pelo contexto específico do cliente (especialidade, nome, tom de voz)
+      </div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">5</div>
+      <div class="passo-corpo">
+        <strong>Reconectar o Google Sheets</strong>
+        Apontar para a planilha do novo cliente
+      </div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">6</div>
+      <div class="passo-corpo">
+        <strong>Publicar o workflow</strong>
+        Toggle "Active" no n8n — sem isso o webhook não responde em produção
+      </div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">7</div>
+      <div class="passo-corpo">
+        <strong>Testar com curl</strong>
+        Usar a nova URL de produção com dados fictícios do cliente
+      </div>
+    </div>
+  </div>
+
+  <!-- PRÓXIMAS EVOLUÇÕES -->
+  <div class="secao-tag">Próximas evoluções</div>
+  <h2 class="secao-titulo">O que vem<br><em>a seguir</em></h2>
+
+  <div class="evolucoes">
+    <div class="evolucao-card">
+      <div class="evolucao-nome">Notificação por e-mail</div>
+      <div class="evolucao-desc">Quando lead classificado como "alto" chegar, enviar alerta imediato para o gestor</div>
+    </div>
+    <div class="evolucao-card">
+      <div class="evolucao-nome">Integração WhatsApp</div>
+      <div class="evolucao-desc">Via Z-API ou Evolution API (~R$ 50/mês) — canal de entrada direto para o fluxo</div>
+    </div>
+    <div class="evolucao-card">
+      <div class="evolucao-nome">Formulário no site</div>
+      <div class="evolucao-desc">Substituir o curl por formulário real em zyllah.com.br apontando para o webhook</div>
+    </div>
+    <div class="evolucao-card">
+      <div class="evolucao-nome">n8n no boot</div>
+      <div class="evolucao-desc">Configurar para iniciar automaticamente com o Windows — sem precisar rodar manualmente</div>
+    </div>
+    <div class="evolucao-card">
+      <div class="evolucao-nome">Dashboard de leads</div>
+      <div class="evolucao-desc">Google Sheets com gráficos de leads por classificação e período — visão para o gestor</div>
+    </div>
+    <div class="evolucao-card" style="border-left-color: var(--gold); border-left-width: 3px;">
+      <div class="evolucao-nome">Zyllah Flow</div>
+      <div class="evolucao-desc">Expansão desta arquitetura com WhatsApp + Google Agenda + CRM — aguarda validação com Encantarys</div>
+    </div>
+  </div>
+
+  <p class="rodape">
+    Zyllah Digital · Infraestrutura de Automação v1.0 · Março 2026<br>
+    Documento técnico interno · Gestor de Clientes<br>
+    Relacionado: <strong>zyllah_flow_rascunho.html</strong>
+  </p>
+  <a class="voltar" href="zyllah_hub.html">← Voltar ao Hub</a>
+
+</div>
+</body>
+</html>

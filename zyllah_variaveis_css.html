@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah — Variáveis CSS Padrão</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Jost', sans-serif; font-weight: 300; background: #FAF7F2; color: #1A1714; line-height: 1.7; }
+
+  .hero { background: #1A1714; padding: 64px 80px 56px; }
+  .hero-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: #B8976A; margin-bottom: 20px; }
+  .hero-titulo { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: white; line-height: 1.05; margin-bottom: 12px; }
+  .hero-titulo em { font-style: italic; color: #D4B896; }
+  .hero-sub { font-size: 15px; color: rgba(255,255,255,0.55); max-width: 560px; }
+
+  .corpo { max-width: 960px; margin: 0 auto; padding: 64px 60px 100px; }
+  .bloco { margin-bottom: 64px; }
+  .bloco-tag { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: #B8976A; margin-bottom: 8px; display: block; }
+  .bloco-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: #1A1714; margin-bottom: 12px; }
+  .bloco-titulo em { font-style: italic; color: #B8976A; }
+  .bloco-sub { font-size: 14px; color: #3D3830; line-height: 1.8; max-width: 640px; margin-bottom: 32px; }
+
+  .code-block { background: #1A1714; padding: 36px 40px; position: relative; margin-bottom: 2px; }
+  .code-block pre { font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.9; color: rgba(255,255,255,0.75); white-space: pre-wrap; }
+  .code-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(184,151,106,0.6); margin-bottom: 16px; display: block; }
+  .copy-btn { position: absolute; top: 16px; right: 16px; background: rgba(184,151,106,0.15); border: 1px solid rgba(184,151,106,0.3); color: #B8976A; padding: 6px 14px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+  .copy-btn:hover { background: rgba(184,151,106,0.25); }
+  .copy-btn.copiado { color: #7A9B8A; border-color: rgba(122,155,138,0.4); }
+
+  .regra { display: flex; gap: 0; margin-bottom: 2px; }
+  .regra-contexto { background: #1A1714; width: 220px; flex-shrink: 0; padding: 20px 24px; display: flex; flex-direction: column; justify-content: center; border-left: 3px solid #B8976A; }
+  .regra-contexto-nome { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: #B8976A; margin-bottom: 4px; }
+  .regra-contexto-desc { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+  .regra-escuro { flex: 1; background: #1A1714; padding: 20px 24px; border-left: 1px solid rgba(255,255,255,0.05); }
+  .regra-claro { flex: 1; background: #FAF7F2; padding: 20px 24px; border-left: 1px solid rgba(184,151,106,0.1); }
+  .regra-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 8px; }
+  .regra-escuro .regra-label { color: rgba(184,151,106,0.5); }
+  .regra-claro .regra-label { color: rgba(138,106,62,0.6); }
+  .regra-var { font-family: 'Courier New', monospace; font-size: 12px; margin-bottom: 6px; }
+  .regra-escuro .regra-var { color: #D4B896; }
+  .regra-claro .regra-var { color: #8A6A3E; }
+  .regra-minimo { font-size: 11px; }
+  .regra-escuro .regra-minimo { color:rgba(255,255,255,0.55); }
+  .regra-claro .regra-minimo { color:rgba(61,56,48,0.65); }
+
+  .aviso { background: #1A1714; border-left: 4px solid #C47A7A; padding: 24px 28px; margin-top: 32px; }
+  .aviso p { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.75; }
+  .aviso strong { color: rgba(196,122,122,0.9); font-weight: 400; }
+
+  .rodape { background: #1A1714; padding: 36px 80px; display: flex; justify-content: space-between; align-items: center; }
+  .rodape-marca { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: rgba(184,151,106,0.5); letter-spacing: 0.2em; }
+  .rodape-nota { font-size: 12px; color:rgba(255,255,255,0.55); }
+
+  @media (max-width: 768px) {
+    .hero { padding: 48px 24px; }
+    .corpo { padding: 40px 20px 80px; }
+    .regra { flex-direction: column; }
+    .regra-contexto { width: 100%; }
+    .rodape { flex-direction: column; gap: 12px; text-align: center; padding: 28px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">Zyllah Digital · Sistema de Design</div>
+  <h1 class="hero-titulo">Variáveis CSS<br><em>Padrão</em></h1>
+  <p class="hero-sub">Cole o bloco abaixo no início de qualquer documento HTML da Zyllah. Garante consistência visual, contraste correto e conformidade com o brandbook.</p>
+</div>
+
+<div class="corpo">
+
+  <!-- BLOCO PRINCIPAL -->
+  <div class="bloco">
+    <span class="bloco-tag">Bloco completo — copiar e colar</span>
+    <h2 class="bloco-titulo">O <em>:root</em> oficial</h2>
+    <p class="bloco-sub">Este é o único bloco necessário. Substitui qualquer `:root` anterior. Inclui todas as variáveis de cor, texto e contraste validadas conforme o brandbook seção 09.</p>
+
+    <div class="code-block">
+      <span class="code-label">CSS — colar no &lt;style&gt; de qualquer documento</span>
+      <button class="copy-btn" onclick="copiarBloco(this, 'bloco-root')">Copiar</button>
+      <pre id="bloco-root">:root {
+  /* ── CORES BASE ── */
+  --ink:          #1A1714;   /* fundo principal */
+  --ink-soft:     #3D3830;   /* texto corpo sobre claro */
+  --cream:        #FAF7F2;   /* fundo secundário */
+  --cream-mid:    #F0EBE1;   /* fundo terciário */
+  --gold:         #B8976A;   /* destaque principal */
+  --gold-light:   #D4B896;   /* itálicos, hover */
+  --gold-dark:    #8A6A3E;   /* labels sobre claro */
+  --gold-pale:    #F5EFE6;   /* fundos suaves */
+  --rose:         #C47A7A;   /* alertas, problemas */
+  --rose-light:   #F5EDED;   /* fundo rose */
+  --sage:         #7A9B8A;   /* confirmações, ok */
+  --sage-light:   #EDF5F2;   /* fundo sage */
+
+  /* ── TEXTO SOBRE FUNDO ESCURO (ink) ── */
+  --t-escuro-titulo:      rgba(255,255,255,1.0);   /* títulos — nunca abaixo de 0.85 */
+  --t-escuro-corpo:       rgba(255,255,255,0.75);  /* parágrafos — nunca abaixo de 0.65 */
+  --t-escuro-secundario:  rgba(255,255,255,0.55);  /* labels, badges — nunca abaixo de 0.45 */
+  --t-escuro-ornamental:  rgba(255,255,255,0.20);  /* decorativo apenas — não usar em texto lido */
+
+  /* ── TEXTO SOBRE FUNDO CLARO (cream) ── */
+  --t-claro-titulo:       #1A1714;                 /* títulos — sempre sólido */
+  --t-claro-corpo:        #3D3830;                 /* parágrafos — nunca mais claro que #5A5248 */
+  --t-claro-secundario:   rgba(61,56,48,0.65);     /* labels, badges — nunca abaixo de 0.55 */
+  --t-claro-ornamental:   rgba(61,56,48,0.20);     /* decorativo apenas — não usar em texto lido */
+
+  /* ── BORDAS E DIVISORES ── */
+  --borda-gold:           rgba(184,151,106,0.20);  /* divisores sutis */
+  --borda-gold-forte:     rgba(184,151,106,0.40);  /* bordas de card */
+  --borda-escura:         rgba(255,255,255,0.06);  /* divisores sobre ink */
+}</pre>
+    </div>
+  </div>
+
+  <!-- TABELA DE REFERÊNCIA RÁPIDA -->
+  <div class="bloco">
+    <span class="bloco-tag">Referência rápida — quando usar cada variável</span>
+    <h2 class="bloco-titulo">Guia de uso<br><em>por contexto</em></h2>
+    <p class="bloco-sub">A regra é simples: se o usuário precisa ler, use as variáveis de texto. Se é apenas decoração, as ornamentais são permitidas.</p>
+
+    <div style="margin-top:32px;">
+
+      <div style="display:grid;grid-template-columns:220px 1fr 1fr;background:#1A1714;padding:16px 24px;gap:0;margin-bottom:2px;">
+        <p style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(184,151,106,0.5);">Contexto</p>
+        <p style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(184,151,106,0.5);">Fundo escuro</p>
+        <p style="font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(184,151,106,0.5);">Fundo claro</p>
+      </div>
+
+      <div class="regra">
+        <div class="regra-contexto">
+          <div class="regra-contexto-nome">Título</div>
+          <div class="regra-contexto-desc">H1, H2, nome de seção, headline</div>
+        </div>
+        <div class="regra-escuro">
+          <div class="regra-label">Fundo escuro</div>
+          <div class="regra-var">var(--t-escuro-titulo)</div>
+          <div class="regra-minimo">mín. rgba(255,255,255,0.85)</div>
+        </div>
+        <div class="regra-claro">
+          <div class="regra-label">Fundo claro</div>
+          <div class="regra-var">var(--t-claro-titulo)</div>
+          <div class="regra-minimo">sempre sólido — #1A1714</div>
+        </div>
+      </div>
+
+      <div class="regra">
+        <div class="regra-contexto">
+          <div class="regra-contexto-nome">Corpo</div>
+          <div class="regra-contexto-desc">Parágrafos, descrições, texto corrido</div>
+        </div>
+        <div class="regra-escuro">
+          <div class="regra-label">Fundo escuro</div>
+          <div class="regra-var">var(--t-escuro-corpo)</div>
+          <div class="regra-minimo">mín. rgba(255,255,255,0.65)</div>
+        </div>
+        <div class="regra-claro">
+          <div class="regra-label">Fundo claro</div>
+          <div class="regra-var">var(--t-claro-corpo)</div>
+          <div class="regra-minimo">mín. #5A5248</div>
+        </div>
+      </div>
+
+      <div class="regra">
+        <div class="regra-contexto">
+          <div class="regra-contexto-nome">Secundário</div>
+          <div class="regra-contexto-desc">Labels, badges, datas, metadados</div>
+        </div>
+        <div class="regra-escuro">
+          <div class="regra-label">Fundo escuro</div>
+          <div class="regra-var">var(--t-escuro-secundario)</div>
+          <div class="regra-minimo">mín. rgba(255,255,255,0.45)</div>
+        </div>
+        <div class="regra-claro">
+          <div class="regra-label">Fundo claro</div>
+          <div class="regra-var">var(--t-claro-secundario)</div>
+          <div class="regra-minimo">mín. rgba(61,56,48,0.55)</div>
+        </div>
+      </div>
+
+      <div class="regra">
+        <div class="regra-contexto" style="border-left-color:rgba(184,151,106,0.3);">
+          <div class="regra-contexto-nome" style="color:rgba(184,151,106,0.5);">Ornamental</div>
+          <div class="regra-contexto-desc">Numerais de fundo, linhas, texturas — nunca texto lido</div>
+        </div>
+        <div class="regra-escuro">
+          <div class="regra-label">Fundo escuro</div>
+          <div class="regra-var">var(--t-escuro-ornamental)</div>
+          <div class="regra-minimo">0.20–0.30 · apenas decorativo</div>
+        </div>
+        <div class="regra-claro">
+          <div class="regra-label">Fundo claro</div>
+          <div class="regra-var">var(--t-claro-ornamental)</div>
+          <div class="regra-minimo">0.15–0.25 · apenas decorativo</div>
+        </div>
+      </div>
+
+      <div class="aviso">
+        <p><strong>Atenção:</strong> a maioria dos problemas de contraste nos documentos atuais vem do uso de <code style="color:#D4B896;">rgba(255,255,255,0.2)</code> ou <code style="color:#D4B896;">rgba(255,255,255,0.3)</code> em rodapés e labels que deveriam ser lidos — não decorativos. Ao revisar um documento, procure por valores de opacidade abaixo de 0.45 em texto funcional e substitua pelas variáveis corretas acima.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMO USAR -->
+  <div class="bloco">
+    <span class="bloco-tag">Como aplicar na revisão</span>
+    <h2 class="bloco-titulo">Checklist de<br><em>revisão rápida</em></h2>
+    <p class="bloco-sub">Ao abrir qualquer documento HTML da Zyllah para edição, percorra esses quatro pontos antes de fazer qualquer outra mudança.</p>
+
+    <div style="display:flex;flex-direction:column;gap:2px;margin-top:24px;">
+      <div style="background:white;display:flex;gap:0;">
+        <div style="background:#1A1714;width:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:24px;color:rgba(184,151,106,0.4);">1</div>
+        <div style="padding:20px 24px;border-top:1px solid rgba(184,151,106,0.1);">
+          <p style="font-size:14px;font-weight:500;color:#1A1714;margin-bottom:4px;">Substituir o :root antigo</p>
+          <p style="font-size:13px;color:#3D3830;line-height:1.7;">Apagar o :root existente e colar o bloco oficial deste documento. Isso resolve a maioria dos problemas de uma vez.</p>
+        </div>
+      </div>
+      <div style="background:white;display:flex;gap:0;">
+        <div style="background:#1A1714;width:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:24px;color:rgba(184,151,106,0.4);">2</div>
+        <div style="padding:20px 24px;border-top:1px solid rgba(184,151,106,0.1);">
+          <p style="font-size:14px;font-weight:500;color:#1A1714;margin-bottom:4px;">Buscar por opacidade baixa em texto</p>
+          <p style="font-size:13px;color:#3D3830;line-height:1.7;">No editor, buscar <code style="background:#F0EBE1;padding:1px 6px;font-size:12px;">0.2)</code>, <code style="background:#F0EBE1;padding:1px 6px;font-size:12px;">0.25)</code>, <code style="background:#F0EBE1;padding:1px 6px;font-size:12px;">0.3)</code>. Para cada resultado: é texto lido? Substituir pela variável correta. É ornamental? Manter.</p>
+        </div>
+      </div>
+      <div style="background:white;display:flex;gap:0;">
+        <div style="background:#1A1714;width:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:24px;color:rgba(184,151,106,0.4);">3</div>
+        <div style="padding:20px 24px;border-top:1px solid rgba(184,151,106,0.1);">
+          <p style="font-size:14px;font-weight:500;color:#1A1714;margin-bottom:4px;">Verificar rodapés e badges</p>
+          <p style="font-size:13px;color:#3D3830;line-height:1.7;">São os lugares onde o problema aparece mais. Rodapé sobre fundo escuro: mínimo <code style="background:#F0EBE1;padding:1px 6px;font-size:12px;">var(--t-escuro-secundario)</code>. Nunca ornamental em texto de rodapé.</p>
+        </div>
+      </div>
+      <div style="background:white;display:flex;gap:0;">
+        <div style="background:#1A1714;width:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:24px;color:rgba(184,151,106,0.4);">4</div>
+        <div style="padding:20px 24px;border-top:1px solid rgba(184,151,106,0.1);">
+          <p style="font-size:14px;font-weight:500;color:#1A1714;margin-bottom:4px;">Testar no celular</p>
+          <p style="font-size:13px;color:#3D3830;line-height:1.7;">Telas de celular têm brilho variável. Um texto legível no monitor pode ser ilegível ao ar livre. Se parecer difícil de ler no celular em ambiente claro, aumentar a opacidade um nível.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="rodape">
+  <div class="rodape-marca">Zyllah Digital</div>
+  <div style="font-size:12px;color:rgba(255,255,255,0.45);">Sistema de Design · Variáveis CSS Padrão</div>
+</footer>
+
+<div style="position:fixed;bottom:24px;left:24px;z-index:999;">
+  <a href="zyllah_hub.html" style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;background:#1A1714;color:#B8976A;padding:10px 20px;text-decoration:none;border:1px solid rgba(184,151,106,0.3);display:inline-block;">← Hub</a>
+</div>
+
+<script>
+function copiarBloco(btn, id) {
+  var texto = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(texto).then(function() {
+    btn.textContent = 'Copiado ✓';
+    btn.classList.add('copiado');
+    setTimeout(function() {
+      btn.textContent = 'Copiar';
+      btn.classList.remove('copiado');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

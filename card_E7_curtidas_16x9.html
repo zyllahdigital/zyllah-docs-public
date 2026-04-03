@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Barlow+Condensed:wght@400;600;700;800;900&family=Cinzel:wght@400;600&family=Jost:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body { background: #0A0806; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes growLine { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  .a1 { animation: fadeUp .5s ease forwards; }
+  .a2 { animation: fadeUp .5s ease .5s forwards; opacity:0; }
+  .a3 { animation: fadeUp .5s ease 1s forwards; opacity:0; }
+  .a4 { animation: fadeUp .5s ease 1.5s forwards; opacity:0; }
+  .a5 { animation: fadeUp .5s ease 2s forwards; opacity:0; }
+  .a6 { animation: fadeUp .5s ease 2.5s forwards; opacity:0; }
+  .a7 { animation: fadeUp .5s ease 3s forwards; opacity:0; }
+  .alogo { animation: fadeIn .6s ease 3.4s forwards; opacity:0; }
+  .alogo-early { animation: fadeIn .6s ease 1.6s forwards; opacity:0; }
+  .alogo-late { animation: fadeIn .6s ease 5s forwards; opacity:0; }
+  .aline { animation: growLine .5s ease forwards; transform-origin: left; }
+
+  html, body { width:1920px; height:1080px; background:#0A0806; }
+  .stage { position:absolute; width:1920px; height:1080px; background:#0A0806; overflow:hidden; }
+  .center { position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center; }
+  .logo-wrap { position:absolute;bottom:43px;right:57px;width:124px;opacity:.6; }
+  .logo-wrap svg { width:100%;height:auto; }
+  .aline { animation: growLine .5s ease 1s forwards; transform:scaleX(0); transform-origin:left; }
+</style>
+</head><body>
+<div class="stage">
+  
+        <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(184,151,106,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(184,151,106,.025) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(184,151,106,.06) 0%,transparent 70%);pointer-events:none;"></div>
+        <div style="position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(180deg,transparent 5%,#B8976A 25%,#8B6914 75%,transparent 95%);pointer-events:none;"></div>
+  <div class="center" style="gap:20px;padding:100px;flex-direction:column;text-align:center;">
+  <span class="a1" style="font-family:'Barlow Condensed',sans-serif;font-size:220px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:-5px;line-height:.82;">CURTIDAS</span>
+  <span class="a2" style="font-family:'Jost',sans-serif;font-size:80px;font-weight:300;color:rgba(255,255,255,.4);letter-spacing:4px;">não enchem</span>
+  <div class="a3 aline" style="width:320px;height:1px;background:linear-gradient(to right,transparent,#B8976A,transparent);"></div>
+  <span class="a4" style="font-family:'Barlow Condensed',sans-serif;font-size:220px;font-weight:900;color:#B8976A;text-transform:uppercase;letter-spacing:-5px;line-height:.82;">AGENDA.</span>
+</div>
+  <div class="logo-wrap alogo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+<path fill="#c3a366" d="M336.72,395.72l-2.56-108.02,361.99-.56-139.33,201.49h-45.04l110.91-162.7-.32-2.46-251.57,1.13s-6.53,20.66-9.51,34.27c-3.2,14.6-8.17,36.75-8.17,36.75l-16.4.12Z"/>
+<polygon fill="#c1a260" points="759.77 286.08 635.69 490.35 606.07 490.52 759.77 286.08"/>
+<path fill="#c7a866" d="M368.72,571.78c6.36-8.49,19.37-22.49,34.43-35.86,25.37-22.52,52.29-32.93,78.89-35.68,46.33-4.78,93.95,16.68,142.93,17.94,48.53,1.26,74.37-15.75,110.42-42.55-20.82,26.1-56.02,56.17-91.17,61.61-8.66,1.47-16.88,1.46-25.57.7-30.3-2.63-73.16-13.06-106.56-15.9-33.4-1.42-65.74,5.49-96.63,20.78-14.22,7.04-38.42,21.82-46.67,28.94h-.06Z"/>
+<path fill="#a58346" d="M760.37,680.02l4.22,111.19-383.6,2.71,162.35-235.5h42.43l-135.01,197.18,1.16,3.58,272.41-2.04s6.95-18.53,11.82-39.42c3.94-16.88,6.47-37.43,6.47-37.43l17.73-.28Z"/>
+<polygon fill="#a38342" points="315.41 790.04 462.38 556.94 495.41 556.77 315.41 790.04"/>
+</svg></div>
+</div>
+</body></html>

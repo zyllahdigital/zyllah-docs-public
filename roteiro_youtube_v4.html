@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<title>Zyllah · Roteiro Vídeo 4 — YouTube</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"><style>
+  :root { --ink:#1A1714;--ink-soft:#3D3830;--gold:#B8976A;--gold-light:#D4B896;--cream:#FAF7F2;--red:#8B3A3A; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color:var(--ink);padding:0 0 100px;}
+  .header{background:var(--ink);padding:56px 80px 48px;}
+  .header-tag{font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:block;}
+  .header-titulo{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:white;line-height:1.05;margin-bottom:12px;}
+  .header-titulo em{font-style:italic;color:var(--gold-light);}
+  .header-sub{font-size:14px;color:rgba(255,255,255,.45);max-width:580px;line-height:1.85;}
+  .header-meta{display:flex;gap:32px;margin-top:28px;flex-wrap:wrap;}
+  .meta-item{text-align:left;}
+  .meta-valor{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--gold-light);}
+  .meta-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:2px;}
+  .container{max-width:860px;margin:0 auto;padding:0 48px;}
+  .secao-tag{font-size:11px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin:56px 0 12px;display:flex;align-items:center;gap:12px;}
+  .secao-tag::after{content:'';flex:1;height:1px;background:rgba(184,151,106,.2);}
+  .secao-titulo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--ink);margin-bottom:24px;}
+  .secao-titulo em{font-style:italic;color:var(--gold);}
+  .intro-box{background:var(--ink);padding:28px 32px;margin:40px 0 0;}
+  .intro-box p{font-size:14px;color:rgba(255,255,255,.55);line-height:1.85;}
+  .intro-box p+p{margin-top:10px;}
+  .intro-box strong{color:var(--gold-light);font-weight:400;}
+  .cena{background:white;border:1px solid rgba(184,151,106,.12);margin-bottom:12px;overflow:hidden;}
+  .cena-header{display:flex;align-items:stretch;}
+  .cena-num{background:var(--ink);padding:20px 24px;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold);line-height:1;display:flex;align-items:center;min-width:72px;justify-content:center;flex-shrink:0;}
+  .cena-info{padding:16px 20px;flex:1;}
+  .cena-titulo{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+  .cena-tipo{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);}
+  .cena-tempo{font-size:11px;color:rgba(61,56,48,.4);margin-left:auto;padding:16px 20px;display:flex;align-items:center;flex-shrink:0;}
+  .cena-corpo{padding:0 20px 20px 72px;display:flex;flex-direction:column;gap:12px;}
+  .bloco-label{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:rgba(61,56,48,.4);margin-bottom:6px;}
+  .voz{background:rgba(184,151,106,.06);border-left:3px solid var(--gold);padding:14px 18px;font-size:15px;color:var(--ink);line-height:1.9;font-style:italic;}
+  .voz::before{content:'🎙 ';font-style:normal;}
+  .cam{background:rgba(26,100,60,.05);border-left:3px solid rgba(26,100,60,.4);padding:14px 18px;font-size:15px;color:var(--ink);line-height:1.9;font-style:italic;}
+  .cam::before{content:'🎥 ';font-style:normal;}
+  .tela{background:rgba(26,23,20,.04);border-left:3px solid rgba(61,56,48,.2);padding:14px 18px;font-size:13px;color:var(--ink-soft);line-height:1.75;}
+  .tela::before{content:'🖥 ';}
+  .nota{background:rgba(139,58,58,.05);border-left:3px solid rgba(139,58,58,.3);padding:12px 16px;font-size:12px;color:var(--red);line-height:1.7;}
+  .nota::before{content:'⚠ ';}
+  .dica{background:rgba(184,151,106,.07);border-left:3px solid rgba(184,151,106,.4);padding:12px 16px;font-size:12px;color:var(--ink-soft);line-height:1.7;}
+  .dica::before{content:'💡 ';}
+  .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+  .prod-card{background:white;border:1px solid rgba(184,151,106,.12);padding:20px;}
+  .prod-card-titulo{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:8px;letter-spacing:.05em;}
+  .prod-card-texto{font-size:13px;color:var(--ink-soft);line-height:1.7;}
+  .yt-box{background:var(--ink);padding:28px 32px;margin-top:4px;}
+  .yt-label{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:block;}
+  .yt-titulo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:white;margin-bottom:8px;line-height:1.3;}
+  .yt-desc{font-size:13px;color:rgba(255,255,255,.5);line-height:1.8;}
+  .yt-tags{margin-top:12px;font-size:12px;color:rgba(184,151,106,.7);}
+  .divisor{height:1px;background:rgba(184,151,106,.12);margin:40px 0;}
+  .data{font-size:11px;color:rgba(61,56,48,.4);margin-top:48px;padding-top:24px;border-top:1px solid rgba(184,151,106,.1);}
+  .cfm-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:4px;}
+  .cfm-card{padding:20px 24px;}
+  .cfm-card.ok{background:rgba(26,100,60,.06);border-left:3px solid rgba(26,100,60,.4);}
+  .cfm-card.no{background:rgba(139,58,58,.06);border-left:3px solid rgba(139,58,58,.35);}
+  .cfm-title{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;}
+  .cfm-title.ok{color:rgba(26,100,60,.7);}
+  .cfm-title.no{color:var(--red);}
+  .cfm-item{font-size:13px;color:var(--ink-soft);line-height:1.7;padding:4px 0;border-bottom:1px solid rgba(184,151,106,.08);}
+  .cfm-item:last-child{border-bottom:none;}
+</style></head><body>
+<div class="header">
+  <span class="header-tag">YouTube · Vídeo 4 de 5 · Roteiro completo</span>
+  <h1 class="header-titulo">A diferença entre presença<br><em>que filtra e presença que acumula</em></h1>
+  <p class="header-sub">Câmera frontal. Você explica a distinção entre seguidores e pacientes certos — e por que muitos médicos com perfis grandes continuam com agenda vazia para a especialidade que querem trabalhar.</p>
+  <div class="header-meta">
+    <div class="meta-item"><div class="meta-valor">3'30"–4'00"</div><div class="meta-label">Duração estimada</div></div>
+    <div class="meta-item"><div class="meta-valor">Câmera frontal</div><div class="meta-label">Formato</div></div>
+    <div class="meta-item"><div class="meta-valor">Sim — você aparece</div><div class="meta-label">Câmera</div></div>
+    <div class="meta-item"><div class="meta-valor">Médicos especialistas</div><div class="meta-label">Público</div></div>
+  </div>
+</div>
+<div class="container">
+
+<div class="intro-box">
+  <p><strong>Conceito:</strong> o médico com 30 mil seguidores e agenda vazia para a especialidade que quer é um problema real e pouco discutido. Seguidores não são pacientes. Curtidas não são consultas. Este vídeo nomeia a distinção e apresenta o que construir no lugar.</p>
+  <p><strong>Tom:</strong> mais estratégico que os anteriores. Você fala como quem analisou muitos perfis e identificou o padrão. Não é julgamento — é diagnóstico.</p>
+</div>
+
+<div class="secao-tag">Roteiro</div>
+<h2 class="secao-titulo">Cena a cena —<br><em>câmera e cortes</em></h2>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">1</div>
+  <div class="cena-info"><div class="cena-titulo">Abertura — o médico famoso com agenda vazia</div><div class="cena-tipo">Câmera · Abertura provocadora</div></div>
+  <div class="cena-tempo">0:00 – 0:25</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Câmera</div><div class="cam">Tem um médico que conheço — não vou dizer o nome — com quase vinte mil seguidores no Instagram. Conteúdo consistente, identidade visual bonita, engajamento razoável. E uma agenda com muitos buracos para a especialidade que ele quer trabalhar. Seguidores não são pacientes. E esse é o ponto que quase ninguém fala com clareza suficiente.</div>
+    <div class="dica">Não precisa ser um caso real. Pode ser um padrão composto de vários casos que você observou. O que importa é a verossimilhança — o médico assistindo vai reconhecer alguém que conhece.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">2</div>
+  <div class="cena-info"><div class="cena-titulo">Por que seguidores não convertem</div><div class="cena-tipo">Câmera · Análise</div></div>
+  <div class="cena-tempo">0:25 – 1:15</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Câmera</div><div class="cam">O motivo é simples quando você entende o mecanismo. Quando um médico produz conteúdo educativo genérico — dicas de saúde, curiosidades médicas, mitos e verdades — ele atrai a internet. Pessoas de todo o Brasil, de toda especialidade, com todos os tipos de problema. A maioria nunca vai se tornar paciente dele. Não porque o conteúdo é ruim. Porque o conteúdo não faz filtragem. Ele não comunica para quem é, onde atende, qual problema específico resolve, e por que ele é a escolha certa para aquele perfil de paciente.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">3</div>
+  <div class="cena-info"><div class="cena-titulo">Presença que filtra — o que é diferente</div><div class="cena-tipo">Câmera · Solução</div></div>
+  <div class="cena-tempo">1:15 – 2:10</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Câmera</div><div class="cam">Presença que filtra é diferente. Ela comunica especialidade com precisão — não "médico", mas "cardiologista preventivo que atende executivos em Nova Friburgo". Ela mostra o tipo de paciente que o médico quer atender. Ela tem um site que aparece quando alguém pesquisa aquela especialidade naquela cidade. Ela tem um LinkedIn que fala com hospitais e operadoras, não só com pacientes. O resultado é uma audiência menor — mas de gente que pesquisa aquele médico com intenção real de marcar consulta.</div>
+    <div class="dica">Esta é a virada do vídeo. Use o exemplo de especificidade — "cardiologista preventivo que atende executivos" vs "médico" — porque é concreto e memorizável.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">4</div>
+  <div class="cena-info"><div class="cena-titulo">A métrica certa — não é seguidor</div><div class="cena-tipo">Câmera · Reframing</div></div>
+  <div class="cena-tempo">2:10 – 2:55</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Câmera</div><div class="cam">A métrica que importa para médico não é número de seguidores. É quantas pessoas que chegaram pelo digital viraram consulta. É quantos pacientes disseram "te encontrei no Google". É quantas indicações vieram de colegas que te viram no LinkedIn. Esses são os números que fazem sentido para um consultório. E esses números crescem quando a presença é construída para filtrar — não para acumular.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">5</div>
+  <div class="cena-info"><div class="cena-titulo">Encerramento — CTA</div><div class="cena-tipo">Câmera · CTA</div></div>
+  <div class="cena-tempo">2:55 – 3:40</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Câmera</div><div class="cam">Se você está construindo presença digital agora, a pergunta que eu deixo é: para quem exatamente você está falando? Quanto mais específica a resposta, mais eficiente vai ser cada post que você publicar. No último vídeo desta série eu falo sobre por que a maioria das agências entrega o mesmo para todo mundo — e o que isso significa para você.</div>
+  </div>
+</div>
+
+<div class="divisor"></div>
+<div class="secao-tag">Produção</div>
+<h2 class="secao-titulo">Setup — câmera frontal</h2>
+<div class="prod-grid">
+  <div class="prod-card"><div class="prod-card-titulo">Enquadramento</div><div class="prod-card-texto">Plano médio. Câmera na altura dos olhos. Fundo neutro ou estante organizada.</div></div>
+  <div class="prod-card"><div class="prod-card-titulo">Ritmo de edição</div><div class="prod-card-texto">Corte a cada 8–10 segundos. Neste vídeo o tom é mais analítico — cortes podem ser levemente mais longos que no V2.</div></div>
+  <div class="prod-card"><div class="prod-card-titulo">Recurso visual</div><div class="prod-card-texto">Considerar inserir print animado do Instagram fictício (tela do mockup) na cena 2, sobreposto à câmera em tela dividida — aumenta retenção.</div></div>
+  <div class="prod-card"><div class="prod-card-titulo">Legenda</div><div class="prod-card-texto">Obrigatória. Destacar em dourado as palavras-chave: "filtra", "acumula", "especialidade", "intenção real".</div></div>
+</div>
+
+<div class="divisor"></div>
+<div class="secao-tag">YouTube</div>
+<h2 class="secao-titulo">Título e descrição</h2>
+<div class="yt-box">
+  <span class="yt-label">Título principal</span>
+  <div class="yt-titulo">Por que médico com 20 mil seguidores tem agenda vazia (e como reverter isso)</div>
+</div>
+<div class="yt-box" style="margin-top:8px;">
+  <span class="yt-label">Descrição</span>
+  <div class="yt-desc">Seguidores não são pacientes. Neste vídeo explico a diferença entre presença que acumula números e presença que filtra o paciente certo — e por que essa distinção muda tudo para o consultório.</div>
+  <div class="yt-tags">#MarketingMédico #PresençaDigital #MédicoEmpreendedor #AgendaMédica #ZyllahDigital</div>
+</div>
+<p class="data">Roteiro criado em 31 de março de 2026 · Zyllah Digital · Série YouTube — Vídeo 4 de 5</p>
+</div></body></html>
