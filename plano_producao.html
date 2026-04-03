@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah · Plano de Produção v3 · Final</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Cinzel:wght@400;600&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1A1714;--gold:#B8976A;--gold-light:#D4B896;
+  --cream:#FAF7F2;--cream-mid:#F0EBE1;--border:rgba(184,151,106,.18);
+  --off:#4A7A5A;--cam:#4A5A8A;--tela:#8A7A2A;
+  --texto:#8A3A3A;--card:#2A5A7A;--broll:#3A7A8A;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color:var(--ink);font-size:15px;line-height:1.6;}
+
+.capa{background:var(--ink);padding:56px 64px 48px;border-bottom:3px solid var(--gold);}
+.capa-tag{font-size:10px;letter-spacing:.6em;text-transform:uppercase;color:var(--gold);opacity:.7;display:block;margin-bottom:12px;}
+.capa-titulo{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:#fff;line-height:1.05;margin-bottom:10px;}
+.capa-titulo em{font-style:italic;color:var(--gold-light);}
+.capa-sub{font-size:14px;color:rgba(255,255,255,.4);max-width:620px;line-height:1.8;}
+.capa-stats{display:flex;gap:40px;margin-top:32px;padding-top:28px;border-top:1px solid rgba(184,151,106,.12);flex-wrap:wrap;}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold-light);line-height:1;}
+.stat-l{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:3px;}
+
+.custo-zero{background:rgba(42,122,58,.15);border:1px solid rgba(42,122,58,.3);padding:8px 20px;display:inline-flex;align-items:center;gap:8px;margin-top:20px;border-radius:2px;}
+.custo-zero span{font-size:12px;font-weight:600;color:rgba(140,200,120,.9);letter-spacing:.15em;text-transform:uppercase;}
+
+.legenda{background:#fff;border-bottom:1px solid var(--border);padding:16px 64px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;}
+.legenda-t{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:rgba(26,23,20,.4);}
+.leg{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:rgba(26,23,20,.6);}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+
+.page{max-width:920px;margin:0 auto;padding:0 64px 80px;}
+
+.aviso{background:rgba(184,151,106,.08);border:1px solid var(--border);border-left:4px solid var(--gold);padding:18px 22px;margin:32px 0;font-size:13px;color:rgba(26,23,20,.65);line-height:1.7;}
+.aviso strong{color:var(--ink);font-weight:600;}
+
+/* ESTRUTURA VÍDEO LONGO */
+.estrutura{background:var(--ink);padding:24px 28px;margin:32px 0;border-radius:2px;}
+.estrutura-titulo{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:16px;}
+.estrutura-linha{display:flex;align-items:center;gap:0;flex-wrap:wrap;row-gap:6px;}
+.eb{padding:10px 14px;font-size:11px;font-weight:600;letter-spacing:.08em;text-align:center;flex-shrink:0;}
+.eb.cam{background:rgba(74,90,138,.4);color:rgba(160,180,255,.9);border:1px solid rgba(74,90,138,.5);}
+.eb.conteudo{background:rgba(74,122,42,.12);color:rgba(140,200,100,.8);border:1px solid rgba(74,122,42,.25);flex:1;min-width:120px;}
+.eb.card{background:rgba(42,90,122,.2);color:rgba(100,180,220,.8);border:1px solid rgba(42,90,122,.3);}
+.eb.end{background:rgba(184,151,106,.12);color:var(--gold-light);border:1px solid rgba(184,151,106,.25);}
+.seta{font-size:14px;color:rgba(255,255,255,.2);padding:0 4px;}
+.estrutura-desc{font-size:12px;color:rgba(255,255,255,.3);margin-top:14px;line-height:1.7;}
+.estrutura-desc strong{color:rgba(255,255,255,.55);}
+
+/* SETUP */
+.secao{margin-top:48px;}
+.secao-header{display:flex;align-items:center;gap:16px;margin-bottom:0;}
+.secao-cor{width:48px;height:48px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:20px;font-weight:600;color:#fff;flex-shrink:0;}
+.secao-info{flex:1;}
+.secao-nome{font-size:18px;font-weight:600;color:var(--ink);}
+.secao-desc{font-size:13px;color:rgba(26,23,20,.5);margin-top:2px;}
+.secao-tempo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--gold);white-space:nowrap;}
+
+.prep{background:rgba(26,23,20,.03);border:1px solid var(--border);border-top:none;padding:14px 20px;display:flex;gap:20px;flex-wrap:wrap;margin-bottom:3px;}
+.prep-item{display:flex;gap:7px;align-items:flex-start;font-size:12px;color:rgba(26,23,20,.55);line-height:1.5;}
+.prep-item strong{color:var(--ink);font-weight:500;}
+
+.trilha{background:rgba(184,151,106,.05);border:1px solid var(--border);border-top:none;padding:10px 20px;display:flex;align-items:center;gap:10px;font-size:12px;margin-bottom:3px;}
+.trilha-label{color:rgba(184,151,106,.6);letter-spacing:.2em;text-transform:uppercase;font-size:10px;flex-shrink:0;}
+.trilha-nome{color:var(--gold);font-weight:500;}
+.trilha-det{color:rgba(26,23,20,.4);font-style:italic;}
+
+.tarefa{background:#fff;border:1px solid var(--border);border-top:none;overflow:hidden;margin-bottom:2px;}
+.tarefa-header{display:flex;align-items:stretch;}
+.tarefa-num{width:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:rgba(26,23,20,.25);background:rgba(26,23,20,.03);border-right:1px solid var(--border);}
+.tarefa-meta{flex:1;padding:12px 16px;}
+.tarefa-titulo{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+.tarefa-tipo{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(184,151,106,.6);}
+.tarefa-dur{font-size:12px;color:rgba(26,23,20,.3);padding:12px 16px;display:flex;align-items:center;flex-shrink:0;white-space:nowrap;}
+.tarefa-corpo{padding:12px 16px 14px 48px;display:flex;flex-direction:column;gap:8px;}
+
+.fala{background:rgba(184,151,106,.05);border-left:3px solid rgba(184,151,106,.4);padding:12px 16px;font-size:14px;color:var(--ink);line-height:1.9;font-style:italic;}
+.fala.cam{background:rgba(74,90,138,.05);border-left-color:rgba(74,90,138,.4);}
+.fala-icon{font-style:normal;margin-right:4px;}
+
+.inst{background:rgba(138,122,42,.04);border-left:3px solid rgba(138,122,42,.3);padding:10px 14px;font-size:13px;color:rgba(26,23,20,.6);line-height:1.6;}
+.inst::before{content:'🖥  ';}
+
+.recorte{background:rgba(42,122,42,.04);border-left:3px solid rgba(42,122,42,.25);padding:8px 14px;font-size:12px;color:rgba(42,92,42,.7);line-height:1.5;}
+.recorte::before{content:'✂  Recorte → ';font-weight:600;}
+
+.nota{background:rgba(138,58,58,.04);border-left:3px solid rgba(138,58,58,.25);padding:8px 14px;font-size:12px;color:rgba(138,58,58,.8);line-height:1.5;}
+.nota::before{content:'⚠  ';}
+
+.dica{background:rgba(184,151,106,.06);border-left:3px solid rgba(184,151,106,.25);padding:8px 14px;font-size:12px;color:rgba(26,23,20,.55);line-height:1.5;}
+.dica::before{content:'💡  ';}
+
+.export{background:rgba(42,90,122,.05);border-left:3px solid rgba(42,90,122,.3);padding:8px 14px;font-size:12px;color:rgba(42,90,122,.8);line-height:1.5;}
+.export::before{content:'📤  Exportar: ';font-weight:600;}
+
+.broll{background:rgba(58,122,138,.05);border-left:3px solid rgba(58,122,138,.25);padding:8px 14px;font-size:12px;color:rgba(58,122,138,.8);line-height:1.5;}
+.broll::before{content:'🎬  B-roll necessário: ';font-weight:600;}
+
+.divisor{height:1px;background:var(--border);margin:40px 0;}
+
+/* SUMÁRIO */
+.sumario{background:#fff;border:1px solid var(--border);padding:28px 32px;margin-top:40px;}
+.sumario-titulo{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:20px;}
+.sumario-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.sum-card{padding:16px;background:var(--cream-mid);}
+.sum-n{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--gold);line-height:1;}
+.sum-l{font-size:10px;color:rgba(26,23,20,.4);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;}
+.sum-d{font-size:12px;color:rgba(26,23,20,.45);margin-top:6px;line-height:1.5;}
+
+/* SÉRIES EXTRAS */
+.series-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:4px;}
+.serie-card{background:#fff;border:1px solid var(--border);padding:18px 20px;}
+.serie-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:rgba(184,151,106,.4);line-height:1;margin-bottom:6px;}
+.serie-titulo{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.serie-desc{font-size:12px;color:rgba(26,23,20,.5);line-height:1.5;}
+.serie-dur{font-size:11px;color:rgba(74,90,138,.7);margin-top:8px;font-weight:600;letter-spacing:.1em;}
+
+.rodape{font-size:11px;color:rgba(26,23,20,.25);margin-top:32px;padding-top:20px;border-top:1px solid var(--border);}
+@media(max-width:700px){
+  .capa,.page{padding-left:24px;padding-right:24px;}
+  .legenda{padding-left:24px;}
+  .sumario-grid,.series-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="capa">
+  <span class="capa-tag">Zyllah Digital · Plano de Produção v3 · Final · 31 de março de 2026</span>
+  <h1 class="capa-titulo">Guia do Editor<br><em>Versão Final</em></h1>
+  <p class="capa-sub">Sem ElevenLabs. Sem HeyGen. Tudo gravado ao vivo com Samsung A52S + CapCut. Zero custo de ferramentas. Siga a ordem dos setups — não pule etapas.</p>
+  <div class="capa-stats">
+    <div><div class="stat-n">5</div><div class="stat-l">Setups</div></div>
+    <div><div class="stat-n">45+</div><div class="stat-l">Peças finais</div></div>
+    <div><div class="stat-n">3</div><div class="stat-l">Dias</div></div>
+    <div><div class="stat-n">R$0</div><div class="stat-l">Custo de ferramentas</div></div>
+  </div>
+  <div class="custo-zero">
+    <span>✓ A52S · CapCut · OBS · Gemini gratuito · Assets prontos</span>
+  </div>
+</div>
+
+<div class="legenda">
+  <span class="legenda-t">Legenda</span>
+  <div class="leg"><div class="leg-dot" style="background:var(--off)"></div>Voz Over</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--cam)"></div>Câmera ao vivo</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--tela)"></div>Tela gravada</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--texto)"></div>Texto animado</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--card)"></div>Card animado</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--broll)"></div>B-roll</div>
+</div>
+
+<div class="page">
+
+<div class="aviso">
+  <strong>Para o editor:</strong> cada setup tem uma cor. Siga a ordem numerada dentro de cada setup. Cada tarefa tem o texto exato a gravar ou a instrução de tela. "✂ Recorte" = aquele trecho vira um Short/Reel separado. "📤 Exportar" = versões a gerar daquela tarefa. "🎬 B-roll" = imagens a gerar no Gemini antes de editar.
+</div>
+
+<!-- ESTRUTURA VÍDEO LONGO -->
+<div class="estrutura">
+  <div class="estrutura-titulo">Estrutura de todo vídeo longo do YouTube · 16:9</div>
+  <div class="estrutura-linha">
+    <div class="eb cam">3s<br>Câmera<br>Abertura</div>
+    <div class="seta">→</div>
+    <div class="eb conteudo">Conteúdo principal<br>Tela · Cards · B-roll · Voz over</div>
+    <div class="seta">→</div>
+    <div class="eb card">Cards animados<br>pontualmente</div>
+    <div class="seta">→</div>
+    <div class="eb end">20s limpo<br>End screen<br>YouTube</div>
+    <div class="seta">→</div>
+    <div class="eb cam">3s<br>Câmera<br>CTA</div>
+  </div>
+  <div class="estrutura-desc">
+    <strong>Abertura 3s câmera:</strong> seu rosto, fala direta: "[Título do vídeo]. Vamos lá." Corte para conteúdo.<br>
+    <strong>End screen 20s:</strong> fundo escuro limpo. YouTube sobrepõe cards de sugestão automaticamente — não colocar texto nessa área.<br>
+    <strong>CTA final 3s câmera:</strong> "O link está na descrição." ou "Próximo episódio: [título]."<br>
+    <strong>Duas timelines:</strong> 16:9 para YouTube · 9:16 para Reels/Shorts usando CapCut "Auto Reframe".
+  </div>
+</div>
+
+<!-- ══ SETUP A — VOZ OVER ══ -->
+<div class="secao">
+  <div class="secao-header">
+    <div class="secao-cor" style="background:var(--off)">A</div>
+    <div class="secao-info">
+      <div class="secao-nome">Voz Over — só microfone, sem câmera</div>
+      <div class="secao-desc">Gravar primeiro. Ambiente silencioso. Roteiros na tela. Falar devagar — mais devagar do que parece natural.</div>
+    </div>
+    <div class="secao-tempo">~35 min</div>
+  </div>
+  <div class="prep">
+    <div class="prep-item">🎤 <span><strong>Microfone</strong> — lapela ou direcional. Testar nível antes.</span></div>
+    <div class="prep-item">🔇 <span><strong>Ambiente</strong> — desligar ventilador e ar-condicionado.</span></div>
+    <div class="prep-item">💧 <span><strong>Água</strong> — copo ao lado.</span></div>
+    <div class="prep-item">📄 <span><strong>Roteiros</strong> — abrir todos antes, não pausar para buscar.</span></div>
+  </div>
+  <div class="trilha">
+    <span class="trilha-label">Trilha</span>
+    <span class="trilha-nome">Dark academia ambient</span>
+    <span class="trilha-det">· YouTube Audio Library → "Contemplative" · Volume 8% da voz</span>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">A1</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V1 — Google mostra presença abandonada</div><div class="tarefa-tipo">Vídeo 1 · Voz over · Cena 2</div></div>
+      <div class="tarefa-dur">~25s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala"><span class="fala-icon">🎙</span>Isso é o que aparece. Uma página do CRM sem foto. Um LinkedIn que parece abandonado. Um Instagram com a última postagem de sete meses atrás. E um site — quando existe — que não abre direito no celular.</div>
+      <div class="inst">Simulacro Google + CRM desatualizado na tela. Scroll lento.</div>
+      <div class="recorte">Short 15s → até "Instagram com a última postagem de sete meses atrás." · Todos os canais</div>
+      <div class="export">16:9 YouTube · 9:16 Reel/Short</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">A2</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V1 — Prova de método (case documentado)</div><div class="tarefa-tipo">Vídeo 1 · Voz over · Cena 5-A</div></div>
+      <div class="tarefa-dur">~40s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala"><span class="fala-icon">🎙</span>Antes de trabalhar com especialistas de saúde, eu precisava saber se o método funcionava de verdade. Então apliquei em um negócio local — do zero. O que você está vendo é o relatório desse trabalho. Cada canal com uma função. Cada decisão explicada. Cada entregável registrado. Não mostro isso para impressionar. Mostro porque você merece saber que o que vai receber não foi montado no improviso — foi construído com método.</div>
+      <div class="inst">Scroll lento no relatório Encantarys. Densidade visual é o argumento — não precisa ser legível.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">A3</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V1 — Encerramento e CTA</div><div class="tarefa-tipo">Vídeo 1 · Voz over · Cena 6</div></div>
+      <div class="tarefa-dur">~35s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala"><span class="fala-icon">🎙</span>Faça o teste agora. Abra o Google, pesquise o seu nome, e olhe com os olhos do seu próximo paciente. Se o que você viu te incomodou — é porque a percepção e a realidade estão desalinhadas. No próximo vídeo, eu explico por que o problema não é quantidade de posts. É algo bem diferente.</div>
+      <div class="recorte">Short 12s → "Faça o teste agora. Abra o Google, pesquise o seu nome, e olhe com os olhos do seu próximo paciente." · Todos os canais</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">A4</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V3 — O risco CFM</div><div class="tarefa-tipo">Vídeo 3 · Voz over · Abertura</div></div>
+      <div class="tarefa-dur">~30s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala"><span class="fala-icon">🎙</span>O Conselho Federal de Medicina tem uma resolução específica sobre publicidade médica. A Resolução 2.336 de 2023. E ela define, com precisão, o que médico pode e não pode publicar nas redes sociais. A maioria não leu. E algumas estão errando de um jeito que pode custar caro.</div>
+      <div class="recorte">Short 15s → fala inteira com card "Res. CFM 2.336/2023" na tela</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">A5</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V3 — O que o CFM proíbe</div><div class="tarefa-tipo">Vídeo 3 · Voz over · Cena 2</div></div>
+      <div class="tarefa-dur">~55s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala"><span class="fala-icon">🎙</span>Antes e depois de procedimento: proibido. A resolução é explícita — imagens comparativas que sugerem resultado são vedadas. Preço de procedimento em destaque como argumento de atração: proibido. Depoimento de paciente com identificação — nome, foto, perfil: proibido, mesmo que o paciente autorize. Promessa de resultado: proibido. Tudo isso está na resolução. E tudo isso eu vejo no feed de médicos toda semana.</div>
+      <div class="inst">Simulacros Gemini dos posts proibidos. Um por item enquanto fala — pausa entre cada.</div>
+      <div class="recorte">4 Shorts de 12s → um por item proibido · TikTok + Reels</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">A6</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V3 — O que o CFM permite + agências erram</div><div class="tarefa-tipo">Vídeo 3 · Voz over · Cenas 3 e 4</div></div>
+      <div class="tarefa-dur">~75s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala"><span class="fala-icon">🎙</span>Mas o espaço do que é permitido é maior do que a maioria imagina. Conteúdo educativo sobre saúde: permitido. Informar especialidade e onde atende: permitido. Mostrar conquistas profissionais: permitido. Anúncio informativo de pesquisa local no Google: permitido. Você pode construir uma presença sólida sem cruzar nenhuma dessas linhas.</div>
+      <div class="fala" style="margin-top:6px"><span class="fala-icon">🎙</span>A agência genérica aplica o mesmo template de antes e depois que usa para academia e restaurante. Para ela, é conteúdo. Para você, é infração. E quando o CFM bate na porta, é o seu CRM que está em jogo — não o CNPJ da agência.</div>
+      <div class="recorte">Short 10s → "quando o CFM bate na porta, é o seu CRM que está em jogo — não o CNPJ da agência." · Todos os canais</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">A7</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">S2 #01 — Narração análise CFM</div><div class="tarefa-tipo">Série 2 Ep.01 · Voz over</div></div>
+      <div class="tarefa-dur">~50s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="nota">Gravar disclaimer primeiro: "Todos os perfis mostrados são fictícios e criados para fins educativos."</div>
+      <div class="fala"><span class="fala-icon">🎙</span>Este é o perfil de uma médica fictícia que vou chamar de Dra. Mariana. Eu criei esse perfil para que você consiga ver o erro com clareza, sem expor ninguém. O post que você está vendo é um antes e depois de harmonização. Parece inofensivo. Muitos médicos fazem. E é exatamente isso que a Resolução CFM 2.336 proíbe. O erro não está na intenção. Está no desconhecimento da norma.</div>
+      <div class="inst">Simulacro Gemini do post proibido. Zoom. Destacar com cursor.</div>
+    </div>
+  </div>
+
+</div>
+<div class="divisor"></div>
+
+<!-- ══ SETUP B — CÂMERA ROUPA 1 ══ -->
+<div class="secao">
+  <div class="secao-header">
+    <div class="secao-cor" style="background:var(--cam)">B</div>
+    <div class="secao-info">
+      <div class="secao-nome">Câmera ao vivo — Roupa 1</div>
+      <div class="secao-desc">A52S no tripé. Plano médio, câmera na altura dos olhos, fundo neutro. Gravar tudo desta roupa antes de trocar. 2 takes por fala — usar o melhor.</div>
+    </div>
+    <div class="secao-tempo">~60 min</div>
+  </div>
+  <div class="prep">
+    <div class="prep-item">👔 <span><strong>Roupa 1</strong> — camisa social, cor sólida, sem estampa miúda, passada</span></div>
+    <div class="prep-item">💡 <span><strong>Luz</strong> — janela à frente ou softbox. Pó compacto translúcido no rosto.</span></div>
+    <div class="prep-item">📱 <span><strong>A52S</strong> — tripé, horizontal para 16:9, vertical para 9:16. Gravar em 16:9 e recortar no CapCut.</span></div>
+    <div class="prep-item">🔁 <span><strong>Regra</strong> — 2 takes por fala. Não apagar o primeiro na hora.</span></div>
+  </div>
+  <div class="trilha">
+    <span class="trilha-label">Trilha pós-edição</span>
+    <span class="trilha-nome">Instrumental minimalista — piano ou guitar solo</span>
+    <span class="trilha-det">· YouTube Audio Library: "Corporate Minimal" · Volume 8% da voz</span>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">B1</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">Aberturas de todos os vídeos longos · 8 takes de 3s</div><div class="tarefa-tipo">V1 a V5 + S2 #01 #02 #03 · Câmera · Abertura padrão</div></div>
+      <div class="tarefa-dur">~5 min total</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="dica">Gravar todas as aberturas de uma vez, na mesma posição. Muda só o título mencionado.</div>
+      <div class="fala cam"><span class="fala-icon">🎥</span>V1: "O que o Google encontra quando pesquisam o seu nome. Vamos lá."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>V2: "Por que médico não precisa virar criador de conteúdo. Vamos lá."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>V3: "O que o CFM proíbe que a maioria faz sem saber. Vamos lá."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>V4: "A diferença entre presença que filtra e presença que acumula. Vamos lá."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>V5: "Por que as agências entregam o mesmo para todo mundo. Vamos lá."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>S2 #01: "Análise de um post que violou o CFM — e ninguém percebeu. Vamos lá."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>S2 #02: "Por que esse feed parece de qualquer um. Análise completa. Vamos lá."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>S2 #03: "Dez mil seguidores, zero pacientes novos. O que está errado aqui."</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">B2</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">Encerramentos de todos os vídeos longos · 8 takes de 3s</div><div class="tarefa-tipo">V1 a V5 + S2 · Câmera · CTA final</div></div>
+      <div class="tarefa-dur">~5 min total</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="dica">Gravar todos os encerramentos na sequência, mesma posição da abertura.</div>
+      <div class="fala cam"><span class="fala-icon">🎥</span>V1: "Pesquise seu nome agora. O link da Zyllah está na descrição."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>V2: "Próximo episódio: o que o CFM proíbe. Link na descrição."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>V3: "Próximo episódio: presença que filtra paciente. Link na descrição."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>V4: "Próximo episódio: por que as agências entregam o mesmo. Link na descrição."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>V5: "Se você chegou até aqui, o próximo passo é uma conversa. Link na descrição."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>S2 (todos): "O que você viu aqui não é exceção — é padrão. Link na descrição."</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">B3</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V2 — Médico não precisa virar criador (vídeo completo)</div><div class="tarefa-tipo">Vídeo 2 · Câmera · Cenas 1–5</div></div>
+      <div class="tarefa-dur">~210s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala cam"><span class="fala-icon">🎥</span>Médico não precisa virar criador de conteúdo. Nunca precisou. O problema é que alguém convenceu você de que sim — e você tentou, se esgotou, e agora sente que o problema é falta de disciplina sua. Não é.</div>
+      <div class="fala cam" style="margin-top:6px"><span class="fala-icon">🎥</span>Existe um ciclo que eu vejo se repetir. O médico decide que vai levar o digital a sério. Posta durante duas, três semanas. Com cuidado, com conteúdo bom. Aí vem uma semana pesada no consultório. Um plantão. Uma emergência. O Instagram fica parado por quarenta, sessenta dias. Quando volta, sente que precisa se justificar. Escreve um post de "voltei". E o ciclo recomeça. Isso não é falta de comprometimento. É um modelo que não foi feito para quem trabalha com saúde.</div>
+      <div class="fala cam" style="margin-top:6px"><span class="fala-icon">🎥</span>O modelo que a maioria ensina para médicos foi copiado do influenciador digital. Para médico, ele é um parasita do tempo clínico. Cada hora pensando em pauta é uma hora que não está atendendo, estudando ou descansando.</div>
+      <div class="fala cam" style="margin-top:6px"><span class="fala-icon">🎥</span>O que funciona é diferente. Conteúdo planejado em blocos. O médico dedica uma tarde por mês — uma tarde — e o calendário do mês inteiro está pronto. A vergonha da câmera diminui na segunda gravação. Na quinta, ela sumiu.</div>
+      <div class="fala cam" style="margin-top:6px"><span class="fala-icon">🎥</span>A pergunta não é "como eu apareço mais nas redes". A pergunta é: o que precisa estar no digital para que, quando alguém pesquisar o seu nome, encontre algo à altura do trabalho que você entrega?</div>
+      <div class="recorte">Short 15s → "Médico não precisa virar criador de conteúdo. Nunca precisou." · Todos os canais</div>
+      <div class="recorte">Short 10s → "Para médico, ele é um parasita do tempo clínico." · Pausa de 3s antes</div>
+      <div class="recorte">Short 12s → "Isso não é falta de comprometimento. É um modelo que não foi feito para quem trabalha com saúde."</div>
+      <div class="broll">médico no celular tentando filmar · agenda vazia · notificação Instagram · consultório silencioso</div>
+      <div class="export">16:9 YouTube · 9:16 Reels/Shorts via Auto Reframe · 1:1 LinkedIn</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">B4</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V4 — Seguidores vs. pacientes (vídeo completo)</div><div class="tarefa-tipo">Vídeo 4 · Câmera · Cenas 1–5</div></div>
+      <div class="tarefa-dur">~210s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala cam"><span class="fala-icon">🎥</span>Tem um médico que conheço — não vou dizer o nome — com quase vinte mil seguidores no Instagram. Conteúdo consistente, identidade visual bonita. E uma agenda com muitos buracos para a especialidade que ele quer trabalhar. Seguidores não são pacientes.</div>
+      <div class="fala cam" style="margin-top:6px"><span class="fala-icon">🎥</span>Quando um médico produz conteúdo educativo genérico, ele atrai a internet. A maioria nunca vai se tornar paciente dele. Não porque o conteúdo é ruim. Porque o conteúdo não faz filtragem.</div>
+      <div class="fala cam" style="margin-top:6px"><span class="fala-icon">🎥</span>Presença que filtra comunica especialidade com precisão — não "médico", mas "cardiologista preventivo que atende executivos em Nova Friburgo". O resultado é uma audiência menor — mas de gente com intenção real de marcar consulta.</div>
+      <div class="fala cam" style="margin-top:6px"><span class="fala-icon">🎥</span>A métrica que importa não é seguidores. É quantas pessoas que chegaram pelo digital viraram consulta. É quantos pacientes disseram "te encontrei no Google".</div>
+      <div class="fala cam" style="margin-top:6px"><span class="fala-icon">🎥</span>Para quem exatamente você está falando? Quanto mais específica a resposta, mais eficiente vai ser cada post.</div>
+      <div class="recorte">Short 8s → "Seguidores não são pacientes." · fundo escuro · Todos os canais</div>
+      <div class="recorte">Short 12s → "não médico, mas cardiologista preventivo que atende executivos em Nova Friburgo" · LinkedIn</div>
+      <div class="broll">dashboard Instagram com número alto · agenda vazia · dois perfis médicos lado a lado</div>
+      <div class="export">16:9 YouTube · 9:16 Reels/Shorts · 1:1 LinkedIn</div>
+    </div>
+  </div>
+
+</div>
+<div class="divisor"></div>
+
+<!-- ══ SETUP C — CÂMERA ROUPA 2 ══ -->
+<div class="secao">
+  <div class="secao-header">
+    <div class="secao-cor" style="background:var(--cam);filter:brightness(.8)">C</div>
+    <div class="secao-info">
+      <div class="secao-nome">Câmera ao vivo — Roupa 2</div>
+      <div class="secao-desc">Trocar de roupa. Mesmo enquadramento e luz. V5 + todas as novas séries de Shorts.</div>
+    </div>
+    <div class="secao-tempo">~60 min</div>
+  </div>
+  <div class="prep">
+    <div class="prep-item">👔 <span><strong>Roupa 2</strong> — cor visivelmente diferente da Roupa 1</span></div>
+    <div class="prep-item">🪞 <span><strong>Checar</strong> — cabelo, pó compacto, postura ereta</span></div>
+  </div>
+  <div class="trilha">
+    <span class="trilha-label">Trilha pós-edição</span>
+    <span class="trilha-nome">Mesma família da Roupa 1</span>
+    <span class="trilha-det">· Consistência sonora entre episódios da série</span>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">C1</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V5 — Agências genéricas + fechamento da série</div><div class="tarefa-tipo">Vídeo 5 · Câmera · Cenas 2, 3 e 5</div></div>
+      <div class="tarefa-dur">~130s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala cam"><span class="fala-icon">🎥</span>A agência genérica tem uma biblioteca de templates. O problema não é o preço. O problema é que um cardiologista de cinquenta anos e um nutricionista recém-formado não podem ter a mesma presença digital. Mas na agência genérica, têm.</div>
+      <div class="fala cam" style="margin-top:6px"><span class="fala-icon">🎥</span>Quando o digital não reflete quem você é, você compete em preço com médicos muito menos experientes. Porque digitalmente você parece igual.</div>
+      <div class="fala cam" style="margin-top:6px"><span class="fala-icon">🎥</span>Isso é o que a Zyllah Digital faz. Presença digital para especialistas de saúde que já são referência no que fazem — mas ainda não são encontrados por quem precisa deles. O próximo passo é uma conversa. O link está na descrição.</div>
+      <div class="nota">Encerramento: tom sóbrio, mais lento. É o fechamento de 5 vídeos.</div>
+      <div class="recorte">Short 12s → "um cardiologista de 50 anos e um nutricionista recém-formado não podem ter a mesma presença digital."</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">C2</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">3 Shorts autônomos de posicionamento Zyllah</div><div class="tarefa-tipo">Conteúdo independente · 3 takes · Todos os canais</div></div>
+      <div class="tarefa-dur">~45s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala cam"><span class="fala-icon">🎥</span>Take 1: A Zyllah não trabalha com todo profissional de saúde. Trabalha com o especialista que já é referência clínica — e precisa que o digital reflita isso.</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>Take 2: Presença digital de alto padrão não é sobre postar muito. É sobre comunicar certo — para a pessoa certa, no momento certo.</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>Take 3: Vinte anos de audiovisual me ensinaram uma coisa: a diferença entre conteúdo que passa despercebido e conteúdo que fica na memória raramente é técnica. É intenção.</div>
+    </div>
+  </div>
+
+  <!-- NOVAS SÉRIES -->
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">C3</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">Série "Médico me perguntou" · 10 takes de 10s</div><div class="tarefa-tipo">Shorts autônomos · 9:16 · Todos os canais</div></div>
+      <div class="tarefa-dur">~5 min total</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="dica">Pergunta aparece como card na tela durante a edição. Você só responde em câmera.</div>
+      <div class="fala cam"><span class="fala-icon">🎥</span>1 — "Médico precisa de site? Sim. O Instagram não aparece no Google quando alguém pesquisa seu nome."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>2 — "LinkedIn vale para médico? Vale — mas não para atrair paciente. Para atrair hospital, operadora e jornalista de saúde."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>3 — "Posso fazer tráfego pago? Pode. O CFM permite anúncio informativo — o que não pode é prometer resultado ou colocar preço em destaque."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>4 — "Quanto tempo para aparecer no Google? Três a seis meses para resultado orgânico consistente. Tráfego pago aparece no primeiro dia."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>5 — "Preciso aparecer em vídeo? Não necessariamente. Existem formatos que constroem autoridade sem rosto."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>6 — "Quantos posts por semana? Três por semana com consistência vale mais do que sete por semana por um mês e abandono."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>7 — "Stories ou feed? Feed constrói autoridade. Stories constrói relacionamento. Os dois têm função diferente."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>8 — "TikTok vale para médico? Depende do perfil de paciente. Para especialidades que atendem adultos jovens — sim. Para especialidades sênior — LinkedIn primeiro."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>9 — "Preciso de fotógrafo profissional? Bom celular com boa iluminação e um fotógrafo com direção de arte valem mais do que câmera cara sem preparo."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>10 — "Qual rede social priorizar? Depende de onde seu paciente ideal está. Mas Google Meu Negócio e site vêm antes de qualquer rede."</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">C4</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">Série "Mito ou verdade" · 5 takes de 12s</div><div class="tarefa-tipo">Shorts autônomos · Muito compartilhável</div></div>
+      <div class="tarefa-dur">~3 min total</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="dica">Afirmação aparece como card na tela. Você fala a resposta + 1 frase de contexto.</div>
+      <div class="fala cam"><span class="fala-icon">🎥</span>1 — "Médico precisa postar todo dia: MITO. Consistência importa mais do que frequência."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>2 — "Mais seguidores significa mais pacientes: MITO. Seguidores que não são do perfil certo nunca viram consulta."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>3 — "O CFM proíbe médico de fazer propaganda: MITO. O CFM proíbe propaganda enganosa — conteúdo informativo é permitido."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>4 — "Site de médico não traz paciente: MITO. Site com SEO local aparece quando alguém pesquisa sua especialidade na sua cidade."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>5 — "Agência de marketing genérica resolve para médico: MITO. Quem não conhece o CFM pode gerar infração sem saber."</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">C5</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">Série "Em 20 anos de audiovisual" · 5 takes de 15s</div><div class="tarefa-tipo">Reels autônomos · Autoridade pessoal · LinkedIn em especial</div></div>
+      <div class="tarefa-dur">~4 min total</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala cam"><span class="fala-icon">🎥</span>1 — "Em 20 anos de audiovisual aprendi: a diferença entre conteúdo que passa despercebido e conteúdo que fica na memória raramente é técnica. É intenção."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>2 — "Em 20 anos de audiovisual aprendi: você não convence ninguém com informação. Você convence com identificação. A pessoa precisa se ver no que você fala."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>3 — "Em 20 anos de audiovisual aprendi: o silêncio comunica. Pausa entre frases vale mais do que velocidade."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>4 — "Em 20 anos de audiovisual aprendi: quem tenta falar para todo mundo não fala para ninguém. Nicho não é limitação — é precisão."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>5 — "Em 20 anos de audiovisual aprendi: consistência bate talento quando o talento é inconsistente."</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">C6</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">Série "Antes de contratar uma agência" · 5 takes de 15s</div><div class="tarefa-tipo">Reels autônomos · Checklist · Alto compartilhamento</div></div>
+      <div class="tarefa-dur">~4 min total</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="fala cam"><span class="fala-icon">🎥</span>1 — "Antes de contratar qualquer agência para o seu consultório: verifique se eles conhecem a Resolução CFM 2.336. Se não souberem o número, é sinal."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>2 — "Antes de contratar qualquer agência: peça para ver cases de outros profissionais de saúde. Se o portfólio for só de outras áreas, o risco é alto."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>3 — "Antes de contratar qualquer agência: pergunte quem vai criar o conteúdo. Se for template genérico, o seu feed vai parecer igual ao do concorrente."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>4 — "Antes de contratar qualquer agência: entenda o que está incluso no preço. Budget de mídia pago por você é diferente de mensalidade da agência."</div>
+      <div class="fala cam" style="margin-top:4px"><span class="fala-icon">🎥</span>5 — "Antes de contratar qualquer agência: leia o contrato de saída. Fidelidade excessiva sem cláusula clara é sinal de alerta."</div>
+    </div>
+  </div>
+
+</div>
+<div class="divisor"></div>
+
+<!-- ══ SETUP D — TELA GRAVADA ══ -->
+<div class="secao">
+  <div class="secao-header">
+    <div class="secao-cor" style="background:var(--tela)">D</div>
+    <div class="secao-info">
+      <div class="secao-nome">Tela Gravada — OBS ou Loom · 16:9</div>
+      <div class="secao-desc">Sem câmera. Abrir todos os assets antes de começar. Scroll lento — contar até 3 antes de cada movimento.</div>
+    </div>
+    <div class="secao-tempo">~30 min</div>
+  </div>
+  <div class="prep">
+    <div class="prep-item">🖥 <span><strong>OBS/Loom</strong> — 1920×1080. Fechar abas irrelevantes.</span></div>
+    <div class="prep-item">🔍 <span><strong>Zoom</strong> — Ctrl++ para 125% antes de gravar cada asset</span></div>
+    <div class="prep-item">📂 <span><strong>Abrir antes:</strong> simulacros Gemini · feeds HTML · relatório Encantarys</span></div>
+  </div>
+  <div class="trilha">
+    <span class="trilha-label">Trilha</span>
+    <span class="trilha-nome">Dark academia ambient — mesma do Setup A</span>
+    <span class="trilha-det">· Continuidade sonora com os vídeos de voz over</span>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">D1</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V1 — Google com presença médica ruim</div><div class="tarefa-tipo">Vídeo 1 · Tela · Sincronizar com A1</div></div>
+      <div class="tarefa-dur">~35s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">Simulacro Google → simulacro CRM desatualizado → simulacro Instagram abandonado. Scroll lento. Pausa 3s entre cada tela.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">D2</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V3 — Posts proibidos + posts corretos</div><div class="tarefa-tipo">Vídeo 3 · Tela · Sincronizar com A5 e A6</div></div>
+      <div class="tarefa-dur">~90s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">Simulacros Gemini dos posts proibidos → um por item da fala A5 → depois simulacro do Instagram correto para fala A6.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">D3</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V5 — Dois feeds idênticos lado a lado</div><div class="tarefa-tipo">Vídeo 5 · Tela · Abertura</div></div>
+      <div class="tarefa-dur">~45s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">asset_tela_feeds_genericos.html. Dois feeds lado a lado. Pausa longa de 15s antes de narrar.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">D4</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">V5 — Contraste feed ruim vs. bom</div><div class="tarefa-tipo">Vídeo 5 · Tela · Cena 4</div></div>
+      <div class="tarefa-dur">~40s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">Simulacro Instagram ruim → pausa 8s → simulacro Instagram bom → pausa 8s → rolar para diagnóstico.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">D5</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">S2 #01 — Post fictício com infração</div><div class="tarefa-tipo">Série 2 Ep.01 · Tela · Sincronizar com A7</div></div>
+      <div class="tarefa-dur">~50s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">Simulacro Gemini do post da Dra. Mariana. Zoom. Destacar com cursor. Rolar para card de infração CFM.</div>
+    </div>
+  </div>
+
+</div>
+<div class="divisor"></div>
+
+<!-- ══ SETUP E — CARDS ANIMADOS ══ -->
+<div class="secao">
+  <div class="secao-header">
+    <div class="secao-cor" style="background:var(--card)">E</div>
+    <div class="secao-info">
+      <div class="secao-nome">Cards Animados — Gravar tela cheia (F11)</div>
+      <div class="secao-desc">Abrir cada card HTML em tela cheia. Gravar a tela em 16:9. Editor recorta para 9:16 no CapCut. Cards com fundo verde permitem colocar B-roll por trás na edição.</div>
+    </div>
+    <div class="secao-tempo">~20 min</div>
+  </div>
+  <div class="prep">
+    <div class="prep-item">🖥 <span><strong>F11</strong> — tela cheia antes de gravar cada card</span></div>
+    <div class="prep-item">🟩 <span><strong>Fundo verde</strong> — os cards marcados com 🟩 permitem B-roll por trás</span></div>
+    <div class="prep-item">🎵 <span><strong>Trilha</strong> — dark academia, volume mais alto sem voz</span></div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">E1</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">"Seguidores não são pacientes."</div><div class="tarefa-tipo">Card fundo ink · Short 8s · Todos os canais</div></div>
+      <div class="tarefa-dur">8s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">Texto palavra por palavra. Pausa 2s. Logo. Gravar tela cheia.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">E2</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">"Consistência sem estratégia é ruído."</div><div class="tarefa-tipo">Card fundo ink · Short 12s · LinkedIn</div></div>
+      <div class="tarefa-dur">12s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">"Consistência sem estratégia é ruído. / Estratégia sem consistência é invisibilidade." Pausa. Logo.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">E3</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">"O CFM pode aplicar sanção por post no Instagram." 🟩</div><div class="tarefa-tipo">Card fundo verde · Short 12s · Editor coloca B-roll por trás</div></div>
+      <div class="tarefa-dur">12s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">Fundo verde. Texto aparece. "Você sabe o que é permitido?" Logo.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">E4</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">Ciclo de abandono em lista 🟩</div><div class="tarefa-tipo">Card fundo verde · Short 20s · TikTok · B-roll por trás</div></div>
+      <div class="tarefa-dur">20s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">Fundo verde. Lista linha por linha. "Isso não é falta de disciplina. É o modelo errado." Logo.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">E5</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">Card "Res. CFM 2.336/2023"</div><div class="tarefa-tipo">Card fundo ink · Insert no V3 + Short isolado</div></div>
+      <div class="tarefa-dur">8s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">"Resolução CFM" → "nº 2.336/2023" → "O que você precisa saber." Logo.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">E6</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">"Sua presença digital não representa seu trabalho." 🟩</div><div class="tarefa-tipo">Card fundo verde · Short 12s · B-roll por trás</div></div>
+      <div class="tarefa-dur">12s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">Fundo verde. "Sua presença digital / não representa / seu trabalho." Pausa. "Isso tem solução." Logo.</div>
+    </div>
+  </div>
+
+  <div class="tarefa">
+    <div class="tarefa-header"><div class="tarefa-num">E7</div>
+      <div class="tarefa-meta"><div class="tarefa-titulo">"Curtidas não enchem agenda."</div><div class="tarefa-tipo">Card fundo ink · Short 8s · Instagram + TikTok</div></div>
+      <div class="tarefa-dur">8s</div>
+    </div>
+    <div class="tarefa-corpo">
+      <div class="inst">"Curtidas / não enchem / agenda." Pausa 2s. Logo.</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="divisor"></div>
+
+<!-- SUMÁRIO -->
+<div class="sumario">
+  <div class="sumario-titulo">Resumo de produção · 3 dias</div>
+  <div class="sumario-grid">
+    <div class="sum-card"><div class="sum-n">5</div><div class="sum-l">Vídeos longos YouTube</div><div class="sum-d">Série 1 completa · V1 a V5</div></div>
+    <div class="sum-card"><div class="sum-n">3</div><div class="sum-l">Série 2 Análise Crítica</div><div class="sum-d">Ep. 01, 02 e 03</div></div>
+    <div class="sum-card"><div class="sum-n">30+</div><div class="sum-l">Shorts de câmera</div><div class="sum-d">Recortes + novas séries C3–C6</div></div>
+    <div class="sum-card"><div class="sum-n">7</div><div class="sum-l">Cards animados</div><div class="sum-d">Fundo ink + fundo verde croma</div></div>
+    <div class="sum-card"><div class="sum-n">Dia 1</div><div class="sum-l">Setup A + B</div><div class="sum-d">Voz over + câmera Roupa 1</div></div>
+    <div class="sum-card"><div class="sum-n">Dia 2</div><div class="sum-l">Setup C + D</div><div class="sum-d">Câmera Roupa 2 + tela gravada</div></div>
+    <div class="sum-card"><div class="sum-n">Dia 3</div><div class="sum-l">Setup E + edição</div><div class="sum-d">Cards animados + montar vídeos</div></div>
+    <div class="sum-card"><div class="sum-n">R$0</div><div class="sum-l">Custo de ferramentas</div><div class="sum-d">A52S · CapCut · OBS · Gemini gratuito</div></div>
+  </div>
+</div>
+
+<p class="rodape">Zyllah Digital · Plano de Produção v3 · Final · 31 de março de 2026 · Uso interno</p>
+</div>
+</body>
+</html>
