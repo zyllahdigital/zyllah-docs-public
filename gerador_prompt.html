@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah · Gerador de Metadados</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A1714;
+  --ink-2: #242018;
+  --gold: #B8976A;
+  --gold-light: #D4B896;
+  --gold-dim: rgba(184,151,106,.35);
+  --cream: #FAF7F2;
+  --cream-mid: #F0EBE1;
+  --white: #fff;
+  --red: #8B3A3A;
+  --green: #2A5C3A;
+  --text-dim: rgba(26,23,20,.45);
+  --border: rgba(184,151,106,.18);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--cream);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--ink);
+  padding: 40px 48px 36px;
+  border-bottom: 1px solid rgba(184,151,106,.12);
+}
+.header-tag {
+  font-size: 10px;
+  letter-spacing: .5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: .7;
+  display: block;
+  margin-bottom: 10px;
+}
+.header-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: #fff;
+  line-height: 1.1;
+}
+.header-titulo em { font-style: italic; color: var(--gold-light); }
+.header-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,.35);
+  margin-top: 8px;
+  line-height: 1.7;
+}
+
+/* ── LAYOUT ── */
+.main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: calc(100vh - 140px);
+}
+
+/* ── PAINEL ESQUERDO — INPUTS ── */
+.panel-left {
+  padding: 36px 40px;
+  border-right: 1px solid var(--border);
+  background: var(--cream);
+}
+
+.section-label {
+  font-size: 10px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: .8;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.field {
+  margin-bottom: 20px;
+}
+.field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: .6;
+  margin-bottom: 7px;
+}
+.field input,
+.field textarea,
+.field select {
+  width: 100%;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 10px 14px;
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s;
+  resize: vertical;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--gold);
+}
+.field textarea { min-height: 72px; }
+.field select { cursor: pointer; }
+
+/* Checkboxes de plataforma */
+.platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+.platform-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-dim);
+  background: #fff;
+  transition: all .15s;
+  user-select: none;
+}
+.platform-btn input { display: none; }
+.platform-btn:has(input:checked) {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--gold-light);
+}
+.platform-btn:hover { border-color: var(--gold-dim); }
+
+/* Botão gerar */
+.btn-gerar {
+  width: 100%;
+  padding: 14px;
+  background: var(--ink);
+  color: var(--gold-light);
+  border: none;
+  border-radius: 2px;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: opacity .2s;
+}
+.btn-gerar:hover { opacity: .85; }
+.btn-gerar:active { opacity: .7; }
+
+/* ── PAINEL DIREITO — OUTPUT ── */
+.panel-right {
+  padding: 36px 40px;
+  background: var(--cream-mid);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.output-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: .35;
+}
+.output-empty-icon {
+  font-size: 40px;
+}
+.output-empty-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* Output gerado */
+.output-box {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+}
+.output-box.visible { display: flex; }
+
+/* Área do prompt */
+.prompt-area {
+  background: var(--ink);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.prompt-header {
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(184,151,106,.1);
+}
+.prompt-header-label {
+  font-size: 10px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: .7;
+}
+.btn-copiar {
+  padding: 5px 14px;
+  background: rgba(184,151,106,.12);
+  border: 1px solid rgba(184,151,106,.25);
+  border-radius: 2px;
+  color: var(--gold-light);
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-copiar:hover {
+  background: rgba(184,151,106,.2);
+}
+.btn-copiar.copiado {
+  background: rgba(42,92,58,.2);
+  border-color: rgba(42,92,58,.4);
+  color: #8ACA8A;
+}
+
+.prompt-text {
+  padding: 20px 18px;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255,255,255,.65);
+  line-height: 1.85;
+  white-space: pre-wrap;
+  max-height: 480px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(184,151,106,.3) transparent;
+}
+
+/* Instruções de uso */
+.instrucoes {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 18px 20px;
+  margin-top: 4px;
+}
+.instrucoes-titulo {
+  font-size: 10px;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: .7;
+  margin-bottom: 12px;
+}
+.instrucao-item {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.instrucao-item:last-child { margin-bottom: 0; }
+.instrucao-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--gold);
+  flex-shrink: 0;
+  line-height: 1.3;
+}
+
+/* Badge de outputs esperados */
+.outputs-esperados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.output-badge {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  padding: 3px 10px;
+  border-radius: 2px;
+  background: var(--cream-mid);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+.output-badge.active {
+  background: rgba(26,23,20,.07);
+  color: var(--ink);
+  border-color: rgba(26,23,20,.2);
+}
+
+/* Contador de campos */
+.campo-ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: rgba(42,92,58,.7);
+  margin-top: 20px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .main { grid-template-columns: 1fr; }
+  .panel-left { border-right: none; border-bottom: 1px solid var(--border); }
+  .header { padding: 28px 24px; }
+  .panel-left, .panel-right { padding: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-tag">Zyllah Digital · Ferramenta interna</span>
+  <h1 class="header-titulo">Gerador de <em>Metadados</em></h1>
+  <p class="header-sub">Preencha os 4 campos · Copie o prompt · Cole no Gemini · Receba título, descrição, hashtags e legendas para todas as plataformas de uma vez.</p>
+</div>
+
+<div class="main">
+
+  <!-- ── ESQUERDA: INPUTS ── -->
+  <div class="panel-left">
+
+    <div class="section-label">Dados do vídeo</div>
+
+    <div class="field">
+      <label>Título provisório</label>
+      <input type="text" id="titulo" placeholder="Ex: O que o Google encontra quando pesquisam seu nome" oninput="atualizar()">
+    </div>
+
+    <div class="field">
+      <label>Tema central — 1 frase</label>
+      <textarea id="tema" placeholder="Ex: Médicos com presença digital desatualizada perdem pacientes que pesquisam online antes de agendar" oninput="atualizar()"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Formato principal</label>
+      <select id="formato" onchange="atualizar()">
+        <option value="">Selecionar...</option>
+        <option value="YouTube — vídeo longo (3–5 min)">YouTube — vídeo longo (3–5 min)</option>
+        <option value="YouTube Shorts (menos de 60s)">YouTube Shorts (menos de 60s)</option>
+        <option value="Instagram Reel (15–60s)">Instagram Reel (15–60s)</option>
+        <option value="LinkedIn — vídeo nativo (1–3 min)">LinkedIn — vídeo nativo (1–3 min)</option>
+        <option value="TikTok (15–60s)">TikTok (15–60s)</option>
+        <option value="Vídeo longo + recortes para todas as plataformas">Vídeo longo + recortes para todas as plataformas</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Duração estimada</label>
+      <input type="text" id="duracao" placeholder="Ex: 3'20&quot; ou 45s" oninput="atualizar()">
+    </div>
+
+    <div class="field">
+      <label>Série / contexto (opcional)</label>
+      <input type="text" id="serie" placeholder="Ex: Série Zyllah Ep. 1 · ou · Análise Crítica Ep. 02" oninput="atualizar()">
+    </div>
+
+    <div class="field">
+      <label>Plataformas para gerar</label>
+      <div class="platforms">
+        <label class="platform-btn"><input type="checkbox" id="p_yt" checked onchange="atualizar()"> YouTube</label>
+        <label class="platform-btn"><input type="checkbox" id="p_ig" checked onchange="atualizar()"> Instagram</label>
+        <label class="platform-btn"><input type="checkbox" id="p_li" checked onchange="atualizar()"> LinkedIn</label>
+        <label class="platform-btn"><input type="checkbox" id="p_tt" checked onchange="atualizar()"> TikTok</label>
+        <label class="platform-btn"><input type="checkbox" id="p_sh" onchange="atualizar()"> Shorts</label>
+      </div>
+    </div>
+
+    <button class="btn-gerar" onclick="gerar()">Gerar Prompt</button>
+
+  </div>
+
+  <!-- ── DIREITA: OUTPUT ── -->
+  <div class="panel-right">
+
+    <div class="output-empty" id="empty-state">
+      <div class="output-empty-icon">✦</div>
+      <div class="output-empty-text">Preencha os campos e gere o prompt</div>
+    </div>
+
+    <div class="output-box" id="output-box">
+
+      <div class="prompt-area">
+        <div class="prompt-header">
+          <span class="prompt-header-label">Prompt para o Gemini</span>
+          <button class="btn-copiar" id="btn-copiar" onclick="copiar()">Copiar tudo</button>
+        </div>
+        <div class="prompt-text" id="prompt-text"></div>
+      </div>
+
+      <div class="instrucoes">
+        <div class="instrucoes-titulo">Como usar</div>
+        <div class="instrucao-item">
+          <span class="instrucao-num">1</span>
+          <span>Clique em <strong>Copiar tudo</strong> acima</span>
+        </div>
+        <div class="instrucao-item">
+          <span class="instrucao-num">2</span>
+          <span>Abra <strong>gemini.google.com</strong> (conta Google, gratuito)</span>
+        </div>
+        <div class="instrucao-item">
+          <span class="instrucao-num">3</span>
+          <span>Cole com <strong>Ctrl+V</strong> e pressione Enter</span>
+        </div>
+        <div class="instrucao-item">
+          <span class="instrucao-num">4</span>
+          <span>Receba todos os metadados de uma vez. Se algum item sair fora do padrão, peça: <em>"Refaça o item X seguindo as regras CFM"</em></span>
+        </div>
+        <div class="instrucao-item">
+          <span class="instrucao-num">5</span>
+          <span>Guarde o resultado na planilha de controle de produção</span>
+        </div>
+
+        <div class="outputs-esperados" id="outputs-esperados"></div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+function atualizar() {
+  // Só atualiza badges, não regera o prompt automaticamente
+  atualizarBadges();
+}
+
+function atualizarBadges() {
+  const plataformas = [];
+  if (document.getElementById('p_yt').checked) plataformas.push('Título YT', 'Descrição YT', 'Tags YT');
+  if (document.getElementById('p_ig').checked) plataformas.push('Legenda IG', 'Hashtags IG');
+  if (document.getElementById('p_li').checked) plataformas.push('Legenda LinkedIn');
+  if (document.getElementById('p_tt').checked) plataformas.push('Legenda TikTok');
+  if (document.getElementById('p_sh').checked) plataformas.push('Legenda Shorts');
+
+  const container = document.getElementById('outputs-esperados');
+  container.innerHTML = plataformas.map(p =>
+    `<span class="output-badge active">${p}</span>`
+  ).join('');
+}
+
+function gerar() {
+  const titulo = document.getElementById('titulo').value.trim();
+  const tema = document.getElementById('tema').value.trim();
+  const formato = document.getElementById('formato').value;
+  const duracao = document.getElementById('duracao').value.trim();
+  const serie = document.getElementById('serie').value.trim();
+
+  if (!titulo || !tema || !formato) {
+    alert('Preencha pelo menos: título, tema e formato.');
+    return;
+  }
+
+  const plats = [];
+  if (document.getElementById('p_yt').checked) plats.push('YouTube');
+  if (document.getElementById('p_ig').checked) plats.push('Instagram');
+  if (document.getElementById('p_li').checked) plats.push('LinkedIn');
+  if (document.getElementById('p_tt').checked) plats.push('TikTok');
+  if (document.getElementById('p_sh').checked) plats.push('YouTube Shorts');
+
+  // Itens a gerar por plataforma
+  const itens = [];
+  let n = 1;
+
+  if (plats.includes('YouTube')) {
+    itens.push(`${n++}. TÍTULO YOUTUBE — máx. 70 caracteres, palavra-chave no início, sem clickbait`);
+    itens.push(`${n++}. TÍTULO YOUTUBE ALTERNATIVO — mais direto, sem subtítulo`);
+    itens.push(`${n++}. DESCRIÇÃO YOUTUBE — primeiras 3 linhas (cada linha máx. 160 caracteres, aparecem antes do "ver mais", sem emoji, sem CTA agressivo)`);
+    itens.push(`${n++}. DESCRIÇÃO COMPLETA YOUTUBE — corpo expandido: o que o vídeo aborda, link zyllah.com.br, hashtags no final`);
+    itens.push(`${n++}. TAGS YOUTUBE — 14 tags separadas por vírgula, mix de termos amplos e específicos de marketing médico`);
+  }
+  if (plats.includes('Instagram')) {
+    itens.push(`${n++}. LEGENDA INSTAGRAM — máx. 2200 caracteres, gancho forte na primeira linha (sem hashtag no corpo), quebras de parágrafo, CTA no final`);
+    itens.push(`${n++}. HASHTAGS INSTAGRAM — bloco de 28–30 hashtags para postar no primeiro comentário, mix de nicho + amplas + locais`);
+  }
+  if (plats.includes('LinkedIn')) {
+    itens.push(`${n++}. LEGENDA LINKEDIN — máx. 1300 caracteres, tom consultivo, estrutura: abertura + desenvolvimento + conclusão, terminar com pergunta aberta`);
+  }
+  if (plats.includes('TikTok')) {
+    itens.push(`${n++}. LEGENDA TIKTOK — máx. 150 caracteres total, direto, com 3–5 hashtags integradas no texto`);
+  }
+  if (plats.includes('YouTube Shorts')) {
+    itens.push(`${n++}. LEGENDA YOUTUBE SHORTS — máx. 100 caracteres + 3 hashtags`);
+  }
+
+  const serieTexto = serie ? `\n- Série/contexto: ${serie}` : '';
+
+  const prompt = `Você é especialista em marketing digital para profissionais de saúde no Brasil, com domínio das diretrizes do Conselho Federal de Medicina (CFM).
+
+Tenho um vídeo com os seguintes dados:
+- Título provisório: ${titulo}
+- Formato: ${formato}${duracao ? `\n- Duração: ${duracao}` : ''}
+- Tema central: ${tema}${serieTexto}
+- Público: médicos especialistas, 35–55 anos, clínica própria ou ambulatório privado
+- Canal/perfil: Zyllah Digital — agência de presença digital para profissionais de saúde em Nova Friburgo, RJ
+- Tom: consultivo, sóbrio, sem hype, sem promessa de resultado, sem superlativo
+
+Gere exatamente os itens abaixo, numerados, sem texto adicional entre eles:
+
+${itens.join('\n')}
+
+REGRAS QUE NUNCA PODEM SER QUEBRADAS:
+— Nunca prometer resultado clínico, número de pacientes ou retorno financeiro
+— Nunca usar antes/depois em contexto de procedimento médico
+— Nunca mencionar Canva, CapCut, IA ou ferramentas de produção
+— Nunca usar superlativo absoluto ("o melhor", "o maior", "o único")
+— Nunca citar concorrentes pelo nome
+— Seguir diretrizes CFM Res. 2.336/2023: conteúdo informativo, não persuasão de procedimento
+— Nunca usar termos como "transformação", "resultado garantido" ou "antes e depois"
+— Linguagem profissional, sem emoji excessivo, sem ponto de exclamação em toda frase
+
+Responda diretamente com os itens numerados. Sem introdução, sem comentário final.`;
+
+  document.getElementById('prompt-text').textContent = prompt;
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('output-box').classList.add('visible');
+  atualizarBadges();
+
+  // Scroll suave para o output
+  document.getElementById('output-box').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copiar() {
+  const texto = document.getElementById('prompt-text').textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    const btn = document.getElementById('btn-copiar');
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copiado');
+    setTimeout(() => {
+      btn.textContent = 'Copiar tudo';
+      btn.classList.remove('copiado');
+    }, 2500);
+  }).catch(() => {
+    // Fallback para navegadores sem clipboard API
+    const el = document.createElement('textarea');
+    el.value = texto;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    const btn = document.getElementById('btn-copiar');
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copiado');
+    setTimeout(() => {
+      btn.textContent = 'Copiar tudo';
+      btn.classList.remove('copiado');
+    }, 2500);
+  });
+}
+
+// Inicializar badges
+atualizarBadges();
+</script>
+
+</body>
+</html>
