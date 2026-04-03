@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah — Checklist Instagram Semanal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #B8976A; --gold-light: #D4B896; --gold-dark: #8A6A3E;
+  --ink: #1A1714; --ink-soft: #3D3830;
+  --cream: #FAF7F2; --cream-mid: #F0EBE1;
+  --sage: #7A9B8A; --sage-light: #EDF5F2;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); line-height: 1.8; }
+
+.nav { background: var(--ink); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: var(--gold); letter-spacing: 0.25em; }
+.nav-label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+
+.hero { background: var(--ink); padding: 56px 48px 44px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(184,151,106,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(184,151,106,0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
+.hero-tag { font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; position: relative; z-index: 1; }
+.hero-titulo { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-size: clamp(32px, 4vw, 48px); color: white; line-height: 1.05; margin-bottom: 12px; position: relative; z-index: 1; }
+.hero-titulo em { font-style: italic; color: var(--gold-light); }
+.hero-sub { font-size: 14px; color: rgba(255,255,255,0.35); max-width: 500px; line-height: 1.8; position: relative; z-index: 1; }
+.hero-divider { width: 100%; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); margin-top: 40px; position: relative; z-index: 1; }
+
+.corpo { max-width: 820px; margin: 0 auto; padding: 56px 40px 100px; }
+
+/* SEMANA SELECTOR */
+.semana-tabs { display: flex; gap: 2px; margin-bottom: 40px; flex-wrap: wrap; }
+.semana-tab { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; padding: 10px 20px; background: var(--cream-mid); color: var(--ink-soft); cursor: pointer; border: none; font-family: 'Jost', sans-serif; transition: all 0.15s; }
+.semana-tab.ativo { background: var(--ink); color: var(--gold); }
+.semana-tab:hover:not(.ativo) { background: #E8E0D2; }
+
+/* DIA BLOCO */
+.dia-bloco { margin-bottom: 32px; }
+.dia-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.dia-nome { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--ink); }
+.dia-data { font-size: 11px; letter-spacing: 0.2em; color: var(--ink-soft); }
+.dia-badge { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; padding: 3px 10px; }
+.badge-post { background: rgba(184,151,106,0.15); color: var(--gold-dark); }
+.badge-eng { background: rgba(122,155,138,0.12); color: var(--sage); }
+.badge-story { background: rgba(61,56,48,0.08); color: var(--ink-soft); }
+
+/* CHECK ITEMS */
+.checks { display: flex; flex-direction: column; gap: 2px; }
+.check-item { background: white; padding: 14px 18px; display: flex; gap: 14px; align-items: flex-start; border-left: 3px solid rgba(184,151,106,0.15); cursor: pointer; transition: border-color 0.15s; user-select: none; }
+.check-item:hover { border-left-color: var(--gold); }
+.check-item.done { border-left-color: var(--sage); background: var(--sage-light); }
+.check-box { width: 18px; height: 18px; border: 1px solid rgba(184,151,106,0.4); flex-shrink: 0; margin-top: 2px; position: relative; transition: all 0.15s; }
+.check-item.done .check-box { background: var(--sage); border-color: var(--sage); }
+.check-item.done .check-box::after { content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: white; }
+.check-corpo { flex: 1; }
+.check-titulo { font-size: 14px; color: var(--ink); font-weight: 400; line-height: 1.4; margin-bottom: 3px; }
+.check-item.done .check-titulo { color: var(--sage); text-decoration: line-through; }
+.check-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.6; }
+.check-item.done .check-desc { opacity: 0.5; }
+
+/* SEÇÃO DIÁRIA */
+.secao-label { font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin: 20px 0 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(184,151,106,0.15); }
+
+/* PERFIS */
+.perfis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 32px 0; }
+.perfil-card { background: white; padding: 20px 22px; border-top: 2px solid rgba(184,151,106,0.2); }
+.perfil-card.prioritario { border-top-color: var(--gold); }
+.perfil-handle { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+.perfil-desc { font-size: 12px; color: var(--ink-soft); line-height: 1.6; margin-bottom: 8px; }
+.perfil-tag { font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-dark); }
+
+/* REGRA DE COMENTÁRIO */
+.regra-box { background: var(--ink); padding: 24px 28px; margin: 24px 0; }
+.regra-label { font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.regra-texto { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+.regra-texto strong { color: var(--gold-light); font-weight: 400; }
+
+/* PROGRESSO */
+.progresso-barra { height: 3px; background: rgba(184,151,106,0.15); margin: 32px 0 8px; border-radius: 0; }
+.progresso-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.3s; }
+.progresso-label { font-size: 11px; color: var(--ink-soft); letter-spacing: 0.1em; }
+
+.semana-panel { display: none; }
+.semana-panel.ativo { display: block; }
+
+/* DIVISOR */
+.div-linha { height: 1px; background: rgba(184,151,106,0.12); margin: 32px 0; }
+
+/* NOTA */
+.nota { background: rgba(184,151,106,0.07); border-left: 2px solid var(--gold); padding: 14px 18px; margin: 16px 0; }
+.nota p { font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+.nota p strong { color: var(--gold-dark); font-weight: 400; }
+
+.rodape { background: var(--ink); padding: 28px 48px; display: flex; justify-content: space-between; align-items: center; }
+.rodape-marca { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(184,151,106,0.4); letter-spacing: 0.2em; }
+.rodape-nota { font-size: 11px; color: rgba(255,255,255,0.2); }
+
+@media (max-width: 600px) {
+  .hero { padding: 40px 24px 36px; }
+  .corpo { padding: 40px 20px 80px; }
+  .nav { padding: 14px 20px; }
+  .perfis-grid { grid-template-columns: 1fr; }
+  .rodape { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-logo">Zyllah Digital</div>
+  <div class="nav-label">Instagram · Checklist Semanal</div>
+</div>
+
+<div class="hero">
+  <div class="hero-tag">Crescimento orgânico · Instagram</div>
+  <div class="hero-titulo">Checklist<br><em>Semanal</em></div>
+  <div class="hero-sub">Posts, stories e engajamento ativo. 15 minutos por dia fazem mais do que 2 horas uma vez por semana.</div>
+  <div class="hero-divider"></div>
+</div>
+
+<div class="corpo">
+
+  <!-- REGRA CENTRAL -->
+  <div class="regra-box">
+    <div class="regra-label">Regra de comentário</div>
+    <div class="regra-texto"><strong>Nunca elogie o post.</strong> Acrescente algo. Um comentário que agrega uma ideia posiciona você como par — não como fã. Ex: se eles postam "médico precisa de identidade visual", você comenta "e a identidade precisa vir antes do conteúdo — sem isso, produção vira volume sem direção."</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="semana-tabs">
+    <button class="semana-tab ativo" onclick="mostrarSemana('s1', this)">Semana 1</button>
+    <button class="semana-tab" onclick="mostrarSemana('s2', this)">Semana 2</button>
+    <button class="semana-tab" onclick="mostrarSemana('s3', this)">Semana 3</button>
+    <button class="semana-tab" onclick="mostrarSemana('s4', this)">Semana 4</button>
+  </div>
+
+  <!-- SEMANA 1 -->
+  <div class="semana-panel ativo" id="s1">
+
+    <div class="progresso-barra"><div class="progresso-fill" id="prog-s1"></div></div>
+    <div class="progresso-label" id="prog-label-s1">0 de 0 itens concluídos</div>
+
+    <div class="div-linha"></div>
+
+    <!-- SEGUNDA -->
+    <div class="dia-bloco">
+      <div class="dia-header">
+        <div class="dia-nome">Segunda</div>
+        <div class="dia-data">17 mar</div>
+        <div class="dia-badge badge-post">Post</div>
+        <div class="dia-badge badge-story">Story</div>
+        <div class="dia-badge badge-eng">Engajamento</div>
+      </div>
+      <div class="secao-label">Publicar</div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Arte "Todo retrabalho tem a mesma origem" — 11h30</div>
+            <div class="check-desc">Arte fundo ink + frase Cormorant. Adicionar localização Nova Friburgo. Hashtags: #ZyllahDigital #ProcessoCriativo #PresençaDigital #MarketingParaSaúde #ConsultorioDigital</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Story — bastidor da semana</div>
+            <div class="check-desc">Foto simples do celular ou tela com algo de trabalho aberto. Sem texto elaborado — pode ser só a arte do post repostada com uma pergunta no sticker.</div>
+          </div>
+        </div>
+      </div>
+      <div class="secao-label">Engajamento ativo — 15 min</div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Comentar em @b2medbr</div>
+            <div class="check-desc">Abre o perfil, lê os 2 posts mais recentes, comenta no mais relevante. Comentário que agrega uma ideia — não elogio.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Comentar em @wemarketingmedico</div>
+            <div class="check-desc">Mesma lógica. Foco em posts sobre identidade, conteúdo ou posicionamento — onde sua opinião é mais natural.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Buscar #mediconovafriburgo e #clinicanovafriburgo</div>
+            <div class="check-desc">Seguir 3 a 5 perfis locais. Não comentar ainda — só seguir e curtir 1 ou 2 posts recentes.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-linha"></div>
+
+    <!-- TERÇA -->
+    <div class="dia-bloco">
+      <div class="dia-header">
+        <div class="dia-nome">Terça</div>
+        <div class="dia-data">18 mar</div>
+        <div class="dia-badge badge-story">Story</div>
+        <div class="dia-badge badge-eng">Engajamento</div>
+      </div>
+      <div class="secao-label">Story</div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Story de reforço do post de segunda</div>
+            <div class="check-desc">Reposte o post no story com uma pergunta: "Você já passou por isso em algum projeto?" — sticker de enquete Sim / Já vi isso acontecer.</div>
+          </div>
+        </div>
+      </div>
+      <div class="secao-label">Engajamento ativo — 15 min</div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Comentar em @agenciadomedico</div>
+            <div class="check-desc">Perfil focado em gestão de redes para médicos. Bom para aparecer no radar de profissionais que seguem o perfil.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Buscar #novafriburgo — seguir mais 3 perfis de saúde local</div>
+            <div class="check-desc">Dentistas, psicólogos, nutricionistas. Prospects diretos.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-linha"></div>
+
+    <!-- QUARTA -->
+    <div class="dia-bloco">
+      <div class="dia-header">
+        <div class="dia-nome">Quarta</div>
+        <div class="dia-data">19 mar</div>
+        <div class="dia-badge badge-post">Carrossel</div>
+        <div class="dia-badge badge-story">Story</div>
+        <div class="dia-badge badge-eng">Engajamento</div>
+      </div>
+      <div class="secao-label">Publicar</div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Carrossel "Do briefing ao resultado" — 11h30</div>
+            <div class="check-desc">6 slides. Legenda já pronta no calendário. Localização Nova Friburgo. Incentivar salvar: "Salva esse carrossel."</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Story — primeiro slide do carrossel com "arrasta para ver" ➡</div>
+            <div class="check-desc">Sticker de seta apontando para o lado. Gera tráfego do story para o post.</div>
+          </div>
+        </div>
+      </div>
+      <div class="secao-label">Engajamento ativo — 15 min</div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Comentar em @brandingestudio</div>
+            <div class="check-desc">Agência de Niterói/RJ — público geograficamente próximo. Bom para aparecer no radar de profissionais de saúde do estado.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Responder todos os comentários do post de segunda nas primeiras 2h</div>
+            <div class="check-desc">Se houver algum. Resposta rápida sinaliza atividade ao algoritmo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-linha"></div>
+
+    <!-- QUINTA -->
+    <div class="dia-bloco">
+      <div class="dia-header">
+        <div class="dia-nome">Quinta</div>
+        <div class="dia-data">20 mar</div>
+        <div class="dia-badge badge-story">Story</div>
+        <div class="dia-badge badge-eng">Engajamento</div>
+      </div>
+      <div class="secao-label">Story</div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Story de bastidor ou curiosidade do dia</div>
+            <div class="check-desc">Qualquer coisa de trabalho: uma frase que você está escrevendo, um insight do dia, uma pergunta ao público. Não precisa ser elaborado — autenticidade funciona.</div>
+          </div>
+        </div>
+      </div>
+      <div class="secao-label">Engajamento ativo — 15 min</div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Buscar #marketingmedico — comentar em 2 posts com engajamento recente</div>
+            <div class="check-desc">Filtrar por "Recentes". Escolher posts com comentários ativos — o seu aparece para mais pessoas quando há movimento.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Seguir 3 médicos ou clínicas de Nova Friburgo que ainda não segue</div>
+            <div class="check-desc">Curtir 1 ou 2 posts recentes de cada um antes de seguir — aparece nas notificações deles antes do follow.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-linha"></div>
+
+    <!-- SEXTA -->
+    <div class="dia-bloco">
+      <div class="dia-header">
+        <div class="dia-nome">Sexta</div>
+        <div class="dia-data">21 mar</div>
+        <div class="dia-badge badge-post">Post</div>
+        <div class="dia-badge badge-story">Story</div>
+        <div class="dia-badge badge-eng">Engajamento</div>
+      </div>
+      <div class="secao-label">Publicar</div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Bastidor — foto de trabalho — 11h30</div>
+            <div class="check-desc">Legenda: "Semana fora de casa. Celular, calendário e dois posts agendados. Presença digital não depende de escritório. Depende de método." — Localização Rio de Janeiro.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Story — balanço da semana</div>
+            <div class="check-desc">Caixinha de perguntas: "O que você mais tem dificuldade no digital?" Respostas viram pauta de conteúdo das próximas semanas.</div>
+          </div>
+        </div>
+      </div>
+      <div class="secao-label">Engajamento ativo — 15 min</div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Comentar em @designkapital</div>
+            <div class="check-desc">15 anos de mercado, volume alto de posts. Bom para visibilidade no nicho.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Verificar quem seguiu durante a semana — seguir de volta se for do nicho</div>
+            <div class="check-desc">Profissionais de saúde, agências, comunicadores de saúde. Não seguir de volta contas sem relação com o nicho.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="div-linha"></div>
+
+    <!-- FIM DE SEMANA -->
+    <div class="dia-bloco">
+      <div class="dia-header">
+        <div class="dia-nome">Sábado / Domingo</div>
+        <div class="dia-badge badge-story">Story opcional</div>
+      </div>
+      <div class="checks">
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Story leve — pessoal ou bastidor (opcional)</div>
+            <div class="check-desc">Não precisa ser de trabalho. Uma foto da cidade, uma frase que leu, algo que está ouvindo. Humaniza o perfil sem exigir produção.</div>
+          </div>
+        </div>
+        <div class="check-item" onclick="toggle(this)">
+          <div class="check-box"></div>
+          <div class="check-corpo">
+            <div class="check-titulo">Planejar os posts da semana seguinte</div>
+            <div class="check-desc">Conferir o calendário, preparar as artes no Canva, escrever ou adaptar as legendas. 30 minutos domingo = semana tranquila.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /semana 1 -->
+
+  <!-- SEMANAS 2, 3, 4 — estrutura idêntica, conteúdo de engajamento rotacionado -->
+  <div class="semana-panel" id="s2">
+    <div class="nota"><p>Conteúdo da Semana 2 gerado automaticamente na próxima atualização do calendário. A estrutura de engajamento diário é a mesma — rotacione os perfis abaixo.</p></div>
+    <div class="div-linha"></div>
+    <div class="secao-label">Rotação de perfis — semana 2</div>
+    <div class="checks">
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Segunda — @wemarketingmedico</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Terça — #presencadigital médico (busca)</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Quarta — @agenciadomedico</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Quinta — #consultoriodigital (busca)</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Sexta — @b2medbr + verificar seguidores novos</div></div></div>
+    </div>
+  </div>
+
+  <div class="semana-panel" id="s3">
+    <div class="nota"><p>Rotação da Semana 3 — foco em perfis locais e busca por hashtags de nicho.</p></div>
+    <div class="div-linha"></div>
+    <div class="secao-label">Rotação de perfis — semana 3</div>
+    <div class="checks">
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Segunda — @brandingestudio</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Terça — #mediconovafriburgo (seguir + comentar)</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Quarta — @designkapital</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Quinta — #serranarj saúde (busca)</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Sexta — @wemarketingmedico + verificar seguidores novos</div></div></div>
+    </div>
+  </div>
+
+  <div class="semana-panel" id="s4">
+    <div class="nota"><p>Rotação da Semana 4 — foco em médicos ativos no digital e perfis de autoridade.</p></div>
+    <div class="div-linha"></div>
+    <div class="secao-label">Rotação de perfis — semana 4</div>
+    <div class="checks">
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Segunda — @dralauraluciaoficial</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Terça — #marketingmedico (busca — recentes)</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Quarta — @agenciadomedico</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Quinta — #psicologodigital (busca)</div></div></div>
+      <div class="check-item" onclick="toggle(this)"><div class="check-box"></div><div class="check-corpo"><div class="check-titulo">Sexta — @b2medbr + balanço mensal de seguidores</div></div></div>
+    </div>
+  </div>
+
+  <div class="div-linha"></div>
+
+  <!-- ESTRATÉGIA DE ENGAJAMENTO -->
+  <div style="font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Estratégia de engajamento — onde e com quem</div>
+
+  <div class="regra-box">
+    <div class="regra-label">A lógica dos dois públicos</div>
+    <div class="regra-texto">
+      <strong>Marketeiros médicos</strong> — constroem sua autoridade no nicho. Médicos que seguem esses perfis veem seu nome. São pares, não clientes.<br><br>
+      <strong>Profissionais de saúde</strong> — são seus clientes potenciais. Comentário certeiro no post de um médico com dificuldade digital pode abrir conversa real.<br><br>
+      <strong>Proporção:</strong> 40% marketeiros (Instagram) · 40% profissionais de saúde (Instagram) · 20% LinkedIn
+    </div>
+  </div>
+
+  <div class="div-linha"></div>
+
+  <!-- INSTAGRAM: MARKETEIROS -->
+  <div style="font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Instagram · Marketing médico — autoridade (8 perfis)</div>
+  <div class="perfis-grid">
+    <div class="perfil-card prioritario">
+      <div class="perfil-handle">@b2medbr</div>
+      <div class="perfil-desc">25k seguidores. Posts polêmicos com alto compartilhamento. Já gerou 19 curtidas no seu comentário. <strong>Aguardar 3-4 dias entre comentários.</strong></div>
+      <div class="perfil-tag">Alta prioridade · Posts polêmicos</div>
+    </div>
+    <div class="perfil-card prioritario">
+      <div class="perfil-handle">@wemarketingmed</div>
+      <div class="perfil-desc">13k seguidores. Já respondeu você duas vezes pelo nome. Posts com tese discutível — seu território.</div>
+      <div class="perfil-tag">Alta prioridade · Já te reconhece</div>
+    </div>
+    <div class="perfil-card prioritario">
+      <div class="perfil-handle">@designkapital</div>
+      <div class="perfil-desc">12k seguidores. Já te chamou pelo nome da marca duas vezes. Posts sobre posicionamento e identidade.</div>
+      <div class="perfil-tag">Alta prioridade · Já te reconhece</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@agenciadomedico</div>
+      <div class="perfil-desc">7k seguidores. Evite posts de resultado de cliente. Priorize posts sobre estratégia e posicionamento.</div>
+      <div class="perfil-tag">Média prioridade · Posts estratégicos</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@brandingestudio</div>
+      <div class="perfil-desc">Agência de Niterói/RJ. Público do estado do Rio — geograficamente relevante.</div>
+      <div class="perfil-tag">Média prioridade · Local RJ</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@fernandadauria</div>
+      <div class="perfil-desc">15 anos de experiência. Marketing ético e eficaz. Posts sobre paralisia médica e ciclo de confiança — seu território. ~2k seguidores, nicho qualificado.</div>
+      <div class="perfil-tag">Média prioridade · Afinidade real</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@betoquintao</div>
+      <div class="perfil-desc">16k seguidores. Conteúdo sobre aquisição de pacientes e Geração Z. Posts com dados concretos — boas oportunidades de comentário.</div>
+      <div class="perfil-tag">Média prioridade · Posts com dados</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@vitorjaci</div>
+      <div class="perfil-desc">Mentor médico. Verificar frequência e tipo de conteúdo antes de comentar.</div>
+      <div class="perfil-tag">Observar · Avaliar</div>
+    </div>
+  </div>
+
+  <div class="div-linha"></div>
+
+  <!-- INSTAGRAM: PROFISSIONAIS DE SAÚDE -->
+  <div style="font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Instagram · Profissionais de saúde — clientes (12 perfis)</div>
+
+  <div style="font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:10px;margin-top:4px;">Prospects locais — abordar quando voltar a Friburgo</div>
+  <div class="perfis-grid">
+    <div class="perfil-card prioritario">
+      <div class="perfil-handle">@dralidiamagliano</div>
+      <div class="perfil-desc">Gastroenterologista. Clínica Lumen, Nova Friburgo. 2.4k seguidores, 469 posts. Diagnóstico completo feito. Seguida. Mensagem pronta para enviar.</div>
+      <div class="perfil-tag">Prospect forte · Mensagem pronta</div>
+    </div>
+    <div class="perfil-card prioritario">
+      <div class="perfil-handle">@drfabricioayres</div>
+      <div class="perfil-desc">Blefaroplastia e harmonização. Nova Friburgo confirmado. 1.9k seguidores, clínica própria. Presença pequena para o trabalho que faz.</div>
+      <div class="perfil-tag">Prospect forte · Abordar presencialmente</div>
+    </div>
+    <div class="perfil-card prioritario">
+      <div class="perfil-handle">@dramarinasampaio</div>
+      <div class="perfil-desc">Ginecologia e nutrologia. Nova Friburgo. 5.8k seguidores. Foi na Caras, apresentou na Band Rio — autoridade real sem presença à altura.</div>
+      <div class="perfil-tag">Prospect forte · Alta credencial</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@clinicaannazick</div>
+      <div class="perfil-desc">Medicina da mulher 40+. Clínica própria em Friburgo. LinkedIn inativo. Abordar pelo Instagram quando voltar.</div>
+      <div class="perfil-tag">Prospect · Clínica própria</div>
+    </div>
+  </div>
+
+  <div style="font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:10px;margin-top:20px;">Perfis ativos — seguir e comentar quando houver abertura</div>
+  <div class="perfis-grid">
+    <div class="perfil-card">
+      <div class="perfil-handle">@hugobiomedicina</div>
+      <div class="perfil-desc">Biomédico, professor Unopar Nova Friburgo. Conexão pessoal aberta via WhatsApp. Primeiro candidato para entrevista de descoberta.</div>
+      <div class="perfil-tag">Alta prioridade · Conexão pessoal</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@saiacomsaia</div>
+      <div class="perfil-desc">Dra. Laura Lúcia. Ginecologista ativa no digital. Posts dentro das normas CFM. Muitos médicos nos comentários — boa vitrine.</div>
+      <div class="perfil-tag">Alta prioridade · Médico ativo</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@dr.augustopedrosilva</div>
+      <div class="perfil-desc">Verificar especialidade e frequência de posts. Observar antes de comentar.</div>
+      <div class="perfil-tag">Observar</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@dranataliapedroso</div>
+      <div class="perfil-desc">Alergista/Imunologista. Nova Friburgo. Verificar presença digital antes de abordar.</div>
+      <div class="perfil-tag">Observar · Local</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@draanacarolinagomes</div>
+      <div class="perfil-desc">Verificar especialidade e frequência. Observar antes de comentar.</div>
+      <div class="perfil-tag">Observar</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@dramarinasaadi</div>
+      <div class="perfil-desc">Verificar especialidade e frequência. Observar antes de comentar.</div>
+      <div class="perfil-tag">Observar</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@gabrielndspaula</div>
+      <div class="perfil-desc">Verificar especialidade e frequência. Observar antes de comentar.</div>
+      <div class="perfil-tag">Observar</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@danielfolly</div>
+      <div class="perfil-desc">Med. Esporte/Endocrinologia. 15k seguidores. Observar conteúdo antes de comentar.</div>
+      <div class="perfil-tag">Observar · Média tração</div>
+    </div>
+  </div>
+
+  <div style="font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:10px;margin-top:20px;">Perfis de alta tração — engajamento mas não prospects</div>
+  <div class="perfis-grid">
+    <div class="perfil-card">
+      <div class="perfil-handle">@dr.renatotatagiba</div>
+      <div class="perfil-desc">179k seguidores. Cirurgia plástica. Estrutura profissional completa — não é prospect. Seguir para aparecer no nicho.</div>
+      <div class="perfil-tag">Não é prospect · Alta visibilidade</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">@brenolluz</div>
+      <div class="perfil-desc">75.9k seguidores. Ortopedia quadril. Produção profissional consolidada. Seguir para aparecer no nicho.</div>
+      <div class="perfil-tag">Não é prospect · Alta visibilidade</div>
+    </div>
+  </div>
+
+  <div class="div-linha"></div>
+
+  <!-- LINKEDIN -->
+  <div style="font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">LinkedIn · Gestores e médicos empreendedores</div>
+
+  <div class="regra-box">
+    <div class="regra-label">Por que o LinkedIn é diferente</div>
+    <div class="regra-texto">Quando você comenta no LinkedIn, esse comentário aparece no feed das suas conexões — não só dos seguidores do perfil original. <strong>Cada comentário bom tem alcance multiplicado pela sua rede.</strong> O público aqui é mais disperso, mas um comentário se destaca mais porque há menos concorrência.</div>
+  </div>
+
+  <div class="perfis-grid" style="margin-top:16px;">
+    <div class="perfil-card prioritario">
+      <div class="perfil-handle">#gestaodeclinica</div>
+      <div class="perfil-desc">Posts sobre gestão médica — diretores clínicos, administradores de saúde. Decisores que contratam serviços para clínicas.</div>
+      <div class="perfil-tag">Alta prioridade · LinkedIn</div>
+    </div>
+    <div class="perfil-card prioritario">
+      <div class="perfil-handle">#medicoempreendedor</div>
+      <div class="perfil-desc">Médicos que falam sobre carreira, consultório próprio, diferenciação. Já pensam em posicionamento.</div>
+      <div class="perfil-tag">Alta prioridade · LinkedIn</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">#marketingmedico · #presencadigital</div>
+      <div class="perfil-desc">Posts sobre comunicação em saúde. Menos competição que no Instagram — comentário bom se destaca mais.</div>
+      <div class="perfil-tag">Média prioridade · LinkedIn</div>
+    </div>
+    <div class="perfil-card">
+      <div class="perfil-handle">#saudedigital · #inovacaoemsaude</div>
+      <div class="perfil-desc">Profissionais de saúde que pensam em tecnologia e inovação — perfil progressista, mais aberto a novas soluções.</div>
+      <div class="perfil-tag">Expansão · LinkedIn</div>
+    </div>
+  </div>
+
+  <div class="div-linha"></div>
+
+  <!-- REGRAS DE OURO -->
+  <div class="regra-box">
+    <div class="regra-label">Regras de ouro do engajamento</div>
+    <div class="regra-texto">
+      <strong>Nunca elogie o post — acrescente algo.</strong> Um comentário que agrega posiciona você como par, não como fã.<br><br>
+      <strong>Priorize posts com muitos compartilhamentos</strong>, não curtidas. Compartilhamento = o post está circulando para além dos seguidores do perfil.<br><br>
+      <strong>Pule:</strong> posts de celebração, resultado de cliente, bastidor de equipe, motivacional genérico.<br><br>
+      <strong>Entre:</strong> posts polêmicos, posts com tese discutível, posts educativos com conclusão aberta.<br><br>
+      <strong>DM agora: não.</strong> Só quando houver reciprocidade clara e frequente. Exceção: Hugo, que já tem conversa aberta.<br><br>
+      <strong>Seguir:</strong> sim, mas com critério. Máximo 3 a 5 perfis novos por dia para não parecer automação.
+    </div>
+  </div>
+
+  <div class="div-linha"></div>
+
+  <div style="font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Hashtags para seus próprios posts</div>
+  <div class="regra-box">
+    <div class="regra-texto">
+      <strong>Posts de método/processo:</strong> #ZyllahDigital #ProcessoCriativo #PresençaDigital #MarketingParaSaúde #ConsultorioDigital<br><br>
+      <strong>Posts educativos sobre o nicho:</strong> #MedicoDigital #ProfissionalDeSaúde #MarketingMedico #MedicinaDigital #GestaoDeClinica<br><br>
+      <strong>Posts de bastidor:</strong> #BastidorDeAgência #AgenciaDigital #ZyllahDigital #NovaFriburgo<br><br>
+      <strong>Regra de volume:</strong> 5 a 10 hashtags. Misture grandes (#PresençaDigital) com médias (#MarketingParaSaude) e locais (#NovaFriburgo). Evite hashtags com mais de 5 milhões de posts.
+    </div>
+  </div>
+
+</div>
+
+<div class="rodape">
+  <div class="rodape-marca">Zyllah Digital</div>
+  <div class="rodape-nota">Instagram · Checklist Semanal · Uso interno</div>
+</div>
+
+<script>
+var STORAGE_KEY = 'zyl_checklist_v1';
+
+function salvar() {
+  var estado = {};
+  document.querySelectorAll('.check-item').forEach(function(item, i) {
+    estado[i] = item.classList.contains('done');
+  });
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(estado)); } catch(e) {}
+}
+
+function carregar() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    var estado = JSON.parse(raw);
+    document.querySelectorAll('.check-item').forEach(function(item, i) {
+      if (estado[i]) item.classList.add('done');
+    });
+  } catch(e) {}
+}
+
+function mostrarSemana(id, btn) {
+  document.querySelectorAll('.semana-panel').forEach(p => p.classList.remove('ativo'));
+  document.querySelectorAll('.semana-tab').forEach(b => b.classList.remove('ativo'));
+  document.getElementById(id).classList.add('ativo');
+  btn.classList.add('ativo');
+  atualizarProgresso(id);
+}
+
+function toggle(item) {
+  item.classList.toggle('done');
+  salvar();
+  const semanaAtiva = document.querySelector('.semana-panel.ativo').id;
+  atualizarProgresso(semanaAtiva);
+}
+
+function atualizarProgresso(semanaId) {
+  const painel = document.getElementById(semanaId);
+  const todos = painel.querySelectorAll('.check-item');
+  const feitos = painel.querySelectorAll('.check-item.done');
+  const pct = todos.length > 0 ? (feitos.length / todos.length) * 100 : 0;
+  const fill = document.getElementById('prog-' + semanaId);
+  const label = document.getElementById('prog-label-' + semanaId);
+  if (fill) fill.style.width = pct + '%';
+  if (label) label.textContent = feitos.length + ' de ' + todos.length + ' itens concluídos';
+}
+
+function resetarTudo() {
+  if (!confirm('Apagar todos os checks e começar nova semana?')) return;
+  document.querySelectorAll('.check-item').forEach(function(item) {
+    item.classList.remove('done');
+  });
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  document.querySelectorAll('.semana-panel').forEach(function(p) {
+    atualizarProgresso(p.id);
+  });
+}
+
+// Inicializar
+document.addEventListener('DOMContentLoaded', function() {
+  carregar();
+  document.querySelectorAll('.semana-panel').forEach(function(p) {
+    atualizarProgresso(p.id);
+  });
+});
+</script>
+
+<!-- BOTÃO RESET -->
+<div style="position:fixed;bottom:20px;right:20px;z-index:200;">
+  <button onclick="resetarTudo()" style="background:var(--ink);color:rgba(255,255,255,0.4);border:1px solid rgba(184,151,106,0.2);padding:10px 16px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;">
+    ↺ Nova semana
+  </button>
+</div>
+</body>
+</html>
