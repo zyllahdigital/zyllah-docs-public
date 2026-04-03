@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexa Ads — Definição e Operação</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1714;
+    --ink-soft: #3D3830;
+    --gold: #B8976A;
+    --gold-light: #D4B896;
+    --cream: #FAF7F2;
+    --cream-mid: #F0EBE1;
+    --brown: #4A3F35;
+    --red: #7A3535;
+    --green: #2E5E3E;
+    --amber: #8B6914;
+    --blue: #1E3A5F;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); padding: 0 0 120px; }
+
+  /* HEADER */
+  .header { background: var(--ink); padding: 64px 80px 56px; position: relative; overflow: hidden; }
+  .header::after {
+    content: 'ADS';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 260px;
+    font-weight: 300;
+    color: rgba(184,151,106,0.05);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(46,94,62,0.2);
+    border: 1px solid rgba(46,94,62,0.4);
+    padding: 6px 16px;
+    margin-bottom: 28px;
+  }
+  .header-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #4CAF80; }
+  .header-badge-text { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: #4CAF80; }
+  .header-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .header-titulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px;
+    font-weight: 300;
+    color: white;
+    line-height: 1.0;
+    margin-bottom: 12px;
+  }
+  .header-titulo em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 15px; color: rgba(255,255,255,0.4); max-width: 680px; line-height: 1.85; margin-top: 16px; }
+  .header-meta { display: flex; gap: 0; margin-top: 36px; border: 1px solid rgba(184,151,106,0.15); width: fit-content; }
+  .meta-item { padding: 16px 28px; border-right: 1px solid rgba(184,151,106,0.15); }
+  .meta-item:last-child { border-right: none; }
+  .meta-valor { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; color: var(--gold-light); }
+  .meta-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-top: 2px; }
+
+  /* CONTAINER */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 48px; }
+
+  /* SEÇÃO */
+  .secao-tag { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin: 64px 0 12px; display: flex; align-items: center; gap: 12px; }
+  .secao-tag::after { content: ''; flex: 1; height: 1px; background: rgba(184,151,106,0.2); }
+  .secao-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--ink); margin-bottom: 28px; line-height: 1.2; }
+  .secao-titulo em { font-style: italic; color: var(--gold); }
+
+  /* DEF BOX */
+  .def-box {
+    background: var(--ink);
+    padding: 36px 40px;
+    margin: 32px 0;
+  }
+  .def-box p { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.9; }
+  .def-box p + p { margin-top: 12px; }
+  .def-box strong { color: var(--gold-light); font-weight: 400; }
+  .def-box em { font-style: italic; color: rgba(255,255,255,0.3); }
+
+  /* ALERTA CFM */
+  .alerta-cfm {
+    background: rgba(122,53,53,0.06);
+    border-left: 3px solid var(--red);
+    padding: 20px 24px;
+    margin: 32px 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+  }
+  .alerta-cfm strong { color: var(--red); font-weight: 500; }
+  .alerta-titulo { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; display: block; }
+
+  /* NOTA */
+  .nota {
+    background: rgba(184,151,106,0.07);
+    border: 1px dashed rgba(184,151,106,0.35);
+    padding: 20px 24px;
+    margin: 24px 0;
+    font-size: 13px;
+    color: var(--brown);
+    line-height: 1.8;
+  }
+  .nota strong { color: var(--gold); font-weight: 400; }
+  .nota-titulo { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; display: block; opacity: 0.7; }
+
+  /* CANAIS */
+  .canais-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 28px 0; }
+  .canal-card { background: white; border: 1px solid rgba(184,151,106,0.15); padding: 28px 24px; position: relative; overflow: hidden; }
+  .canal-card.opcional { border-style: dashed; opacity: 0.85; }
+  .canal-card-badge { position: absolute; top: 0; right: 0; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; padding: 5px 12px; }
+  .badge-core { background: rgba(46,94,62,0.1); color: var(--green); }
+  .badge-opcl { background: rgba(139,105,20,0.1); color: var(--amber); }
+  .canal-icone { font-size: 28px; margin-bottom: 14px; display: block; }
+  .canal-nome { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--ink); margin-bottom: 8px; }
+  .canal-foco { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .canal-desc { font-size: 13px; color: var(--brown); line-height: 1.7; }
+  .canal-cfm { font-size: 11px; color: rgba(122,53,53,0.7); margin-top: 12px; line-height: 1.6; border-top: 1px solid rgba(184,151,106,0.1); padding-top: 12px; }
+
+  /* LISTA SIM/NÃO */
+  .lista { display: flex; flex-direction: column; gap: 0; margin: 24px 0; }
+  .lista-item { display: flex; align-items: flex-start; gap: 20px; padding: 18px 0; border-bottom: 1px solid rgba(184,151,106,0.1); font-size: 15px; color: var(--brown); line-height: 1.6; }
+  .lista-item:last-child { border-bottom: none; }
+  .lista-item .icone { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; margin-top: 1px; }
+  .icone-sim { background: rgba(46,94,62,0.12); color: var(--green); border: 1px solid rgba(46,94,62,0.2); }
+  .icone-nao { background: rgba(122,53,53,0.1); color: var(--red); border: 1px solid rgba(122,53,53,0.2); }
+  .lista-item strong { color: var(--ink); font-weight: 400; display: block; margin-bottom: 2px; }
+
+  /* PRECIFICAÇÃO */
+  .prec-box { background: var(--cream-mid); border: 1px solid rgba(184,151,106,0.2); padding: 36px 40px; margin: 28px 0; }
+  .prec-titulo { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: var(--ink); margin-bottom: 24px; }
+  .prec-linha { display: flex; align-items: baseline; gap: 16px; padding: 16px 0; border-bottom: 1px solid rgba(184,151,106,0.15); }
+  .prec-linha:last-child { border-bottom: none; }
+  .prec-cond { font-size: 14px; color: var(--brown); flex: 1; line-height: 1.5; }
+  .prec-cond strong { color: var(--ink); font-weight: 400; display: block; }
+  .prec-valor { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); font-weight: 300; white-space: nowrap; }
+  .prec-obs { font-size: 12px; color: rgba(74,63,53,0.55); margin-top: 4px; display: block; }
+
+  /* PERGUNTAS DO CLIENTE */
+  .qa { display: flex; flex-direction: column; gap: 16px; margin: 28px 0; }
+  .qa-item { background: white; border: 1px solid rgba(184,151,106,0.12); overflow: hidden; }
+  .qa-pergunta { padding: 18px 24px; background: rgba(184,151,106,0.06); font-size: 14px; font-weight: 500; color: var(--ink); display: flex; align-items: flex-start; gap: 14px; line-height: 1.5; }
+  .qa-pergunta::before { content: 'P'; flex-shrink: 0; width: 24px; height: 24px; background: var(--ink); color: var(--gold); font-size: 11px; font-weight: 400; display: flex; align-items: center; justify-content: center; letter-spacing: 0.05em; margin-top: 1px; }
+  .qa-resposta { padding: 18px 24px 18px 62px; font-size: 14px; color: var(--brown); line-height: 1.8; }
+  .qa-resposta strong { color: var(--ink); font-weight: 400; }
+
+  /* ONBOARDING */
+  .onb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0; }
+  .onb-card { background: white; border: 1px solid rgba(184,151,106,0.12); padding: 20px 22px; }
+  .onb-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; color: var(--gold); opacity: 0.4; line-height: 1; margin-bottom: 8px; }
+  .onb-titulo { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .onb-desc { font-size: 12px; color: var(--brown); line-height: 1.7; }
+
+  .divisor { height: 1px; background: rgba(184,151,106,0.12); margin: 56px 0; }
+  .rodape { font-size: 11px; color: rgba(61,56,48,0.35); margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(184,151,106,0.1); line-height: 1.8; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">
+    <div class="header-badge-dot"></div>
+    <span class="header-badge-text">Plano Autoridade · Incluso na mensalidade</span>
+  </div>
+  <span class="header-tag">Zyllah Digital · Entregável do Autoridade</span>
+  <h1 class="header-titulo">Nexa <em>Ads</em></h1>
+  <p class="header-sub">Campanhas de visibilidade local calibradas dentro do que o CFM permite para especialistas de saúde. Google Ads, Meta Ads e LinkedIn Ads (opcional) — gestão inclusa no plano Autoridade, budget investido diretamente pelo cliente nas plataformas.</p>
+  <div class="header-meta">
+    <div class="meta-item">
+      <div class="meta-valor">Autoridade</div>
+      <div class="meta-label">Plano</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-valor">Incluso</div>
+      <div class="meta-label">Gestão</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-valor">Por fora</div>
+      <div class="meta-label">Budget de mídia</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-valor">15% s/ excedente</div>
+      <div class="meta-label">Acima de R$ 1.000/mês</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- DEFINIÇÃO -->
+  <div class="secao-tag" style="margin-top: 56px;">Definição</div>
+  <h2 class="secao-titulo">O que é o<br><em>Nexa Ads</em></h2>
+
+  <div class="def-box">
+    <p><strong>Nexa Ads é a gestão de campanhas de mídia paga inclusa no plano Autoridade.</strong> Não é uma agência de performance prometendo volume de leads — é posicionamento digital pago, calibrado para o que um especialista de saúde pode anunciar dentro das normas do CFM.</p>
+    <p>O objetivo é <strong>visibilidade local e reforço de autoridade</strong> — fazer com que o especialista apareça para quem já está buscando, e reforce sua presença para quem já o conhece. <em>Não é captação direta de pacientes. É presença qualificada nas plataformas certas.</em></p>
+  </div>
+
+  <div class="alerta-cfm">
+    <span class="alerta-titulo">⚖ Restrições CFM — inegociável</span>
+    O CFM <strong>permite</strong> anúncios informativos, campanhas de pesquisa local e impulsionamento de conteúdo educativo. <strong>Proíbe:</strong> imagens de antes/depois, promessa de resultados, preços de procedimentos, linguagem de captação direta ("agende agora e ganhe desconto"), depoimentos de pacientes com identificação. Toda campanha criada pelo Nexa Ads respeita essas regras — isso precisa ser dito ao cliente no onboarding e está no contrato.
+  </div>
+
+  <!-- CANAIS -->
+  <div class="secao-tag">Canais</div>
+  <h2 class="secao-titulo">Onde as campanhas<br><em>rodam</em></h2>
+
+  <div class="canais-grid">
+    <div class="canal-card">
+      <span class="canal-card-badge badge-core">Core</span>
+      <span class="canal-icone">🔍</span>
+      <div class="canal-nome">Google Ads</div>
+      <span class="canal-foco">Intenção de busca local</span>
+      <div class="canal-desc">Campanhas de pesquisa para termos como "cardiologista em Nova Friburgo" ou "dermatologista consultório". O paciente está buscando ativamente — você aparece no momento certo. Menor risco CFM, maior intenção de conversão.</div>
+      <div class="canal-cfm">✓ CFM: campanha de pesquisa informativa. Sem promessa de resultado.</div>
+    </div>
+    <div class="canal-card">
+      <span class="canal-card-badge badge-core">Core</span>
+      <span class="canal-icone">📱</span>
+      <div class="canal-nome">Meta Ads</div>
+      <span class="canal-foco">Visibilidade e autoridade</span>
+      <div class="canal-desc">Impulsionamento de posts informativos e de autoridade no Instagram e Facebook. Alcança público local mesmo sem seguidores. Reforça a presença orgânica que já está sendo construída no plano.</div>
+      <div class="canal-cfm">✓ CFM: conteúdo educativo e informativo. Sem captação direta ou promessa.</div>
+    </div>
+    <div class="canal-card opcional">
+      <span class="canal-card-badge badge-opcl">Opcional</span>
+      <span class="canal-icone">💼</span>
+      <div class="canal-nome">LinkedIn Ads</div>
+      <span class="canal-foco">Audiência B2B — quando justificar</span>
+      <div class="canal-desc">Atingir diretores de hospitais, operadoras de saúde, colegas que indicam casos complexos e jornalistas de saúde. Custo por clique mais alto — só recomendado quando o perfil do especialista tiver foco B2B claro.</div>
+      <div class="canal-cfm">✓ CFM: posicionamento profissional. Avaliar caso a caso.</div>
+    </div>
+  </div>
+
+  <!-- O QUE FAZ / NÃO FAZ -->
+  <div class="secao-tag">Escopo</div>
+  <h2 class="secao-titulo">O que o Nexa Ads faz —<br><em>e o que não faz</em></h2>
+
+  <div class="lista">
+    <div class="lista-item">
+      <div class="icone icone-sim">✓</div>
+      <div>
+        <strong>Cria e configura as campanhas</strong>
+        Estrutura das campanhas, escolha de palavras-chave locais, definição de público-alvo geográfico, criação dos anúncios dentro das regras CFM.
+      </div>
+    </div>
+    <div class="lista-item">
+      <div class="icone icone-sim">✓</div>
+      <div>
+        <strong>Gerencia e otimiza mensalmente</strong>
+        Acompanhamento de performance, pausar o que não funciona, escalar o que converte. Relatório incluso nas reuniões quinzenais do Autoridade.
+      </div>
+    </div>
+    <div class="lista-item">
+      <div class="icone icone-sim">✓</div>
+      <div>
+        <strong>Orienta o cliente sobre o budget</strong>
+        Recomendação de quanto investir por plataforma com base no objetivo e no mercado local. O cliente decide o valor — a Zyllah distribui e gerencia.
+      </div>
+    </div>
+    <div class="lista-item">
+      <div class="icone icone-sim">✓</div>
+      <div>
+        <strong>Garante conformidade com o CFM</strong>
+        Nenhuma campanha vai ao ar sem checagem das restrições. O especialista não precisa se preocupar com isso.
+      </div>
+    </div>
+  </div>
+
+  <div class="lista">
+    <div class="lista-item">
+      <div class="icone icone-nao">✕</div>
+      <div>
+        <strong>Não garante número de consultas ou leads</strong>
+        Tráfego pago gera visibilidade e cliques — o que acontece depois depende do site, da recepção e do especialista. Isso precisa estar no contrato e ser dito no onboarding.
+      </div>
+    </div>
+    <div class="lista-item">
+      <div class="icone icone-nao">✕</div>
+      <div>
+        <strong>Não paga o budget de mídia</strong>
+        O valor investido nas plataformas (Google, Meta, LinkedIn) é pago diretamente pelo cliente, fora da mensalidade. A Zyllah só cobra pela gestão.
+      </div>
+    </div>
+    <div class="lista-item">
+      <div class="icone icone-nao">✕</div>
+      <div>
+        <strong>Não cria campanhas que violam o CFM</strong>
+        Se o cliente pedir antes/depois, promessa de resultado ou desconto em procedimento — não é feito. Sem exceção.
+      </div>
+    </div>
+  </div>
+
+  <!-- PRECIFICAÇÃO -->
+  <div class="secao-tag">Precificação</div>
+  <h2 class="secao-titulo">Gestão inclusa,<br><em>budget por fora</em></h2>
+
+  <div class="prec-box">
+    <div class="prec-titulo">Estrutura de cobrança</div>
+    <div class="prec-linha">
+      <div class="prec-cond">
+        <strong>Gestão mensal — até R$ 1.000 em mídia</strong>
+        Inclusa na mensalidade do Autoridade. Cobre criação, configuração, otimização e relatório de todas as campanhas ativas dentro desse volume.
+      </div>
+      <div class="prec-valor">Inclusa</div>
+    </div>
+    <div class="prec-linha">
+      <div class="prec-cond">
+        <strong>Gestão adicional — acima de R$ 1.000 em mídia</strong>
+        Para cada R$ 1.000 acima do limite, 15% sobre o valor total investido naquele mês. Quanto maior o budget, maior a responsabilidade de gestão.
+        <span class="prec-obs">Exemplo: cliente investe R$ 3.000/mês → R$ 3.000 × 15% = R$ 450 de taxa adicional.</span>
+      </div>
+      <div class="prec-valor">15%</div>
+    </div>
+    <div class="prec-linha">
+      <div class="prec-cond">
+        <strong>Budget de mídia</strong>
+        Pago diretamente pelo cliente nas plataformas (Google, Meta, LinkedIn). Não passa pela Zyllah. Declarado em contrato com clareza.
+      </div>
+      <div class="prec-valor">Por fora</div>
+    </div>
+  </div>
+
+  <div class="nota">
+    <span class="nota-titulo">💡 Nota de mercado</span>
+    O percentual padrão de mercado para gestão de tráfego pago gira entre <strong>10% e 20% sobre o budget gerenciado.</strong> 15% é uma posição justa e defensável — não é o mais barato nem o mais caro. Quando o cliente tiver budget alto, o valor da taxa adicional cresce proporcionalmente à complexidade da gestão. Isso precisa estar no contrato desde o início.
+  </div>
+
+  <!-- PERGUNTAS DO CLIENTE -->
+  <div class="secao-tag">Script de reunião</div>
+  <h2 class="secao-titulo">Perguntas do cliente —<br><em>respostas prontas</em></h2>
+
+  <div class="qa">
+
+    <div class="qa-item">
+      <div class="qa-pergunta">Quanto eu preciso investir em anúncios?</div>
+      <div class="qa-resposta">
+        Não há um valor mínimo obrigatório — você decide quanto quer investir. Para o mercado de Nova Friburgo, campanhas de pesquisa no Google com R$ 300 a R$ 600 por mês já produzem visibilidade relevante. O que eu recomendo é começar com um budget conservador, analisar os resultados no primeiro mês e ajustar. O importante é que esse valor vai direto para o Google ou o Meta — não passa pela Zyllah.
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-pergunta">Quanto vou ganhar de retorno com os anúncios?</div>
+      <div class="qa-resposta">
+        Não trabalho com promessa de número de consultas — nenhuma agência séria faz isso. O que os anúncios fazem é colocar você na frente de quem já está buscando um especialista na sua área em Nova Friburgo. O retorno depende de vários fatores: a qualidade do seu site, como a recepção atende, o ticket da sua consulta. O que posso garantir é que as campanhas vão ser criadas e gerenciadas dentro das melhores práticas e das regras do CFM.
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-pergunta">O CFM permite fazer anúncios?</div>
+      <div class="qa-resposta">
+        Sim — com regras claras. O CFM permite anúncios informativos: aparecer numa busca local, impulsionar conteúdo educativo, reforçar sua presença de marca. O que é proibido é antes/depois, promessa de resultado, preço de procedimento e depoimento de paciente identificado. Tudo que criamos no Nexa Ads passa por esse filtro antes de ir ao ar. Você não precisa se preocupar com isso — é nossa responsabilidade.
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-pergunta">Qual a diferença entre o Google Ads e o Instagram?</div>
+      <div class="qa-resposta">
+        São objetivos diferentes. O Google Ads captura quem já está buscando — o paciente digitou "cardiologista em Nova Friburgo" e você aparece. É intenção ativa. O Instagram/Meta é interrupção qualificada — você aparece para pessoas que correspondem ao perfil do seu paciente ideal, mesmo que elas não estivessem buscando. Um reforça o outro. No Autoridade, trabalhamos os dois.
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-pergunta">Preciso do LinkedIn também?</div>
+      <div class="qa-resposta">
+        Depende do seu objetivo. Se você quer atrair pacientes diretos, Google e Meta resolvem. O LinkedIn Ads faz sentido quando o objetivo é visibilidade profissional — aparecer para diretores de hospital, operadoras de saúde ou colegas que encaminham casos complexos. É mais caro por clique, então só recomendo se esse público B2B for relevante para você. Vamos avaliar juntos no onboarding.
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-pergunta">E se eu quiser investir mais do que R$ 1.000 por mês?</div>
+      <div class="qa-resposta">
+        Ótimo — quanto maior o budget, mais campanhas podemos rodar e mais dados temos para otimizar. Para budgets acima de R$ 1.000 por mês, cobro uma taxa de gestão adicional de 15% sobre o valor total investido. Isso é padrão no mercado — reflete o trabalho maior de acompanhamento e otimização. O valor continua saindo direto da sua conta nas plataformas, fora da mensalidade.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ONBOARDING -->
+  <div class="secao-tag">Operação</div>
+  <h2 class="secao-titulo">Onboarding do<br><em>Nexa Ads</em></h2>
+
+  <div class="onb-grid">
+    <div class="onb-card">
+      <div class="onb-num">01</div>
+      <div class="onb-titulo">Briefing de campanha</div>
+      <div class="onb-desc">Entender especialidade, área geográfica de atendimento, perfil do paciente ideal, objetivo principal (novos pacientes, reforço de autoridade, B2B). Define quais canais ativar.</div>
+    </div>
+    <div class="onb-card">
+      <div class="onb-num">02</div>
+      <div class="onb-titulo">Definição de budget</div>
+      <div class="onb-desc">O cliente decide quanto investir por plataforma. A Zyllah recomenda a distribuição. Declarado em contrato. Budget vai direto para a plataforma — a Zyllah não intermedeia o pagamento.</div>
+    </div>
+    <div class="onb-card">
+      <div class="onb-num">03</div>
+      <div class="onb-titulo">Criação e checagem CFM</div>
+      <div class="onb-desc">Campanhas criadas, textos e imagens checados contra as restrições CFM antes de qualquer aprovação. Cliente aprova os criativos antes de ir ao ar.</div>
+    </div>
+    <div class="onb-card">
+      <div class="onb-num">04</div>
+      <div class="onb-titulo">Acompanhamento quinzenal</div>
+      <div class="onb-desc">Performance das campanhas revisada nas reuniões quinzenais do Autoridade. Ajustes, pausas e escalonamentos feitos com base em dados reais do período.</div>
+    </div>
+  </div>
+
+  <div class="nota">
+    <span class="nota-titulo">📋 Contrato — o que precisa estar explícito</span>
+    <strong>1.</strong> Budget de mídia é pago pelo cliente diretamente nas plataformas — não passa pela Zyllah.<br>
+    <strong>2.</strong> Gestão adicional de 15% para budgets acima de R$ 1.000/mês.<br>
+    <strong>3.</strong> Sem garantia de número de consultas ou leads.<br>
+    <strong>4.</strong> Todas as campanhas respeitam as normas CFM — nenhuma campanha proibida será criada mesmo se solicitada.<br>
+    <strong>5.</strong> LinkedIn Ads é opcional e precisa de avaliação prévia de viabilidade.
+  </div>
+
+  <p class="rodape">
+    Zyllah Digital · Nexa Ads · Definição e operação v1.0 · Março 2026<br>
+    Entregável exclusivo do Plano Autoridade · Integrar ao script de reunião
+  </p>
+
+</div>
+</body>
+</html>

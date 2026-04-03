@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah — Memorando Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --gold: #B8976A; --gold-light: #D4B896;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+    --brown: #4A3F35;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); padding: 0 0 120px; }
+
+  .header { background: var(--ink); padding: 64px 80px 56px; position: relative; overflow: hidden; }
+  .header::after { content: 'VISUAL'; position: absolute; right: -20px; top: 50%; transform: translateY(-50%); font-family: 'Cormorant Garamond', serif; font-size: 220px; font-weight: 300; color: rgba(184,151,106,0.04); line-height: 1; pointer-events: none; }
+  .header-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .header-titulo { font-family: 'Cormorant Garamond', serif; font-size: 60px; font-weight: 300; color: white; line-height: 1.0; margin-bottom: 12px; }
+  .header-titulo em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 15px; color: rgba(255,255,255,0.4); max-width: 620px; line-height: 1.85; margin-top: 16px; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 0 48px; }
+  .secao-tag { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin: 64px 0 12px; display: flex; align-items: center; gap: 12px; }
+  .secao-tag::after { content: ''; flex: 1; height: 1px; background: rgba(184,151,106,0.2); }
+  .secao-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--ink); margin-bottom: 28px; line-height: 1.2; }
+  .secao-titulo em { font-style: italic; color: var(--gold); }
+
+  /* PALETA */
+  .paleta { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 24px 0; }
+  .cor-card { background: white; border: 1px solid rgba(184,151,106,0.12); padding: 0; overflow: hidden; }
+  .cor-amostra { height: 80px; }
+  .cor-info { padding: 12px 14px; }
+  .cor-nome { font-size: 12px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .cor-hex { font-size: 11px; color: var(--brown); font-family: monospace; margin-bottom: 3px; }
+  .cor-uso { font-size: 10px; color: rgba(74,63,53,0.6); line-height: 1.4; }
+
+  /* TIPOGRAFIA */
+  .tipo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+  .tipo-card { background: white; border: 1px solid rgba(184,151,106,0.12); padding: 28px; }
+  .tipo-amostra-serif { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; font-style: italic; color: var(--ink); line-height: 1; margin-bottom: 16px; }
+  .tipo-amostra-sans { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 24px; letter-spacing: 0.05em; color: var(--ink); margin-bottom: 16px; }
+  .tipo-nome { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; display: block; }
+  .tipo-regras { font-size: 12px; color: var(--brown); line-height: 1.8; }
+  .tipo-regras li { margin-left: 16px; }
+
+  /* FORMATOS */
+  .formatos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+  .formato-card { background: white; border: 1px solid rgba(184,151,106,0.12); padding: 24px; }
+  .formato-preview { border: 1px solid rgba(184,151,106,0.2); margin-bottom: 16px; display: flex; align-items: center; justify-content: center; background: var(--cream-mid); position: relative; }
+  .formato-preview-inner { background: var(--ink); position: relative; }
+  .formato-corner { position: absolute; width: 12px; height: 12px; border-color: var(--gold); border-style: solid; opacity: 0.6; }
+  .formato-corner.tl { top: 6px; left: 6px; border-width: 1px 0 0 1px; }
+  .formato-corner.tr { top: 6px; right: 6px; border-width: 1px 1px 0 0; }
+  .formato-corner.bl { bottom: 6px; left: 6px; border-width: 0 0 1px 1px; }
+  .formato-corner.br { bottom: 6px; right: 6px; border-width: 0 1px 1px 0; }
+  .formato-nome { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+  .formato-dim { font-size: 11px; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 10px; display: block; font-family: monospace; }
+  .formato-uso { font-size: 12px; color: var(--brown); line-height: 1.7; }
+
+  /* ANATOMIA */
+  .anatomia { background: var(--ink); padding: 36px 40px; margin: 24px 0; }
+  .anatomia-titulo { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: block; }
+  .anatomia-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .anatomia-item { }
+  .anatomia-item-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; color: var(--gold); opacity: 0.3; line-height: 1; margin-bottom: 6px; }
+  .anatomia-item-titulo { font-size: 13px; font-weight: 500; color: white; margin-bottom: 4px; }
+  .anatomia-item-desc { font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.7; }
+  .anatomia-item-valor { font-size: 11px; font-family: monospace; color: var(--gold-light); margin-top: 4px; }
+
+  /* REGRAS */
+  .regras { display: flex; flex-direction: column; gap: 0; margin: 24px 0; }
+  .regra { display: flex; align-items: flex-start; gap: 20px; padding: 18px 0; border-bottom: 1px solid rgba(184,151,106,0.1); font-size: 14px; color: var(--brown); line-height: 1.6; }
+  .regra:last-child { border-bottom: none; }
+  .regra-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); opacity: 0.35; flex-shrink: 0; width: 32px; line-height: 1; }
+  .regra strong { color: var(--ink); font-weight: 400; display: block; margin-bottom: 2px; }
+
+  /* NOTA */
+  .nota { background: rgba(184,151,106,0.07); border: 1px dashed rgba(184,151,106,0.35); padding: 20px 24px; margin: 24px 0; font-size: 13px; color: var(--brown); line-height: 1.8; }
+  .nota strong { color: var(--gold); font-weight: 400; }
+
+  .divisor { height: 1px; background: rgba(184,151,106,0.12); margin: 56px 0; }
+  .rodape { font-size: 11px; color: rgba(61,56,48,0.35); margin-top: 64px; padding-top: 24px; border-top: 1px solid rgba(184,151,106,0.1); line-height: 1.8; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-tag">Zyllah Digital · Uso interno · Produtor</span>
+  <h1 class="header-titulo">Memorando<br><em>Visual</em></h1>
+  <p class="header-sub">Padrão estético obrigatório para toda peça produzida pela Zyllah — posts, stories, carrosséis, frames de LinkedIn, apresentações e documentos internos. Não é sugestão. É a identidade.</p>
+</div>
+
+<div class="container">
+
+  <!-- PALETA -->
+  <div class="secao-tag" style="margin-top:56px">Paleta de cores</div>
+  <h2 class="secao-titulo">As únicas cores<br><em>que existem</em></h2>
+
+  <div class="paleta">
+    <div class="cor-card">
+      <div class="cor-amostra" style="background:#1A1714"></div>
+      <div class="cor-info">
+        <div class="cor-nome">Ink</div>
+        <div class="cor-hex">#1A1714</div>
+        <div class="cor-uso">Fundo escuro, texto principal, header de documentos</div>
+      </div>
+    </div>
+    <div class="cor-card">
+      <div class="cor-amostra" style="background:#B8976A"></div>
+      <div class="cor-info">
+        <div class="cor-nome">Gold</div>
+        <div class="cor-hex">#B8976A</div>
+        <div class="cor-uso">Acento principal, tags, cantoneiras, destaques</div>
+      </div>
+    </div>
+    <div class="cor-card">
+      <div class="cor-amostra" style="background:#D4B896"></div>
+      <div class="cor-info">
+        <div class="cor-nome">Gold Light</div>
+        <div class="cor-hex">#D4B896</div>
+        <div class="cor-uso">Itálico em fundo escuro, metadados, versão suave do ouro</div>
+      </div>
+    </div>
+    <div class="cor-card">
+      <div class="cor-amostra" style="background:#FAF7F2"></div>
+      <div class="cor-info">
+        <div class="cor-nome">Cream</div>
+        <div class="cor-hex">#FAF7F2</div>
+        <div class="cor-uso">Fundo claro, fundo de documentos, slides claros</div>
+      </div>
+    </div>
+    <div class="cor-card">
+      <div class="cor-amostra" style="background:#4A3F35"></div>
+      <div class="cor-info">
+        <div class="cor-nome">Brown</div>
+        <div class="cor-hex">#4A3F35</div>
+        <div class="cor-uso">Texto secundário em fundo claro, descrições, corpo de texto</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nota">
+    <strong>Regra absoluta:</strong> nenhuma outra cor entra nas peças Zyllah. Gradientes, cores vibrantes, azuis, vermelhos, verdes decorativos — não existem. Se uma peça precisar de uma cor diferente (para badge de alerta, por exemplo), usa-se uma variação de opacidade das cores acima.
+  </div>
+
+  <!-- TIPOGRAFIA -->
+  <div class="secao-tag">Tipografia</div>
+  <h2 class="secao-titulo">Dois tipos de letra —<br><em>nenhum outro</em></h2>
+
+  <div class="tipo-grid">
+    <div class="tipo-card">
+      <span class="tipo-nome">Display — títulos e destaques</span>
+      <div class="tipo-amostra-serif">Cormorant<br><em>Garamond</em></div>
+      <ul class="tipo-regras">
+        <li>Sempre em weight 300 (Light)</li>
+        <li>Títulos principais em itálico</li>
+        <li>Palavras-âncora em itálico dourado</li>
+        <li>Nunca em bold, nunca em all-caps</li>
+        <li>Import: Google Fonts — Cormorant Garamond</li>
+      </ul>
+    </div>
+    <div class="tipo-card">
+      <span class="tipo-nome">Corpo — texto corrido e UI</span>
+      <div class="tipo-amostra-sans">Jost</div>
+      <ul class="tipo-regras">
+        <li>Weight 300 para corpo de texto</li>
+        <li>Weight 400 para destaques inline</li>
+        <li>Weight 500 para labels e títulos de seção</li>
+        <li>Tags: letter-spacing 0.3–0.5em + uppercase</li>
+        <li>Import: Google Fonts — Jost</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FORMATOS -->
+  <div class="secao-tag">Formatos de postagem</div>
+  <h2 class="secao-titulo">Dimensões por canal —<br><em>sem improvisar</em></h2>
+
+  <div class="formatos-grid">
+
+    <div class="formato-card">
+      <div class="formato-preview" style="height:120px">
+        <div class="formato-preview-inner" style="width:80px;height:80px;">
+          <div class="formato-corner tl"></div>
+          <div class="formato-corner tr"></div>
+          <div class="formato-corner bl"></div>
+          <div class="formato-corner br"></div>
+        </div>
+      </div>
+      <div class="formato-nome">Post Instagram — Quadrado</div>
+      <span class="formato-dim">1080 × 1080 px</span>
+      <div class="formato-uso">Carrossel educativo, quotes, destaques de conteúdo. Formato padrão do feed.</div>
+    </div>
+
+    <div class="formato-card">
+      <div class="formato-preview" style="height:120px">
+        <div class="formato-preview-inner" style="width:54px;height:96px;">
+          <div class="formato-corner tl"></div>
+          <div class="formato-corner tr"></div>
+          <div class="formato-corner bl"></div>
+          <div class="formato-corner br"></div>
+        </div>
+      </div>
+      <div class="formato-nome">Story / Reel — Vertical</div>
+      <span class="formato-dim">1080 × 1920 px</span>
+      <div class="formato-uso">Stories, Reels, conteúdo em vídeo. Zona segura: manter conteúdo entre 250px do topo e base.</div>
+    </div>
+
+    <div class="formato-card">
+      <div class="formato-preview" style="height:120px">
+        <div class="formato-preview-inner" style="width:96px;height:54px;">
+          <div class="formato-corner tl"></div>
+          <div class="formato-corner tr"></div>
+          <div class="formato-corner bl"></div>
+          <div class="formato-corner br"></div>
+        </div>
+      </div>
+      <div class="formato-nome">LinkedIn — Post Paisagem</div>
+      <span class="formato-dim">1200 × 627 px</span>
+      <div class="formato-uso">Posts de feed do LinkedIn. Proporção 1.91:1. Fundo escuro ou claro dependendo do tom do post.</div>
+    </div>
+
+    <div class="formato-card">
+      <div class="formato-preview" style="height:120px">
+        <div class="formato-preview-inner" style="width:90px;height:90px;">
+          <div class="formato-corner tl"></div>
+          <div class="formato-corner tr"></div>
+          <div class="formato-corner bl"></div>
+          <div class="formato-corner br"></div>
+        </div>
+      </div>
+      <div class="formato-nome">LinkedIn — Post Quadrado</div>
+      <span class="formato-dim">1080 × 1080 px</span>
+      <div class="formato-uso">Alternativa quadrada para LinkedIn — mais impacto visual no feed. Usar para quotes e destaques.</div>
+    </div>
+
+    <div class="formato-card">
+      <div class="formato-preview" style="height:120px">
+        <div class="formato-preview-inner" style="width:96px;height:54px; background: #1A1714;">
+          <div class="formato-corner tl"></div>
+          <div class="formato-corner tr"></div>
+          <div class="formato-corner bl"></div>
+          <div class="formato-corner br"></div>
+          <div style="position:absolute;bottom:8px;right:8px;font-family:'Jost',sans-serif;font-size:5px;color:rgba(184,151,106,0.6);letter-spacing:1px;">ZYLLAH</div>
+        </div>
+      </div>
+      <div class="formato-nome">Apresentação 16:9</div>
+      <span class="formato-dim">1920 × 1080 px</span>
+      <div class="formato-uso">Slides de vendas, apresentações institucionais. Margens: 80px laterais, 56px verticais.</div>
+    </div>
+
+    <div class="formato-card">
+      <div class="formato-preview" style="height:120px">
+        <div class="formato-preview-inner" style="width:68px;height:96px;">
+          <div class="formato-corner tl"></div>
+          <div class="formato-corner tr"></div>
+          <div class="formato-corner bl"></div>
+          <div class="formato-corner br"></div>
+        </div>
+      </div>
+      <div class="formato-nome">YouTube Thumbnail</div>
+      <span class="formato-dim">1280 × 720 px</span>
+      <div class="formato-uso">Thumbnails do canal YouTube. Texto legível em miniatura (mín. 60px). Logo no canto inferior direito.</div>
+    </div>
+
+  </div>
+
+  <!-- ANATOMIA DO FRAME -->
+  <div class="secao-tag">Anatomia do frame</div>
+  <h2 class="secao-titulo">Elementos que<br><em>compõem toda peça</em></h2>
+
+  <div class="anatomia">
+    <span class="anatomia-titulo">Estrutura obrigatória — todo frame Zyllah tem</span>
+    <div class="anatomia-grid">
+      <div class="anatomia-item">
+        <div class="anatomia-item-num">1</div>
+        <div class="anatomia-item-titulo">Cantoneiras douradas</div>
+        <div class="anatomia-item-desc">Quatro cantos, 1px de espessura, 28–32px de comprimento por lado. Definem a "moldura" visual da peça.</div>
+        <div class="anatomia-item-valor">border: 1px solid var(--gold); opacity: 0.5</div>
+      </div>
+      <div class="anatomia-item">
+        <div class="anatomia-item-num">2</div>
+        <div class="anatomia-item-titulo">Tag de contexto</div>
+        <div class="anatomia-item-desc">Texto em caps, Jost 300, 10–11px, letter-spacing 0.4–0.5em, cor gold. Indica o que é a peça antes do título.</div>
+        <div class="anatomia-item-valor">font-size: 11px; letter-spacing: 0.45em</div>
+      </div>
+      <div class="anatomia-item">
+        <div class="anatomia-item-num">3</div>
+        <div class="anatomia-item-titulo">Título em Cormorant</div>
+        <div class="anatomia-item-desc">Sempre Cormorant Garamond 300. Palavra-âncora em itálico dourado. Nunca bold. Tamanho varia por formato.</div>
+        <div class="anatomia-item-valor">font-family: Cormorant Garamond; font-style: italic</div>
+      </div>
+      <div class="anatomia-item">
+        <div class="anatomia-item-num">4</div>
+        <div class="anatomia-item-titulo">Linha divisória dourada</div>
+        <div class="anatomia-item-desc">56px de largura, 1px de altura, cor gold. Separa o título do corpo. Presente em quase todas as peças.</div>
+        <div class="anatomia-item-valor">width: 56px; height: 1px; background: var(--gold)</div>
+      </div>
+      <div class="anatomia-item">
+        <div class="anatomia-item-num">5</div>
+        <div class="anatomia-item-titulo">Logo no rodapé</div>
+        <div class="anatomia-item-desc">Sempre no canto inferior direito, dentro das cantoneiras. Em peças escuras: gold. Em peças claras: ink. Nunca no centro.</div>
+        <div class="anatomia-item-valor">bottom: 80px; right: 110px</div>
+      </div>
+      <div class="anatomia-item">
+        <div class="anatomia-item-num">6</div>
+        <div class="anatomia-item-titulo">Grade de fundo (opcional)</div>
+        <div class="anatomia-item-desc">Grid sutil em gold com opacidade 0.04 — presente em fundos escuros para dar profundidade sem peso visual.</div>
+        <div class="anatomia-item-valor">background-size: 54px 54px; opacity: 0.04</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGRAS DE COMPOSIÇÃO -->
+  <div class="secao-tag">Regras de composição</div>
+  <h2 class="secao-titulo">O que nunca<br><em>pode acontecer</em></h2>
+
+  <div class="regras">
+    <div class="regra">
+      <div class="regra-num">1</div>
+      <div>
+        <strong>Nunca usar cor fora da paleta oficial</strong>
+        Azul, vermelho, verde, laranja, roxo — não existem em peças Zyllah. Nem como detalhe. Nem como "só aqui". A identidade é o que não muda.
+      </div>
+    </div>
+    <div class="regra">
+      <div class="regra-num">2</div>
+      <div>
+        <strong>Nunca misturar peso de fonte em excesso</strong>
+        Cormorant 300 para display, Jost 300/400/500 para corpo. Bold (700+) não existe no vocabulário visual Zyllah.
+      </div>
+    </div>
+    <div class="regra">
+      <div class="regra-num">3</div>
+      <div>
+        <strong>Nunca centralizar texto em documentos internos</strong>
+        Documentos internos usam alinhamento à esquerda. Centralização é reservada para slides de apresentação e peças únicas de destaque.
+      </div>
+    </div>
+    <div class="regra">
+      <div class="regra-num">4</div>
+      <div>
+        <strong>Nunca produzir em dimensão errada</strong>
+        Cada canal tem sua dimensão. Uma peça de Instagram publicada no LinkedIn sem ajuste comunica descuido — o oposto do que a Zyllah posiciona.
+      </div>
+    </div>
+    <div class="regra">
+      <div class="regra-num">5</div>
+      <div>
+        <strong>Nunca usar foto sem tratar o fundo</strong>
+        Fotos em peças digitais precisam de overlay ou recorte. Foto crua em fundo de cor sólida quebra a coerência visual.
+      </div>
+    </div>
+    <div class="regra">
+      <div class="regra-num">6</div>
+      <div>
+        <strong>Nunca omitir a logo</strong>
+        Toda peça publicada tem a marca Zyllah — mesmo que pequena, mesmo que discreta. Peças sem assinatura não existem.
+      </div>
+    </div>
+    <div class="regra">
+      <div class="regra-num">7</div>
+      <div>
+        <strong>Nunca mencionar ferramentas na peça ou na legenda</strong>
+        Canva, Capcut, IA — não aparecem em lugar nenhum que o cliente ou o público veja. Internamente, use o que funcionar.
+      </div>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- VÍDEO -->
+  <div class="secao-tag">Padrão de vídeo</div>
+  <h2 class="secao-titulo">Reels e vídeos curtos —<br><em>regras de produção</em></h2>
+
+  <div class="regras">
+    <div class="regra">
+      <div class="regra-num">1</div>
+      <div>
+        <strong>Gravação sempre vertical — 9:16</strong>
+        Celular em modo retrato. Resolução mínima 1080p. Estabilizador (gimbal) obrigatório quando disponível.
+      </div>
+    </div>
+    <div class="regra">
+      <div class="regra-num">2</div>
+      <div>
+        <strong>Iluminação: luz natural ou softbox frontal</strong>
+        Luz vinda de frente ou levemente lateral. Nunca luz de trás (silhueta). Pó compacto translúcido no rosto antes de gravar.
+      </div>
+    </div>
+    <div class="regra">
+      <div class="regra-num">3</div>
+      <div>
+        <strong>Legenda animada em toda peça</strong>
+        80% dos vídeos são assistidos sem som. Legenda não é opcional — é acessibilidade e alcance. Fonte: Jost ou equivalente limpo, nunca serifado.
+      </div>
+    </div>
+    <div class="regra">
+      <div class="regra-num">4</div>
+      <div>
+        <strong>Assinatura Zyllah no encerramento</strong>
+        Últimos 2–3 segundos: logo centralizada em fundo ink, fade in suave. Arquivo: ASSINATURA_REEL_STORY.png.
+      </div>
+    </div>
+    <div class="regra">
+      <div class="regra-num">5</div>
+      <div>
+        <strong>Trilha: ambiente sóbrio, volume 10% da voz</strong>
+        Nunca trilha dominante. A voz conduz. Sugestão: "dark academia ambient" no YouTube Audio Library (livre de direitos).
+      </div>
+    </div>
+  </div>
+
+  <p class="rodape">
+    Zyllah Digital · Memorando Visual v1.0 · 28 de março de 2026<br>
+    Documento de referência para o Produtor. Atualizar sempre que uma decisão visual nova for tomada e aprovada.<br>
+    Referência de variáveis CSS: <strong>zyllah_variaveis_css.html</strong>
+  </p>
+
+</div>
+</body>
+</html>

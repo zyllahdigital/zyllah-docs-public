@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital — Estratégia de Vendas + Planos</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8976A; --gold-light: #D4B896; --gold-dark: #8A6A3E;
+    --ink: #1A1714; --ink-2: #2A2420; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1; --cream-dark: #E5DDD0;
+    --green: #7A9B8A; --purple: #8A7A9B;
+    --r5k: #B8976A; /* target */
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Jost', sans-serif; font-weight: 300; background: var(--ink); color: var(--cream); font-size: 17px; line-height: 1.85; }
+
+  /* ── HEADER ─────────────────────────────────────────── */
+  .header {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: flex-end; padding: 0 80px 72px;
+    position: relative; overflow: hidden;
+    background: var(--ink);
+  }
+  .header-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(184,151,106,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,151,106,0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    animation: gridDrift 20s linear infinite;
+  }
+  @keyframes gridDrift { 0%{background-position:0 0} 100%{background-position:80px 80px} }
+  .header-noise {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4; pointer-events: none;
+  }
+  .header-z-bg {
+    position: absolute; right: -8%; top: 50%; transform: translateY(-50%);
+    width: 55%; opacity: 0.03; pointer-events: none;
+  }
+  .header-nav {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 32px 80px; display: flex; justify-content: space-between; align-items: center;
+    z-index: 10;
+  }
+  .header-nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; color: white; letter-spacing: 0.15em; }
+  .header-nav-links { display: flex; gap: 36px; }
+  .header-nav-links a { font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color:rgba(255,255,255,0.55); text-decoration: none; transition: color 0.2s; }
+  .header-nav-links a:hover { color: var(--gold); }
+
+  .header-content { position: relative; z-index: 2; max-width: 1100px; }
+  .header-pretag { font-size: 12px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; display: flex; align-items: center; gap: 16px; }
+  .header-pretag::before { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); }
+  .header-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 300;
+    font-size: clamp(52px, 7vw, 96px); line-height: 0.95;
+    color: white; margin-bottom: 40px;
+  }
+  .header-title em { font-style: italic; color: var(--gold-light); display: block; }
+  .header-meta { display: flex; gap: 60px; align-items: flex-end; }
+  .header-desc { font-size: 17px; color: rgba(255,255,255,0.4); line-height: 1.8; max-width: 480px; }
+  .header-target {
+    flex-shrink: 0; text-align: right;
+    border-top: 1px solid rgba(184,151,106,0.3); padding-top: 20px;
+  }
+  .header-target-label { font-size: 12px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(184,151,106,0.5); margin-bottom: 8px; }
+  .header-target-num { font-family: 'Cormorant Garamond', serif; font-size: 56px; font-weight: 300; color: var(--gold); line-height: 1; }
+  .header-target-sub { font-size: 12px; color:rgba(255,255,255,0.55); margin-top: 4px; letter-spacing: 0.08em; }
+  .header-scroll { position: absolute; bottom: 72px; right: 80px; font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color:rgba(255,255,255,0.55); writing-mode: vertical-rl; transform: rotate(180deg); }
+
+  /* ── CORPO ─────────────────────────────────────────── */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 80px; }
+
+  /* ── SECÇÃO ─────────────────────────────────────────── */
+  .secao { padding: 100px 0; border-top: 1px solid rgba(184,151,106,0.1); }
+  .secao-tag { font-size: 12px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; display: block; }
+  .secao-titulo { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4vw, 56px); font-weight: 300; color: white; line-height: 1.1; margin-bottom: 20px; }
+  .secao-titulo em { font-style: italic; color: var(--gold-light); }
+  .secao-sub { font-size: 17px; color: rgba(255,255,255,0.4); max-width: 620px; line-height: 1.85; }
+
+  /* ── FUNIL ─────────────────────────────────────────── */
+  .funil { margin-top: 64px; }
+  .funil-etapa {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 0 40px; position: relative; padding-bottom: 0;
+  }
+  .funil-etapa + .funil-etapa { margin-top: 0; }
+  .funil-etapa-num-col { display: flex; flex-direction: column; align-items: center; }
+  .funil-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300;
+    color: var(--gold); line-height: 1; flex-shrink: 0; width: 80px; text-align: center;
+  }
+  .funil-linha { width: 1px; flex: 1; min-height: 40px; background: rgba(184,151,106,0.15); margin: 8px auto 0; }
+  .funil-etapa:last-child .funil-linha { display: none; }
+
+  .funil-corpo { padding: 0 0 56px 0; }
+  .funil-titulo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: white; margin-bottom: 10px; margin-top: 8px; }
+  .funil-titulo em { font-style: italic; color: var(--gold-light); }
+  .funil-desc { font-size: 16px; color: rgba(255,255,255,0.45); line-height: 1.8; max-width: 600px; margin-bottom: 20px; }
+  .funil-acoes { display: flex; flex-wrap: wrap; gap: 8px; }
+  .funil-acao {
+    font-size: 12px; padding: 8px 16px;
+    border: 1px solid rgba(184,151,106,0.2); color: rgba(255,255,255,0.5);
+    line-height: 1.4;
+  }
+  .funil-acao.destaque { border-color: var(--gold); color: var(--gold-light); }
+
+  /* ── PLANOS ─────────────────────────────────────────── */
+  .planos-wrap { background: var(--cream); padding: 100px 0; }
+  .planos-inner { max-width: 1100px; margin: 0 auto; padding: 0 80px; }
+  .planos-header { margin-bottom: 64px; }
+  .planos-tag { font-size: 12px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; display: block; }
+  .planos-titulo { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4vw, 56px); font-weight: 300; color: var(--ink); line-height: 1.1; margin-bottom: 16px; }
+  .planos-titulo em { font-style: italic; color: var(--gold); }
+  .planos-sub { font-size: 17px; color: var(--ink-soft); max-width: 600px; }
+
+  .planos-grid { display: grid; grid-template-columns: 1fr 1.05fr 1fr; gap: 2px; }
+
+  .plano { padding: 48px 40px; position: relative; overflow: hidden; }
+  .plano.base { background: var(--cream-mid); }
+  .plano.principal { background: var(--ink); }
+  .plano.expansao { background: var(--cream-dark); }
+
+  .plano-destaque-tag {
+    position: absolute; top: 0; left: 0; right: 0;
+    text-align: center; font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase;
+    padding: 10px; background: var(--gold); color: var(--ink);
+  }
+  .plano.principal { padding-top: 64px; }
+
+  .plano-tag { font-size: 12px; letter-spacing: 0.35em; text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .base .plano-tag { color: var(--ink-soft); }
+  .principal .plano-tag { color: var(--gold); }
+  .expansao .plano-tag { color: var(--ink-soft); }
+
+  .plano-nome { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; margin-bottom: 4px; }
+  .base .plano-nome { color: var(--ink); }
+  .principal .plano-nome { color: white; }
+  .expansao .plano-nome { color: var(--ink); }
+
+  .plano-tagline { font-size: 14px; margin-bottom: 36px; }
+  .base .plano-tagline { color: var(--ink-soft); }
+  .principal .plano-tagline { color: rgba(255,255,255,0.4); }
+  .expansao .plano-tagline { color: var(--ink-soft); }
+
+  .plano-preco-wrap { margin-bottom: 36px; padding-bottom: 32px; border-bottom: 1px solid; }
+  .base .plano-preco-wrap { border-color: rgba(184,151,106,0.15); }
+  .principal .plano-preco-wrap { border-color: rgba(184,151,106,0.2); }
+  .expansao .plano-preco-wrap { border-color: rgba(184,151,106,0.15); }
+
+  .plano-preco-label { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 6px; }
+  .base .plano-preco-label { color:rgba(61,56,48,0.65); }
+  .principal .plano-preco-label { color: rgba(184,151,106,0.6); }
+  .expansao .plano-preco-label { color:rgba(61,56,48,0.65); }
+
+  .plano-preco { display: flex; align-items: baseline; gap: 4px; }
+  .plano-preco-rs { font-size: 18px; font-weight: 400; margin-top: 4px; }
+  .base .plano-preco-rs { color: var(--ink); }
+  .principal .plano-preco-rs { color: var(--gold-light); }
+  .expansao .plano-preco-rs { color: var(--ink); }
+  .plano-preco-num { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; line-height: 1; }
+  .base .plano-preco-num { color: var(--ink); }
+  .principal .plano-preco-num { color: white; }
+  .expansao .plano-preco-num { color: var(--ink); }
+  .plano-preco-sub { font-size: 12px; color:rgba(61,56,48,0.65); margin-top: 4px; display: block; }
+  .principal .plano-preco-sub { color:rgba(255,255,255,0.55); }
+  .plano-preco-implantacao { font-size: 12px; margin-top: 8px; }
+  .base .plano-preco-implantacao { color: var(--ink-soft); }
+  .principal .plano-preco-implantacao { color:rgba(255,255,255,0.55); }
+  .expansao .plano-preco-implantacao { color: var(--ink-soft); }
+
+  .plano-itens { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+  .plano-item { display: flex; gap: 14px; align-items: flex-start; font-size: 14px; line-height: 1.5; }
+  .plano-item-icon { flex-shrink: 0; margin-top: 2px; font-size: 12px; }
+  .base .plano-item { color: var(--ink-soft); }
+  .base .plano-item-icon { color: var(--gold); }
+  .principal .plano-item { color: rgba(255,255,255,0.6); }
+  .principal .plano-item-icon { color: var(--gold); }
+  .expansao .plano-item { color: var(--ink-soft); }
+  .expansao .plano-item-icon { color: var(--gold); }
+
+  .plano-cta {
+    display: block; text-align: center; padding: 16px;
+    font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase;
+    text-decoration: none; transition: all 0.25s;
+  }
+  .base .plano-cta { background: var(--ink); color: var(--cream); }
+  .base .plano-cta:hover { background: var(--gold); color: var(--ink); }
+  .principal .plano-cta { background: var(--gold); color: var(--ink); font-weight: 500; }
+  .principal .plano-cta:hover { background: var(--gold-light); }
+  .expansao .plano-cta { background: var(--ink); color: var(--cream); }
+  .expansao .plano-cta:hover { background: var(--gold); color: var(--ink); }
+
+  /* ── MATH ─────────────────────────────────────────── */
+  .math-secao { background: rgba(184,151,106,0.05); border-top: 1px solid rgba(184,151,106,0.1); padding: 80px 0; }
+  .math-grid { display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr; gap: 0; margin-top: 56px; }
+  .math-div { background: rgba(184,151,106,0.15); }
+  .math-item { padding: 40px; }
+  .math-label { font-size: 12px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(184,151,106,0.6); margin-bottom: 12px; }
+  .math-num { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: white; line-height: 1; margin-bottom: 8px; }
+  .math-desc { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.7; }
+  .math-arrow { font-size: 24px; color: rgba(184,151,106,0.3); padding: 40px 0; display: flex; align-items: center; justify-content: center; }
+  .math-resultado { grid-column: span 5; margin-top: 2px; background: var(--gold); padding: 32px 40px; display: flex; justify-content: space-between; align-items: center; }
+  .math-resultado-label { font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink); font-weight: 500; }
+  .math-resultado-num { font-family: 'Cormorant Garamond', serif; font-size: 40px; font-weight: 300; color: var(--ink); }
+
+  /* ── OBJEÇÕES ─────────────────────────────────────── */
+  .objecoes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 56px; }
+  .objecao { padding: 36px; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(184,151,106,0.1); }
+  .objecao:hover { background: rgba(255,255,255,0.04); }
+  .objecao-q { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; color: rgba(255,255,255,0.5); margin-bottom: 16px; line-height: 1.4; }
+  .objecao-r { font-size: 15px; color: rgba(255,255,255,0.65); line-height: 1.8; }
+  .objecao-r strong { color: white; }
+
+  /* ── PILOTO ─────────────────────────────────────────── */
+  .piloto-box {
+    background: rgba(184,151,106,0.08); border: 1px solid rgba(184,151,106,0.2);
+    padding: 56px; margin-top: 48px; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center;
+  }
+  .piloto-titulo { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: white; margin-bottom: 12px; }
+  .piloto-titulo em { font-style: italic; color: var(--gold-light); }
+  .piloto-desc { font-size: 16px; color: rgba(255,255,255,0.5); line-height: 1.8; max-width: 540px; }
+  .piloto-condicoes { flex-shrink: 0; border-left: 1px solid rgba(184,151,106,0.2); padding-left: 48px; }
+  .piloto-cond { margin-bottom: 16px; }
+  .piloto-cond-label { font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .piloto-cond-val { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: white; }
+  .piloto-cond-val s { color:rgba(255,255,255,0.55); font-size: 18px; }
+
+  /* ── CHECKLIST REUNIÃO ───────────────────────────── */
+  .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 48px; }
+  .check-col { background: rgba(255,255,255,0.02); padding: 36px; }
+  .check-col-titulo { font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+  .check-lista { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .check-item { display: flex; gap: 16px; align-items: flex-start; }
+  .check-box { width: 18px; height: 18px; border: 1px solid rgba(184,151,106,0.3); flex-shrink: 0; margin-top: 2px; cursor: pointer; transition: all 0.15s; position: relative; }
+  .check-box.checked { background: var(--gold); border-color: var(--gold); }
+  .check-box.checked::after { content: '✓'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--ink); }
+  .check-texto { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+  /* ── RODAPÉ ─────────────────────────────────────────── */
+  .rodape { background: var(--ink-2); padding: 48px 80px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; border-top: 1px solid rgba(184,151,106,0.1); }
+  .rodape-esq { font-size: 12px; color:rgba(255,255,255,0.55); letter-spacing: 0.08em; }
+  .voltar { font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(184,151,106,0.3); padding-bottom: 2px; }
+
+  @media (max-width: 900px) {
+    .header { padding: 0 32px 56px; }
+    .header-nav { padding: 24px 32px; }
+    .wrap, .planos-inner, .rodape { padding-left: 32px; padding-right: 32px; }
+    .header-meta { flex-direction: column; gap: 32px; }
+    .header-target { text-align: left; }
+    .planos-grid { grid-template-columns: 1fr; }
+    .math-grid { grid-template-columns: 1fr; }
+    .math-div, .math-arrow { display: none; }
+    .math-resultado { grid-column: span 1; }
+    .objecoes-grid, .check-grid { grid-template-columns: 1fr; }
+    .piloto-box { grid-template-columns: 1fr; }
+    .piloto-condicoes { border-left: none; border-top: 1px solid rgba(184,151,106,0.2); padding-left: 0; padding-top: 32px; }
+    .funil-etapa { grid-template-columns: 48px 1fr; gap: 0 24px; }
+    .funil-num { font-size: 36px; width: 48px; }
+    .header-scroll { display: none; }
+  }
+
+  /* ── SENHA ── */
+  #senha-tela {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #1A1714;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .senha-box {
+    width: 100%; max-width: 400px; padding: 48px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .senha-logo { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(184,151,106,0.5); letter-spacing: 0.3em; }
+  .senha-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: white; line-height: 1.1; }
+  .senha-titulo em { font-style: italic; color: #D4B896; }
+  .senha-input {
+    width: 100%; background: transparent;
+    border: none; border-bottom: 1px solid rgba(184,151,106,0.35);
+    padding: 14px 0; font-family: 'Jost', sans-serif; font-size: 18px;
+    color: white; outline: none; letter-spacing: 0.1em; transition: border-color 0.2s;
+  }
+  .senha-input:focus { border-bottom-color: #B8976A; }
+  .senha-input::placeholder { color:rgba(255,255,255,0.55); font-size: 14px; letter-spacing: 0.2em; }
+  .senha-btn {
+    background: #B8976A; color: #1A1714; border: none;
+    padding: 14px 32px; font-family: 'Jost', sans-serif;
+    font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; align-self: flex-start;
+  }
+  .senha-btn:hover { background: #D4B896; }
+  .senha-erro { font-size: 13px; color: rgba(210,100,100,0.9); letter-spacing: 0.08em; min-height: 18px; }
+  .senha-hint { font-size: 12px; color:rgba(255,255,255,0.55); letter-spacing: 0.08em; }
+</style>
+
+<script>
+(function() {
+  var SENHA = 'V#3x7KjnLDRf';
+  var KEY = 'zyl_zyllahvendas';
+  if (sessionStorage.getItem(KEY) === '1') return;
+  var tela = document.getElementById('senha-tela');
+  if (tela) tela.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  window.verificarSenha = function() {
+    var inp = document.getElementById('senha-input');
+    var err = document.getElementById('senha-erro');
+    if (inp.value === SENHA) {
+      sessionStorage.setItem(KEY, '1');
+      tela.style.transition = 'opacity 0.3s';
+      tela.style.opacity = '0';
+      setTimeout(function() { tela.style.display = 'none'; document.body.style.overflow = ''; }, 300);
+    } else {
+      err.textContent = 'Senha incorreta.';
+      inp.value = ''; inp.focus();
+      setTimeout(function() { err.textContent = ''; }, 2000);
+    }
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    var inp = document.getElementById('senha-input');
+    if (inp) { inp.focus(); inp.addEventListener('keydown', function(e) { if (e.key==='Enter') verificarSenha(); }); }
+  });
+})();
+</script>
+</head>
+<body>
+
+<div id="senha-tela" style="display:none;">
+  <div class="senha-box">
+    <div class="senha-logo">Zyllah Digital</div>
+    <div class="senha-titulo">Acesso<br><em>restrito</em></div>
+    <input id="senha-input" type="password" class="senha-input" placeholder="senha" autocomplete="off">
+    <div id="senha-erro" class="senha-erro"></div>
+    <button class="senha-btn" onclick="verificarSenha()">Entrar →</button>
+    <div class="senha-hint">Dificuldades? Entre em contato com a Zyllah Digital.</div>
+  </div>
+</div>
+
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-grid"></div>
+  <div class="header-noise"></div>
+  <svg class="header-z-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+    <path fill="white" d="M336.72,395.72l-2.56-108.02,361.99-.56-139.33,201.49h-45.04l110.91-162.7-.32-2.46-251.57,1.13s-6.53,20.66-9.51,34.27c-3.2,14.6-8.17,36.75-8.17,36.75l-16.4.12Z"/>
+    <polygon fill="white" points="759.77 286.08 635.69 490.35 606.07 490.52 759.77 286.08"/>
+    <path fill="white" d="M368.72,571.78c6.36-8.49,19.37-22.49,34.43-35.86,25.37-22.52,52.29-32.93,78.89-35.68,46.33-4.78,93.95,16.68,142.93,17.94,48.53,1.26,74.37-15.75,110.42-42.55-20.82,26.1-56.02,56.17-91.17,61.61-8.66,1.47-16.88,1.46-25.57.7-30.3-2.63-73.16-13.06-106.56-15.9-33.4-1.42-65.74,5.49-96.63,20.78-14.22,7.04-38.42,21.82-46.67,28.94h-.06Z"/>
+    <path fill="white" d="M760.37,680.02l4.22,111.19-383.6,2.71,162.35-235.5h42.43l-135.01,197.18,1.16,3.58,272.41-2.04s6.95-18.53,11.82-39.42c3.94-16.88,6.47-37.43,6.47-37.43l17.73-.28Z"/>
+    <polygon fill="white" points="315.41 790.04 462.38 556.94 495.41 556.77 315.41 790.04"/>
+  </svg>
+  <nav class="header-nav">
+    <div class="header-nav-logo">ZYLLAH</div>
+    <div class="header-nav-links">
+      <a href="#estrategia">Funil</a>
+      <a href="#planos">Planos</a>
+      <a href="#objecoes">Objeções</a>
+      <a href="#piloto">Piloto</a>
+    </div>
+  </nav>
+  <div class="header-content">
+    <div class="header-pretag">Zyllah Digital · Playbook Comercial</div>
+    <h1 class="header-title">Estratégia de Vendas<br><em>+ Planos de Serviço</em></h1>
+    <div class="header-meta">
+      <p class="header-desc">Funil de aquisição, estrutura de preços, respostas às objeções e checklist para a reunião de fechamento. Tudo que você precisa para transformar uma conversa em contrato.</p>
+      <div class="header-target">
+        <div class="header-target-label">Meta mensal</div>
+        <div class="header-target-num">R$5k</div>
+        <div class="header-target-sub">3–4 clientes ativos</div>
+      </div>
+    </div>
+  </div>
+  <div class="header-scroll">Rolar para ler</div>
+</header>
+
+<!-- FUNIL DE VENDAS -->
+<section class="secao" id="estrategia">
+  <div class="wrap">
+    <span class="secao-tag">Seção 01 · Aquisição</span>
+    <h2 class="secao-titulo">Funil de<br><em>aquisição</em></h2>
+    <p class="secao-sub">O caminho de alguém que nunca ouviu falar da Zyllah até assinar o contrato. Cada etapa tem ações específicas — e apenas uma etapa acontece online.</p>
+
+    <div class="funil">
+
+      <div class="funil-etapa">
+        <div class="funil-etapa-num-col">
+          <div class="funil-num">01</div>
+          <div class="funil-linha"></div>
+        </div>
+        <div class="funil-corpo">
+          <h3 class="funil-titulo">Presença —<br><em>ser encontrado</em></h3>
+          <p class="funil-desc">O médico ou especialista encontra a Zyllah. No início isso acontece por indicação direta ou por conexão pessoal. Com o tempo, o Instagram e o LinkedIn passam a trazer prospects organicamente.</p>
+          <div class="funil-acoes">
+            <div class="funil-acao">Indicação de paciente ou colega</div>
+            <div class="funil-acao">Instagram com posicionamento claro</div>
+            <div class="funil-acao">LinkedIn do fundador</div>
+            <div class="funil-acao destaque">Contato direto (Thayara, empresa de festas)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="funil-etapa">
+        <div class="funil-etapa-num-col">
+          <div class="funil-num">02</div>
+          <div class="funil-linha"></div>
+        </div>
+        <div class="funil-corpo">
+          <h3 class="funil-titulo">Interesse —<br><em>perceber o problema</em></h3>
+          <p class="funil-desc">O prospect visita o perfil ou site, lê algum post, e percebe que tem um problema que não estava nomeando. Seu conteúdo não vende — ele cria consciência do problema. A venda começa aqui, mas silenciosamente.</p>
+          <div class="funil-acoes">
+            <div class="funil-acao">Post de manifesto que ressoa</div>
+            <div class="funil-acao">Site que evidencia o padrão</div>
+            <div class="funil-acao">Post educativo que diagnostica o problema</div>
+            <div class="funil-acao destaque">Brand Book como prova de metodologia</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="funil-etapa">
+        <div class="funil-etapa-num-col">
+          <div class="funil-num">03</div>
+          <div class="funil-linha"></div>
+        </div>
+        <div class="funil-corpo">
+          <h3 class="funil-titulo">Diagnóstico —<br><em>a conversa de qualificação</em></h3>
+          <p class="funil-desc">Uma conversa de 20–30 minutos (WhatsApp, chamada ou presencial) para entender a situação do prospect antes de propor qualquer coisa. Você não fecha nada aqui — você ouve. O diagnóstico tem valor por si mesmo.</p>
+          <div class="funil-acoes">
+            <div class="funil-acao destaque">5 perguntas do diagnóstico (abaixo)</div>
+            <div class="funil-acao">Sem proposta neste momento</div>
+            <div class="funil-acao">Ouça mais do que fale</div>
+          </div>
+
+          <div style="margin-top:28px;padding:28px;background:rgba(184,151,106,0.06);border-left:2px solid rgba(184,151,106,0.3);">
+            <div style="font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;">As 5 perguntas do diagnóstico</div>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;"><span style="color:var(--gold);margin-right:12px;font-family:'Cormorant Garamond',serif;font-size:18px;">1.</span>Se você pudesse descrever o paciente ideal — aquele que valoriza o que você faz — como seria?</div>
+              <div style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;"><span style="color:var(--gold);margin-right:12px;font-family:'Cormorant Garamond',serif;font-size:18px;">2.</span>Você sente que o digital reflete o nível do que você entrega na prática clínica?</div>
+              <div style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;"><span style="color:var(--gold);margin-right:12px;font-family:'Cormorant Garamond',serif;font-size:18px;">3.</span>Qual é o maior desafio com conteúdo hoje — falta de tempo, falta de ideia, ou falta de identidade?</div>
+              <div style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;"><span style="color:var(--gold);margin-right:12px;font-family:'Cormorant Garamond',serif;font-size:18px;">4.</span>Em 6 meses, como você saberia que o investimento no digital valeu a pena?</div>
+              <div style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;"><span style="color:var(--gold);margin-right:12px;font-family:'Cormorant Garamond',serif;font-size:18px;">5.</span>Existe alguma coisa que você tentou antes e não funcionou? O que aconteceu?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="funil-etapa">
+        <div class="funil-etapa-num-col">
+          <div class="funil-num">04</div>
+          <div class="funil-linha"></div>
+        </div>
+        <div class="funil-corpo">
+          <h3 class="funil-titulo">Proposta —<br><em>personalizada, não genérica</em></h3>
+          <p class="funil-desc">Com base no que ouviu no diagnóstico, você apresenta um plano específico para aquele cliente. Nunca uma tabela de preços fria — sempre uma proposta que mostra que você entendeu o problema deles.</p>
+          <div class="funil-acoes">
+            <div class="funil-acao">Enviar 24–48h após o diagnóstico</div>
+            <div class="funil-acao">Referencia algo específico da conversa</div>
+            <div class="funil-acao destaque">Inclui Briefing Rápido como próximo passo</div>
+            <div class="funil-acao">Apresenta o plano recomendado, não todos</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="funil-etapa">
+        <div class="funil-etapa-num-col">
+          <div class="funil-num">05</div>
+          <div class="funil-linha"></div>
+        </div>
+        <div class="funil-corpo">
+          <h3 class="funil-titulo">Fechamento —<br><em>o que travar antes de começar</em></h3>
+          <p class="funil-desc">Assinatura dos documentos e início do onboarding. O Briefing Rápido é preenchido antes da primeira sessão de alinhamento. Nenhum trabalho começa sem briefing assinado.</p>
+          <div class="funil-acoes">
+            <div class="funil-acao">Contrato de prestação de serviços</div>
+            <div class="funil-acao">Autorização de imagem + ambiente</div>
+            <div class="funil-acao">NDA</div>
+            <div class="funil-acao destaque">Briefing Rápido (15 perguntas)</div>
+            <div class="funil-acao">Primeira parcela antes de começar</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PLANOS -->
+<section id="planos">
+  <div class="planos-wrap">
+    <div class="planos-inner">
+      <div class="planos-header">
+        <span class="planos-tag">Seção 02 · Precificação</span>
+        <h2 class="planos-titulo">Os três<br><em>planos</em></h2>
+        <p class="planos-sub">Estrutura simples. Na conversa de vendas, você apresenta o plano recomendado para aquele cliente — não todos os três. Tabela completa só se perguntado.</p>
+      </div>
+
+      <div class="planos-grid">
+
+        <!-- ESSENCIAL -->
+        <div class="plano base">
+          <span class="plano-tag">Entrada</span>
+          <div class="plano-nome">Essencial</div>
+          <div class="plano-tagline">Identidade + presença funcional</div>
+          <div class="plano-preco-wrap">
+            <div class="plano-preco-label">Mensalidade</div>
+            <div class="plano-preco">
+              <span class="plano-preco-rs">R$</span>
+              <span class="plano-preco-num">1.800</span>
+            </div>
+            <span class="plano-preco-sub">/mês · Mínimo 6 meses</span>
+            <div class="plano-preco-implantacao">+ R$ 1.200 de implantação (cobrado na contratação)</div>
+          </div>
+          <ul class="plano-itens">
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Brand Book completo</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Gestão de Instagram (3x semana)</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>12 posts/mês all-type</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>1 sessão fotográfica trimestral (2h)</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Relatório mensal simplificado</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Suporte via WhatsApp (dias úteis)</li>
+          </ul>
+          <a href="#" class="plano-cta">Solicitar diagnóstico</a>
+        </div>
+
+        <!-- PRESENÇA COMPLETA (PRINCIPAL) -->
+        <div class="plano principal">
+          <div class="plano-destaque-tag">Recomendado</div>
+          <span class="plano-tag">Principal</span>
+          <div class="plano-nome">Presença Completa</div>
+          <div class="plano-tagline">O sistema Zyllah inteiro</div>
+          <div class="plano-preco-wrap">
+            <div class="plano-preco-label">Mensalidade</div>
+            <div class="plano-preco">
+              <span class="plano-preco-rs">R$</span>
+              <span class="plano-preco-num">2.800</span>
+            </div>
+            <span class="plano-preco-sub">/mês · Mínimo 6 meses</span>
+            <div class="plano-preco-implantacao">+ R$ 1.800 de implantação (cobrado na contratação)</div>
+          </div>
+          <ul class="plano-itens">
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Tudo do Essencial</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Site completo (1 página)</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Produção de vídeo mensal (2 vídeos curtos)</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Gestão de Instagram + LinkedIn</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Zyllah Flow básico (atendimento WhatsApp)</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>1 sessão fotográfica mensal (2h)</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Relatório mensal completo</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Reunião mensal de estratégia (45min)</li>
+          </ul>
+          <a href="#" class="plano-cta">Solicitar diagnóstico</a>
+        </div>
+
+        <!-- EXPANSÃO -->
+        <div class="plano expansao">
+          <span class="plano-tag">Autoridade</span>
+          <div class="plano-nome">Expansão</div>
+          <div class="plano-tagline">Para quem quer dominar o digital</div>
+          <div class="plano-preco-wrap">
+            <div class="plano-preco-label">Mensalidade</div>
+            <div class="plano-preco">
+              <span class="plano-preco-rs">R$</span>
+              <span class="plano-preco-num">4.500</span>
+            </div>
+            <span class="plano-preco-sub">/mês · Mínimo 12 meses</span>
+            <div class="plano-preco-implantacao">+ R$ 2.500 de implantação (cobrado na contratação)</div>
+          </div>
+          <ul class="plano-itens">
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Tudo do Presença Completa</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Nexa Ads (Google Ads + Meta Ads + LinkedIn Ads opcional)</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Produção de vídeo semanal (YouTube Shorts)</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Zyllah Flow completo + automações</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Estratégia de LinkedIn para o especialista</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Relatório semanal + dashboard ao vivo</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Reunião quinzenal de estratégia</li>
+            <li class="plano-item"><span class="plano-item-icon">✦</span>Atendimento prioritário — resposta em 2h</li>
+          </ul>
+          <a href="#" class="plano-cta">Solicitar diagnóstico</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MATEMÁTICA DA META -->
+<section class="math-secao">
+  <div class="wrap">
+    <span class="secao-tag">Seção 03 · A matemática</span>
+    <h2 class="secao-titulo">Como chegar<br><em>a R$5.000/mês</em></h2>
+    <p class="secao-sub">Existem múltiplos caminhos. O mais seguro começa com 2 clientes Presença Completa e cresce a partir daí.</p>
+
+    <div class="math-grid">
+      <div class="math-item">
+        <div class="math-label">Cenário 1 · Conservador</div>
+        <div class="math-num">2+1</div>
+        <div class="math-desc">2× Presença Completa (R$2.800) + 1× Essencial (R$1.800) = <strong style="color:white;">R$7.400/mês</strong>. Alcançável em 3–4 meses.</div>
+      </div>
+      <div class="math-div"></div>
+      <div class="math-item">
+        <div class="math-label">Cenário 2 · Equilibrado</div>
+        <div class="math-num">1+2</div>
+        <div class="math-desc">1× Expansão (R$4.500) + 1× Essencial (R$1.800) = <strong style="color:white;">R$6.300/mês</strong>. Um cliente grande muda tudo.</div>
+      </div>
+      <div class="math-div"></div>
+      <div class="math-item">
+        <div class="math-label">Cenário 3 · Piloto</div>
+        <div class="math-num">3×</div>
+        <div class="math-desc">3× Essencial (R$1.800) = <strong style="color:white;">R$5.400/mês</strong>. Mais clientes, menos margem, mas boa para construir portfólio.</div>
+      </div>
+      <div class="math-resultado">
+        <div class="math-resultado-label">Meta de 6 meses</div>
+        <div class="math-resultado-num">2 clientes Presença Completa = R$5.600/mês</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJEÇÕES -->
+<section class="secao" id="objecoes">
+  <div class="wrap">
+    <span class="secao-tag">Seção 04 · Respostas prontas</span>
+    <h2 class="secao-titulo">As objeções<br><em>mais comuns</em></h2>
+    <p class="secao-sub">Toda objeção é um pedido de mais informação. Não é rejeição — é a pessoa tentando entender se vale a pena. Responda com calma, sem defensividade.</p>
+
+    <div class="objecoes-grid">
+      <div class="objecao">
+        <div class="objecao-q">"Está caro. Outra agência cobra menos."</div>
+        <div class="objecao-r">Faz sentido comparar. A diferença é o que você obtém: a maioria das agências entrega volume — posts sem identidade, sem estratégia. Nós entregamos um sistema. A pergunta não é o custo da Zyllah, mas o custo de uma presença que diminui o que você representa. <strong>Um paciente do perfil errado que abandona o tratamento custa mais que seis meses de honorários.</strong></div>
+      </div>
+      <div class="objecao">
+        <div class="objecao-q">"Preciso pensar. Vou avaliar mais."</div>
+        <div class="objecao-r">Claro. Só peço que avalie uma coisa específica: <strong>o custo de adiar.</strong> Cada semana com uma presença que não reflete o que você é, é uma semana com pacientes chegando pelo motivo errado — ou não chegando. Não tenho pressa, mas o seu tempo tem valor.</div>
+      </div>
+      <div class="objecao">
+        <div class="objecao-q">"Não sei se o digital vai trazer pacientes de verdade."</div>
+        <div class="objecao-r">É uma dúvida legítima. Por isso nossa meta inicial não é volume — é qualidade. <strong>O primeiro objetivo é que a sua presença digital atraia o paciente certo, não qualquer paciente.</strong> Aumento de volume vem depois, quando a base está construída. E isso é mensurável — você saberá exatamente o que mudou.</div>
+      </div>
+      <div class="objecao">
+        <div class="objecao-q">"Já tentei antes e não funcionou."</div>
+        <div class="objecao-r">Essa é a objeção mais importante. Me conta o que aconteceu? Na maioria dos casos, o problema foi execução sem estratégia — conteúdo sem identidade, posts sem posicionamento, ou uma agência que não entendeu o nicho de saúde. <strong>A Zyllah foi construída especificamente para esse problema.</strong></div>
+      </div>
+      <div class="objecao">
+        <div class="objecao-q">"Não tenho tempo para gravar vídeo toda semana."</div>
+        <div class="objecao-r">Esse é exatamente o sistema que a Zyllah resolve. <strong>Fazemos sessões concentradas uma vez por mês</strong> — 2 horas que geram conteúdo suficiente para o ciclo inteiro. Você não gerencia as redes, não pensa no próximo post, não grava nada fora do agendado.</div>
+      </div>
+      <div class="objecao">
+        <div class="objecao-q">"Sou novo, ainda não tenho muitos pacientes."</div>
+        <div class="objecao-r">Melhor momento para começar. <strong>Construir a identidade certa desde o início é muito mais eficiente do que tentar corrigir uma reputação digital já consolidada errada.</strong> Os primeiros 100 pacientes formam a base da sua cartela para sempre — vale investir em quem são eles.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILOTO -->
+<section class="secao" id="piloto">
+  <div class="wrap">
+    <span class="secao-tag">Seção 05 · Agora</span>
+    <h2 class="secao-titulo">O projeto<br><em>piloto</em></h2>
+    <p class="secao-sub">Antes de ter portfólio, você precisa construí-lo. O piloto é a estratégia para conseguir os primeiros 2–3 clientes com condições especiais, resultados reais e reputação sólida para crescer a partir daí.</p>
+
+    <div class="piloto-box">
+      <div>
+        <h3 class="piloto-titulo">Condições de<br><em>lançamento</em></h3>
+        <p class="piloto-desc">Para os 3 primeiros clientes, a Zyllah oferece condições especiais em troca de: (1) liberdade criativa para testar a metodologia, (2) depoimento após 60 dias, e (3) autorização para usar o trabalho como case público. Isso não é desconto por insegurança — é troca consciente por portfólio.</p>
+      </div>
+      <div class="piloto-condicoes">
+        <div class="piloto-cond">
+          <div class="piloto-cond-label">Plano Essencial · Piloto</div>
+          <div class="piloto-cond-val"><s>R$1.800</s> → R$900</div>
+        </div>
+        <div class="piloto-cond">
+          <div class="piloto-cond-label">Plano Presença · Piloto</div>
+          <div class="piloto-cond-val"><s>R$2.800</s> → R$1.400</div>
+        </div>
+        <div class="piloto-cond">
+          <div class="piloto-cond-label">Implantação · Piloto</div>
+          <div class="piloto-cond-val">Isenta</div>
+        </div>
+        <div class="piloto-cond">
+          <div class="piloto-cond-label">Vagas disponíveis</div>
+          <div class="piloto-cond-val">3 clientes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST REUNIÃO -->
+    <div style="margin-top:64px;">
+      <span style="font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px;">Preparação para a reunião de fechamento</span>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:white;margin-bottom:8px;">Checklist de <em style="font-style:italic;color:var(--gold-light);">conversa</em></h3>
+      <p style="font-size:15px;color:rgba(255,255,255,0.4);margin-bottom:0;">O que preparar e o que fazer antes, durante e depois. Clique para marcar.</p>
+    </div>
+
+    <div class="check-grid">
+      <div class="check-col">
+        <div class="check-col-titulo">Antes da reunião</div>
+        <ul class="check-lista">
+          <li class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div class="check-texto">Pesquisar o especialista: nome, especialidade, onde atua, há quanto tempo, qualquer coisa pública sobre o perfil de pacientes</div></li>
+          <li class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div class="check-texto">Visitar o Instagram e site atual — anotar 2 ou 3 observações específicas (positivas e o que pode melhorar)</div></li>
+          <li class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div class="check-texto">Definir qual plano você vai recomendar com base no que sabe</div></li>
+          <li class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div class="check-texto">Preparar 1 ou 2 referências visuais do que seria possível para aquele nicho</div></li>
+          <li class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div class="check-texto">Ter o Brand Book e os documentos disponíveis para enviar na hora se o fechamento acontecer</div></li>
+        </ul>
+      </div>
+      <div class="check-col">
+        <div class="check-col-titulo">Durante + depois</div>
+        <ul class="check-lista">
+          <li class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div class="check-texto">Começar com as 5 perguntas do diagnóstico — sem pressa, sem monólogo</div></li>
+          <li class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div class="check-texto">Apresentar o plano recomendado com base no que ouviu — não a tabela completa</div></li>
+          <li class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div class="check-texto">Se houver interesse, enviar proposta escrita em 24h (não na hora — dá tempo de personalizar)</div></li>
+          <li class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div class="check-texto">Após o sim: enviar briefing rápido + documentos + solicitar primeira parcela</div></li>
+          <li class="check-item"><div class="check-box" onclick="toggleCheck(this)"></div><div class="check-texto">Agendar sessão de alinhamento após receber o briefing preenchido</div></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="rodape">
+  <span class="rodape-esq">Zyllah Digital · Playbook Comercial · 2026 · Uso interno</span>
+  <a class="voltar" href="zyllah_hub.html">← Voltar ao Hub</a>
+</div>
+
+<script>
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+}
+</script>
+</body>
+</html>

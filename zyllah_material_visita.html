@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital — Material de Visita</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Fraunces:ital,wght@0,300;0,400;1,300;1,400&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A1714;
+  --ink-soft: rgba(26,23,20,0.5);
+  --gold: #B8976A;
+  --gold-light: #D4B896;
+  --gold-line: rgba(184,151,106,0.25);
+  --cream: #FAF7F2;
+  --cream-dark: #E8E2D9;
+  --white: #FFFFFF;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #EDEAE5;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* NAV */
+.nav {
+  background: var(--ink);
+  padding: 20px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+.nav-tabs { display: flex; gap: 4px; }
+.nav-tab {
+  background: none;
+  border: 1px solid rgba(184,151,106,0.2);
+  color: rgba(250,247,242,0.4);
+  font-family: 'Outfit', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.nav-tab:hover { color: rgba(250,247,242,0.7); border-color: rgba(184,151,106,0.4); }
+.nav-tab.ativo { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+
+/* CONTAINER */
+.container { max-width: 1100px; margin: 0 auto; padding: 64px 48px 100px; }
+
+/* SEÇÃO */
+
+.secao-header { margin-bottom: 48px; }
+.secao-tag {
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 12px;
+}
+.secao-titulo {
+  font-family: 'Fraunces', serif;
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1.1;
+}
+.secao-titulo em { font-style: italic; color: var(--gold); }
+.secao-nota {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-top: 10px;
+  line-height: 1.7;
+}
+
+/* ── CARTÃO ── */
+.cartoes-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 48px;
+  margin-bottom: 64px;
+  justify-content: start;
+}
+.cartao-label {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+.cartao {
+  width: 340px;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+.cartao-frente { background: var(--ink); }
+.cartao-frente::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(184,151,106,0.06) 0%, transparent 65%);
+}
+.cartao-grade {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(184,151,106,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,151,106,0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.cartao-canto { position: absolute; width: 12px; height: 12px; }
+.cartao-canto::before, .cartao-canto::after { content: ''; position: absolute; background: rgba(184,151,106,0.3); }
+.cartao-canto::before { width: 100%; height: 1px; top: 0; left: 0; }
+.cartao-canto::after { width: 1px; height: 100%; top: 0; left: 0; }
+.cartao-canto.tl { top: 14px; left: 14px; }
+.cartao-canto.tr { top: 14px; right: 14px; transform: scaleX(-1); }
+.cartao-canto.bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+.cartao-canto.br { bottom: 14px; right: 14px; transform: scale(-1); }
+
+.cartao-conteudo {
+  position: absolute; inset: 0;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.cartao-logo-nome {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: var(--cream);
+}
+.cartao-logo-sub {
+  font-size: 8px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(184,151,106,0.45);
+  margin-top: 5px;
+}
+.cartao-pessoa {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--cream);
+}
+.cartao-cargo {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 5px;
+}
+.cartao-verso {
+  background: var(--cream);
+  border: 1px solid var(--cream-dark);
+}
+.cartao-verso .cartao-canto::before,
+.cartao-verso .cartao-canto::after { background: rgba(184,151,106,0.2); }
+.cartao-verso-cont {
+  position: absolute; inset: 0;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.cartao-linha {
+  width: 32px; height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.cartao-contato {
+  font-size: 10px;
+  line-height: 2;
+  color: var(--ink-soft);
+}
+.cartao-contato strong { color: var(--ink); font-weight: 400; }
+.cartao-site {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+}
+
+/* Impressão 4 cartões */
+.impressao-label {
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+  margin-top: 48px;
+}
+.impressao-grid {
+  background: white;
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 720px;
+  border: 1px solid var(--cream-dark);
+}
+
+/* ── FOLDER ── */
+.folder-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  max-width: 880px;
+}
+.folder-capa {
+  background: var(--ink);
+  height: 580px;
+  position: relative;
+  overflow: hidden;
+  padding: 48px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.folder-capa::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(184,151,106,0.05) 0%, transparent 60%);
+}
+.folder-grade {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(184,151,106,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,151,106,0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.f-z1 { position: relative; z-index: 1; }
+.folder-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  letter-spacing: 0.15em;
+  color: var(--cream);
+  margin-bottom: 5px;
+}
+.folder-logo-sub {
+  font-size: 8px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(184,151,106,0.4);
+}
+.folder-linha {
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin-bottom: 24px;
+}
+.folder-titulo {
+  font-family: 'Fraunces', serif;
+  font-size: 30px;
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.2;
+}
+.folder-titulo em { font-style: italic; color: var(--gold-light); }
+.folder-rodape-capa {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.folder-tag {
+  font-size: 8px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: rgba(184,151,106,0.3);
+}
+
+.folder-miolo {
+  background: var(--cream);
+  height: 580px;
+  padding: 44px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--cream-dark);
+}
+.f-stag {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 10px;
+}
+.f-titulo {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.f-titulo em { font-style: italic; }
+.f-txt {
+  font-size: 11px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+}
+.f-pilares { display: flex; flex-direction: column; gap: 12px; }
+.f-pilar { display: flex; gap: 12px; align-items: flex-start; }
+.f-num {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  color: var(--gold);
+  min-width: 18px;
+  margin-top: 1px;
+}
+.f-pnome {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--ink);
+  display: block;
+}
+.f-pdesc {
+  font-size: 10px;
+  color: var(--ink-soft);
+  margin-top: 1px;
+  line-height: 1.5;
+}
+.folder-rodape-miolo {
+  border-top: 1px solid rgba(184,151,106,0.15);
+  padding-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.f-contato {
+  font-size: 10px;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+.f-contato strong { color: var(--ink); font-weight: 400; display: block; margin-bottom: 2px; }
+.f-site {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+}
+
+/* ── PAPEL TIMBRADO ── */
+.timbrado {
+  background: white;
+  max-width: 680px;
+  min-height: 880px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--cream-dark);
+}
+.timbrado-header {
+  background: var(--ink);
+  padding: 28px 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.t-logo {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  color: var(--cream);
+}
+.t-logo-sub {
+  font-size: 8px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(184,151,106,0.4);
+  margin-top: 4px;
+}
+.t-contato-h {
+  font-size: 9px;
+  line-height: 1.9;
+  color: rgba(184,151,106,0.4);
+  text-align: right;
+}
+.t-linha-ouro {
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), rgba(184,151,106,0.1));
+}
+.timbrado-corpo {
+  flex: 1;
+  padding: 52px 52px 36px;
+}
+.t-data {
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.08em;
+  margin-bottom: 36px;
+}
+.t-dest-label {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 8px;
+}
+.t-dest-nome {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--ink);
+}
+.t-dest-cargo { font-size: 11px; color: var(--ink-soft); margin-top: 3px; }
+.t-sep {
+  width: 100%; height: 1px;
+  background: var(--cream-dark);
+  margin: 28px 0;
+}
+.t-texto {
+  font-size: 13px;
+  line-height: 2;
+  color: rgba(26,23,20,0.6);
+}
+.t-ass { margin-top: 56px; }
+.t-ass-linha { width: 110px; height: 1px; background: var(--gold-line); margin-bottom: 12px; }
+.t-ass-nome {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--ink);
+}
+.t-ass-cargo {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 4px;
+}
+.timbrado-footer {
+  border-top: 1px solid var(--cream-dark);
+  padding: 14px 52px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.t-foot-txt { font-size: 9px; color: rgba(184,151,106,0.4); letter-spacing: 0.12em; }
+.t-foot-div { width: 1px; height: 10px; background: var(--gold-line); }
+
+/* Navegação por âncora CSS */
+.secao { display: none; }
+#secao-cartao { display: block; }
+#secao-cartao:target ~ #secao-folder,
+#secao-cartao:target ~ #secao-timbrado { display: none; }
+#secao-folder:target { display: block; }
+#secao-timbrado:target { display: block; }
+
+.nav-tab { text-decoration: none; }
+.nav-tab:target-within { background: var(--gold); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <span class="nav-logo">Zyllah Digital</span>
+  <div class="nav-tabs">
+    <a class="nav-tab ativo" href="#secao-cartao">Cartão de Visita</a>
+    <a class="nav-tab" href="#secao-folder">Folder A5</a>
+    <a class="nav-tab" href="#secao-timbrado">Papel Timbrado</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- CARTÃO -->
+  <div class="secao" id="secao-cartao">
+    <div class="secao-header">
+      <span class="secao-tag">01 · Cartão de Visita</span>
+      <h2 class="secao-titulo">Frente e <em>verso.</em></h2>
+      <p class="secao-nota">85 × 54mm · Couchê 300g matte ou linho 280g · Impressão frente e verso</p>
+    </div>
+
+    <div class="cartoes-grid">
+      <div>
+        <div class="cartao-label">Frente</div>
+        <div class="cartao cartao-frente">
+          <div class="cartao-grade"></div>
+          <div class="cartao-canto tl"></div><div class="cartao-canto tr"></div>
+          <div class="cartao-canto bl"></div><div class="cartao-canto br"></div>
+          <div class="cartao-conteudo">
+            <div>
+              <div class="cartao-logo-nome">ZYLLAH DIGITAL</div>
+              <div class="cartao-logo-sub">Presença Digital para Saúde</div>
+            </div>
+            <div>
+              <div class="cartao-pessoa">Guilherme Caetano</div>
+              <div class="cartao-cargo">Fundador · Diretor</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="cartao-label">Verso</div>
+        <div class="cartao cartao-verso">
+          <div class="cartao-canto tl"></div><div class="cartao-canto tr"></div>
+          <div class="cartao-canto bl"></div><div class="cartao-canto br"></div>
+          <div class="cartao-verso-cont">
+            <div class="cartao-linha"></div>
+            <div class="cartao-contato">
+              <span style="display:block;color:var(--ink);margin-bottom:0">ola&#64;zyllah&#46;com&#46;br</span>
+              (22) 98164-0512 · WhatsApp<br>
+              zyllah.com.br<br>
+              Nova Friburgo · RJ
+            </div>
+            <div class="cartao-site">ZYLLAH.COM.BR</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="impressao-label">Layout para impressão — 4 cartões por folha A4</div>
+    <div class="impressao-grid">
+      <div class="cartao cartao-frente" style="width:100%;height:170px">
+        <div class="cartao-grade"></div>
+        <div class="cartao-canto tl"></div><div class="cartao-canto tr"></div>
+        <div class="cartao-canto bl"></div><div class="cartao-canto br"></div>
+        <div class="cartao-conteudo">
+          <div><div class="cartao-logo-nome" style="font-size:13px">ZYLLAH DIGITAL</div><div class="cartao-logo-sub">Presença Digital para Saúde</div></div>
+          <div><div class="cartao-pessoa" style="font-size:15px">Guilherme Caetano</div><div class="cartao-cargo">Fundador · Diretor</div></div>
+        </div>
+      </div>
+      <div class="cartao cartao-verso" style="width:100%;height:170px">
+        <div class="cartao-canto tl"></div><div class="cartao-canto tr"></div>
+        <div class="cartao-canto bl"></div><div class="cartao-canto br"></div>
+        <div class="cartao-verso-cont">
+          <div class="cartao-linha"></div>
+          <div class="cartao-contato" style="font-size:9px"><span style="display:block;color:var(--ink);margin-bottom:0">ola&#64;zyllah&#46;com&#46;br</span>(22) 98164-0512 · WhatsApp<br>zyllah.com.br · Nova Friburgo · RJ</div>
+          <div class="cartao-site" style="font-size:8px">ZYLLAH.COM.BR</div>
+        </div>
+      </div>
+      <div class="cartao cartao-frente" style="width:100%;height:170px">
+        <div class="cartao-grade"></div>
+        <div class="cartao-canto tl"></div><div class="cartao-canto tr"></div>
+        <div class="cartao-canto bl"></div><div class="cartao-canto br"></div>
+        <div class="cartao-conteudo">
+          <div><div class="cartao-logo-nome" style="font-size:13px">ZYLLAH DIGITAL</div><div class="cartao-logo-sub">Presença Digital para Saúde</div></div>
+          <div><div class="cartao-pessoa" style="font-size:15px">Guilherme Caetano</div><div class="cartao-cargo">Fundador · Diretor</div></div>
+        </div>
+      </div>
+      <div class="cartao cartao-verso" style="width:100%;height:170px">
+        <div class="cartao-canto tl"></div><div class="cartao-canto tr"></div>
+        <div class="cartao-canto bl"></div><div class="cartao-canto br"></div>
+        <div class="cartao-verso-cont">
+          <div class="cartao-linha"></div>
+          <div class="cartao-contato" style="font-size:9px"><span style="display:block;color:var(--ink);margin-bottom:0">ola&#64;zyllah&#46;com&#46;br</span>(22) 98164-0512 · WhatsApp<br>zyllah.com.br · Nova Friburgo · RJ</div>
+          <div class="cartao-site" style="font-size:8px">ZYLLAH.COM.BR</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOLDER -->
+  <div class="secao" id="secao-folder">
+    <div class="secao-header">
+      <span class="secao-tag">02 · Folder A5</span>
+      <h2 class="secao-titulo">Capa e <em>miolo.</em></h2>
+      <p class="secao-nota">148 × 210mm · Couchê 170g laminação matte na capa · Miolo offset 90g</p>
+    </div>
+
+    <div class="folder-wrap">
+      <div class="folder-capa">
+        <div class="folder-grade"></div>
+        <div class="f-z1">
+          <div class="folder-logo">ZYLLAH DIGITAL</div>
+          <div class="folder-logo-sub">Presença Digital para Saúde</div>
+        </div>
+        <div class="f-z1">
+          <div class="folder-linha"></div>
+          <div class="folder-titulo">Sua clínica merece<br>uma presença digital<br><em>à sua altura.</em></div>
+        </div>
+        <div class="folder-rodape-capa f-z1">
+          <span class="folder-tag">Nova Friburgo · RJ · 2026</span>
+          <span class="folder-tag">zyllah.com.br</span>
+        </div>
+      </div>
+
+      <div class="folder-miolo">
+        <div>
+          <span class="f-stag">O problema</span>
+          <div class="f-titulo">Profissionais brilhantes com presença digital <em>invisível.</em></div>
+          <p class="f-txt">Médicos, dentistas e psicólogos foram formados para cuidar de pessoas — não para criar conteúdo. O resultado: clínicas excelentes com Instagram parado, site desatualizado e novos pacientes chegando só por indicação.</p>
+          <p class="f-txt">A Zyllah Digital foi criada para resolver exatamente isso.</p>
+
+          <span class="f-stag" style="margin-top:20px">O que fazemos</span>
+          <div class="f-pilares">
+            <div class="f-pilar">
+              <span class="f-num">01</span>
+              <div><span class="f-pnome">Identidade Visual</span><span class="f-pdesc">Logo, paleta, tipografia e manual de marca.</span></div>
+            </div>
+            <div class="f-pilar">
+              <span class="f-num">02</span>
+              <div><span class="f-pnome">Presença Digital</span><span class="f-pdesc">Site, Instagram e LinkedIn configurados e ativos.</span></div>
+            </div>
+            <div class="f-pilar">
+              <span class="f-num">03</span>
+              <div><span class="f-pnome">Conteúdo Mensal</span><span class="f-pdesc">Posts, legendas e artes prontos para publicar.</span></div>
+            </div>
+            <div class="f-pilar">
+              <span class="f-num">04</span>
+              <div><span class="f-pnome">Zyllah Flow</span><span class="f-pdesc">Atendimento automatizado via WhatsApp, 24h.</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="folder-rodape-miolo">
+          <div class="f-contato">
+            <strong>Guilherme Caetano</strong>
+            ola&#64;zyllah&#46;com&#46;br<br>
+            (22) 98164-0512 · WhatsApp<br>
+            Nova Friburgo · RJ
+          </div>
+          <div class="f-site">ZYLLAH.COM.BR</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAPEL TIMBRADO -->
+  <div class="secao" id="secao-timbrado">
+    <div class="secao-header">
+      <span class="secao-tag">03 · Papel Timbrado</span>
+      <h2 class="secao-titulo">Formato <em>A4.</em></h2>
+      <p class="secao-nota">Offset 90g · Impressão em preto com detalhe dourado no cabeçalho · Versão digital para PDF</p>
+    </div>
+
+    <div class="timbrado">
+      <div class="timbrado-header">
+        <div>
+          <div class="t-logo">ZYLLAH DIGITAL</div>
+          <div class="t-logo-sub">Presença Digital para Saúde</div>
+        </div>
+        <div class="t-contato-h">
+          ola&#64;zyllah&#46;com&#46;br<br>
+          (22) 98164-0512<br>
+          zyllah.com.br<br>
+          Nova Friburgo · RJ
+        </div>
+      </div>
+      <div class="t-linha-ouro"></div>
+
+      <div class="timbrado-corpo">
+        <div class="t-data">Nova Friburgo, [data]</div>
+        <div>
+          <span class="t-dest-label">Destinatário</span>
+          <div class="t-dest-nome">[Nome do Profissional]</div>
+          <div class="t-dest-cargo">[Especialidade] · [Clínica]</div>
+        </div>
+        <div class="t-sep"></div>
+        <div class="t-texto">
+          Prezado(a) Dr(a). [Nome],<br><br>
+          [Corpo da correspondência. Este espaço é destinado ao conteúdo da carta, proposta comercial ou comunicado formal. A tipografia Outfit em corpo 13px com espaçamento 2.0 garante leitura confortável e aparência profissional.]<br><br>
+          [Continue o texto conforme necessário. O layout comporta aproximadamente 3 páginas com esta formatação antes de exigir nova folha.]<br><br>
+          Atenciosamente,
+        </div>
+        <div class="t-ass">
+          <div class="t-ass-linha"></div>
+          <div class="t-ass-nome">Guilherme Caetano</div>
+          <div class="t-ass-cargo">Fundador · Zyllah Digital</div>
+        </div>
+      </div>
+
+      <div class="timbrado-footer">
+        <span class="t-foot-txt">ZYL
