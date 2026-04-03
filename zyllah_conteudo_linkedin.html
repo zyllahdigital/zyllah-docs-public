@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital — LinkedIn</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8976A; --gold-light: #D4B896;
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+    --li: #0077B5;
+    --li-soft: rgba(0,119,181,0.12);
+  }
+  body { font-family: 'Jost', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); font-size: 17px; line-height: 1.85; }
+
+  .header { background: var(--ink); padding: 56px 80px; position: relative; overflow: hidden; }
+  .header-z { position: absolute; right: -4%; bottom: -10%; width: 40%; opacity: 0.04; }
+  .header-tag { font-size: 12px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .header-title { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: white; line-height: 1.05; margin-bottom: 12px; }
+  .header-title em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 16px; color:rgba(255,255,255,0.55); max-width: 600px; line-height: 1.8; }
+
+  .corpo { max-width: 1000px; margin: 0 auto; padding: 72px 60px; }
+
+  /* ESTRATÉGIA */
+  .bloco { margin-bottom: 64px; }
+  .bloco-tag { font-size: 12px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .bloco-titulo { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--ink); margin-bottom: 12px; line-height: 1.1; }
+  .bloco-titulo em { font-style: italic; color: var(--gold); }
+  .bloco-texto { font-size: 17px; color: var(--ink-soft); max-width: 720px; line-height: 1.85; }
+  .bloco-texto p + p { margin-top: 1em; }
+
+  /* DUAS CONTAS */
+  .contas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 40px 0; }
+  .conta { padding: 40px; }
+  .conta.agencia { background: var(--ink); border-top: 2px solid var(--gold); }
+  .conta.fundador { background: var(--cream-mid); border-top: 2px solid rgba(184,151,106,0.4); }
+  .conta-tag { font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+  .agencia .conta-tag { color: var(--gold); }
+  .fundador .conta-tag { color: var(--gold); }
+  .conta-nome { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; margin-bottom: 12px; }
+  .agencia .conta-nome { color: white; }
+  .fundador .conta-nome { color: var(--ink); }
+  .conta-desc { font-size: 15px; line-height: 1.75; }
+  .agencia .conta-desc { color: rgba(255,255,255,0.45); }
+  .fundador .conta-desc { color: var(--ink-soft); }
+  .conta-lista { margin-top: 16px; list-style: none; }
+  .conta-lista li { font-size: 14px; padding: 6px 0; border-bottom: 1px solid; display: flex; gap: 12px; }
+  .agencia .conta-lista li { border-color: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); }
+  .fundador .conta-lista li { border-color: rgba(184,151,106,0.1); color: var(--ink-soft); }
+  .conta-lista li::before { content: '—'; color: var(--gold); flex-shrink: 0; }
+
+  /* PERFIL */
+  .perfil-box { background: var(--ink); padding: 48px; margin: 40px 0; }
+  .perfil-secao { margin-bottom: 32px; }
+  .perfil-campo { font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .perfil-texto { font-size: 16px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+  .perfil-texto strong { color: white; }
+  .perfil-divider { height: 1px; background: rgba(184,151,106,0.12); margin: 24px 0; }
+
+  /* HEURÍSTICA */
+  .tipos-li { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin: 32px 0; }
+  .tipo-li { padding: 28px; border-top: 2px solid; }
+  .tipo-li.narrativa { border-color: var(--gold); background: rgba(184,151,106,0.05); }
+  .tipo-li.insight { border-color: #7A9B8A; background: rgba(122,155,138,0.05); }
+  .tipo-li.caso { border-color: #8A7A9B; background: rgba(138,122,155,0.05); }
+  .tipo-li.posicionamento { border-color: #9B8A7A; background: rgba(155,138,122,0.05); }
+  .tipo-li-nome { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; }
+  .narrativa .tipo-li-nome { color: var(--gold); }
+  .insight .tipo-li-nome { color: #7A9B8A; }
+  .caso .tipo-li-nome { color: #8A7A9B; }
+  .posicionamento .tipo-li-nome { color: #9B8A7A; }
+  .tipo-li-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+  .tipo-li-freq { font-size: 12px; color:rgba(61,56,48,0.65); margin-top: 10px; letter-spacing: 0.08em; }
+
+  /* BANCO */
+  .banco { margin-bottom: 56px; }
+  .banco-header { display: flex; align-items: center; gap: 20px; margin-bottom: 24px; }
+  .banco-linha { flex: 1; height: 1px; background: rgba(184,151,106,0.2); }
+  .banco-titulo { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--ink); white-space: nowrap; }
+  .banco-titulo em { font-style: italic; color: var(--gold); }
+  .banco-badge { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; padding: 5px 14px; border: 1px solid; white-space: nowrap; }
+  .badge-narrativa { border-color: var(--gold); color: var(--gold); }
+  .badge-insight { border-color: #7A9B8A; color: #7A9B8A; }
+  .badge-caso { border-color: #8A7A9B; color: #8A7A9B; }
+  .badge-posicionamento { border-color: #9B8A7A; color: #9B8A7A; }
+
+  .post-li { background: var(--cream-mid); padding: 36px; margin-bottom: 2px; position: relative; }
+  .post-li:hover { background: var(--cream); }
+  .post-li-conta { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(184,151,106,0.6); margin-bottom: 8px; }
+  .post-li-gancho { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--ink); line-height: 1.3; margin-bottom: 16px; }
+  .post-li-corpo { font-size: 15px; color: var(--ink-soft); line-height: 1.8; white-space: pre-line; }
+  .post-li-nota { font-size: 12px; color: rgba(184,151,106,0.7); margin-top: 16px; font-style: italic; }
+  .btn-copiar {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase;
+    background: transparent; border: 1px solid rgba(184,151,106,0.2);
+    color: rgba(184,151,106,0.5); padding: 5px 12px; cursor: pointer;
+    transition: all 0.2s; font-family: 'Jost', sans-serif;
+  }
+  .btn-copiar:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-copiar.copiado { border-color: #7A9B8A; color: #7A9B8A; }
+
+  /* ALGORITMO */
+  .algo { background: var(--cream-mid); padding: 48px; margin: 48px 0; }
+  .algo h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--ink); margin-bottom: 8px; }
+  .algo h3 em { font-style: italic; color: var(--gold); }
+  .algo-sub { font-size: 15px; color: var(--ink-soft); margin-bottom: 32px; }
+  .algo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .algo-item { display: flex; gap: 16px; }
+  .algo-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); line-height: 1; flex-shrink: 0; }
+  .algo-texto { font-size: 14px; color: var(--ink-soft); line-height: 1.7; }
+  .algo-texto strong { color: var(--ink); font-weight: 500; }
+
+  .rodape { margin-top: 72px; padding-top: 32px; border-top: 1px solid rgba(184,151,106,0.15); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .rodape p { font-size: 12px; color: var(--ink-soft); }
+  .voltar { font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(184,151,106,0.3); padding-bottom: 2px; }
+
+  @media (max-width: 700px) {
+    .header { padding: 48px 32px; }
+    .corpo { padding: 48px 24px; }
+    .contas-grid { grid-template-columns: 1fr; }
+    .tipos-li { grid-template-columns: 1fr 1fr; }
+    .algo-grid { grid-template-columns: 1fr; }
+    .header-title { font-size: 36px; }
+  }
+
+  /* ── SENHA ── */
+  #senha-tela {
+    position: fixed; inset: 0; z-index: 99999;
+    background: #1A1714;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .senha-box {
+    width: 100%; max-width: 400px; padding: 48px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .senha-logo { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(184,151,106,0.5); letter-spacing: 0.3em; }
+  .senha-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: white; line-height: 1.1; }
+  .senha-titulo em { font-style: italic; color: #D4B896; }
+  .senha-input {
+    width: 100%; background: transparent;
+    border: none; border-bottom: 1px solid rgba(184,151,106,0.35);
+    padding: 14px 0; font-family: 'Jost', sans-serif; font-size: 18px;
+    color: white; outline: none; letter-spacing: 0.1em; transition: border-color 0.2s;
+  }
+  .senha-input:focus { border-bottom-color: #B8976A; }
+  .senha-input::placeholder { color:rgba(255,255,255,0.55); font-size: 14px; letter-spacing: 0.2em; }
+  .senha-btn {
+    background: #B8976A; color: #1A1714; border: none;
+    padding: 14px 32px; font-family: 'Jost', sans-serif;
+    font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; align-self: flex-start;
+  }
+  .senha-btn:hover { background: #D4B896; }
+  .senha-erro { font-size: 13px; color: rgba(210,100,100,0.9); letter-spacing: 0.08em; min-height: 18px; }
+  .senha-hint { font-size: 12px; color:rgba(255,255,255,0.55); letter-spacing: 0.08em; }
+</style>
+
+<script>
+(function() {
+  var SENHA = 'C$OK1iyjWNAk';
+  var KEY = 'zyl_zyllahconteu';
+  if (sessionStorage.getItem(KEY) === '1') return;
+  var tela = document.getElementById('senha-tela');
+  if (tela) tela.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  window.verificarSenha = function() {
+    var inp = document.getElementById('senha-input');
+    var err = document.getElementById('senha-erro');
+    if (inp.value === SENHA) {
+      sessionStorage.setItem(KEY, '1');
+      tela.style.transition = 'opacity 0.3s';
+      tela.style.opacity = '0';
+      setTimeout(function() { tela.style.display = 'none'; document.body.style.overflow = ''; }, 300);
+    } else {
+      err.textContent = 'Senha incorreta.';
+      inp.value = ''; inp.focus();
+      setTimeout(function() { err.textContent = ''; }, 2000);
+    }
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    var inp = document.getElementById('senha-input');
+    if (inp) { inp.focus(); inp.addEventListener('keydown', function(e) { if (e.key==='Enter') verificarSenha(); }); }
+  });
+})();
+</script>
+</head>
+<body>
+
+<div id="senha-tela" style="display:none;">
+  <div class="senha-box">
+    <div class="senha-logo">Zyllah Digital</div>
+    <div class="senha-titulo">Acesso<br><em>restrito</em></div>
+    <input id="senha-input" type="password" class="senha-input" placeholder="senha" autocomplete="off">
+    <div id="senha-erro" class="senha-erro"></div>
+    <button class="senha-btn" onclick="verificarSenha()">Entrar →</button>
+    <div class="senha-hint">Dificuldades? Entre em contato com a Zyllah Digital.</div>
+  </div>
+</div>
+
+
+<div class="header">
+  <svg class="header-z" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">
+    <path fill="white" d="M336.72,395.72l-2.56-108.02,361.99-.56-139.33,201.49h-45.04l110.91-162.7-.32-2.46-251.57,1.13s-6.53,20.66-9.51,34.27c-3.2,14.6-8.17,36.75-8.17,36.75l-16.4.12Z"/>
+    <polygon fill="white" points="759.77 286.08 635.69 490.35 606.07 490.52 759.77 286.08"/>
+    <path fill="white" d="M368.72,571.78c6.36-8.49,19.37-22.49,34.43-35.86,25.37-22.52,52.29-32.93,78.89-35.68,46.33-4.78,93.95,16.68,142.93,17.94,48.53,1.26,74.37-15.75,110.42-42.55-20.82,26.1-56.02,56.17-91.17,61.61-8.66,1.47-16.88,1.46-25.57.7-30.3-2.63-73.16-13.06-106.56-15.9-33.4-1.42-65.74,5.49-96.63,20.78-14.22,7.04-38.42,21.82-46.67,28.94h-.06Z"/>
+    <path fill="white" d="M760.37,680.02l4.22,111.19-383.6,2.71,162.35-235.5h42.43l-135.01,197.18,1.16,3.58,272.41-2.04s6.95-18.53,11.82-39.42c3.94-16.88,6.47-37.43,6.47-37.43l17.73-.28Z"/>
+    <polygon fill="white" points="315.41 790.04 462.38 556.94 495.41 556.77 315.41 790.04"/>
+  </svg>
+  <span class="header-tag">Zyllah Digital · Estratégia de Conteúdo</span>
+  <h1 class="header-title">Estratégia e Banco<br><em>de Textos LinkedIn</em></h1>
+  <p class="header-sub">LinkedIn não é Instagram. A rede exige outra postura, outro formato e outra voz. Aqui está o sistema completo — para a Zyllah como agência e para você como fundador.</p>
+</div>
+
+<div class="corpo">
+
+  <!-- POR QUE LINKEDIN -->
+  <div class="bloco">
+    <span class="bloco-tag">Por que o LinkedIn importa para a Zyllah</span>
+    <h2 class="bloco-titulo">O Instagram convence<br><em>pacientes.</em> O LinkedIn<br>convence clientes.</h2>
+    <div class="bloco-texto">
+      <p>No Instagram, você fala com as pacientes dos seus futuros clientes. No LinkedIn, você fala com os próprios clientes — médicos, dentistas, especialistas que tomam a decisão de contratar uma agência.</p>
+      <p>São públicos diferentes, em contextos diferentes, com critérios de decisão diferentes. No LinkedIn, a credibilidade é construída pela profundidade do raciocínio, não pela beleza do feed.</p>
+    </div>
+  </div>
+
+  <!-- DUAS CONTAS -->
+  <div class="contas-grid">
+    <div class="conta agencia">
+      <span class="conta-tag">Conta 01</span>
+      <div class="conta-nome">Zyllah Digital<br><small style="font-size:14px;opacity:0.5;">Página da empresa</small></div>
+      <div class="conta-desc">Voz institucional da agência. Casos, metodologia, posicionamento. Fala como marca.</div>
+      <ul class="conta-lista">
+        <li>Cases de resultado de clientes</li>
+        <li>Conteúdo de metodologia da Zyllah</li>
+        <li>Novidades, serviços, Zyllah Flow</li>
+        <li>Compartilha posts do fundador</li>
+      </ul>
+    </div>
+    <div class="conta fundador">
+      <span class="conta-tag">Conta 02</span>
+      <div class="conta-nome">Guilherme Caetano<br><small style="font-size:14px;opacity:0.4;">Perfil pessoal</small></div>
+      <div class="conta-desc">Voz do fundador. Raciocínio, perspectiva, trajetória. É a conta que mais gera confiança e conexão real.</div>
+      <ul class="conta-lista">
+        <li>Perspectiva sobre mercado de saúde digital</li>
+        <li>O que aprendeu com 20 anos de audiovisual</li>
+        <li>Bastidor de decisões e aprendizados</li>
+        <li>Conteúdo que médicos compartilham com médicos</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PERFIL OTIMIZADO -->
+  <div class="bloco">
+    <span class="bloco-tag">Antes de postar qualquer coisa</span>
+    <h2 class="bloco-titulo">O perfil precisa<br><em>trabalhar sozinho</em></h2>
+    <div class="bloco-texto">
+      <p>Antes de qualquer post, o perfil precisa converter quem chega por indicação, busca orgânica ou pelo algoritmo. Um perfil mal configurado desperdiça cada post que você produz.</p>
+    </div>
+  </div>
+
+  <div class="perfil-box">
+    <div style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;">Perfil ideal · Guilherme Caetano</div>
+
+    <div class="perfil-secao">
+      <div class="perfil-campo">Título (headline — 220 caracteres)</div>
+      <div class="perfil-texto">Fundador da Zyllah Digital · <strong>Presença digital de alto padrão para clínicas e especialistas</strong> · 20 anos de produção audiovisual · Nova Friburgo, RJ</div>
+    </div>
+    <div class="perfil-divider"></div>
+    <div class="perfil-secao">
+      <div class="perfil-campo">Sobre (resumo — primeiras 3 linhas são o que aparece sem clicar)</div>
+      <div class="perfil-texto"><strong>Construo presença digital à altura de quem já é referência.</strong>
+
+Depois de 20 anos produzindo para televisão, publicidade e audiovisual corporativo, percebi que os melhores especialistas de saúde do país têm um problema em comum: o digital não reflete o que eles realmente são.
+
+A Zyllah Digital nasceu para resolver isso. Atendemos clínicas e especialistas que são referência no físico — e precisam ser percebidos como tal no digital. Não trabalhamos com volume. Trabalhamos com precisão.
+
+→ Se você é médico, dentista ou especialista e quer que sua presença digital reflita sua excelência, me manda uma mensagem.</div>
+    </div>
+    <div class="perfil-divider"></div>
+    <div class="perfil-secao">
+      <div class="perfil-campo">Foto de perfil</div>
+      <div class="perfil-texto">Foto profissional, fundo neutro (preferencialmente o Ink #1A1714 ou creme), expressão confiante. Não sorriso aberto — postura segura e acessível.</div>
+    </div>
+    <div class="perfil-divider"></div>
+    <div class="perfil-secao">
+      <div class="perfil-campo">Banner / capa</div>
+      <div class="perfil-texto">Fundo preto com o Z da Zyllah em baixa opacidade + "Presença digital de alto padrão" em Jost caps + site. Dimensão: 1584×396px.</div>
+    </div>
+  </div>
+
+  <!-- HEURÍSTICA -->
+  <div class="bloco">
+    <span class="bloco-tag">Os 4 tipos de post no LinkedIn</span>
+    <h2 class="bloco-titulo">A rotação que<br><em>funciona</em></h2>
+    <div class="bloco-texto">
+      <p>No LinkedIn, menos é mais — e consistência supera frequência. 1 post por semana, bem construído, gera mais resultado do que 5 posts mediocres. Os tipos abaixo se alternam em ciclos de 4 semanas.</p>
+    </div>
+  </div>
+
+  <div class="tipos-li">
+    <div class="tipo-li narrativa">
+      <div class="tipo-li-nome">Narrativa</div>
+      <div class="tipo-li-desc">História pessoal com aprendizado. O que a trajetória ensinou. Começa com tensão, termina com insight.</div>
+      <div class="tipo-li-freq">1x / mês · Alta performance</div>
+    </div>
+    <div class="tipo-li insight">
+      <div class="tipo-li-nome">Insight</div>
+      <div class="tipo-li-desc">Observação sobre mercado, comportamento ou tendência. Demonstra raciocínio. Gera debate.</div>
+      <div class="tipo-li-freq">1x / mês · Gera comentários</div>
+    </div>
+    <div class="tipo-li caso">
+      <div class="tipo-li-nome">Caso</div>
+      <div class="tipo-li-desc">Antes/depois de um cliente (com autorização). Processo + resultado + aprendizado. Gera credibilidade.</div>
+      <div class="tipo-li-freq">1x / mês · Gera leads</div>
+    </div>
+    <div class="tipo-li posicionamento">
+      <div class="tipo-li-nome">Posicionamento</div>
+      <div class="tipo-li-desc">Ponto de vista sobre um tema do setor. Pode ser contrarian — discordar do senso comum com fundamento.</div>
+      <div class="tipo-li-freq">1x / mês · Alto alcance</div>
+    </div>
+  </div>
+
+  <!-- ALGORITMO -->
+  <div class="algo">
+    <h3>Como o algoritmo do<br><em>LinkedIn funciona</em></h3>
+    <p class="algo-sub">Entender a mecânica ajuda a criar conteúdo que naturalmente performa melhor.</p>
+    <div class="algo-grid">
+      <div class="algo-item">
+        <div class="algo-num">01</div>
+        <div class="algo-texto"><strong>Primeira hora é decisiva.</strong> O LinkedIn distribui o post para ~2% da sua rede. Se engajam, distribui para mais. Poste quando sua audiência está ativa: terça a quinta, 8h–10h ou 18h–19h.</div>
+      </div>
+      <div class="algo-item">
+        <div class="algo-num">02</div>
+        <div class="algo-texto"><strong>Comentários valem mais que curtidas.</strong> O algoritmo pesa comentários 3x mais que reações. Termine posts com uma pergunta genuína — não "o que vocês acham?" mas algo específico.</div>
+      </div>
+      <div class="algo-item">
+        <div class="algo-num">03</div>
+        <div class="algo-texto"><strong>Links externos afundam o alcance.</strong> O LinkedIn penaliza posts que tiram o usuário da plataforma. Nunca coloque o link na legenda — coloque no primeiro comentário.</div>
+      </div>
+      <div class="algo-item">
+        <div class="algo-num">04</div>
+        <div class="algo-texto"><strong>O gancho é tudo.</strong> Apenas a primeira linha aparece sem clicar "ver mais". Essa linha precisa criar curiosidade suficiente para o clique. Nunca comece com "Hoje quero falar sobre".</div>
+      </div>
+      <div class="algo-item">
+        <div class="algo-num">05</div>
+        <div class="algo-texto"><strong>Parágrafos curtos.</strong> No LinkedIn, cada parágrafo tem no máximo 2–3 linhas. Espaço em branco é respiração — e sinaliza que o texto é fácil de ler.</div>
+      </div>
+      <div class="algo-item">
+        <div class="algo-num">06</div>
+        <div class="algo-texto"><strong>Responda todos os comentários.</strong> Especialmente nas primeiras 2 horas. Cada resposta sua reinicia o ciclo de distribuição do algoritmo.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANCO NARRATIVA -->
+  <div class="banco">
+    <div class="banco-header">
+      <div class="banco-linha"></div>
+      <h3 class="banco-titulo"><em>Narrativas</em></h3>
+      <span class="banco-badge badge-narrativa">Trajetória pessoal</span>
+      <div class="banco-linha"></div>
+    </div>
+
+    <div class="post-li">
+      <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+      <div class="post-li-conta">Guilherme Caetano · Perfil pessoal</div>
+      <div class="post-li-gancho">Passei 20 anos aprendendo a contar histórias. Só percebi que estava no lugar errado quando encontrei quem mais precisava delas.</div>
+      <div class="post-li-corpo">Trabalhei com televisão, publicidade, produção corporativa.
+
+Aprendi a iluminar um rosto, a construir um ritmo de corte, a fazer uma câmera contar o que palavras não conseguem.
+
+Depois de duas décadas, percebi uma contradição que me incomodava:
+
+Os melhores especialistas de saúde que eu conhecia — médicos excepcionais, dentistas de referência — tinham um digital que os diminuía.
+
+Não por falta de competência. Por falta de alguém com olhar treinado o suficiente para traduzir o que eles eram em imagem, em palavra, em presença.
+
+Decidi ser essa pessoa.
+
+A Zyllah Digital nasceu da observação de que excelência clínica e excelência digital raramente andam juntas.
+
+Trabalhamos para fechar essa distância.
+
+Qual é o maior desafio que você enfrenta para comunicar o que realmente faz?</div>
+      <div class="post-li-nota">Nota: Termine com a pergunta acima para estimular comentários. Responda todos.</div>
+    </div>
+
+    <div class="post-li">
+      <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+      <div class="post-li-conta">Guilherme Caetano · Perfil pessoal</div>
+      <div class="post-li-gancho">Uma médica me disse algo que mudou como eu entendo meu trabalho.</div>
+      <div class="post-li-corpo">"Minha paciente chegou dizendo que já confiava em mim antes de me conhecer."
+
+Perguntei como.
+
+"Vi seu perfil. A forma como você se apresenta. O cuidado com os detalhes. Pensei: se ela cuida assim do digital, cuida assim de mim."
+
+Aquilo me parou.
+
+Porque o que ela descreveu não é marketing. É percepção.
+
+E percepção é construída muito antes do primeiro contato real. É construída nos 8 segundos em que alguém decide se continua ou fecha a aba.
+
+A maioria das clínicas subestima esses 8 segundos.
+
+Nós não.</div>
+      <div class="post-li-nota">Nota: Post de alta performance. Termina com declaração de posicionamento, não com pergunta — funciona bem para alcance.</div>
+    </div>
+  </div>
+
+  <!-- BANCO INSIGHT -->
+  <div class="banco">
+    <div class="banco-header">
+      <div class="banco-linha"></div>
+      <h3 class="banco-titulo"><em>Insights</em></h3>
+      <span class="banco-badge badge-insight">Mercado e observação</span>
+      <div class="banco-linha"></div>
+    </div>
+
+    <div class="post-li">
+      <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+      <div class="post-li-conta">Guilherme Caetano · Perfil pessoal</div>
+      <div class="post-li-gancho">O maior erro de marketing que médicos cometem não é postar pouco. É postar como se fossem uma clínica genérica.</div>
+      <div class="post-li-corpo">Percebo o padrão constantemente:
+
+Feed cheio. Cores inconsistentes. Fontes que mudam a cada post. Texto que poderia ser de qualquer clínica do país.
+
+O problema não é volume — é identidade.
+
+Quando uma especialista não tem identidade clara, a única diferenciação que sobra é o preço.
+
+E competir por preço, na medicina, é uma corrida para o fundo.
+
+A alternativa é construir uma presença tão precisa que o paciente certo reconheça: "isso é para mim" — antes de ler uma única palavra.
+
+É isso que fazemos na Zyllah.
+
+O que você acha que diferencia as clínicas que se posicionam bem das que ficam presas na mesmice?</div>
+      <div class="post-li-nota">Nota: Termina com pergunta aberta que convida médicos a responder. Alta chance de comentários qualificados.</div>
+    </div>
+
+    <div class="post-li">
+      <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+      <div class="post-li-conta">Zyllah Digital · Página da empresa</div>
+      <div class="post-li-gancho">Presença digital de alto padrão não é cara. É rara.</div>
+      <div class="post-li-corpo">Existe uma percepção no mercado de que investir em identidade visual e comunicação sofisticada é luxo de clínica grande.
+
+Não é.
+
+É estratégia de clínica inteligente.
+
+Porque o custo de uma paciente do perfil errado — que questiona o valor, que não segue o protocolo, que abandona o tratamento — é alto.
+
+O custo de uma presença que atrai o perfil certo se paga na terceira consulta.
+
+Alto padrão não é ornamento. É filtro.
+
+Na Zyllah, trabalhamos com especialistas que entenderam essa diferença.
+
+→ Saiba mais: zyllahdigital.github.io</div>
+      <div class="post-li-nota">Nota: Para a página da empresa. O link vai no primeiro comentário, não no post.</div>
+    </div>
+  </div>
+
+  <!-- BANCO POSICIONAMENTO -->
+  <div class="banco">
+    <div class="banco-header">
+      <div class="banco-linha"></div>
+      <h3 class="banco-titulo"><em>Posicionamento</em></h3>
+      <span class="banco-badge badge-posicionamento">Ponto de vista</span>
+      <div class="banco-linha"></div>
+    </div>
+
+    <div class="post-li">
+      <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+      <div class="post-li-conta">Guilherme Caetano · Perfil pessoal</div>
+      <div class="post-li-gancho">Discordo que médico precisa "criar conteúdo" para ter presença digital forte.</div>
+      <div class="post-li-corpo">O modelo atual de marketing médico empurra especialistas a virarem criadores de conteúdo.
+
+Reels toda semana. Stories todo dia. Trends, dancinhas, tendências.
+
+Para médicos que dedicaram décadas à excelência clínica, isso é degradante. E ineficaz.
+
+O que funciona para o perfil de paciente que um especialista de referência quer atrair é quase o oposto:
+
+Presença consistente, não constante.
+Posicionamento preciso, não volume de posts.
+Identidade clara, não entretenimento.
+
+Um especialista de alto padrão não precisa dançar para vender consultas.
+
+Ele precisa de uma presença digital que comunique, silenciosamente, que ele é a escolha óbvia.
+
+Concordam ou discordam?</div>
+      <div class="post-li-nota">Nota: Post contrarian — discorda do senso comum com fundamento. Alta chance de debate e compartilhamento.</div>
+    </div>
+  </div>
+
+  <!-- BANCO CASO -->
+  <div class="banco">
+    <div class="banco-header">
+      <div class="banco-linha"></div>
+      <h3 class="banco-titulo"><em>Casos</em></h3>
+      <span class="banco-badge badge-caso">Prova e resultado</span>
+      <div class="banco-linha"></div>
+    </div>
+
+    <div class="post-li">
+      <button class="btn-copiar" onclick="copiar(this)">Copiar</button>
+      <div class="post-li-conta">Zyllah Digital · Página da empresa</div>
+      <div class="post-li-gancho">[Nome do cliente] tinha uma clínica consolidada. Sua presença digital não refletia isso.</div>
+      <div class="post-li-corpo">O que encontramos:
+
+→ Feed inconsistente, sem identidade clara
+→ Site que poderia ser de qualquer clínica
+→ Nenhum sistema de captação de leads qualificados
+
+O que construímos:
+
+→ Identidade visual completa com Brand Book
+→ Site com posicionamento de alto padrão
+→ Sistema de conteúdo all-type para Instagram
+→ Integração com Zyllah Flow para atendimento automatizado
+
+Resultado após [X meses]:
+
+→ [Resultado específico acordado com cliente para divulgação]
+
+A excelência clínica já existia. Nós tornamos ela visível.
+
+[Link para o case completo no primeiro comentário]</div>
+      <div class="post-li-nota">Nota: Template de case. Preencha com dados reais do cliente após autorização. Quanto mais específico o resultado, mais forte o post.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:48px;padding:40px;background:var(--ink);border-left:2px solid var(--gold);">
+    <div style="font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">A regra de ouro do LinkedIn</div>
+    <p style="font-size:17px;line-height:1.85;color:rgba(255,255,255,0.55);max-width:680px;">No LinkedIn, você não está vendendo diretamente. Está construindo reputação. Cada post é um argumento silencioso de por que a Zyllah é a escolha óbvia para quem já está quase convencido. A venda acontece na DM — o feed apenas a torna inevitável.</p>
+  </div>
+
+  <div class="rodape">
+    <a class="voltar" href="zyllah_hub.html">← Voltar ao Hub</a>
+    <p>Zyllah Digital · Estratégia LinkedIn · 2026</p>
+  </div>
+
+</div>
+
+<script>
+function copiar(btn) {
+  const card = btn.closest('.post-li');
+  const gancho = card.querySelector('.post-li-gancho').innerText;
+  const corpo = card.querySelector('.post-li-corpo').innerText;
+  navigator.clipboard.writeText(gancho + '\n\n' + corpo).then(() => {
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copiado');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copiado'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
