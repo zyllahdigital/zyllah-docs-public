@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital · Manual de Produção A52S</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8976A; --gold-light: #D4B896;
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+    --brown: #4A3F35;
+    --ok: #6aaf7a; --warn: #c49a3a; --stop: #c46464; --info: #6496b8;
+  }
+
+  body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); line-height: 1.7; }
+
+  /* HEADER */
+  .header { background: var(--ink); padding: 72px 80px 64px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: -120px; right: -120px; width: 600px; height: 600px; border-radius: 50%; border: 1px solid rgba(184,151,106,0.06); }
+  .header::after { content: ''; position: absolute; bottom: -60px; left: 30%; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(184,151,106,0.04); }
+  .h-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: block; }
+  .h-titulo { font-family: 'Cormorant Garamond', serif; font-size: 68px; font-weight: 300; color: var(--cream); line-height: 1.0; margin-bottom: 24px; }
+  .h-titulo em { font-style: italic; color: var(--gold); }
+  .h-sub { font-size: 17px; color: rgba(255,255,255,0.4); line-height: 1.85; max-width: 620px; margin-bottom: 48px; }
+  .h-specs { display: flex; gap: 48px; flex-wrap: wrap; }
+  .h-spec { }
+  .h-spec-label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 6px; }
+  .h-spec-val { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 300; color: var(--gold); }
+
+  /* NAV ÂNCORAS */
+  .nav-ancora { background: var(--ink-soft); padding: 0 80px; display: flex; gap: 0; overflow-x: auto; }
+  .na-link { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.35); text-decoration: none; padding: 18px 24px; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.2s; display: block; }
+  .na-link:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* WRAPPER */
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 80px 100px; }
+
+  /* CAPÍTULO */
+  .cap { margin-top: 80px; scroll-margin-top: 20px; }
+  .cap-header { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid rgba(184,151,106,0.15); }
+  .cap-num { font-family: 'Cormorant Garamond', serif; font-size: 80px; font-weight: 300; color: rgba(184,151,106,0.15); line-height: 1; flex-shrink: 0; margin-top: -8px; }
+  .cap-info { }
+  .cap-tag { font-size: 11px; letter-spacing: 0.45em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; display: block; }
+  .cap-titulo { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; color: var(--ink); line-height: 1.05; }
+  .cap-titulo em { font-style: italic; color: var(--gold); }
+  .cap-intro { font-size: 16px; color: var(--ink-soft); line-height: 1.85; margin-bottom: 36px; }
+
+  /* SEÇÃO */
+  .sec { margin-bottom: 48px; }
+  .sec-titulo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--ink); margin-bottom: 16px; }
+  .sec-titulo em { font-style: italic; color: var(--gold); }
+  .sec-corpo { font-size: 15px; color: var(--ink-soft); line-height: 1.9; margin-bottom: 16px; }
+
+  /* GRID DE SPECS */
+  .specs-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin: 24px 0; }
+  .spec-card { background: white; padding: 24px 28px; border-left: 3px solid var(--gold); }
+  .spec-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(61,56,48,0.4); margin-bottom: 8px; display: block; }
+  .spec-val { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--ink); margin-bottom: 6px; }
+  .spec-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.65; }
+
+  /* STEPS */
+  .steps { display: flex; flex-direction: column; gap: 2px; margin: 24px 0; }
+  .step { background: white; display: grid; grid-template-columns: 64px 1fr; border: 1px solid rgba(184,151,106,0.1); }
+  .step-num { background: var(--ink); display: flex; align-items: center; justify-content: center; }
+  .step-n { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: var(--gold); }
+  .step-corpo { padding: 20px 24px; }
+  .step-titulo { font-size: 15px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .step-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.75; }
+
+  /* BOXES */
+  .box { padding: 16px 20px; font-size: 14px; line-height: 1.75; margin: 16px 0; }
+  .box strong { font-weight: 500; display: block; margin-bottom: 4px; }
+  .bx-ok   { background: rgba(106,175,122,0.07); border-left: 3px solid var(--ok); }
+  .bx-warn { background: rgba(196,154,58,0.07); border-left: 3px solid var(--warn); }
+  .bx-stop { background: rgba(196,100,100,0.06); border-left: 3px solid var(--stop); }
+  .bx-info { background: rgba(100,150,184,0.07); border-left: 3px solid var(--info); }
+  .bx-gold { background: rgba(184,151,106,0.07); border-left: 3px solid var(--gold); }
+
+  /* TABELA */
+  .tabela { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+  .tabela th { background: var(--ink); color: var(--gold); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 400; padding: 12px 16px; text-align: left; }
+  .tabela td { padding: 12px 16px; border-bottom: 1px solid rgba(184,151,106,0.1); color: var(--ink-soft); background: white; vertical-align: top; }
+  .tabela tr:last-child td { border-bottom: none; }
+
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; gap: 2px; margin: 20px 0; }
+  .check-item { background: white; padding: 14px 20px; display: flex; align-items: flex-start; gap: 14px; border: 1px solid rgba(184,151,106,0.1); font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+  .check-box { width: 18px; height: 18px; border: 1px solid rgba(184,151,106,0.4); flex-shrink: 0; margin-top: 1px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; }
+  .check-box.done { background: var(--gold); border-color: var(--gold); }
+  .check-box.done::after { content: '✓'; color: var(--ink); font-size: 11px; font-weight: 600; }
+  .check-item.done-item .check-texto { text-decoration: line-through; opacity: 0.45; }
+
+  /* CONFIGURAÇÃO VISUAL */
+  .config-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin: 20px 0; }
+  .config-card { background: white; padding: 20px 22px; border-top: 3px solid var(--gold); }
+  .config-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(61,56,48,0.4); margin-bottom: 10px; display: block; }
+  .config-val { font-size: 15px; font-weight: 400; color: var(--ink); margin-bottom: 6px; }
+  .config-why { font-size: 12px; color: var(--ink-soft); line-height: 1.6; }
+
+  /* COMPARATIVO */
+  .comp { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 20px 0; }
+  .comp-col { padding: 24px 28px; }
+  .comp-col.errado { background: rgba(196,100,100,0.05); border-left: 3px solid var(--stop); }
+  .comp-col.certo  { background: rgba(106,175,122,0.06); border-left: 3px solid var(--ok); }
+  .comp-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 14px; display: block; }
+  .comp-label.e { color: var(--stop); }
+  .comp-label.c { color: var(--ok); }
+  .comp-item { font-size: 14px; color: var(--ink-soft); line-height: 1.7; margin-bottom: 8px; padding-left: 16px; position: relative; }
+  .comp-item::before { position: absolute; left: 0; }
+  .comp-col.errado .comp-item::before { content: '✕'; color: var(--stop); }
+  .comp-col.certo  .comp-item::before { content: '✓'; color: var(--ok); }
+
+  /* FOOTER */
+  .footer-doc { background: var(--ink); padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 80px; }
+  .footer-doc p { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+  .footer-doc span { color: var(--gold); }
+
+  @media (max-width: 768px) {
+    .header, .nav-ancora, .wrap, .footer-doc { padding-left: 24px; padding-right: 24px; }
+    .h-titulo { font-size: 40px; }
+    .specs-grid, .config-grid, .comp { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 48px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <span class="h-tag">Zyllah Digital · Manual de Produção · Uso interno</span>
+  <h1 class="h-titulo">Samsung A52S<br><em>Qualidade de cinema.</em><br>Custo zero.</h1>
+  <p class="h-sub">Tudo o que Guilherme e a equipe precisam saber para extrair o máximo do A52S na produção de conteúdo para profissionais de saúde. Da configuração do celular à entrega final editada.</p>
+  <div class="h-specs">
+    <div class="h-spec">
+      <div class="h-spec-label">Equipamento</div>
+      <div class="h-spec-val">Samsung Galaxy A52S 5G</div>
+    </div>
+    <div class="h-spec">
+      <div class="h-spec-label">Acessórios</div>
+      <div class="h-spec-val">Gimbal · Iluminação básica</div>
+    </div>
+    <div class="h-spec">
+      <div class="h-spec-label">Edição</div>
+      <div class="h-spec-val">CapCut · DaVinci Resolve</div>
+    </div>
+    <div class="h-spec">
+      <div class="h-spec-label">Custo de ferramentas</div>
+      <div class="h-spec-val">R$ 0</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav-ancora">
+  <a class="na-link" href="#cap1">Câmera</a>
+  <a class="na-link" href="#cap2">Luz</a>
+  <a class="na-link" href="#cap3">Áudio</a>
+  <a class="na-link" href="#cap4">Enquadramento</a>
+  <a class="na-link" href="#cap5">Direção</a>
+  <a class="na-link" href="#cap6">Setup A·B·C</a>
+  <a class="na-link" href="#cap7">Edição</a>
+  <a class="na-link" href="#cap8">Contexto saúde</a>
+  <a class="na-link" href="#cap9">Checklist</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ══════════════════════════ -->
+<!-- CAP 1 — CONFIGURAÇÃO      -->
+<!-- ══════════════════════════ -->
+<div class="cap" id="cap1">
+  <div class="cap-header">
+    <div class="cap-num">01</div>
+    <div class="cap-info">
+      <span class="cap-tag">Configuração da câmera</span>
+      <h2 class="cap-titulo">O que configurar <em>antes de gravar</em></h2>
+    </div>
+  </div>
+  <p class="cap-intro">O A52S entrega qualidade profissional — mas só se configurado corretamente. As configurações padrão de fábrica priorizam praticidade, não qualidade. Este capítulo corrige isso.</p>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Configurações obrigatórias</h3>
+    <div class="config-grid">
+      <div class="config-card">
+        <span class="config-label">Resolução</span>
+        <div class="config-val">4K · 30fps</div>
+        <div class="config-why">Máxima qualidade disponível. Grava em 4K, exporta em 1080p — você tem margem para recortar sem perder qualidade. Para Reels e Stories, usar 1080p 60fps.</div>
+      </div>
+      <div class="config-card">
+        <span class="config-label">Modo</span>
+        <div class="config-val">Pro Vídeo</div>
+        <div class="config-why">Controle manual de ISO, velocidade do obturador e foco. Nunca usar o modo automático para conteúdo profissional — ele muda configurações sozinho durante a gravação.</div>
+      </div>
+      <div class="config-card">
+        <span class="config-label">ISO</span>
+        <div class="config-val">50–200 (luz boa)<br>200–400 (luz baixa)</div>
+        <div class="config-why">ISO baixo = menos grão = imagem mais limpa. Nunca passar de 400 — acima disso o ruído digital é visível e compromete o padrão de alto nível.</div>
+      </div>
+      <div class="config-card">
+        <span class="config-label">Velocidade do obturador</span>
+        <div class="config-val">1/60s (regra do dobro)</div>
+        <div class="config-why">A regra: velocidade = 2× o fps. Gravando a 30fps, use 1/60s. Isso garante o motion blur natural que o olho humano espera ver — sem o efeito "robótico" da alta velocidade.</div>
+      </div>
+      <div class="config-card">
+        <span class="config-label">Estabilização</span>
+        <div class="config-val">Desligada com gimbal<br>Ativada sem gimbal</div>
+        <div class="config-why">Com gimbal ativo, a estabilização digital do celular conflita e cria distorção. Desligar no Pro Vídeo. Sem gimbal, ativar para compensar o tremor de mão.</div>
+      </div>
+      <div class="config-card">
+        <span class="config-label">Foco</span>
+        <div class="config-val">Manual · travar no rosto</div>
+        <div class="config-why">Foco automático em entrevistas e câmera ao vivo pode perder o rosto durante a gravação. Travar manualmente no início e só reajustar se houver movimento significativo.</div>
+      </div>
+      <div class="config-card">
+        <span class="config-label">Balanço de branco</span>
+        <div class="config-val">Manual · 4500–5500K</div>
+        <div class="config-why">Automático muda durante a gravação e cria variação de cor. Fixar em 5000K para luz natural ou 4500K para LED. Consultório: testar antes e fixar o valor.</div>
+      </div>
+      <div class="config-card">
+        <span class="config-label">Formato de arquivo</span>
+        <div class="config-val">HEVC (H.265)</div>
+        <div class="config-why">Arquivo menor, qualidade maior. Se houver problema de compatibilidade no CapCut, exportar em H.264. Verificar nas configurações avançadas de câmera.</div>
+      </div>
+      <div class="config-card">
+        <span class="config-label">Grade e nível</span>
+        <div class="config-val">Ativar os dois</div>
+        <div class="config-why">A grade (regra dos terços) guia o enquadramento. O nível garante que o horizonte está reto. Ambos desaparecem no vídeo final — só aparecem durante a gravação.</div>
+      </div>
+    </div>
+
+    <div class="box bx-warn">
+      <strong>Antes de qualquer sessão de gravação</strong>
+      Verificar: espaço disponível no celular (4K ocupa ~400MB por minuto), bateria acima de 80%, modo avião ativado para evitar interrupções de chamada ou notificação.
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Câmera traseira vs. frontal</h3>
+    <div class="comp">
+      <div class="comp-col certo">
+        <span class="comp-label c">Câmera traseira (principal)</span>
+        <div class="comp-item">Qualidade máxima — sensor maior, lente melhor</div>
+        <div class="comp-item">Usar para todo conteúdo de câmera ao vivo</div>
+        <div class="comp-item">Requer teleprompter ou roteiro impresso para não olhar para baixo</div>
+        <div class="comp-item">Inverter imagem no CapCut se necessário</div>
+      </div>
+      <div class="comp-col errado">
+        <span class="comp-label e">Câmera frontal (selfie)</span>
+        <div class="comp-item">Qualidade visivelmente inferior — sensor menor</div>
+        <div class="comp-item">Usar apenas para Stories e conteúdo casual</div>
+        <div class="comp-item">Nunca para conteúdo principal do canal YouTube</div>
+        <div class="comp-item">Nunca para sessão fotográfica de cliente</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Limpeza da lente — sempre</h3>
+    <p class="sec-corpo">A lente do A52S acumula gordura da pele e poeira com facilidade. Uma lente suja é responsável por 80% dos casos de imagem "sem profissão" que não têm explicação óbvia. Limpar com pano de microfibra seco antes de toda gravação. Nunca usar a camiseta — risca o revestimento.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════ -->
+<!-- CAP 2 — LUZ               -->
+<!-- ══════════════════════════ -->
+<div class="cap" id="cap2">
+  <div class="cap-header">
+    <div class="cap-num">02</div>
+    <div class="cap-info">
+      <span class="cap-tag">Iluminação</span>
+      <h2 class="cap-titulo">Luz é o que separa <em>profissional de amador</em></h2>
+    </div>
+  </div>
+  <p class="cap-intro">Nenhuma configuração de câmera compensa iluminação ruim. E nenhum equipamento caro produz resultado em luz ruim. Este capítulo define como iluminar qualquer ambiente para o padrão Zyllah.</p>
+
+  <div class="sec">
+    <h3 class="sec-titulo">A regra fundamental</h3>
+    <p class="sec-corpo">A luz principal sempre vem da frente ou levemente lateral — nunca de trás (silhueta) e nunca de cima (sombras duras embaixo dos olhos). Para o nicho de saúde, onde a credibilidade é o ativo principal, iluminação plana e limpa é sempre a escolha certa. Dramática demais soa performático para um público que valoriza seriedade.</p>
+
+    <div class="box bx-gold">
+      <strong>A hierarquia da iluminação para o A52S</strong>
+      Janela frontal grande > Softbox frontal > Ring light > Lâmpada comum + difusor. Qualquer uma dessas opções, usada corretamente, produz resultado profissional.
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Luz natural — a melhor opção</h3>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num"><div class="step-n">1</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Posicionar o presenter de frente para a janela</div>
+          <div class="step-desc">O rosto deve estar voltado para a janela — não paralelo, não de costas. A luz entra e ilumina o rosto de forma uniforme. Testar olhando para a janela com os olhos fechados: se sentir calor no rosto, está na posição certa.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">2</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Evitar luz solar direta</div>
+          <div class="step-desc">Sol dieto cria sombras duras e faz a câmera superexpor. A posição ideal é luz difusa — janela com voil, dia nublado, ou sol não incidindo diretamente no rosto. A luz de uma janela às 10h-14h com dia claro mas sem sol direto é perfeita.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">3</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Controlar a luz de fundo</div>
+          <div class="step-desc">Se houver janela atrás do presenter, fechar ou cobrir. A câmera sempre expõe para a parte mais brilhante — janela atrás = rosto escuro. Se não for possível cobrir, acender luz artificial adicional no rosto para equilibrar.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">4</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Horário ideal</div>
+          <div class="step-desc">Entre 9h e 16h em dia claro. Manhã cedo e fim de tarde produzem luz mais quente e ângulo lateral — bonito, mas inconsistente entre sessões. Para manter coerência visual entre vídeos, gravar sempre no mesmo horário e na mesma posição.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Softbox — a solução de estúdio em qualquer ambiente</h3>
+    <p class="sec-corpo">Um softbox de entrada (R$ 150–300) com lâmpada LED 5500K resolve iluminação em qualquer ambiente, a qualquer hora. É o equipamento a comprar após o primeiro cliente.</p>
+
+    <table class="tabela">
+      <tr>
+        <th>Posição</th>
+        <th>Resultado</th>
+        <th>Quando usar</th>
+      </tr>
+      <tr>
+        <td>45° frontal esquerdo ou direito, altura dos olhos</td>
+        <td>Luz principal suave com leve sombra definidora</td>
+        <td>Câmera ao vivo — setup padrão</td>
+      </tr>
+      <tr>
+        <td>Diretamente à frente, altura dos olhos</td>
+        <td>Luz plana, sem sombra — muito limpa</td>
+        <td>Entrevistas, consultório claro</td>
+      </tr>
+      <tr>
+        <td>Dois softboxes — um de cada lado</td>
+        <td>Eliminação total de sombras</td>
+        <td>Sessão fotográfica de cliente</td>
+      </tr>
+    </table>
+
+    <div class="box bx-info">
+      <strong>Ring light — quando usar e quando não usar</strong>
+      Ring light cria reflexo circular nos olhos — um "detalhe" que sinaliza produção caseira para quem sabe olhar. No contexto de saúde e alto padrão, preferir softbox sempre que possível. Ring light é aceitável para Stories e conteúdo casual — não para vídeos principais do canal.
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Acabamento — pó compacto translúcido</h3>
+    <p class="sec-corpo">Testa, nariz e queixo refletem luz e criam brilho visível na câmera. Pó compacto translúcido incolor (qualquer marca, R$ 20–40) aplicado antes de gravar elimina o problema sem mudar a aparência natural. Obrigatório em toda sessão de câmera ao vivo. Orientar clientes a fazer o mesmo antes de sessões fotográficas.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════ -->
+<!-- CAP 3 — ÁUDIO             -->
+<!-- ══════════════════════════ -->
+<div class="cap" id="cap3">
+  <div class="cap-header">
+    <div class="cap-num">03</div>
+    <div class="cap-info">
+      <span class="cap-tag">Áudio</span>
+      <h2 class="cap-titulo">Áudio ruim destrói <em>vídeo perfeito</em></h2>
+    </div>
+  </div>
+  <p class="cap-intro">O espectador perdoa vídeo tremido. Não perdoa áudio ruim. A qualidade do som é o primeiro sinal de profissionalismo — e o primeiro motivo de abandono.</p>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Hierarquia de captação</h3>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num"><div class="step-n">1</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Microfone de lapela com fio (melhor custo-benefício)</div>
+          <div class="step-desc">Plug P2 ou USB-C direto no A52S. R$ 40–150. Posicionar na gola da camisa, a ~20cm da boca, escondido se possível. O fio fica por dentro da roupa. Resultado: som limpo, sem ambiente, sem eco. Esta é a solução para todo setup de câmera ao vivo.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">2</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Microfone de lapela wireless (DJI Mic, Rode Wireless Go)</div>
+          <div class="step-desc">Liberdade de movimento, sem fio aparente. R$ 500–1.200. Comprar após consolidação da operação. Para sessão de voz over ou gravar em movimento, vale o investimento.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">3</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Microfone direcional (Rode VideoMicro)</div>
+          <div class="step-desc">Encaixa no topo do celular via adaptador. R$ 300–500. Capta som direcional — bom para voz over com celular na mão ou em tripé próximo. Menos eficiente que lapela para câmera ao vivo com distância.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">4</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Microfone interno do A52S (último recurso)</div>
+          <div class="step-desc">Capta todo o ambiente — ar-condicionado, trânsito, eco da sala. Usar apenas quando não houver outra opção. Se usar: distância máxima de 50cm da boca, ambiente mais silencioso possível, aplicar redução de ruído no CapCut na edição.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Controle de ambiente — obrigatório antes de gravar</h3>
+    <div class="checklist" id="audio-check">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Desligar ar-condicionado e ventilador — maior fonte de ruído de fundo</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Fechar janelas e portas — especialmente se houver rua movimentada</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Avisar pessoas no ambiente para não interromper durante a gravação</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Ativar modo avião no celular — notificações e chamadas interrompem e aparecem no áudio</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Fazer teste de 10 segundos de gravação e ouvir com fone antes de começar a sessão</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Ambientes com tapete, cortina e estante com livros absorvem eco — preferir esses espaços</span>
+      </div>
+    </div>
+
+    <div class="box bx-stop">
+      <strong>O teste dos 10 segundos</strong>
+      Nunca começar uma sessão longa sem gravar 10 segundos e ouvir com fone de ouvido. Identificar eco, ruído de fundo, problema no microfone ou nível de volume muito alto/baixo. Esse teste economiza horas de retrabalho.
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Voz — como falar na câmera</h3>
+    <p class="sec-corpo">Para conteúdo de saúde e alto padrão, o tom de voz é tão importante quanto o conteúdo. Estas são as regras que fazem a diferença:</p>
+
+    <table class="tabela">
+      <tr>
+        <th>Regra</th>
+        <th>Por quê</th>
+        <th>Como fazer</th>
+      </tr>
+      <tr>
+        <td>Falar mais devagar do que parece natural</td>
+        <td>Câmera comprime a percepção de velocidade — o que parece normal ao vivo soa apressado na gravação</td>
+        <td>Respirar antes de cada frase. Fazer pausa de 1 segundo entre parágrafos</td>
+      </tr>
+      <tr>
+        <td>Pausas valem mais do que palavras</td>
+        <td>Silêncio transmite confiança. Preenchimento com "então", "né", "tipo" sinaliza insegurança</td>
+        <td>Se travar, parar e recomeçar a frase. Na edição, cortar o silêncio</td>
+      </tr>
+      <tr>
+        <td>Água ao lado sempre</td>
+        <td>Voz seca perde qualidade rapidamente. Garganta ressecada afeta clareza</td>
+        <td>Copo de água em temperatura ambiente — frio contrai as cordas vocais</td>
+      </tr>
+      <tr>
+        <td>Nunca gravar com sinusite ou gripe</td>
+        <td>Voz nasalada e tosse no áudio comprometem a percepção de alto padrão</td>
+        <td>Reagendar a sessão — conteúdo de texto e card animado não dependem de voz</td>
+      </tr>
+      <tr>
+        <td>Tom consultivo, não professoral</td>
+        <td>Para médicos e profissionais de saúde, tom de "aula" soa condescendente</td>
+        <td>Imaginar que está falando para um colega inteligente, não para um aluno</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════ -->
+<!-- CAP 4 — ENQUADRAMENTO     -->
+<!-- ══════════════════════════ -->
+<div class="cap" id="cap4">
+  <div class="cap-header">
+    <div class="cap-num">04</div>
+    <div class="cap-info">
+      <span class="cap-tag">Enquadramento e composição</span>
+      <h2 class="cap-titulo">Onde posicionar <em>tudo</em></h2>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Enquadramentos por formato</h3>
+
+    <table class="tabela">
+      <tr>
+        <th>Formato</th>
+        <th>Enquadramento</th>
+        <th>Orientação do celular</th>
+        <th>Uso</th>
+      </tr>
+      <tr>
+        <td>YouTube 16:9</td>
+        <td>Plano médio — da cintura para cima. Cabeça deixando ~20% de espaço acima</td>
+        <td>Horizontal</td>
+        <td>Todos os vídeos longos</td>
+      </tr>
+      <tr>
+        <td>Reels / Shorts / TikTok 9:16</td>
+        <td>Plano médio a close — da gola para cima. Mais próximo que no YouTube</td>
+        <td>Vertical (ou recortar 16:9 no CapCut)</td>
+        <td>Conteúdo curto de câmera</td>
+      </tr>
+      <tr>
+        <td>LinkedIn 1:1</td>
+        <td>Plano médio — centralizado, sem cortar ombros</td>
+        <td>Horizontal, recortado no CapCut</td>
+        <td>Posts de vídeo no feed LinkedIn</td>
+      </tr>
+      <tr>
+        <td>Foto perfil / capa</td>
+        <td>Close — ombros e cabeça, fundo limpo</td>
+        <td>Vertical</td>
+        <td>Fotos de clientes para redes</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Posição da câmera</h3>
+    <div class="specs-grid">
+      <div class="spec-card">
+        <span class="spec-label">Altura</span>
+        <div class="spec-val">Na altura dos olhos ou levemente acima</div>
+        <div class="spec-desc">Câmera abaixo dos olhos distorce o rosto e transmite fraqueza. Câmera muito acima cria sensação de que a pessoa está sendo observada. Na altura dos olhos = conversa entre iguais.</div>
+      </div>
+      <div class="spec-card">
+        <span class="spec-label">Eixo do olhar</span>
+        <div class="spec-val">Olhar para a câmera, não para a tela</div>
+        <div class="spec-desc">O olhar para a lente cria contato visual com o espectador. Olhar para o próprio rosto na tela desvia os olhos e parece desvio de olhar. Usar ponto de referência colado acima da câmera se necessário.</div>
+      </div>
+      <div class="spec-card">
+        <span class="spec-label">Distância</span>
+        <div class="spec-val">60–90 cm do rosto</div>
+        <div class="spec-desc">Perto demais distorce o rosto (lente grande angular do A52S). Longe demais perde detalhe e dificulta o microfone de lapela. Entre 60 e 90cm é o sweet spot para câmera ao vivo.</div>
+      </div>
+      <div class="spec-card">
+        <span class="spec-label">Fundo</span>
+        <div class="spec-val">Limpo, organizado, neutro</div>
+        <div class="spec-desc">Fundo que chama atenção compete com o presenter. Para o padrão Zyllah: parede lisa em tom neutro, estante organizada com livros, ou fundo desfocado (portrait mode). Nunca bagunça, nunca elementos aleatórios.</div>
+      </div>
+    </div>
+
+    <div class="box bx-warn">
+      <strong>Regra dos terços — ativar na câmera</strong>
+      Com a grade ativa, o presenter deve estar no terço esquerdo ou direito do frame — não centralizado. Centralizado parece foto de passaporte. No terço lateral, com espaço à frente do olhar, cria composição cinematográfica natural.
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Tripé e gimbal — quando usar cada um</h3>
+
+    <div class="comp">
+      <div class="comp-col certo">
+        <span class="comp-label c">Tripé — câmera estática</span>
+        <div class="comp-item">Setup A, B, C — toda câmera ao vivo parada</div>
+        <div class="comp-item">Sessão fotográfica de cliente (posições fixas)</div>
+        <div class="comp-item">Voz over (câmera não aparece, mas o celular precisa estar fixo para o microfone)</div>
+        <div class="comp-item">Qualquer conteúdo que exige consistência de enquadramento entre takes</div>
+      </div>
+      <div class="comp-col certo" style="border-left-color:var(--info)">
+        <span class="comp-label" style="color:var(--info)">Gimbal — câmera em movimento</span>
+        <div class="comp-item">B-roll com movimento — caminhar pelo consultório, mostrar ambiente</div>
+        <div class="comp-item">Sessão fotográfica com deslocamento</div>
+        <div class="comp-item">Conteúdo em movimento para Stories</div>
+        <div class="comp-item">Nunca para câmera ao vivo parada — o gimbal não tem função nesse contexto</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ -->
+<!-- CAP 5 — DIREÇÃO           -->
+<!-- ══════════════════════════ -->
+<div class="cap" id="cap5">
+  <div class="cap-header">
+    <div class="cap-num">05</div>
+    <div class="cap-info">
+      <span class="cap-tag">Direção de atores e clientes</span>
+      <h2 class="cap-titulo">Como conduzir quem <em>está na frente da câmera</em></h2>
+    </div>
+  </div>
+  <p class="cap-intro">Para médicos e profissionais de saúde, a câmera é inicialmente incômoda. Saber conduzi-los é a diferença entre um vídeo que soa natural e um que parece forçado.</p>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Antes de ligar a câmera</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num"><div class="step-n">1</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Conversar por 5 minutos sem gravar</div>
+          <div class="step-desc">Qualquer pergunta sobre o dia, a especialidade, um paciente recente. O objetivo é trazer o profissional para o estado de conversa natural — o mesmo em que ele está com pacientes. Quando ligar a câmera, esse estado está mais acessível.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">2</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Mostrar o enquadramento antes</div>
+          <div class="step-desc">Virar a tela para o cliente ver como vai aparecer. Ajustar postura, roupa, cabelo juntos. Quando ele vê que está bem no enquadramento, a ansiedade reduz. Nunca mostrar takes ruim no meio da sessão — só mostrar no final.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">3</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Deixar claro que errar é parte do processo</div>
+          <div class="step-desc">Dizer: "Vamos fazer dois takes de cada parte. Use o primeiro para esquentar — não precisa ser perfeito. O segundo costuma ser o melhor." Isso remove a pressão de performance e a maioria das pessoas relaxa visivelmente.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Durante a gravação</h3>
+
+    <table class="tabela">
+      <tr>
+        <th>Situação</th>
+        <th>O que fazer</th>
+      </tr>
+      <tr>
+        <td>Cliente trava no meio da fala</td>
+        <td>Dizer "sem problema, respira e recomeça do início dessa frase". Nunca cortar bruscamente — deixar terminar ou pausar naturalmente.</td>
+      </tr>
+      <tr>
+        <td>Cliente fala rápido demais</td>
+        <td>"Pode falar um pouco mais devagar? A câmera comprime a velocidade — o que parece normal parece corrido na edição." Tom tranquilo, sem crítica.</td>
+      </tr>
+      <tr>
+        <td>Cliente olha para baixo ou para o lado</td>
+        <td>Colocar um ponto de referência (post-it colorido) acima da lente da câmera. Pedir para olhar "para esse ponto" em vez de "para a câmera".</td>
+      </tr>
+      <tr>
+        <td>Cliente insatisfeito com a própria voz ou aparência</td>
+        <td>Nunca concordar com a autocrítica. Dizer: "Seu tom de voz é exatamente o que gera credibilidade — é como você fala com seus pacientes. É isso que queremos." Redirecionar para o resultado.</td>
+      </tr>
+      <tr>
+        <td>Take claramente ruim</td>
+        <td>Nunca comentar na hora. Anotar mentalmente e pedir "vamos fazer mais um, só para ter opção". Preservar o estado emocional do cliente.</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Roupa — orientar o cliente antes da sessão</h3>
+    <p class="sec-corpo">Enviar o TEMPLATE_mensagem_pre_sessao.html 48h antes. Os pontos essenciais:</p>
+
+    <div class="comp">
+      <div class="comp-col certo">
+        <span class="comp-label c">Funciona na câmera</span>
+        <div class="comp-item">Cores sólidas — azul, verde, bordô, cinza, preto, branco</div>
+        <div class="comp-item">Jaleco branco — autoridade visual imediata para médicos</div>
+        <div class="comp-item">Tecido sem brilho — não reflete a luz da iluminação</div>
+        <div class="comp-item">Decote simples — V ou redondo, sem acessórios grandes</div>
+        <div class="comp-item">Roupa passada — amassado aparece 3× mais na câmera</div>
+      </div>
+      <div class="comp-col errado">
+        <span class="comp-label e">Problemas na câmera</span>
+        <div class="comp-item">Estampas miúdas (xadrez, listras finas) — efeito moiré na câmera</div>
+        <div class="comp-item">Branco puro sem camada — transparece sob iluminação forte</div>
+        <div class="comp-item">Vermelho saturado — "sangra" na câmera, borra as bordas</div>
+        <div class="comp-item">Brincos grandes ou colares barulhentos — aparecem no áudio</div>
+        <div class="comp-item">Roupa de academia ou muito casual — quebra o posicionamento de alto padrão</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ -->
+<!-- CAP 6 — SETUPS A·B·C     -->
+<!-- ══════════════════════════ -->
+<div class="cap" id="cap6">
+  <div class="cap-header">
+    <div class="cap-num">06</div>
+    <div class="cap-info">
+      <span class="cap-tag">Os três setups de gravação</span>
+      <h2 class="cap-titulo">Preparação <em>passo a passo</em></h2>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo" style="color:var(--info)">Setup A — Voz Over</h3>
+    <p class="sec-corpo">Microfone, sem câmera. Ideal para narrações sobre imagens de tela. Gravar sempre primeiro — antes de qualquer outro setup, enquanto a voz está fresca.</p>
+
+    <div class="checklist">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Ambiente mais silencioso da casa/consultório identificado — testar com 10s de gravação</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Ar-condicionado e ventilador desligados</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Microfone de lapela conectado e testado</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Roteiros abertos na tela — todos, antes de começar</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Copo de água em temperatura ambiente ao lado</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Gravar em 4K mesmo sem câmera — qualidade de áudio é igual em qualquer resolução, mas o arquivo de referência tem timestamp útil para sincronia</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Trilha dark academia ambient separada — mixer no CapCut, volume 8% da voz</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo" style="color:var(--ok)">Setup B — Câmera ao Vivo (Roupa 1)</h3>
+    <p class="sec-corpo">Câmera frontal, plano médio, tripé. Gravar todo o conteúdo desta roupa antes de trocar. Sempre 2 takes por fala.</p>
+
+    <div class="checklist">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Roupa 1 — camisa social, cor sólida, passada, sem estampa miúda</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Pó compacto translúcido aplicado — testa, nariz e queixo</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Tripé montado, câmera na altura dos olhos, horizontal (16:9)</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Luz testada — janela frontal ou softbox à frente, sem janela atrás</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Lente limpa com pano de microfibra</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Pro Vídeo ativo — ISO, obturador e balanço de branco configurados</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Modo avião ativado</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Roteiros impressos ou na tela de outro dispositivo — nunca no celular que grava</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Teste de 10s gravado e assistido com fone antes de começar</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Bater palma no início de cada take para facilitar sincronia na edição</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo" style="color:var(--warn)">Setup C — Câmera ao Vivo (Roupa 2)</h3>
+    <p class="sec-corpo">Idêntico ao Setup B — mesma posição, mesmo enquadramento. Trocar apenas a roupa. A cor deve ser visivelmente diferente da Roupa 1 para que o espectador perceba que são gravações diferentes.</p>
+
+    <div class="box bx-gold">
+      <strong>Por que duas roupas?</strong>
+      Gravar 45+ peças no mesmo dia com a mesma roupa comunica que tudo foi produzido de uma vez. Duas roupas criam a percepção de gravações em momentos diferentes — consistência de produção sem custo adicional.
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Sessão fotográfica de cliente — protocolo completo</h3>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num"><div class="step-n">1</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Preparação do ambiente (30min antes)</div>
+          <div class="step-desc">Organizar o consultório conforme o guia de sessão enviado ao cliente. Remover objetos pessoais visíveis, diplomas que não sejam relevantes para o posicionamento, qualquer elemento que quebre o padrão visual. Testar a iluminação com o celular antes do cliente chegar.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">2</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Configuração para foto</div>
+          <div class="step-desc">Câmera traseira principal. Pro Photo (não automático). ISO 50. Obturador 1/200s ou mais rápido para congelar movimento. Foco manual travado no rosto. Gravar em RAW se disponível — ou HEIF de alta qualidade.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">3</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Sequência de poses — começar do mais simples</div>
+          <div class="step-desc">Iniciar com o cliente sentado à mesa (natural para médico). Depois em pé no consultório. Por último, poses mais criativas se houver conforto. Nunca começar com pose em pé — é a mais desconfortável. Tirar mínimo 5 fotos por pose, escolher depois.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">4</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Entrega — 20 a 30 fotos editadas</div>
+          <div class="step-desc">Selecionar as melhores brutas, editar no Lightroom Mobile (gratuito) ou Snapseed. Ajustes: exposição, contraste, temperatura de cor, clareza. Nunca filtros prontos que mudam a paleta de cores — comprometem a coerência visual da marca do cliente.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ -->
+<!-- CAP 7 — EDIÇÃO            -->
+<!-- ══════════════════════════ -->
+<div class="cap" id="cap7">
+  <div class="cap-header">
+    <div class="cap-num">07</div>
+    <div class="cap-info">
+      <span class="cap-tag">Edição — CapCut e DaVinci</span>
+      <h2 class="cap-titulo">Da gravação bruta <em>ao produto final</em></h2>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Qual ferramenta para cada entrega</h3>
+
+    <table class="tabela">
+      <tr>
+        <th>Entrega</th>
+        <th>Ferramenta</th>
+        <th>Por quê</th>
+      </tr>
+      <tr>
+        <td>Reels e Shorts (até 90s)</td>
+        <td>CapCut (celular)</td>
+        <td>Rápido, legenda automática, templates de texto, Auto Reframe para converter 16:9 em 9:16</td>
+      </tr>
+      <tr>
+        <td>Vídeos longos YouTube (3–10min)</td>
+        <td>DaVinci Resolve (computador)</td>
+        <td>Edição profissional, color grading, múltiplas trilhas de áudio, exportação em qualquer formato</td>
+      </tr>
+      <tr>
+        <td>Cards animados</td>
+        <td>OBS (gravação de tela) + CapCut (finalização)</td>
+        <td>Os HTML já estão prontos — gravar tela em F11, cortar no CapCut</td>
+      </tr>
+      <tr>
+        <td>Fotos do cliente</td>
+        <td>Lightroom Mobile ou Snapseed</td>
+        <td>Edição de RAW com controle preciso, sem filtros automáticos</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Padrão de edição — CapCut (Reels e Shorts)</h3>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num"><div class="step-n">1</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Importar o bruto e cortar os silêncios</div>
+          <div class="step-desc">Usar a função "Remover silêncio" do CapCut para cortar automaticamente as pausas longas. Depois revisar manualmente e recolocar pausas intencionais de 0,5–1s entre parágrafos — o ritmo da fala é parte da comunicação.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">2</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Legenda animada — obrigatória</div>
+          <div class="step-desc">Usar "Legenda automática" do CapCut. Revisar erros de transcrição (nomes, termos médicos). Fonte: Arial Bold ou similar limpo — não usar fontes decorativas para legenda. Tamanho: legível em tela de 5". Posição: terço inferior, sem cobrir o rosto.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">3</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Trilha sonora</div>
+          <div class="step-desc">YouTube Audio Library — filtrar por "Contemplative" ou "Corporate Minimal". Volume: 8% em relação à voz (a voz deve ser claramente dominante). Nunca usar músicas com letra — competem com a fala. Fade in no início, fade out nos últimos 2 segundos.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">4</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Assinatura Zyllah no encerramento</div>
+          <div class="step-desc">Últimos 2–3 segundos: ASSINATURA_REEL_STORY.png em fade in sobre fundo ink. Esta é a assinatura visual obrigatória em todo conteúdo publicado — identifica a produção e reforça a marca.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num"><div class="step-n">5</div></div>
+        <div class="step-corpo">
+          <div class="step-titulo">Exportação</div>
+          <div class="step-desc">1080p, 30fps (ou 60fps para Reels). Qualidade máxima disponível. Para Instagram: exportar em MP4 H.264. Para TikTok: mesma configuração. Para LinkedIn: 1080p no formato quadrado (1:1) quando for o formato do post.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Auto Reframe — converter 16:9 em 9:16</h3>
+    <p class="sec-corpo">O CapCut tem função de Auto Reframe que recorta automaticamente o vídeo 16:9 para 9:16 acompanhando o rosto. Funciona bem para plano médio. Para close, verificar manualmente se o rosto não está sendo cortado. Alternativa: gravar verticalmente desde o início para conteúdo prioritariamente de Reels.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════ -->
+<!-- CAP 8 — CONTEXTO SAÚDE   -->
+<!-- ══════════════════════════ -->
+<div class="cap" id="cap8">
+  <div class="cap-header">
+    <div class="cap-num">08</div>
+    <div class="cap-info">
+      <span class="cap-tag">Especificidades do nicho de saúde</span>
+      <h2 class="cap-titulo">O que muda quando <em>o cliente é médico</em></h2>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Tom visual para saúde — o que comunica credibilidade</h3>
+
+    <div class="comp">
+      <div class="comp-col certo">
+        <span class="comp-label c">Comunica autoridade clínica</span>
+        <div class="comp-item">Iluminação limpa e uniforme — sem sombras dramáticas</div>
+        <div class="comp-item">Ambiente organizado — consultório arrumado, sem objetos aleatórios</div>
+        <div class="comp-item">Roupa profissional — jaleco, camisa social, roupa de consultório</div>
+        <div class="comp-item">Postura ereta, contato visual direto com a câmera</div>
+        <div class="comp-item">Tom de voz calmo e seguro — sem urgência ou entusiasmo excessivo</div>
+        <div class="comp-item">Fundo neutro ou com elementos do consultório</div>
+      </div>
+      <div class="comp-col errado">
+        <span class="comp-label e">Compromete a credibilidade</span>
+        <div class="comp-item">Efeitos de câmera chamativos — zoom brusco, transições rápidas</div>
+        <div class="comp-item">Música de fundo muito animada ou com letra</div>
+        <div class="comp-item">Texto piscante, cores vibrantes, emojis em excesso na edição</div>
+        <div class="comp-item">Gravação em carro, rua ou ambiente barulhento</div>
+        <div class="comp-item">Iluminação de ângulo inferior — parece ameaçador</div>
+        <div class="comp-item">Roupa casual para conteúdo profissional</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">CFM — o que nunca pode aparecer no vídeo</h3>
+
+    <div class="box bx-stop">
+      <strong>Resolução CFM 2.336/2023 — aplicação em vídeo</strong>
+      Nunca mostrar: imagens de procedimentos sendo realizados com identificação do paciente, resultado antes/depois mesmo que o paciente autorize, preço de procedimento de forma proeminente, depoimento de paciente com rosto ou nome visível, promessa de resultado ("elimine rugas", "emagreça X kg"). Qualquer conteúdo gerado para cliente médico passa por esse filtro antes de publicar.
+    </div>
+
+    <table class="tabela">
+      <tr>
+        <th>Elemento</th>
+        <th>CFM permite?</th>
+        <th>Como fazer corretamente</th>
+      </tr>
+      <tr>
+        <td>Mostrar o consultório</td>
+        <td style="color:var(--ok)">✓ Sim</td>
+        <td>Gravar ambiente sem pacientes, sem prontuários visíveis, sem dados de terceiros</td>
+      </tr>
+      <tr>
+        <td>Falar sobre a especialidade</td>
+        <td style="color:var(--ok)">✓ Sim</td>
+        <td>Conteúdo educativo sobre a área — sem prometer resultado para o espectador</td>
+      </tr>
+      <tr>
+        <td>Mostrar equipamentos</td>
+        <td style="color:var(--ok)">✓ Sim</td>
+        <td>Equipamento isolado, sem paciente, sem sugestão de procedimento em andamento</td>
+      </tr>
+      <tr>
+        <td>Antes e depois</td>
+        <td style="color:var(--stop)">✗ Proibido</td>
+        <td>Descrever o processo verbalmente sem imagens comparativas</td>
+      </tr>
+      <tr>
+        <td>Depoimento de paciente</td>
+        <td style="color:var(--stop)">✗ Proibido com identificação</td>
+        <td>Citar relatos sem identificar — "pacientes frequentemente relatam..."</td>
+      </tr>
+      <tr>
+        <td>Preço de procedimento</td>
+        <td style="color:var(--stop)">✗ Proibido em destaque</td>
+        <td>Informar que consulta particular tem valor — sem usar preço como argumento de atração</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Sessão fotográfica no consultório — elementos que funcionam</h3>
+    <p class="sec-corpo">Para a sessão fotográfica do cliente, estes são os elementos visuais que comunicam autoridade clínica e se encaixam nos planos Zyllah:</p>
+
+    <div class="specs-grid">
+      <div class="spec-card">
+        <span class="spec-label">Posição 1 — mesa de trabalho</span>
+        <div class="spec-val">Médico(a) sentado(a) à mesa</div>
+        <div class="spec-desc">A posição mais natural e menos intimidante. Mesa organizada, computador ou prontuário à frente como elemento de composição. Sem papéis bagunçados.</div>
+      </div>
+      <div class="spec-card">
+        <span class="spec-label">Posição 2 — em pé no consultório</span>
+        <div class="spec-val">Em pé, braços relaxados</div>
+        <div class="spec-desc">Fundo: parede limpa ou estante organizada. Braços ao lado do corpo ou um no bolso — nunca cruzados (defensivo) ou mãos na cintura (agressivo).</div>
+      </div>
+      <div class="spec-card">
+        <span class="spec-label">Posição 3 — equipamento</span>
+        <div class="spec-val">Próximo ao equipamento principal</div>
+        <div class="spec-desc">Médico(a) ao lado (não operando) de um equipamento representativo da especialidade. Comunica expertise sem mostrar procedimento.</div>
+      </div>
+      <div class="spec-card">
+        <span class="spec-label">Posição 4 — close de autoridade</span>
+        <div class="spec-val">Close no rosto, fundo desfocado</div>
+        <div class="spec-desc">Usar portrait mode do A52S. Rosto levemente inclinado em direção à câmera, olhar direto. Esta foto é a que mais representa autoridade e é a mais versátil para uso digital.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════ -->
+<!-- CAP 9 — CHECKLIST GERAL  -->
+<!-- ══════════════════════════ -->
+<div class="cap" id="cap9">
+  <div class="cap-header">
+    <div class="cap-num">09</div>
+    <div class="cap-info">
+      <span class="cap-tag">Checklist operacional</span>
+      <h2 class="cap-titulo">Antes de <em>qualquer gravação</em></h2>
+    </div>
+  </div>
+  <p class="cap-intro">Usar este checklist no início de cada sessão de produção — seja gravação própria ou sessão com cliente. Marcar cada item antes de ligar a câmera.</p>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Checklist universal — toda gravação</h3>
+    <div class="checklist">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Espaço no celular verificado — mínimo 4GB livres para sessão de 1h em 4K</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Bateria acima de 80% — ou carregador conectado durante sessão longa</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Modo avião ativado</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Lente limpa com pano de microfibra</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Pro Vídeo configurado: ISO, obturador, balanço de branco fixos</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Grade e nível ativados na câmera</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Estabilização: desligada (com gimbal) ou ligada (sem gimbal)</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Microfone conectado e testado (10s de gravação + fone)</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Ar-condicionado e ventilador desligados</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Luz testada — janela frontal sem luz de contra</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Pó compacto translúcido aplicado (câmera ao vivo)</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Roteiros abertos em outro dispositivo ou impressos</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Copo de água ao lado</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Take de teste de 10s gravado e assistido antes de começar</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h3 class="sec-titulo">Após a gravação</h3>
+    <div class="checklist">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Transferir arquivos para o computador imediatamente — nunca deixar só no celular</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Nomear os arquivos com data e conteúdo — ex: 20260408_V2_take1.mp4</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Assistir todos os takes antes de começar a edição — marcar o melhor</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <span class="check-texto">Backup em nuvem (Google Drive ou similar) antes de deletar do celular</span>
+      </div>
+    </div>
+
+    <div class="box bx-stop">
+      <strong>Nunca deletar o bruto antes da aprovação do cliente</strong>
+      Manter todos os arquivos brutos até o cliente aprovar o conteúdo final. Revisões podem exigir retorno ao material original. Só deletar após aprovação documentada.
+    </div>
+  </div>
+
+</div>
+</div><!-- /wrap -->
+
+<div class="footer-doc">
+  <p>Zyllah Digital · <span>Manual de Produção A52S · v1.0</span> · Uso interno</p>
+  <p>Criado em <span>08 de abril de 2026</span> · Samsung Galaxy A52S 5G · Gimbal · Iluminação básica</p>
+</div>
+
+<script>
+  function toggleCheck(el) {
+    el.classList.toggle('done-item');
+    el.querySelector('.check-box').classList.toggle('done');
+  }
+</script>
+
+</body>
+</html>
