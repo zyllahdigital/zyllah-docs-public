@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital · Guia de Templates Canva</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #B8976A; --gold-light: #D4B896;
+  --ink: #1A1714; --ink-soft: #3D3830;
+  --cream: #FAF7F2; --cream-mid: #F0EBE1;
+  --brown: #4A3F35;
+}
+body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); }
+
+/* HEADER */
+.header { background: var(--ink); padding: 64px 80px 56px; position: relative; overflow: hidden; }
+.header::before { content:''; position:absolute; top:-100px; right:-100px; width:500px; height:500px; border-radius:50%; border:1px solid rgba(184,151,106,0.06); }
+.h-tag { font-size:11px; letter-spacing:0.5em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:block; }
+.h-titulo { font-family:'Cormorant Garamond',serif; font-size:56px; font-weight:300; color:var(--cream); line-height:1.0; margin-bottom:16px; }
+.h-titulo em { font-style:italic; color:var(--gold); }
+.h-sub { font-size:15px; color:rgba(255,255,255,0.35); line-height:1.8; max-width:640px; }
+
+/* WRAP */
+.wrap { max-width:960px; margin:0 auto; padding:0 80px 100px; }
+
+/* SEÇÃO */
+.sec { margin-top:72px; }
+.sec-tag { font-size:11px; letter-spacing:0.45em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; display:block; }
+.sec-titulo { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:300; color:var(--ink); margin-bottom:28px; line-height:1.05; }
+.sec-titulo em { font-style:italic; color:var(--gold); }
+.sec-intro { font-size:15px; color:var(--ink-soft); line-height:1.85; margin-bottom:32px; padding:18px 22px; border-left:3px solid rgba(184,151,106,0.2); background:rgba(184,151,106,0.04); }
+
+/* TABELA */
+.tabela { width:100%; border-collapse:collapse; margin:20px 0 32px; font-size:14px; }
+.tabela th { background:var(--ink); color:var(--gold); font-size:10px; letter-spacing:0.3em; text-transform:uppercase; font-weight:400; padding:12px 16px; text-align:left; }
+.tabela td { padding:12px 16px; border-bottom:1px solid rgba(184,151,106,0.1); color:var(--ink-soft); background:white; vertical-align:top; }
+.tabela tr:last-child td { border-bottom:none; }
+.tabela td strong { color:var(--ink); font-weight:400; }
+.tabela td code { font-family:monospace; font-size:12px; background:rgba(184,151,106,0.1); padding:2px 6px; color:var(--brown); }
+
+/* CARD DE TEMPLATE */
+.templates-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin:20px 0; }
+.tmpl { background:white; border:1px solid rgba(184,151,106,0.1); }
+.tmpl-header { padding:20px 24px 16px; border-bottom:1px solid rgba(184,151,106,0.08); }
+.tmpl-nome { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:300; color:var(--ink); margin-bottom:4px; }
+.tmpl-nome em { font-style:italic; color:var(--gold); }
+.tmpl-dim { font-size:11px; letter-spacing:0.2em; color:rgba(61,56,48,0.4); }
+.tmpl-corpo { padding:20px 24px; }
+.tmpl-item { font-size:13px; color:var(--ink-soft); line-height:1.7; margin-bottom:8px; display:flex; gap:10px; }
+.tmpl-item::before { content:'—'; color:var(--gold); flex-shrink:0; }
+
+/* BOX */
+.box { padding:16px 20px; font-size:14px; line-height:1.75; margin:16px 0; }
+.box strong { font-weight:400; color:var(--ink); display:block; margin-bottom:4px; }
+.bx-gold { background:rgba(184,151,106,0.07); border-left:3px solid var(--gold); }
+.bx-ink  { background:rgba(26,23,20,0.05); border-left:3px solid var(--ink-soft); }
+.bx-stop { background:rgba(196,100,100,0.06); border-left:3px solid #c46464; }
+
+/* BLOCO DE COR */
+.cores { display:grid; grid-template-columns:repeat(5,1fr); gap:2px; margin:20px 0; }
+.cor-card { }
+.cor-amostra { height:60px; }
+.cor-info { padding:10px 12px; background:white; border:1px solid rgba(184,151,106,0.1); border-top:none; }
+.cor-nome { font-size:12px; font-weight:400; color:var(--ink); margin-bottom:2px; }
+.cor-hex { font-family:monospace; font-size:11px; color:var(--ink-soft); }
+.cor-uso { font-size:11px; color:rgba(61,56,48,0.5); margin-top:4px; line-height:1.5; }
+
+/* BLOCO DE FONTE */
+.fontes { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin:20px 0; }
+.fonte-card { background:white; padding:24px 28px; border:1px solid rgba(184,151,106,0.1); }
+.fonte-amostra { font-size:36px; font-weight:300; color:var(--ink); line-height:1.1; margin-bottom:16px; }
+.fonte-amostra.italic { font-style:italic; }
+.fonte-label { font-size:10px; letter-spacing:0.35em; text-transform:uppercase; color:rgba(61,56,48,0.4); margin-bottom:8px; display:block; }
+.fonte-specs { font-size:13px; color:var(--ink-soft); line-height:1.7; }
+.fonte-specs code { font-family:monospace; font-size:11px; background:rgba(184,151,106,0.1); padding:2px 5px; }
+
+/* VARIAÇÃO VISUAL */
+.variacoes { display:flex; flex-direction:column; gap:2px; margin:20px 0; }
+.var { display:grid; grid-template-columns:200px 1fr; border:1px solid rgba(184,151,106,0.1); }
+.var-preview { display:flex; align-items:center; justify-content:center; padding:20px; }
+.var-preview.ink { background:#1e1b18; }
+.var-preview.cream { background:var(--cream); }
+.var-preview.cream-mid { background:var(--cream-mid); }
+.var-preview-txt { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:300; text-align:center; line-height:1.2; }
+.var-preview.ink .var-preview-txt { color:var(--cream); }
+.var-preview.cream .var-preview-txt, .var-preview.cream-mid .var-preview-txt { color:var(--ink); }
+.var-info { padding:20px 24px; background:white; }
+.var-nome { font-size:14px; font-weight:400; color:var(--ink); margin-bottom:8px; }
+.var-desc { font-size:13px; color:var(--ink-soft); line-height:1.7; }
+.var-quando { font-size:11px; color:var(--gold); margin-top:8px; letter-spacing:0.1em; }
+
+/* DIVISOR */
+.div-sec { margin-top:80px; padding-top:40px; border-top:1px solid rgba(184,151,106,0.15); }
+
+/* FOOTER */
+.footer-doc { background:var(--ink); padding:40px 80px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+.footer-doc p { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.25); }
+.footer-doc span { color:var(--gold); }
+
+@media (max-width:768px) {
+  .header,.wrap,.footer-doc { padding-left:24px; padding-right:24px; }
+  .h-titulo { font-size:36px; }
+  .templates-grid,.fontes { grid-template-columns:1fr; }
+  .cores { grid-template-columns:repeat(3,1fr); }
+  .var { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="h-tag">Zyllah Digital · Uso interno · Produção</span>
+  <h1 class="h-titulo">Guia de <em>Templates</em><br>para o Canva</h1>
+  <p class="h-sub">Todas as variações de peças possíveis, com especificações exatas de cor, tipografia, dimensão e composição. Este documento é o manual de montagem dos templates base no Canva.</p>
+</div>
+
+<div class="wrap">
+
+<!-- ══════════════════════════════ -->
+<!-- 1. PALETA                     -->
+<!-- ══════════════════════════════ -->
+<div class="sec">
+  <span class="sec-tag">01 · Fundação</span>
+  <h2 class="sec-titulo">Paleta de <em>cores</em></h2>
+  <p class="sec-intro">Cinco cores. Nenhuma outra. No Canva, adicionar essas cinco cores como "Cores da marca" antes de criar qualquer template. Nunca usar cor do catálogo padrão do Canva.</p>
+
+  <div class="cores">
+    <div class="cor-card">
+      <div class="cor-amostra" style="background:#1A1714;"></div>
+      <div class="cor-info">
+        <div class="cor-nome">Ink</div>
+        <div class="cor-hex">#1A1714</div>
+        <div class="cor-uso">Fundo escuro · texto principal</div>
+      </div>
+    </div>
+    <div class="cor-card">
+      <div class="cor-amostra" style="background:#B8976A;"></div>
+      <div class="cor-info">
+        <div class="cor-nome">Gold</div>
+        <div class="cor-hex">#B8976A</div>
+        <div class="cor-uso">Destaques · tags · linhas</div>
+      </div>
+    </div>
+    <div class="cor-card">
+      <div class="cor-amostra" style="background:#D4B896;"></div>
+      <div class="cor-info">
+        <div class="cor-nome">Gold Light</div>
+        <div class="cor-hex">#D4B896</div>
+        <div class="cor-uso">Itálico suave · metadados</div>
+      </div>
+    </div>
+    <div class="cor-card">
+      <div class="cor-amostra" style="background:#FAF7F2; border:1px solid rgba(184,151,106,0.2);"></div>
+      <div class="cor-info">
+        <div class="cor-nome">Cream</div>
+        <div class="cor-hex">#FAF7F2</div>
+        <div class="cor-uso">Fundo claro principal</div>
+      </div>
+    </div>
+    <div class="cor-card">
+      <div class="cor-amostra" style="background:#4A3F35;"></div>
+      <div class="cor-info">
+        <div class="cor-nome">Brown</div>
+        <div class="cor-hex">#4A3F35</div>
+        <div class="cor-uso">Corpo em fundo claro</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box bx-stop">
+    <strong>Regra absoluta</strong>
+    Nenhuma outra cor entra. Nem azul, nem verde, nem roxo — nem como detalhe. Se precisar de variação, use opacidade das cores acima. Gradientes não existem no vocabulário Zyllah.
+  </div>
+</div>
+
+<!-- ══════════════════════════════ -->
+<!-- 2. TIPOGRAFIA                 -->
+<!-- ══════════════════════════════ -->
+<div class="sec div-sec">
+  <span class="sec-tag">02 · Fundação</span>
+  <h2 class="sec-titulo">Tipografia — <em>dois tipos apenas</em></h2>
+  <p class="sec-intro">No Canva, instalar as duas fontes via "Carregar fonte" ou usar as versões do Google Fonts disponíveis no Canva (Cormorant Garamond e Jost). Nunca substituir por outra fonte.</p>
+
+  <div class="fontes">
+    <div class="fonte-card">
+      <span class="fonte-label">Display — títulos</span>
+      <div class="fonte-amostra italic" style="font-family:'Cormorant Garamond',serif;">Cormorant<br>Garamond</div>
+      <div class="fonte-specs">
+        Peso: sempre <code>300 (Light)</code><br>
+        Títulos principais: <code>itálico</code><br>
+        Palavras-âncora: <code>itálico + cor Gold</code><br>
+        Nunca em Bold · Nunca em ALL CAPS<br><br>
+        No Canva: "Cormorant Garamond" → Light Italic
+      </div>
+    </div>
+    <div class="fonte-card">
+      <span class="fonte-label">Corpo — texto e UI</span>
+      <div class="fonte-amostra" style="font-family:'Jost',sans-serif;">Jost</div>
+      <div class="fonte-specs">
+        Corpo de texto: <code>300 (Light)</code><br>
+        Destaques inline: <code>400 (Regular)</code><br>
+        Labels e tags: <code>300 + CAPS + espaçamento</code><br>
+        Letter-spacing de tags: <code>0.4–0.5em</code><br><br>
+        No Canva: "Jost" → Light / Regular
+      </div>
+    </div>
+  </div>
+
+  <table class="tabela">
+    <tr>
+      <th>Elemento</th>
+      <th>Fonte</th>
+      <th>Peso</th>
+      <th>Tamanho (1080px)</th>
+      <th>Cor</th>
+    </tr>
+    <tr>
+      <td><strong>Título principal H1</strong></td>
+      <td>Cormorant Garamond</td>
+      <td>Light Italic</td>
+      <td>80–120px</td>
+      <td>Cream (fundo ink) / Ink (fundo cream)</td>
+    </tr>
+    <tr>
+      <td><strong>Palavra-âncora no título</strong></td>
+      <td>Cormorant Garamond</td>
+      <td>Light Italic</td>
+      <td>Mesmo do título</td>
+      <td>Gold #B8976A</td>
+    </tr>
+    <tr>
+      <td><strong>Subtítulo H2</strong></td>
+      <td>Cormorant Garamond</td>
+      <td>Light</td>
+      <td>48–72px</td>
+      <td>Cream ou Ink</td>
+    </tr>
+    <tr>
+      <td><strong>Tag de contexto</strong></td>
+      <td>Jost</td>
+      <td>Light 300</td>
+      <td>11px · CAPS · spacing 0.45em</td>
+      <td>Gold #B8976A</td>
+    </tr>
+    <tr>
+      <td><strong>Corpo de texto</strong></td>
+      <td>Jost</td>
+      <td>Light 300</td>
+      <td>22–36px</td>
+      <td>Brown #4A3F35 (cream) / Cream 75% (ink)</td>
+    </tr>
+    <tr>
+      <td><strong>Texto de apoio</strong></td>
+      <td>Jost</td>
+      <td>Light 300</td>
+      <td>16–20px</td>
+      <td>Opacidade 40–50%</td>
+    </tr>
+    <tr>
+      <td><strong>Assinatura rodapé</strong></td>
+      <td>Jost</td>
+      <td>Light 300</td>
+      <td>10px · CAPS · spacing 0.4em</td>
+      <td>Gold 55% (ink) / Ink 30% (cream)</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════ -->
+<!-- 3. DIMENSÕES POR CANAL        -->
+<!-- ══════════════════════════════ -->
+<div class="sec div-sec">
+  <span class="sec-tag">03 · Formatos</span>
+  <h2 class="sec-titulo">Dimensões por <em>canal</em></h2>
+
+  <table class="tabela">
+    <tr>
+      <th>Canal</th>
+      <th>Dimensão</th>
+      <th>Proporção</th>
+      <th>Uso</th>
+      <th>Nome do template Canva</th>
+    </tr>
+    <tr>
+      <td><strong>Instagram Feed</strong></td>
+      <td><code>1080 × 1080 px</code></td>
+      <td>1:1</td>
+      <td>Posts únicos, carrosséis, quotes</td>
+      <td>ZYLLAH · Feed Quadrado</td>
+    </tr>
+    <tr>
+      <td><strong>Instagram Stories / Reels</strong></td>
+      <td><code>1080 × 1920 px</code></td>
+      <td>9:16</td>
+      <td>Stories, Reels, TikTok, YouTube Shorts</td>
+      <td>ZYLLAH · Vertical 9:16</td>
+    </tr>
+    <tr>
+      <td><strong>LinkedIn Feed</strong></td>
+      <td><code>1200 × 627 px</code></td>
+      <td>1.91:1</td>
+      <td>Posts de feed LinkedIn</td>
+      <td>ZYLLAH · LinkedIn Paisagem</td>
+    </tr>
+    <tr>
+      <td><strong>LinkedIn Quadrado</strong></td>
+      <td><code>1080 × 1080 px</code></td>
+      <td>1:1</td>
+      <td>Quotes e destaques no LinkedIn</td>
+      <td>ZYLLAH · Feed Quadrado (mesmo)</td>
+    </tr>
+    <tr>
+      <td><strong>Apresentação / YouTube</strong></td>
+      <td><code>1920 × 1080 px</code></td>
+      <td>16:9</td>
+      <td>Slides de vendas, thumbnails YouTube</td>
+      <td>ZYLLAH · Apresentação 16:9</td>
+    </tr>
+    <tr>
+      <td><strong>YouTube Thumbnail</strong></td>
+      <td><code>1280 × 720 px</code></td>
+      <td>16:9</td>
+      <td>Capas de vídeo YouTube</td>
+      <td>ZYLLAH · Thumbnail YouTube</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════ -->
+<!-- 4. VARIAÇÕES DE FUNDO        -->
+<!-- ══════════════════════════════ -->
+<div class="sec div-sec">
+  <span class="sec-tag">04 · Variações</span>
+  <h2 class="sec-titulo">Fundos — <em>três variações</em></h2>
+  <p class="sec-intro">Todo carrossel alterna entre fundo Ink (slides ímpares) e fundo Cream (slides pares). Posts únicos usam a variação que melhor serve ao conteúdo. Nunca dois slides consecutivos do mesmo fundo em carrossel.</p>
+
+  <div class="variacoes">
+    <div class="var">
+      <div class="var-preview ink">
+        <div class="var-preview-txt" style="font-family:'Cormorant Garamond',serif;font-style:italic;">Título em<br><span style="color:#B8976A;">destaque</span></div>
+      </div>
+      <div class="var-info">
+        <div class="var-nome">Variação A — Ink Escuro</div>
+        <div class="var-desc">Fundo: <code>#1A1714</code> com grade sutil dourada (opacidade 6–8%). Títulos em Cream. Palavra-âncora em Gold. Logo em Gold 55%. Tags em Gold. Texto de apoio em Cream 40%.</div>
+        <div class="var-quando">Usar em: slides de abertura, frases de impacto, fechamentos dramáticos</div>
+      </div>
+    </div>
+    <div class="var">
+      <div class="var-preview cream">
+        <div class="var-preview-txt" style="font-family:'Cormorant Garamond',serif;font-style:italic;color:#1A1714;">Título em<br><span style="color:#B8976A;">destaque</span></div>
+      </div>
+      <div class="var-info">
+        <div class="var-nome">Variação B — Cream</div>
+        <div class="var-desc">Fundo: <code>#FAF7F2</code>. Títulos em Ink. Palavra-âncora em Gold. Corpo em Brown <code>#4A3F35</code>. Logo em Ink 30%. Tags em Gold.</div>
+        <div class="var-quando">Usar em: slides de conteúdo, explicações, slides com mais texto</div>
+      </div>
+    </div>
+    <div class="var">
+      <div class="var-preview cream-mid">
+        <div class="var-preview-txt" style="font-family:'Cormorant Garamond',serif;color:#1A1714;">Identidade Visual.<br><em style="color:#B8976A;">Pilar 01.</em></div>
+      </div>
+      <div class="var-info">
+        <div class="var-nome">Variação C — Cream Mid</div>
+        <div class="var-desc">Fundo: <code>#F0EBE1</code>. Ligeiramente mais quente que o Cream. Usar para slides de fechamento ou conclusão. Mesmo sistema tipográfico do Cream.</div>
+        <div class="var-quando">Usar em: slides de CTA, fechamento, bullets de resumo</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box bx-gold">
+    <strong>Grade de fundo nos slides Ink</strong>
+    No Canva, criar uma grade com linhas de 1px na cor Gold (#B8976A) com opacidade 6–8%, espaçamento de 54px horizontal e vertical. Agrupar e colocar abaixo de todos os outros elementos. Só aparece em fundos escuros.
+  </div>
+</div>
+
+<!-- ══════════════════════════════ -->
+<!-- 5. ELEMENTOS FIXOS            -->
+<!-- ══════════════════════════════ -->
+<div class="sec div-sec">
+  <span class="sec-tag">05 · Anatomia</span>
+  <h2 class="sec-titulo">Elementos fixos — <em>toda peça tem</em></h2>
+
+  <table class="tabela">
+    <tr>
+      <th>Elemento</th>
+      <th>Especificação</th>
+      <th>Posição</th>
+      <th>Obrigatório?</th>
+    </tr>
+    <tr>
+      <td><strong>Logo Zyllah Digital</strong></td>
+      <td>SVG ou PNG com fundo transparente. Em peça escura: versão Gold. Em peça clara: versão Ink 30%.</td>
+      <td>Canto inferior direito. 80px da borda inferior, 80–110px da borda direita.</td>
+      <td>Sim — toda peça</td>
+    </tr>
+    <tr>
+      <td><strong>Tag de contexto</strong></td>
+      <td>Jost 300 · 11px · CAPS · letter-spacing 0.45em · cor Gold</td>
+      <td>Topo esquerdo, dentro das margens. Antes do título.</td>
+      <td>Sim — toda peça</td>
+    </tr>
+    <tr>
+      <td><strong>Linha divisória</strong></td>
+      <td>56px largura · 1px altura · cor Gold #B8976A</td>
+      <td>Entre título e corpo de texto</td>
+      <td>Sim — quase sempre</td>
+    </tr>
+    <tr>
+      <td><strong>Grade de fundo</strong></td>
+      <td>Grid 54×54px · Gold 6–8% opacidade · 1px espessura</td>
+      <td>Camada de fundo, cobre todo o frame</td>
+      <td>Sim — apenas fundos Ink</td>
+    </tr>
+    <tr>
+      <td><strong>Margens internas</strong></td>
+      <td>96px em todos os lados (1080px). Proporcional em outros formatos.</td>
+      <td>Todo o conteúdo fica dentro dessas margens</td>
+      <td>Sim — toda peça</td>
+    </tr>
+  </table>
+
+  <div class="box bx-stop">
+    <strong>Cantoneiras — retiradas do padrão atual</strong>
+    As cantoneiras douradas nos 4 cantos foram removidas do padrão visual. Não incluir nos templates do Canva. A logo no rodapé é o único elemento de identificação. Autoridade não precisa se explicar.
+  </div>
+</div>
+
+<!-- ══════════════════════════════ -->
+<!-- 6. TEMPLATES POR TIPO         -->
+<!-- ══════════════════════════════ -->
+<div class="sec div-sec">
+  <span class="sec-tag">06 · Templates</span>
+  <h2 class="sec-titulo">Os templates — <em>um por tipo de peça</em></h2>
+  <p class="sec-intro">Criar um template base para cada tipo no Canva. Duplicar e editar apenas o conteúdo — nunca alterar estrutura, cores ou fontes. São 8 templates base que cobrem 100% das necessidades atuais.</p>
+
+  <div class="templates-grid">
+
+    <div class="tmpl">
+      <div class="tmpl-header">
+        <div class="tmpl-nome">T01 · Capa de <em>Carrossel</em></div>
+        <div class="tmpl-dim">1080 × 1080 px · Variação Ink</div>
+      </div>
+      <div class="tmpl-corpo">
+        <div class="tmpl-item">Fundo Ink #1A1714 com grade sutil</div>
+        <div class="tmpl-item">Tag topo esquerdo em Gold caps</div>
+        <div class="tmpl-item">Título grande Cormorant Light Italic — 92–120px — ocupa 60% do frame</div>
+        <div class="tmpl-item">Palavra-âncora em Gold italic</div>
+        <div class="tmpl-item">Linha divisória 56px Gold</div>
+        <div class="tmpl-item">Subtítulo Jost 300 caps 12px embaixo da linha</div>
+        <div class="tmpl-item">Numerador "01 / 04" canto inferior esquerdo — Cormorant 13px</div>
+        <div class="tmpl-item">Logo rodapé direito</div>
+      </div>
+    </div>
+
+    <div class="tmpl">
+      <div class="tmpl-header">
+        <div class="tmpl-nome">T02 · Slide de <em>Conteúdo</em></div>
+        <div class="tmpl-dim">1080 × 1080 px · Variação Cream</div>
+      </div>
+      <div class="tmpl-corpo">
+        <div class="tmpl-item">Fundo Cream #FAF7F2</div>
+        <div class="tmpl-item">Tag topo esquerdo em Gold caps</div>
+        <div class="tmpl-item">Título Cormorant Light Italic — 100–130px</div>
+        <div class="tmpl-item">Linha divisória 56px Gold</div>
+        <div class="tmpl-item">Corpo Jost 300 — 30–36px — Brown #4A3F35 — line-height 1.85</div>
+        <div class="tmpl-item">Logo rodapé direito em Ink 30%</div>
+        <div class="tmpl-item">Conteúdo centralizado verticalmente no frame</div>
+      </div>
+    </div>
+
+    <div class="tmpl">
+      <div class="tmpl-header">
+        <div class="tmpl-nome">T03 · Frase de <em>Impacto</em></div>
+        <div class="tmpl-dim">1080 × 1080 px · Variação Ink</div>
+      </div>
+      <div class="tmpl-corpo">
+        <div class="tmpl-item">Fundo Ink com grade</div>
+        <div class="tmpl-item">Tag mínima topo esquerdo — opacidade 60%</div>
+        <div class="tmpl-item">Frase grande Cormorant — 72–90px — ocupa 70% do frame</div>
+        <div class="tmpl-item">Uma ou duas palavras em Gold italic</div>
+        <div class="tmpl-item">Linha divisória dourada embaixo da frase</div>
+        <div class="tmpl-item">Frase de apoio Jost 300 — 20–22px — Cream 40%</div>
+        <div class="tmpl-item">Logo rodapé direito</div>
+      </div>
+    </div>
+
+    <div class="tmpl">
+      <div class="tmpl-header">
+        <div class="tmpl-nome">T04 · Slide de <em>Fechamento</em></div>
+        <div class="tmpl-dim">1080 × 1080 px · Variação Cream Mid</div>
+      </div>
+      <div class="tmpl-corpo">
+        <div class="tmpl-item">Fundo Cream Mid #F0EBE1</div>
+        <div class="tmpl-item">Tag topo em Gold caps</div>
+        <div class="tmpl-item">Título duplo Cormorant — 72–80px — linha 1 normal, linha 2 italic Gold</div>
+        <div class="tmpl-item">Linha divisória Gold</div>
+        <div class="tmpl-item">3 bullets com ponto dourado — Jost 300 — 26–30px</div>
+        <div class="tmpl-item">Cada bullet: negrito na primeira parte, corpo normal na segunda</div>
+        <div class="tmpl-item">Assinatura da marca canto inferior esquerdo</div>
+        <div class="tmpl-item">Logo rodapé direito</div>
+      </div>
+    </div>
+
+    <div class="tmpl">
+      <div class="tmpl-header">
+        <div class="tmpl-nome">T05 · Post <em>Quote</em></div>
+        <div class="tmpl-dim">1080 × 1080 px · Variação Ink</div>
+      </div>
+      <div class="tmpl-corpo">
+        <div class="tmpl-item">Fundo Ink com grade</div>
+        <div class="tmpl-item">Aspas decorativas Cormorant — 120px — Gold 25% opacidade — topo</div>
+        <div class="tmpl-item">Citação central Cormorant Light Italic — 64–72px — Cream</div>
+        <div class="tmpl-item">Pergunta de engajamento Jost 300 — 22px — Gold 90%</div>
+        <div class="tmpl-item">Logo rodapé direito</div>
+        <div class="tmpl-item">Conteúdo centralizado no frame horizontalmente</div>
+      </div>
+    </div>
+
+    <div class="tmpl">
+      <div class="tmpl-header">
+        <div class="tmpl-nome">T06 · Card <em>All-Type</em></div>
+        <div class="tmpl-dim">1080 × 1080 px · Ink ou Cream</div>
+      </div>
+      <div class="tmpl-corpo">
+        <div class="tmpl-item">Sem imagem — só tipografia</div>
+        <div class="tmpl-item">Tag numérica ou de dados — Jost — Gold</div>
+        <div class="tmpl-item">Número ou dado grande Cormorant — 140–160px — destaque em Gold</div>
+        <div class="tmpl-item">Linha de contexto Jost 300 — 20px — abaixo do número</div>
+        <div class="tmpl-item">Logo rodapé</div>
+        <div class="tmpl-item">Usar para dados, estatísticas, marcos</div>
+      </div>
+    </div>
+
+    <div class="tmpl">
+      <div class="tmpl-header">
+        <div class="tmpl-nome">T07 · Story / Reel <em>Vertical</em></div>
+        <div class="tmpl-dim">1080 × 1920 px · Ink ou Cream</div>
+      </div>
+      <div class="tmpl-corpo">
+        <div class="tmpl-item">Zona segura: conteúdo entre 250px do topo e 250px da base</div>
+        <div class="tmpl-item">Estrutura igual ao formato quadrado dentro da zona segura</div>
+        <div class="tmpl-item">Tag topo, título centralizado, logo rodapé</div>
+        <div class="tmpl-item">Para Stories: CTA no terço inferior ("Link na bio", "Arrasta pra cima")</div>
+        <div class="tmpl-item">Grade de fundo se Ink — mesmas especificações</div>
+      </div>
+    </div>
+
+    <div class="tmpl">
+      <div class="tmpl-header">
+        <div class="tmpl-nome">T08 · LinkedIn <em>Paisagem</em></div>
+        <div class="tmpl-dim">1200 × 627 px · Ink ou Cream</div>
+      </div>
+      <div class="tmpl-corpo">
+        <div class="tmpl-item">Margens: 60px em todos os lados</div>
+        <div class="tmpl-item">Tag topo esquerdo Gold caps</div>
+        <div class="tmpl-item">Título Cormorant — 48–64px — ocupa esquerda do frame</div>
+        <div class="tmpl-item">Linha divisória Gold — vertical neste formato ou horizontal curta</div>
+        <div class="tmpl-item">Texto de apoio Jost — direita ou abaixo</div>
+        <div class="tmpl-item">Logo canto inferior direito dentro das margens</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════ -->
+<!-- 7. REGRAS DE COMPOSIÇÃO      -->
+<!-- ══════════════════════════════ -->
+<div class="sec div-sec">
+  <span class="sec-tag">07 · Regras</span>
+  <h2 class="sec-titulo">Composição — <em>o que nunca muda</em></h2>
+
+  <table class="tabela">
+    <tr>
+      <th>Regra</th>
+      <th>Por quê</th>
+    </tr>
+    <tr>
+      <td><strong>Alternância ink/cream em carrosseis</strong></td>
+      <td>Slide ímpar: Ink. Slide par: Cream. Nunca dois slides do mesmo fundo consecutivos. Cria ritmo visual e sinaliza progressão.</td>
+    </tr>
+    <tr>
+      <td><strong>Espaço em branco é intenção</strong></td>
+      <td>Nunca comprimir elementos para caber mais conteúdo. Se não couber, cortar texto — nunca diminuir margens ou fonte.</td>
+    </tr>
+    <tr>
+      <td><strong>Gold é escasso</strong></td>
+      <td>Quanto mais usado, menos precioso. Máximo: 2–3 elementos dourados por frame. Tag + linha + palavra-âncora. Não mais.</td>
+    </tr>
+    <tr>
+      <td><strong>Logo sempre presente</strong></td>
+      <td>Toda peça publicada tem a logo Zyllah Digital — mesmo que pequena. Peça sem assinatura não existe.</td>
+    </tr>
+    <tr>
+      <td><strong>Sem texto nos cantos</strong></td>
+      <td>Hashtags, arroba, palavras-chave nos cantos do frame foram removidos do padrão. O arroba aparece na legenda, não na arte.</td>
+    </tr>
+    <tr>
+      <td><strong>Título ocupa o frame</strong></td>
+      <td>O título é o elemento principal. Deve ocupar pelo menos 50% da altura útil do frame nos slides de capa e frase de impacto.</td>
+    </tr>
+    <tr>
+      <td><strong>Nunca mencionar ferramenta</strong></td>
+      <td>Canva, CapCut, IA — não aparecem em nenhum lugar visível ao cliente ou ao público.</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ══════════════════════════════ -->
+<!-- 8. CHECKLIST DE PUBLICAÇÃO   -->
+<!-- ══════════════════════════════ -->
+<div class="sec div-sec">
+  <span class="sec-tag">08 · Antes de publicar</span>
+  <h2 class="sec-titulo"><em>Checklist</em> de aprovação visual</h2>
+  <p class="sec-intro">Antes de publicar qualquer peça, responder estas perguntas. Se uma resposta for não, a peça não está pronta.</p>
+
+  <table class="tabela">
+    <tr>
+      <th>#</th>
+      <th>Pergunta</th>
+    </tr>
+    <tr><td>1</td><td>A fonte do título é Cormorant Garamond Light Italic?</td></tr>
+    <tr><td>2</td><td>O corpo está em Jost Light 300?</td></tr>
+    <tr><td>3</td><td>As cores usadas pertencem à paleta oficial?</td></tr>
+    <tr><td>4</td><td>O Gold está sendo usado com parcimônia — máximo 3 elementos?</td></tr>
+    <tr><td>5</td><td>A logo Zyllah Digital está no canto inferior direito?</td></tr>
+    <tr><td>6</td><td>A peça tem margens internas respeitadas — nada colado na borda?</td></tr>
+    <tr><td>7</td><td>O frame respira — não há excesso de elementos?</td></tr>
+    <tr><td>8</td><td>Não há texto auxiliar nos cantos (hashtags, arroba)?</td></tr>
+    <tr><td>9</td><td>A dimensão está correta para o canal de destino?</td></tr>
+    <tr><td>10</td><td>Se for carrossel: os slides alternam ink/cream corretamente?</td></tr>
+  </table>
+
+  <div class="box bx-ink">
+    <strong>Pergunta de aprovação final</strong>
+    "Isso parece de alto padrão ou parece comum?" Se a resposta for "comum" — refaça.
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<div class="footer-doc">
+  <p>Zyllah Digital · <span>Guia de Templates Canva v1.0</span> · Uso interno · Produção</p>
+  <p>Criado em <span>09 de abril de 2026</span> · 8 templates · 3 variações de fundo</p>
+</div>
+
+</body>
+</html>
