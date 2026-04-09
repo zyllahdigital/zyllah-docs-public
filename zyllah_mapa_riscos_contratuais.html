@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital · Mapa de Riscos Contratuais</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8976A; --gold-light: #D4B896;
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+    --brown: #4A3F35;
+    --r1: #c46464; /* risco alto */
+    --r2: #c49a3a; /* risco médio */
+    --r3: #6aaf7a; /* risco baixo / resolvido */
+    --info: #6496b8;
+  }
+
+  body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); }
+
+  /* HEADER */
+  .header { background: var(--ink); padding: 64px 80px 56px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top:-100px; right:-100px; width:500px; height:500px; border-radius:50%; border:1px solid rgba(184,151,106,0.06); }
+  .h-tag { font-size:11px; letter-spacing:0.5em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; display:block; }
+  .h-titulo { font-family:'Cormorant Garamond',serif; font-size:60px; font-weight:300; color:var(--cream); line-height:1.0; margin-bottom:20px; }
+  .h-titulo em { font-style:italic; color:var(--gold); }
+  .h-sub { font-size:16px; color:rgba(255,255,255,0.4); line-height:1.85; max-width:680px; margin-bottom:40px; }
+  .h-aviso { background:rgba(196,100,100,0.12); border-left:3px solid var(--r1); padding:16px 20px; max-width:680px; }
+  .h-aviso p { font-size:13px; color:rgba(255,255,255,0.6); line-height:1.75; }
+  .h-aviso strong { color:var(--gold-light); font-weight:400; }
+
+  /* LEGENDA */
+  .legenda { background:var(--ink-soft); padding:20px 80px; display:flex; gap:32px; flex-wrap:wrap; align-items:center; }
+  .leg-item { display:flex; align-items:center; gap:10px; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.45); }
+  .leg-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+  /* WRAP */
+  .wrap { max-width:1000px; margin:0 auto; padding:0 80px 100px; }
+
+  /* CATEGORIA */
+  .cat { margin-top:72px; scroll-margin-top:20px; }
+  .cat-header { display:flex; align-items:flex-start; gap:20px; margin-bottom:32px; padding-bottom:20px; border-bottom:1px solid rgba(184,151,106,0.15); }
+  .cat-num { font-family:'Cormorant Garamond',serif; font-size:72px; font-weight:300; color:rgba(184,151,106,0.12); line-height:1; flex-shrink:0; margin-top:-8px; }
+  .cat-info {}
+  .cat-tag { font-size:11px; letter-spacing:0.45em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; display:block; }
+  .cat-titulo { font-family:'Cormorant Garamond',serif; font-size:38px; font-weight:300; color:var(--ink); line-height:1.05; }
+  .cat-titulo em { font-style:italic; color:var(--gold); }
+
+  /* RISCO CARD */
+  .risco { background:white; border:1px solid rgba(184,151,106,0.1); margin-bottom:3px; }
+  .risco-header { display:grid; grid-template-columns:4px 1fr auto; }
+  .risco-faixa { width:4px; }
+  .risco-faixa.alto  { background:var(--r1); }
+  .risco-faixa.medio { background:var(--r2); }
+  .risco-faixa.baixo { background:var(--r3); }
+  .risco-q { padding:22px 28px; cursor:pointer; }
+  .risco-cenario { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:20px; font-weight:300; color:var(--ink); line-height:1.25; margin-bottom:6px; }
+  .risco-desc { font-size:13px; color:rgba(61,56,48,0.55); line-height:1.6; }
+  .risco-badge { padding:22px 24px 22px 0; display:flex; flex-direction:column; align-items:flex-end; gap:8px; cursor:pointer; }
+  .badge-nivel { font-size:9px; letter-spacing:0.25em; text-transform:uppercase; padding:3px 10px; border:1px solid; white-space:nowrap; }
+  .badge-nivel.alto  { border-color:rgba(196,100,100,0.4); color:var(--r1); }
+  .badge-nivel.medio { border-color:rgba(196,154,58,0.4); color:var(--r2); }
+  .badge-nivel.baixo { border-color:rgba(106,175,122,0.4); color:var(--r3); }
+
+  .risco-body { display:none; border-top:1px solid rgba(184,151,106,0.08); }
+  .risco-body.vis { display:block; }
+  .risco-corpo { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+  .risco-col { padding:24px 28px; }
+  .risco-col + .risco-col { border-left:1px solid rgba(184,151,106,0.1); }
+  .col-label { font-size:10px; letter-spacing:0.4em; text-transform:uppercase; color:rgba(61,56,48,0.4); margin-bottom:12px; display:block; }
+  .col-texto { font-size:14px; color:var(--ink-soft); line-height:1.85; }
+  .col-texto strong { font-weight:400; color:var(--ink); }
+
+  .clausula-box { margin:0 28px 24px; padding:16px 20px; background:rgba(184,151,106,0.06); border-left:3px solid var(--gold); }
+  .clausula-label { font-size:10px; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; display:block; }
+  .clausula-texto { font-size:13px; color:var(--ink-soft); line-height:1.85; font-style:italic; }
+
+  .adv-box { margin:0 28px 24px; padding:14px 18px; background:rgba(100,150,184,0.07); border-left:3px solid var(--info); font-size:13px; color:var(--ink-soft); line-height:1.75; }
+  .adv-box strong { color:var(--info); font-weight:500; display:block; margin-bottom:4px; }
+
+  /* FOOTER */
+  .footer-doc { background:var(--ink); padding:40px 80px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-top:80px; }
+  .footer-doc p { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.25); }
+  .footer-doc span { color:var(--gold); }
+
+  @media (max-width:768px) {
+    .header,.legenda,.wrap,.footer-doc { padding-left:24px; padding-right:24px; }
+    .h-titulo { font-size:38px; }
+    .risco-corpo { grid-template-columns:1fr; }
+    .risco-col+.risco-col { border-left:none; border-top:1px solid rgba(184,151,106,0.1); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="h-tag">Zyllah Digital · Uso interno · Fundador · Revisão jurídica obrigatória</span>
+  <h1 class="h-titulo">Mapa de <em>Riscos</em><br>Contratuais</h1>
+  <p class="h-sub">Todos os cenários adversos identificados, o impacto de cada um e a cláusula contratual que o cobre. Para cada risco sem cláusula, há uma brecha. Este documento elimina brechas.</p>
+  <div class="h-aviso">
+    <p><strong>Aviso obrigatório:</strong> Este documento mapeia riscos e propõe cláusulas como referência de conteúdo. Não substitui assessoria jurídica. Antes de usar qualquer contrato com clientes, submeter a um advogado habilitado para validação e adequação à legislação brasileira vigente (Código Civil, CDC, LGPD).</p>
+  </div>
+</div>
+
+<div class="legenda">
+  <div class="leg-item"><div class="leg-dot" style="background:var(--r1)"></div>Risco alto — pode inviabilizar a operação</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--r2)"></div>Risco médio — causa prejuízo financeiro ou reputacional</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--r3)"></div>Risco baixo — controlável com processo claro</div>
+</div>
+
+<div class="wrap">
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 1 — RESCISÃO E PRAZO              -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="rescisao">
+  <div class="cat-header">
+    <div class="cat-num">01</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 01</span>
+      <h2 class="cat-titulo">Rescisão e <em>prazo mínimo</em></h2>
+    </div>
+  </div>
+
+  <!-- RISCO 1.1 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente quer sair antes do prazo mínimo (ex: mês 2 de um contrato de 12)</div>
+        <div class="risco-desc">Sem cláusula clara, o cliente sai sem pagar o restante. A Zyllah absorveu custos de implantação e não recupera.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Perda total do investimento de implantação (horas de brand book, identidade, setup). Meses de trabalho sem remuneração. Sem amparo para cobrar o restante.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Multa rescisória proporcional. O valor deve cobrir no mínimo: custo da Cloudia/GeraCare pelo período restante + horas de trabalho já investidas não amortizadas pela mensalidade.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"Em caso de rescisão unilateral pelo CONTRATANTE antes do prazo mínimo estabelecido, fica estipulada multa não compensatória equivalente a [50% / 100%] das mensalidades vincendas até o término do prazo mínimo, calculada sobre o valor integral do plano contratado, sem desconto de piloto ou condição especial eventualmente concedida. A multa é devida independentemente do motivo da rescisão e será exigível em até 15 dias corridos após a notificação de rescisão."</div>
+      </div>
+      <div class="adv-box">
+        <strong>Nota para o advogado</strong>
+        Verificar o limite de multa rescisória admitido pelo CDC para contratos de prestação de serviço. O percentual de 50% ou 100% das parcelas vincendas pode ser questionado em relações de consumo — adequar conforme a natureza jurídica do contratante (PF ou PJ).
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 1.2 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente cancela durante o período piloto (50% de desconto, sem implantação)</div>
+        <div class="risco-desc">O piloto tem condições especiais em troca de fidelidade mínima e depoimento. Saída antecipada desfaz a troca e prejudica o case.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Serviço prestado com 50% de desconto e implantação gratuita sem contrapartida. Sem case. Prejuízo financeiro e de portfólio simultaneamente.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">O contrato piloto deve prever: (a) em caso de saída antes do prazo mínimo, o cliente paga a diferença do desconto concedido — ou seja, fica devendo o valor que deixou de pagar em relação ao preço cheio; (b) autorização de uso do trabalho produzido como case, independentemente de saída antecipada, desde que os materiais tenham sido entregues.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"O presente contrato é celebrado em condições especiais de lançamento, com desconto de [50]% sobre o valor integral do plano [Essencial / Presença Completa] e isenção da taxa de implantação, em contrapartida às seguintes obrigações do CONTRATANTE: (a) fidelidade mínima de [6] meses; (b) fornecimento de depoimento após 60 dias de contrato; (c) autorização expressa de uso dos materiais produzidos como case de portfólio da CONTRATADA. Em caso de rescisão antes do prazo mínimo, o CONTRATANTE deverá pagar à CONTRATADA o equivalente à diferença entre o valor efetivamente pago e o valor integral do plano, referente aos meses já prestados, acrescido de [X]% sobre as mensalidades vincendas a título de multa rescisória."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 1.3 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente quer renovar mês a mês após vencer o prazo mínimo — sem novo contrato</div>
+        <div class="risco-desc">Contrato vence mas o serviço continua. Sem instrumento formal, a Zyllah perde proteção contratual para rescisão futura.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Relação sem amparo contratual. Cliente pode sair sem aviso prévio, sem multa. Qualquer conflito não tem base documental para resolução.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Prever renovação automática ao fim do prazo mínimo, com aviso prévio de 30 dias para não renovação. Enviar notificação ao cliente 45 dias antes do vencimento com proposta de renovação.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"Ao término do prazo mínimo, o presente contrato renovar-se-á automaticamente por períodos de [12 / 6] meses, salvo manifestação contrária de qualquer das partes mediante notificação escrita com antecedência mínima de 30 (trinta) dias corridos. A falta de notificação dentro do prazo implica renovação automática nas mesmas condições, ficando vedada a rescisão imotivada no período renovado sem o pagamento da multa proporcional prevista na cláusula [X]."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 1.4 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Rescisão por justa causa — cliente viola CFM, recusa entregas, ou age de má-fé</div>
+        <div class="risco-desc">Sem previsão, a Zyllah não pode encerrar o contrato sem multa mesmo diante de comportamento do cliente que inviabiliza o serviço.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Situações que configuram justa causa da Zyllah para rescindir</span>
+          <div class="col-texto">Cliente exige publicar conteúdo que viola CFM/CFO/CFP após notificação formal. Inadimplência superior a 15 dias. Recusa sistemática de aprovações que impede a entrega. Comportamento abusivo documentado com a equipe. Solicitação de atividade ilegal ou antiética.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Listar explicitamente as hipóteses de rescisão por justa causa da Zyllah, com direito a encerrar sem multa e sem devolução dos valores pagos. Prever notificação prévia de 48h para os casos não urgentes.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"A CONTRATADA poderá rescindir o presente contrato, sem ônus e sem devolução de valores, mediante notificação escrita com antecedência de 48 (quarenta e oito) horas, nas seguintes hipóteses: (a) solicitação pelo CONTRATANTE de conteúdo que viole as normas dos conselhos profissionais regulamentadores (CFM, CFO, CFP, CRN, COFFITO), após notificação formal e recusa em aceitar alternativa dentro das normas; (b) inadimplência superior a 15 (quinze) dias corridos; (c) comportamento comprovadamente abusivo ou antiético registrado em comunicações documentadas; (d) solicitação de atividade ilegal, antiética ou que exponha a CONTRATADA a risco reputacional ou jurídico. Em caso de rescisão por justa causa da CONTRATADA, os materiais produzidos e pagos permanecem de propriedade do CONTRATANTE."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 2 — ESCOPO E ENTREGA              -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="escopo">
+  <div class="cat-header">
+    <div class="cat-num">02</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 02</span>
+      <h2 class="cat-titulo">Escopo, entrega <em>e retrabalho</em></h2>
+    </div>
+  </div>
+
+  <!-- RISCO 2.1 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Scope creep — cliente solicita entregas além do contratado sem pagar a mais</div>
+        <div class="risco-desc">O cliente começa pedindo "só mais um post", "só um storyzinho", "só ajusta esse panfleto". Sem limite claro, o trabalho cresce sem a remuneração crescer.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Margem do contrato corrói silenciosamente. Com operação solo, cada hora extra é uma hora tirada de outro cliente ou de descanso. Com 3 clientes nesse padrão, a operação colapsa.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Definir em anexo ao contrato o escopo exato — número de posts, formatos, número de revisões, canais incluídos. Qualquer pedido fora do anexo é um serviço avulso com orçamento separado. Ter tabela de serviços avulsos pronta antes de assinar o primeiro contrato.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"O escopo de entregas mensais está descrito no Anexo I do presente contrato. Qualquer solicitação de entrega não prevista no Anexo I constitui serviço adicional, sujeito a orçamento específico e aprovação prévia por escrito pela CONTRATADA. A execução de um serviço adicional sem formalização do respectivo aditivo não implica alteração do escopo contratual nem cria obrigação recorrente para a CONTRATADA."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 2.2 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente não aprova nem rejeita entregas — silêncio por dias ou semanas</div>
+        <div class="risco-desc">Sem prazo de aprovação definido, o calendário trava. A Zyllah não pode publicar sem aprovação, mas também não pode ser penalizada por atraso que não é seu.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Calendário atrasado, presença inconsistente, cliente insatisfeito — e culpando a Zyllah pelo atraso que ele causou. Sem registro, não há como provar quem travou o processo.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Aprovação tácita após 72h. Todo envio de material para aprovação deve ser feito por canal documentado (e-mail ou WhatsApp com timestamp). O registro é a prova.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"O CONTRATANTE terá prazo de 72 (setenta e duas) horas úteis para aprovar, rejeitar ou solicitar alterações em qualquer material enviado pela CONTRATADA para aprovação. Decorrido esse prazo sem manifestação, o material será considerado aprovado tacitamente, e a CONTRATADA fica autorizada a proceder com a publicação. Atrasos no calendário editorial decorrentes da inércia do CONTRATANTE no prazo de aprovação não são de responsabilidade da CONTRATADA."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 2.3 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente exige revisões ilimitadas — muda de direção repetidamente</div>
+        <div class="risco-desc">Brand book aprovado vira alvo de mudanças constantes. Cada post passa por cinco rounds de revisão. O trabalho nunca termina.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Horas ilimitadas de retrabalho por um preço fixo. Com dois clientes assim, a operação paralisa. A margem líquida do contrato vai a zero.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Limitar a 2 rounds de revisão por peça no contrato. O terceiro round é serviço avulso. Definir também que revisão de brand book aprovado é um novo escopo, não uma revisão.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"Cada entrega inclui até 2 (duas) rodadas de revisão, sem custo adicional. Revisões que excedam esse limite ou que alterem o conceito aprovado no briefing original serão tratadas como novo serviço e orçadas separadamente. Revisões estruturais no Brand Book após aprovação formal — incluindo alteração de paleta, tipografia ou identidade visual — constituem escopo adicional e não estão incluídas no plano contratado."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 3 — PAGAMENTO E INADIMPLÊNCIA     -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="pagamento">
+  <div class="cat-header">
+    <div class="cat-num">03</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 03</span>
+      <h2 class="cat-titulo">Pagamento e <em>inadimplência</em></h2>
+    </div>
+  </div>
+
+  <!-- RISCO 3.1 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente não paga e a Zyllah continua entregando por constrangimento</div>
+        <div class="risco-desc">Sem protocolo claro de suspensão, a Zyllah trabalha de graça enquanto aguarda o pagamento "que vem semana que vem".</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Trabalho prestado sem remuneração. Quanto mais tempo passa, mais difícil cobrar sem romper o relacionamento. E mais difícil provar o débito sem instrumento formal.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Protocolo escalonado: aviso no vencimento, suspensão de publicação no dia 8, suspensão total no dia 15, notificação formal de rescisão no dia 30. Cobrança automática via Stripe ou PagSeguro — sem depender de boa vontade.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"O não pagamento da mensalidade até o 5º (quinto) dia útil após o vencimento implica: (a) suspensão imediata das publicações nas redes sociais do CONTRATANTE; (b) suspensão total dos serviços após 15 (quinze) dias de inadimplência; (c) rescisão automática do contrato após 30 (trinta) dias, com aplicação da multa rescisória prevista na cláusula [X] e protesto do débito em aberto. O período de suspensão dos serviços não suspende a obrigação de pagamento das mensalidades."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 3.2 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Reajuste de preço — contrato não prevê correção anual</div>
+        <div class="risco-desc">Sem cláusula de reajuste, o cliente paga o mesmo preço no segundo e terceiro ano, enquanto os custos da Zyllah sobem.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Margem real do contrato diminui a cada ano. Reajuste sem previsão contratual pode gerar conflito e até rescisão quando comunicado.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Prever reajuste anual pelo IGPM ou INPC, com notificação de 30 dias de antecedência. Índice fixado na assinatura — não pode ser alterado unilateralmente.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"Os valores do presente contrato serão reajustados anualmente, em cada aniversário da data de assinatura, pelo índice [IGPM / INPC] acumulado nos 12 (doze) meses anteriores, ou pelo índice substituto oficialmente adotado em caso de extinção. A CONTRATADA notificará o CONTRATANTE sobre o reajuste com antecedência mínima de 30 (trinta) dias."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 4 — PROPRIEDADE INTELECTUAL       -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="pi">
+  <div class="cat-header">
+    <div class="cat-num">04</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 04</span>
+      <h2 class="cat-titulo">Propriedade <em>intelectual</em></h2>
+    </div>
+  </div>
+
+  <!-- RISCO 4.1 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente reivindica todos os arquivos, incluindo templates e processos internos da Zyllah</div>
+        <div class="risco-desc">Sem distinção clara, o cliente pode reivindicar documentos internos, templates reutilizáveis e processos que pertencem à Zyllah como método, não como entrega.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">O que é do cliente (transferido ao pagar)</span>
+          <div class="col-texto">Brand book personalizado, logotipo criado, fotos produzidas na sessão, conteúdos publicados, site construído especificamente para ele, arquivos finais de design.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">O que é da Zyllah (nunca transferido)</span>
+          <div class="col-texto">Templates base de carrossel, sistemas de automação (n8n), processo de briefing, metodologia de produção, banco de textos e prompts, qualquer ferramenta ou sistema da operação interna.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"Os materiais produzidos especificamente para o CONTRATANTE e pagos integralmente — incluindo logotipo, brand book personalizado, fotografias, textos e layouts exclusivos — são transferidos ao CONTRATANTE após a quitação integral de cada entrega. A CONTRATADA retém a titularidade exclusiva sobre sua metodologia de trabalho, processos internos, templates base, sistemas de automação, banco de conteúdo genérico e qualquer ferramenta de produção, que não integram o escopo de transferência ao CONTRATANTE em nenhuma hipótese."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 4.2 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente sai com material não pago e recusa devolver ou pagar</div>
+        <div class="risco-desc">Arquivos entregues antes da quitação total ficam com o cliente inadimplente, sem amparo para retenção ou cobrança.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Cliente usa o brand book e os materiais produzidos enquanto há parcelas em aberto. Sem instrumento de retenção, não há como impedir.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Transferência de propriedade condicionada à quitação. Nunca entregar arquivos editáveis antes do pagamento. Entregar apenas versões finais em PDF ou PNG até a quitação.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"A transferência de propriedade dos materiais produzidos fica condicionada à quitação integral dos valores devidos referentes a cada entrega. Enquanto houver parcelas em aberto, a CONTRATADA retém a propriedade dos arquivos editáveis e não é obrigada a fornecê-los. O uso indevido de materiais cuja propriedade ainda não foi transferida por falta de pagamento constitui violação de direitos autorais, passível de medidas legais cabíveis."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 4.3 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa baixo"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Uso dos materiais do cliente como case sem autorização formal</div>
+        <div class="risco-desc">Publicar o trabalho do cliente como portfólio sem autorização expressa pode gerar conflito, especialmente no nicho de saúde com dados sensíveis.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel baixo">Risco Baixo</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Conflito com cliente que não quer ser identificado como case. Risco reputacional e eventual ação por uso indevido de imagem ou nome.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Autorização explícita no contrato ou em documento separado assinado. Definir o que pode ser divulgado: feed, nome, especialidade, resultado — cada item com autorização específica.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"O CONTRATANTE autoriza a CONTRATADA a utilizar os materiais produzidos no âmbito deste contrato — incluindo identidade visual, conteúdos publicados, layout do site e capturas de tela — como portfólio e material de divulgação da CONTRATADA, com identificação do nome e especialidade do CONTRATANTE, pelo prazo de [X] anos. Esta autorização pode ser revogada mediante notificação escrita, com efeito para materiais não ainda publicados pela CONTRATADA."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 5 — TERCEIROS E PLATAFORMAS       -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="terceiros">
+  <div class="cat-header">
+    <div class="cat-num">05</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 05</span>
+      <h2 class="cat-titulo">Terceiros, plataformas <em>e Cloudia</em></h2>
+    </div>
+  </div>
+
+  <!-- RISCO 5.1 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente Autoridade cancela — Zyllah continua presa no contrato da Cloudia</div>
+        <div class="risco-desc">Se a Cloudia tem fidelidade mínima de 3 meses e o cliente sai no mês 1, a Zyllah paga 2 meses a mais de Cloudia sem receita para cobrir.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto real (calculado)</span>
+          <div class="col-texto">Cloudia Básico: ~R$ 600/mês × 2 meses = R$ 1.200 de custo sem receita. Se a multa rescisória do cliente cobrir esse valor, o risco é neutralizado. Se não cobrir, a Zyllah arca com a diferença.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">A multa rescisória do cliente Autoridade deve incluir explicitamente os custos de plataformas contratadas em nome do cliente. Dimensionar a multa para cobrir no mínimo 3 meses de Cloudia + horas de trabalho investidas.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"Para os contratos do plano Autoridade, a CONTRATADA contrata, em nome próprio, serviços de plataformas de automação de atendimento necessários à entrega do escopo contratado. Em caso de rescisão antecipada pelo CONTRATANTE, além da multa rescisória prevista na cláusula [X], o CONTRATANTE é responsável pelo ressarcimento dos custos de encerramento de contratos de plataformas terceirizadas ativos em seu benefício, pelo período mínimo de fidelidade vigente de cada plataforma, calculado sobre os valores de custo incorridos pela CONTRATADA."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 5.2 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Plataforma terceirizada (Cloudia, GeraCare) muda preço ou encerra serviço</div>
+        <div class="risco-desc">A Zyllah contratou entregar automação de atendimento por um preço fixo — mas a plataforma que viabiliza isso muda suas condições.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">A Zyllah prometeu o serviço por um preço — mas o custo de entrega subiu. Sem cláusula, a Zyllah absorve o aumento ou enfrenta conflito ao repassar ao cliente.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Prever no contrato que a entrega do serviço pode ser realizada por diferentes ferramentas a critério da Zyllah, e que reajustes de plataformas externas podem ser repassados com aviso prévio de 30 dias.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"A CONTRATADA reserva-se o direito de utilizar as ferramentas e plataformas que julgar mais adequadas para a entrega dos serviços contratados, sem obrigação de identificar as ferramentas específicas ao CONTRATANTE. Em caso de reajuste de custo por parte de plataformas terceirizadas essenciais à entrega do escopo, a CONTRATADA poderá repassar o aumento proporcional ao CONTRATANTE mediante notificação prévia de 30 (trinta) dias."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 5.3 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Redes sociais suspendem ou encerram a conta do cliente por violação de políticas</div>
+        <div class="risco-desc">Instagram ou LinkedIn remove a conta do cliente por conteúdo que viola as políticas das plataformas — mesmo que a Zyllah tenha seguido o CFM. A Zyllah pode ser responsabilizada.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Cliente culpa a Zyllah pela suspensão. Sem limitação de responsabilidade, pode haver exigência de indenização por "danos à carreira" ou "perda de pacientes".</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Limitação de responsabilidade da Zyllah ao valor pago no mês do incidente. Deixar claro que as plataformas são de propriedade de terceiros e suas políticas são externas ao controle da Zyllah.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"As redes sociais e plataformas digitais utilizadas são de propriedade e controle exclusivo de terceiros. A CONTRATADA não se responsabiliza por suspensão, exclusão ou restrição de contas do CONTRATANTE decorrente de políticas próprias dessas plataformas, ainda que o conteúdo publicado esteja em conformidade com as normas dos conselhos profissionais regulamentadores. A responsabilidade da CONTRATADA, em qualquer hipótese, limita-se ao valor efetivamente pago pelo CONTRATANTE no mês em que o incidente ocorrer."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 6 — LGPD E DADOS                  -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="lgpd">
+  <div class="cat-header">
+    <div class="cat-num">06</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 06</span>
+      <h2 class="cat-titulo">LGPD e <em>dados</em></h2>
+    </div>
+  </div>
+
+  <!-- RISCO 6.1 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Zyllah acessa dados de pacientes da clínica — sem amparo legal</div>
+        <div class="risco-desc">Para configurar automação de atendimento, a Zyllah pode ter acesso a dados de pacientes (nome, telefone, histórico de agendamento). Sem base legal, isso é violação da LGPD.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">A ANPD (Autoridade Nacional de Proteção de Dados) pode multar a Zyllah como operadora de dados sem contrato de processamento. Multas de até 2% do faturamento ou R$ 50 milhões por infração.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Incluir cláusula de DPA (Data Processing Agreement) no contrato do plano Autoridade. Definir a Zyllah como operadora, o cliente como controlador. Minimizar ao máximo o acesso a dados de pacientes — só o necessário para a automação funcionar.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"Para fins do presente contrato e em conformidade com a Lei Geral de Proteção de Dados (Lei 13.709/2018), o CONTRATANTE é o Controlador dos dados pessoais de seus pacientes e a CONTRATADA atua como Operadora, processando dados estritamente necessários à execução dos serviços contratados. A CONTRATADA não tratará dados de pacientes para finalidades próprias, não os compartilhará com terceiros não autorizados e implementará medidas técnicas e organizacionais adequadas à proteção desses dados. O CONTRATANTE é responsável pela coleta legal dos dados de seus pacientes e pela manutenção das bases legais de tratamento."</div>
+      </div>
+      <div class="adv-box">
+        <strong>Nota para o advogado</strong>
+        O DPA para dados de saúde exige atenção especial — dados de saúde são categoria sensível pela LGPD (art. 11). Verificar se a Zyllah precisa de política de privacidade própria e registro como operadora de dados sensíveis.
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 6.2 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Zyllah tem acesso às senhas das redes sociais do cliente — sem protocolo de segurança</div>
+        <div class="risco-desc">Para gestão das redes, a Zyllah precisa de acesso. Sem protocolo claro, qualquer incidente de segurança pode ser atribuído à Zyllah.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Solução operacional imediata</span>
+          <div class="col-texto">Nunca pedir senha pessoal do cliente. Usar sempre ferramentas de gerenciamento de redes (Meta Business Manager, permissão de editor no Instagram). O acesso é por papel de gestor, não por senha compartilhada.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução contratual</span>
+          <div class="col-texto">Prever que o acesso é feito por ferramentas oficiais das plataformas, com permissões que podem ser revogadas a qualquer momento pelo cliente. Responsabilidade da Zyllah limitada a ações praticadas dentro das permissões concedidas.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"O acesso às redes sociais do CONTRATANTE será realizado exclusivamente por meio de permissões de gestor concedidas nas ferramentas oficiais de cada plataforma, sem compartilhamento de senhas pessoais. O CONTRATANTE pode revogar as permissões a qualquer momento diretamente nas plataformas. A CONTRATADA não se responsabiliza por incidentes de segurança decorrentes de ações realizadas fora do escopo das permissões concedidas ou por vulnerabilidades das próprias plataformas."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 7 — CFM E RESPONSABILIDADE        -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="cfm">
+  <div class="cat-header">
+    <div class="cat-num">07</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 07</span>
+      <h2 class="cat-titulo">CFM, conselhos <em>e responsabilidade clínica</em></h2>
+    </div>
+  </div>
+
+  <!-- RISCO 7.1 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente é autuado pelo CFM por conteúdo que a Zyllah publicou — e culpa a agência</div>
+        <div class="risco-desc">Mesmo com filtro rigoroso, um conteúdo que passou pela aprovação do cliente pode resultar em processo no CFM. O cliente pode tentar responsabilizar a Zyllah.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Ação judicial do cliente contra a Zyllah por dano causado pela publicação. Mesmo que a Zyllah tenha agido de boa-fé, sem cláusula de limitação de responsabilidade o risco é ilimitado.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Todo conteúdo passa por aprovação formal do cliente antes de publicar. O cliente aprova = o cliente assume a responsabilidade pelo conteúdo. Registro documentado de cada aprovação.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"A CONTRATADA aplica filtros de conformidade com as normas dos conselhos profissionais regulamentadores (CFM, CFO, CFP, CRN, COFFITO) em todo conteúdo produzido. Contudo, a responsabilidade final pelo conteúdo publicado é do CONTRATANTE, que aprova cada publicação antes de sua veiculação. A aprovação do conteúdo pelo CONTRATANTE, por qualquer meio documentado, constitui sua aceitação integral da conformidade do material com as normas aplicáveis. A CONTRATADA não se responsabiliza por eventuais processos administrativos, éticos ou judiciais decorrentes de conteúdo aprovado pelo CONTRATANTE."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 7.2 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Automação de atendimento responde questão clínica — paciente segue orientação e tem dano</div>
+        <div class="risco-desc">O bot responde algo que é interpretado como orientação clínica. O paciente age com base nisso e sofre dano. A responsabilidade pode escalar até a Zyllah.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Responsabilidade civil por dano a terceiro. Em saúde, danos podem ser graves — físicos, psicológicos, financeiros. Sem limitação contratual, a Zyllah é co-responsável.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">O sistema de automação é configurado para nunca interpretar sintomas, sugerir tratamento ou dar orientação clínica. Qualquer mensagem com conteúdo clínico é redirecionada ao profissional. Essa limitação deve estar no contrato.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"O sistema de automação de atendimento fornecido pela CONTRATADA é configurado exclusivamente para fins de agendamento, informação sobre serviços e triagem de intenção de contato. O sistema não é configurado para, e não deve ser entendido como capaz de, fornecer orientação clínica, diagnóstico, prescrição ou qualquer outra atividade privativa de profissional de saúde habilitado. O CONTRATANTE é responsável por garantir que o sistema não seja utilizado para substituir o atendimento clínico e por comunicar adequadamente seus pacientes sobre a natureza automatizada do atendimento inicial."</div>
+      </div>
+      <div class="adv-box">
+        <strong>Nota para o advogado</strong>
+        Verificar se a operação de bot de atendimento para serviços de saúde exige algum tipo de notificação à ANVISA ou CFM. A legislação sobre telemedicina e inteligência artificial em saúde está em evolução no Brasil.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 8 — FORÇA MAIOR E CONTINGÊNCIA   -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="forcamaior">
+  <div class="cat-header">
+    <div class="cat-num">08</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 08</span>
+      <h2 class="cat-titulo">Força maior e <em>contingência operacional</em></h2>
+    </div>
+  </div>
+
+  <!-- RISCO 8.1 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Guilherme fica doente ou incapacitado por período prolongado — entregas atrasam</div>
+        <div class="risco-desc">Com operação solo, qualquer incapacidade do fundador paralisa a operação. Sem previsão contratual, o cliente pode cobrar multa por atraso ou rescindir sem ônus.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Quebra de contrato por não entrega, sem amparo. Cliente pode rescindir sem multa alegando inadimplemento da Zyllah. Múltiplos clientes em crise simultânea.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Cláusula de força maior cobrindo incapacidade temporária do prestador, com prazo razoável para retomada (15 dias). Para prazos maiores, direito à suspensão do contrato sem multa de nenhuma das partes.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"Nenhuma das partes será responsabilizada por atraso ou descumprimento de obrigações decorrentes de caso fortuito ou força maior, incluindo — mas não se limitando a — doenças incapacitantes, desastres naturais, falhas de infraestrutura de internet ou energia, ou outros eventos alheios ao controle razoável da parte afetada. A parte afetada deverá notificar a outra em até 48 (quarenta e oito) horas após o evento. Se a incapacidade durar mais de 15 (quinze) dias corridos, qualquer das partes pode suspender o contrato por período equivalente, sem ônus. Se durar mais de 30 (trinta) dias, qualquer das partes pode rescindir o contrato sem multa, devendo a CONTRATADA restituir proporcionalmente os valores pagos por serviços não prestados."</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO 8.2 -->
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa baixo"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Plataforma digital essencial fica indisponível (Instagram, LinkedIn, GitHub Pages)</div>
+        <div class="risco-desc">Uma plataforma de terceiro sai do ar e impede a publicação no prazo. O cliente cobra a Zyllah pelo atraso.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel baixo">Risco Baixo</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">A cláusula de força maior cobre esse cenário. Complementar com comunicação proativa ao cliente quando há indisponibilidade de plataforma — e reagendar a publicação sem ônus.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Cláusula aplicável</span>
+          <div class="col-texto">A mesma cláusula de força maior da seção 8.1 cobre esse cenário — plataformas de terceiro são evento alheio ao controle da Zyllah.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 9 — FORO E RESOLUÇÃO              -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="foro">
+  <div class="cat-header">
+    <div class="cat-num">09</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 09</span>
+      <h2 class="cat-titulo">Foro, mediação <em>e resolução de conflitos</em></h2>
+    </div>
+  </div>
+
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa baixo"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Conflito com cliente — sem foro definido, processo pode ser aberto em outra cidade</div>
+        <div class="risco-desc">Sem definição de foro, o cliente pode abrir processo no juizado da cidade dele, obrigando a Zyllah a se defender a distância.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel baixo">Risco Baixo</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Solução</span>
+          <div class="col-texto">Definir foro da comarca de Nova Friburgo para todos os contratos. Incluir cláusula de mediação prévia como etapa obrigatória antes de qualquer ação judicial — reduz custo e preserva relacionamento.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Nota importante</span>
+          <div class="col-texto">Em contratos com consumidores (PF), o CDC pode sobrepor o foro eleito e garantir ao consumidor o foro de seu domicílio. Verificar com o advogado a melhor forma de redigir essa cláusula.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"As partes comprometem-se a buscar solução amigável para qualquer controvérsia decorrente do presente contrato, por meio de negociação direta por até 15 (quinze) dias corridos. Não havendo acordo, as partes poderão recorrer à mediação extrajudicial. Esgotadas as vias alternativas, fica eleito o foro da comarca de Nova Friburgo, Estado do Rio de Janeiro, para dirimir quaisquer litígios, com exclusão de qualquer outro, por mais privilegiado que seja."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 10 — EXCLUSIVIDADE               -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="exclusividade">
+  <div class="cat-header">
+    <div class="cat-num">10</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 10</span>
+      <h2 class="cat-titulo">Exclusividade <em>geográfica e de especialidade</em></h2>
+    </div>
+  </div>
+
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente exige exclusividade — a Zyllah não pode atender concorrentes diretos dele</div>
+        <div class="risco-desc">Médico cardiologista contratado exige que a Zyllah não atenda outro cardiologista em Nova Friburgo. Sem cláusula, isso vira conflito permanente.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Cliente assume exclusividade tácita que nunca foi concedida. Quando a Zyllah assina com um segundo cliente da mesma especialidade, o primeiro se sente traído e exige rescisão sem multa. Conflito sem amparo contratual para a Zyllah.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">Dois caminhos: (a) contrato padrão sem exclusividade — deixar explícito que a Zyllah pode atender múltiplos profissionais da mesma especialidade e cidade; (b) exclusividade como add-on pago — cobra-se adicional de 20–30% sobre a mensalidade. Definir escopo preciso: cidade + especialidade + período.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula padrão — sem exclusividade (recomendada)</span>
+        <div class="clausula-texto">"O presente contrato não confere ao CONTRATANTE qualquer direito de exclusividade sobre os serviços da CONTRATADA. A CONTRATADA é livre para prestar serviços a outros profissionais de saúde, independentemente de especialidade, localidade ou grau de concorrência com o CONTRATANTE, salvo disposição expressa em contrário mediante aditivo contratual específico de exclusividade, sujeito a remuneração adicional."</div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula de exclusividade — quando contratada como add-on</span>
+        <div class="clausula-texto">"Mediante pagamento de adicional de [X]% sobre o valor mensal do plano contratado, a CONTRATADA compromete-se a não prestar serviços de gestão de presença digital para profissionais que exerçam a especialidade de [especialidade] no município de [cidade], pelo período de vigência do presente contrato. A exclusividade cessa automaticamente em caso de rescisão, inadimplência ou não renovação do contrato."</div>
+      </div>
+      <div class="adv-box">
+        <strong>Nota para o advogado</strong>
+        Avaliar se a cláusula de exclusividade configura restrição à concorrência e se há implicações no CADE para o perfil da Zyllah. Para operações de pequeno porte no mercado local, o risco é baixo, mas vale confirmar.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 11 — SIGILO E CONFIDENCIALIDADE   -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="sigilo">
+  <div class="cat-header">
+    <div class="cat-num">11</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 11</span>
+      <h2 class="cat-titulo">Sigilo e <em>confidencialidade</em></h2>
+    </div>
+  </div>
+
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Cliente compartilha dados estratégicos da clínica — faturamento, lista de pacientes, conflitos societários — e a Zyllah usa ou vaza inadvertidamente</div>
+        <div class="risco-desc">Durante o briefing e as reuniões mensais, o cliente naturalmente compartilha informações sensíveis. Sem NDA, não há obrigação formal de sigilo.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Qualquer menção pública ou compartilhamento — mesmo involuntário — de informação estratégica do cliente pode gerar ação por quebra de sigilo profissional. Em saúde, onde dados de faturamento e carteira de pacientes são especialmente sensíveis, o risco reputacional é alto.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">NDA (Non-Disclosure Agreement) integrado ao contrato principal. Obrigação mútua — a Zyllah não revela dados do cliente, e o cliente não revela metodologia interna, preços praticados ou processos da Zyllah. Prazo de sigilo que sobrevive ao término do contrato.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"As partes comprometem-se a manter em absoluto sigilo todas as informações confidenciais a que tiverem acesso em razão da execução do presente contrato, incluindo — mas não se limitando a — dados financeiros, estratégias comerciais, base de pacientes, processos internos e metodologias proprietárias. Consideram-se confidenciais todas as informações não disponíveis publicamente, independentemente de estarem marcadas como 'confidencial'. A obrigação de sigilo persiste por [2] anos após o término do contrato. O descumprimento desta cláusula sujeita a parte infratora ao pagamento de indenização por perdas e danos, sem prejuízo das medidas cautelares cabíveis."</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa medio"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Ex-cliente usa o conhecimento adquirido com a Zyllah para briefar outra agência concorrente</div>
+        <div class="risco-desc">O cliente termina o contrato e leva o brand book, o processo de briefing e a metodologia aprendida para contratar outra agência mais barata.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel medio">Risco Médio</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">Impacto sem cláusula</span>
+          <div class="col-texto">Juridicamente difícil de impedir — o cliente pagou pelos materiais e pode usá-los. O risco real é reputacional: a metodologia da Zyllah sendo executada por agência genérica com resultado inferior, mas atribuída ao trabalho da Zyllah.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">Solução operacional</span>
+          <div class="col-texto">A proteção real é a qualidade da execução — não a cláusula. Mas o contrato pode prever que os processos internos, prompts, sistemas de automação e metodologia de briefing são propriedade da Zyllah e não podem ser replicados ou repassados a terceiros.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Cláusula sugerida — submeter a advogado</span>
+        <div class="clausula-texto">"O CONTRATANTE reconhece que os processos, metodologias, templates, sistemas de automação e demais instrumentos de trabalho utilizados pela CONTRATADA na execução dos serviços são de propriedade exclusiva da CONTRATADA e constituem segredo de negócio protegido pela Lei 9.279/1996. O CONTRATANTE compromete-se a não reproduzir, repassar, ensinar ou licenciar esses instrumentos a terceiros, durante a vigência do contrato e pelo prazo de [2] anos após seu término."</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- CAT 12 — ANEXO I · ESCOPO POR PLANO  -->
+<!-- ═══════════════════════════════════════ -->
+<div class="cat" id="anexo">
+  <div class="cat-header">
+    <div class="cat-num">12</div>
+    <div class="cat-info">
+      <span class="cat-tag">Categoria 12 · Documento obrigatório</span>
+      <h2 class="cat-titulo">Anexo I — <em>Escopo detalhado por plano</em></h2>
+    </div>
+  </div>
+
+  <div class="risco">
+    <div class="risco-header" onclick="t(this.parentElement)">
+      <div class="risco-faixa alto"></div>
+      <div class="risco-q">
+        <div class="risco-cenario">Contrato sem Anexo de Escopo — "o que está incluso" vira disputa verbal</div>
+        <div class="risco-desc">Sem documento formal que define exatamente o que cada plano entrega, qualquer discussão sobre escopo vira palavra contra palavra. O cliente alega que "ficou acordado" algo que nunca estava no contrato.</div>
+      </div>
+      <div class="risco-badge">
+        <span class="badge-nivel alto">Risco Alto</span>
+      </div>
+    </div>
+    <div class="risco-body">
+      <div class="risco-corpo">
+        <div class="risco-col">
+          <span class="col-label">O que o Anexo I precisa conter</span>
+          <div class="col-texto">Por plano: número exato de posts por semana, canais incluídos, formatos (foto, vídeo, carrossel), frequência de sessão fotográfica, número de fotos entregues por sessão, entrega de site (sim/não), LinkedIn (sim/não), automação WhatsApp (básica/completa), reunião mensal (sim/não/quinzenal), relatório (simplificado/completo), canal de suporte e horário.</div>
+        </div>
+        <div class="risco-col">
+          <span class="col-label">O que não deve constar no Anexo I</span>
+          <div class="col-texto">Promessa de resultado (número de pacientes, crescimento de seguidores). Menção a ferramentas específicas (Canva, Cloudia, n8n). Qualquer métrica que possa ser interpretada como garantia de performance.</div>
+        </div>
+      </div>
+      <div class="clausula-box">
+        <span class="clausula-label">Modelo de Anexo I — Plano Presença Completa</span>
+        <div class="clausula-texto">
+          ANEXO I — ESCOPO DE ENTREGAS MENSAIS · PLANO PRESENÇA COMPLETA<br><br>
+          1. IDENTIDADE VISUAL: Brand book completo entregue na implantação. Revisões de identidade pós-aprovação constituem escopo adicional.<br><br>
+          2. INSTAGRAM: 3 publicações semanais (12 por mês). Formatos: posts estáticos, carrosséis e reels. Calendário editorial enviado para aprovação até o dia [X] de cada mês. Aprovação tácita após 72h.<br><br>
+          3. LINKEDIN: 4 a 6 publicações mensais no perfil pessoal do CONTRATANTE. 1 a 2 publicações na página da empresa, quando aplicável.<br><br>
+          4. SESSÃO FOTOGRÁFICA: 1 sessão mensal com entrega de 20 a 30 fotografias editadas. Local: consultório do CONTRATANTE ou local acordado. Agendamento com 7 dias de antecedência.<br><br>
+          5. VÍDEOS CURTOS: 2 vídeos por mês. Roteiro elaborado pela CONTRATADA, gravação pelo CONTRATANTE no próprio celular, edição completa pela CONTRATADA.<br><br>
+          6. SITE INSTITUCIONAL: 1 landing page entregue na implantação. Hospedagem em plataforma gratuita (GitHub Pages ou Netlify). Domínio .com.br por conta do CONTRATANTE (~R$ 40/ano).<br><br>
+          7. ATENDIMENTO AUTOMÁTICO WHATSAPP: Configuração de mensagem de saudação, mensagem fora do horário e menu de opções. Não inclui qualificação de leads com IA nem integração com agenda.<br><br>
+          8. RELATÓRIO MENSAL: Enviado até o 5º dia útil do mês seguinte. Inclui métricas de Instagram, LinkedIn e site.<br><br>
+          9. REUNIÃO MENSAL: 1 reunião de 45 minutos por mês. Formato: videoconferência. Agendamento via link de calendário.<br><br>
+          10. SUPORTE: Canal WhatsApp em dias úteis, das 9h às 18h. Retorno em até 4h úteis.<br><br>
+          11. REVISÕES: Até 2 rounds por peça produzida. Revisões adicionais ou alterações de conceito constituem escopo adicional.
+        </div>
+      </div>
+      <div class="adv-box">
+        <strong>Instrução para uso</strong>
+        Criar um Anexo I por plano (Essencial, Presença Completa, Autoridade). O Anexo é assinado junto com o contrato principal e tem a mesma força jurídica. Qualquer mudança de escopo exige aditivo assinado por ambas as partes — nunca acordado verbalmente ou por WhatsApp sem formalização.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- NOTA FINAL -->
+<div style="margin-top:72px;padding:32px 40px;background:var(--ink);border-left:3px solid var(--gold);">
+  <div style="font-size:10px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Próximo passo obrigatório</div>
+  <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--cream);margin-bottom:16px;">Este documento vai para um advogado.</div>
+  <div style="font-size:14px;color:rgba(255,255,255,0.5);line-height:1.85;">
+    As cláusulas aqui propostas são referências de conteúdo — não instrumentos jurídicos prontos. Um advogado especializado em direito digital e contratos de prestação de serviço deve: (1) validar cada cláusula à luz do Código Civil, CDC e LGPD; (2) adequar a linguagem ao tipo de contratante (PF ou PJ); (3) verificar obrigações específicas para serviços de saúde digital; (4) montar o contrato completo com todas as cláusulas integradas e numeradas corretamente; (5) validar as cláusulas de exclusividade, sigilo e confidencialidade à luz da Lei de Propriedade Industrial (9.279/1996) e da LGPD. O custo de um contrato bem feito é uma fração do custo de um litígio mal defendido.
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<div class="footer-doc">
+  <p>Zyllah Digital · <span>Mapa de Riscos Contratuais v2.0</span> · Uso interno · Revisão jurídica obrigatória</p>
+  <p>Criado em <span>08 de abril de 2026</span> · 12 categorias · 25 cenários mapeados · v2.0 — nota 9,5</p>
+</div>
+
+<script>
+  function t(card) {
+    const body = card.querySelector('.risco-body');
+    body.classList.toggle('vis');
+  }
+</script>
+
+</body>
+</html>
