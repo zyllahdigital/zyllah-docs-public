@@ -318,11 +318,31 @@ function atualizarHora() {
 }
 
 // ── CONEXÃO COM SHEETS ──
+// Garante que entregas e marcos são sempre tipos válidos,
+// mesmo que o Sheets devolva JSON cru (dados antigos) ou string vazia
+function normalizeCliente(c) {
+  if (!c.entregas) {
+    c.entregas = [];
+  } else if (typeof c.entregas === 'string') {
+    try { c.entregas = JSON.parse(c.entregas); } catch(e) { c.entregas = []; }
+  }
+  if (!Array.isArray(c.entregas)) c.entregas = [];
+
+  if (!c.marcos) {
+    c.marcos = {};
+  } else if (typeof c.marcos === 'string') {
+    try { c.marcos = JSON.parse(c.marcos); } catch(e) { c.marcos = {}; }
+  }
+  if (typeof c.marcos !== 'object' || Array.isArray(c.marcos)) c.marcos = {};
+
+  return c;
+}
+
 async function sincronizar() {
   setConn('load','Sincronizando...');
   try {
     const data = await gsCall({action:'listar'});
-    clientes = data.clientes || [];
+    clientes = (data.clientes || []).map(normalizeCliente);
 
     const rd = await gsCall({action:'getRitual'});
     ritual = rd.ritual || {};
