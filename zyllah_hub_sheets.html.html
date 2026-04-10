@@ -166,6 +166,7 @@ body{background:#111;font-family:'Jost',sans-serif;font-weight:300;color:var(--c
   <div class="topo-dir">
     <div class="topo-hora" id="hora-topo">—</div>
     <div class="topo-sync" onclick="sincronizar()">↻ Sincronizar</div>
+    <div class="topo-sync" onclick="debugSheets()" style="margin-top:4px;color:#c46464">⚙ Debug</div>
   </div>
 </div>
 
@@ -693,6 +694,18 @@ function resetar() {
 }
 
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') fechar(); });
+
+// ── DEBUG ──
+async function debugSheets() {
+  try {
+    const raw = await gsCall({action:'listar'});
+    const texto = JSON.stringify(raw, null, 2);
+    const w = window.open('', '_blank', 'width=900,height=600');
+    w.document.write('<pre style="background:#111;color:#ccc;padding:20px;font-size:12px;white-space:pre-wrap">' + texto + '</pre>');
+  } catch(e) {
+    alert('Erro: ' + e.message);
+  }
+}
 
 // ── INIT ──
 atualizarHora();
