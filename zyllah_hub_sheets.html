@@ -15,11 +15,6 @@
   --piloto:#9664b8;
 }
 
-/* ── CONFIGURAÇÃO — editar antes de usar ── */
-/* Cole aqui a URL do Web App após implantar o Apps Script */
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyz-9JGbWbmPspI4pOgolEUXOOoD0pHnqL--Doa6KSKUbJrID1Xu94ShUwurZzfqEULvA/exec';
-/* ────────────────────────────────────────── */
-
 body{background:#111;font-family:'Jost',sans-serif;font-weight:300;color:var(--cream);min-height:100vh;}
 
 .topo{background:var(--ink);border-bottom:1px solid rgba(184,151,106,0.15);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;}
@@ -30,7 +25,6 @@ body{background:#111;font-family:'Jost',sans-serif;font-weight:300;color:var(--c
 .topo-sync{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-top:2px;cursor:pointer;}
 .topo-sync:hover{color:var(--gold);}
 
-/* STATUS DE CONEXÃO */
 .conn-bar{padding:8px 32px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:10px;}
 .conn-bar.ok{background:rgba(106,175,122,.1);color:var(--ok);}
 .conn-bar.err{background:rgba(196,100,100,.1);color:var(--stop);}
@@ -39,14 +33,12 @@ body{background:#111;font-family:'Jost',sans-serif;font-weight:300;color:var(--c
 .conn-dot.pulse{animation:pulse 1.2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* ALERTAS */
 .alertas{background:#0d0d0d;padding:12px 32px;display:flex;gap:12px;flex-wrap:wrap;border-bottom:1px solid rgba(184,151,106,.08);min-height:48px;align-items:center;}
 .al{font-size:12px;padding:4px 12px;border-radius:2px;display:flex;align-items:center;gap:8px;}
 .al.u{background:rgba(196,100,100,.15);color:var(--stop);border:1px solid rgba(196,100,100,.3);}
 .al.a{background:rgba(196,154,58,.12);color:var(--warn);border:1px solid rgba(196,154,58,.25);}
 .al-vazio{font-size:12px;color:rgba(255,255,255,.2);letter-spacing:.15em;}
 
-/* RITUAL */
 .ritual{background:#0f0e0c;border-top:1px solid rgba(184,151,106,.08);padding:20px 32px;}
 .sec-tag{font-size:10px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block;}
 .ritual-checks{display:flex;gap:8px;flex-wrap:wrap;}
@@ -57,10 +49,8 @@ body{background:#111;font-family:'Jost',sans-serif;font-weight:300;color:var(--c
 .rc.feito .rc-box{background:var(--ok);border-color:var(--ok);}
 .rc.feito .rc-box::after{content:'✓';font-size:8px;color:white;font-weight:700;}
 
-/* GRID */
 .main{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:2px;}
 
-/* CARD */
 .card{background:#1a1714;border:1px solid rgba(184,151,106,.1);display:flex;flex-direction:column;}
 .card.vazio{background:rgba(26,23,20,.4);border:1px dashed rgba(184,151,106,.15);display:flex;align-items:center;justify-content:center;min-height:200px;cursor:pointer;}
 .card.vazio:hover{border-color:rgba(184,151,106,.35);}
@@ -121,7 +111,6 @@ body{background:#111;font-family:'Jost',sans-serif;font-weight:300;color:var(--c
 .btn-e{font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.25);cursor:pointer;padding:4px 8px;border:1px solid rgba(255,255,255,.08);background:none;transition:all .2s;}
 .btn-e:hover{color:var(--gold);border-color:rgba(184,151,106,.3);}
 
-/* CALENDÁRIO */
 .semanal{background:#131110;border-top:1px solid rgba(184,151,106,.1);padding:24px 32px;}
 .sem-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;}
 .dia-nome{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:8px 10px;background:rgba(255,255,255,.03);margin-bottom:2px;}
@@ -135,7 +124,6 @@ body{background:#111;font-family:'Jost',sans-serif;font-weight:300;color:var(--c
 .dia-t.tf{border-left-color:var(--stop);}
 .t-cl{font-size:9px;color:rgba(255,255,255,.25);margin-top:2px;}
 
-/* MODAL */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:24px;}
 .overlay.on{display:flex;}
 .modal{background:#1a1714;border:1px solid rgba(184,151,106,.2);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;}
@@ -304,7 +292,7 @@ body{background:#111;font-family:'Jost',sans-serif;font-weight:300;color:var(--c
 // CONFIGURAÇÃO — cole a URL do seu Web App aqui
 // Após implantar o Apps Script, copie a URL gerada
 // ══════════════════════════════════════════════════
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyz-9JGbWbmPspI4pOgolEUXOOoD0pHnqL--Doa6KSKUbJrID1Xu94ShUwurZzfqEULvA/exec';
+const SCRIPT_URL = 'COLE_SUA_URL_AQUI';
 // ══════════════════════════════════════════════════
 
 const MAX = 4;
@@ -312,6 +300,13 @@ let clientes = [];
 let ritual = {};
 let editId = null;
 let salvando = false;
+
+// ── UTILITÁRIO: chamar o Apps Script via GET (resolve CORS) ──
+async function gsCall(params) {
+  const url = SCRIPT_URL + '?' + new URLSearchParams(params).toString();
+  const r = await fetch(url);
+  return r.json();
+}
 
 // ── DATA E HORA ──
 function atualizarHora() {
@@ -326,12 +321,10 @@ function atualizarHora() {
 async function sincronizar() {
   setConn('load','Sincronizando...');
   try {
-    const r = await fetch(`${SCRIPT_URL}?action=listar`);
-    const data = await r.json();
+    const data = await gsCall({action:'listar'});
     clientes = data.clientes || [];
 
-    const rr = await fetch(`${SCRIPT_URL}?action=getRitual`);
-    const rd = await rr.json();
+    const rd = await gsCall({action:'getRitual'});
     ritual = rd.ritual || {};
 
     setConn('ok',`Sincronizado · ${clientes.length} cliente(s)`);
@@ -375,11 +368,8 @@ function tRitual(el) {
   const rid = el.dataset.id;
   ritual[rid] = !ritual[rid];
   renderRitual();
-  // salvar no Sheets assincronamente
-  fetch(SCRIPT_URL, {
-    method:'POST',
-    body: JSON.stringify({action:'ritual', ritual})
-  }).catch(()=>{});
+  // salvar no Sheets assincronamente via GET
+  gsCall({action:'ritual', ritual: JSON.stringify(ritual)}).catch(()=>{});
 }
 function renderRitual() {
   document.querySelectorAll('.rc').forEach(el => {
@@ -496,12 +486,10 @@ async function salvarNota(cid, val) {
   await pushCliente(c);
 }
 
+// ── PUSH CLIENTE VIA GET (corrigido para CORS) ──
 async function pushCliente(c) {
   try {
-    await fetch(SCRIPT_URL, {
-      method:'POST',
-      body: JSON.stringify({action:'salvar', cliente:c})
-    });
+    await gsCall({action:'salvar', cliente: JSON.stringify(c)});
   } catch(e) { console.error('Erro ao salvar:', e); }
 }
 
@@ -583,7 +571,6 @@ function abrirEditar(cid) {
   editId=cid;
   document.getElementById('m-tit').textContent='Editar cliente';
   document.getElementById('btn-rem').style.display='block';
-  const ids = ['nome','esp'];
   document.getElementById('m-nome').value=c.nome||'';
   document.getElementById('m-esp').value=c.esp||'';
   document.getElementById('m-plano').value=c.plano||'presenca';
@@ -653,8 +640,8 @@ async function salvar() {
   btn.textContent='Salvando...'; btn.disabled=true;
 
   try {
-    const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'salvar',cliente})});
-    const d=await r.json();
+    // ── corrigido: usando GET em vez de POST para evitar CORS ──
+    const d = await gsCall({action:'salvar', cliente: JSON.stringify(cliente)});
     if(d.ok) {
       if(editId) {
         const idx=clientes.findIndex(x=>x.id===editId);
@@ -674,7 +661,7 @@ async function remover() {
   if(!editId) return;
   if(!confirm('Remover este cliente?')) return;
   try {
-    await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'remover',id:editId})});
+    await gsCall({action:'remover', id: editId});
     clientes=clientes.filter(x=>x.id!==editId);
     fechar(); renderTudo();
   } catch(e) { alert('Erro ao remover.'); }
