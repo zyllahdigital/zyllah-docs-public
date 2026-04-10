@@ -1,0 +1,267 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.wrap { padding: 1rem 0; }
+.section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
+.papel-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 10px; overflow: hidden; cursor: pointer; transition: border-color 0.15s; }
+.papel-card:hover { border-color: var(--color-border-secondary); }
+.papel-header { display: flex; align-items: center; gap: 10px; padding: 12px 14px; }
+.papel-num { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; }
+.papel-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+.viab { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 10px; }
+.viab-alto { background: var(--color-background-success); color: var(--color-text-success); }
+.viab-medio { background: var(--color-background-warning); color: var(--color-text-warning); }
+.viab-baixo { background: var(--color-background-danger); color: var(--color-text-danger); }
+.chevron { font-size: 12px; color: var(--color-text-tertiary); transition: transform 0.2s; }
+.chevron.open { transform: rotate(90deg); }
+.papel-body { border-top: 0.5px solid var(--color-border-tertiary); padding: 12px 14px; display: none; }
+.papel-body.open { display: block; }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; margin-bottom: 12px; }
+.tool-chip { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 7px 10px; }
+.tool-name { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
+.tool-desc { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
+.tool-tag { display: inline-block; font-size: 10px; font-weight: 500; padding: 1px 6px; border-radius: 6px; margin-top: 4px; }
+.tag-free { background: var(--color-background-success); color: var(--color-text-success); }
+.tag-limit { background: var(--color-background-warning); color: var(--color-text-warning); }
+.tag-tecnico { background: var(--color-background-info); color: var(--color-text-info); }
+.integ-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 6px; }
+.integ-flow { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; font-size: 12px; }
+.integ-node { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-secondary); border-radius: 6px; padding: 3px 8px; color: var(--color-text-primary); }
+.integ-arrow { color: var(--color-text-tertiary); }
+.obs { font-size: 11px; color: var(--color-text-secondary); margin-top: 10px; padding: 8px 10px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); border-left: 2px solid var(--color-border-secondary); line-height: 1.5; }
+
+.arch-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.04em; text-transform: uppercase; margin: 20px 0 10px; }
+.arch-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px; }
+.arch-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.arch-row:last-child { margin-bottom: 0; }
+.arch-icon { width: 28px; height: 28px; border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+.arch-text { flex: 1; }
+.arch-text strong { font-size: 13px; font-weight: 500; color: var(--color-text-primary); display: block; }
+.arch-text span { font-size: 12px; color: var(--color-text-secondary); line-height: 1.4; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--color-text-secondary); }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Mapa técnico de ferramentas gratuitas por papel Zyllah</h2>
+
+<div class="section-title">Viabilidade por papel — clique para expandir</div>
+
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:var(--color-text-success)"></div> Viabilidade alta</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--color-text-warning)"></div> Viabilidade média</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--color-text-danger)"></div> Requer atenção</div>
+</div>
+
+<div id="papeis"></div>
+
+<div class="arch-title">Arquitetura de integração sistêmica</div>
+<div class="arch-card">
+  <div class="arch-row">
+    <div class="arch-icon" style="background:var(--color-background-info)">📥</div>
+    <div class="arch-text">
+      <strong>Camada de entrada</strong>
+      <span>Google Forms → n8n webhook → Claude Haiku (classifica) → Google Sheets (CRM)</span>
+    </div>
+  </div>
+  <div class="arch-row">
+    <div class="arch-icon" style="background:var(--color-background-warning)">🔁</div>
+    <div class="arch-text">
+      <strong>Camada de automação central</strong>
+      <span>n8n self-hosted (Railway gratuito) orquestra todos os papéis via webhooks e agendamentos</span>
+    </div>
+  </div>
+  <div class="arch-row">
+    <div class="arch-icon" style="background:var(--color-background-success)">📊</div>
+    <div class="arch-text">
+      <strong>Camada de dados</strong>
+      <span>Google Sheets como banco central — Hub, CRM, financeiro e marcos num único Workspace gratuito</span>
+    </div>
+  </div>
+  <div class="arch-row">
+    <div class="arch-icon" style="background:var(--color-background-secondary)">📤</div>
+    <div class="arch-text">
+      <strong>Camada de saída</strong>
+      <span>Buffer (agendamento social) + Gmail (transacional) + Stripe/PagSeguro (cobrança) + GitHub Pages (docs)</span>
+    </div>
+  </div>
+  <div class="arch-row">
+    <div class="arch-icon" style="background:var(--color-background-danger)">🔐</div>
+    <div class="arch-text">
+      <strong>Camada jurídico/compliance</strong>
+      <span>Docusign grátis (3 env/mês) ou PandaDoc free para contrato digital — fora do n8n, ação manual</span>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const papeis = [
+  {
+    num: "1",
+    nome: "Prospector",
+    viab: "alto",
+    cor: "#0F6E56",
+    bg: "#E1F5EE",
+    tools: [
+      { name: "Gemini 2.0 Flash", desc: "Diagnóstico de prospect via prompt estruturado", tags: ["free"] },
+      { name: "Google (busca)", desc: "Pesquisa manual + Google Meu Negócio para análise local", tags: ["free"] },
+      { name: "n8n (self-hosted)", desc: "Automatiza alerta de novos prospects no Sheets", tags: ["free", "tecnico"] },
+      { name: "Google Sheets", desc: "CRM de prospecção — status, risco, próximo contato", tags: ["free"] },
+    ],
+    fluxo: ["Gemini pesquisa", "→", "Sheets CRM", "→", "n8n alerta", "→", "DM manual"],
+    obs: "Gargalo real: a abordagem e o aquecimento são manuais por design. A automação serve para priorizar e não perder prazo — não para substituir o contato humano."
+  },
+  {
+    num: "2",
+    nome: "Vendedor",
+    viab: "medio",
+    cor: "#854F0B",
+    bg: "#FAEEDA",
+    tools: [
+      { name: "Google Slides", desc: "Apresentação personalizada com dados do prospect", tags: ["free"] },
+      { name: "Gemini (pesquisa)", desc: "Gera relatório de avaliações e posicionamento local", tags: ["free"] },
+      { name: "Claude Pro (quiz)", desc: "zyllah_quiz_vendas.html — treino de roleplay com API", tags: ["limit"] },
+      { name: "Stripe / PagSeguro", desc: "Cobrança recorrente — definir antes do 1º contrato", tags: ["limit"] },
+    ],
+    fluxo: ["Diagnóstico Gemini", "→", "Slides personalizados", "→", "Reunião", "→", "Contrato digital", "→", "Stripe recorrente"],
+    obs: "Maior gargalo técnico: roleplay de vendas antes da reunião real. O quiz com API Claude já existe — prioridade é usar antes da 1ª reunião com prospect real."
+  },
+  {
+    num: "3",
+    nome: "Produtor",
+    viab: "alto",
+    cor: "#185FA5",
+    bg: "#E6F1FB",
+    tools: [
+      { name: "Gemini (geração)", desc: "Gera imagens para posts, thumbnails e simulacros", tags: ["free"] },
+      { name: "CapCut (gratuito)", desc: "Edição de reels, chroma key e cards animados", tags: ["free"] },
+      { name: "OBS Studio", desc: "Gravação de tela para Setup D (assets de tela)", tags: ["free"] },
+      { name: "Buffer (free)", desc: "Agendamento em Instagram, LinkedIn e TikTok", tags: ["free", "limit"] },
+      { name: "GitHub Pages", desc: "Hospedagem de docs, cards HTML e assets públicos", tags: ["free"] },
+    ],
+    fluxo: ["Briefing form", "→", "Produção local", "→", "Revisão (máx 2x)", "→", "Aprovação 48h", "→", "Buffer agenda", "→", "Marco no Hub"],
+    obs: "Stack inteiramente gratuita. Limitação real do Buffer: 3 canais + 10 posts agendados no plano free. Para escalar acima de 2 clientes, avaliar Metricool free (mais generoso)."
+  },
+  {
+    num: "4",
+    nome: "Gestor de cliente",
+    viab: "alto",
+    cor: "#533AB7",
+    bg: "#EEEDFE",
+    tools: [
+      { name: "Google Sheets (Hub)", desc: "Zyllah Hub — pipeline de marcos, alertas, vencimentos", tags: ["free"] },
+      { name: "Google Calendar", desc: "Sincroniza eventos [Reuniao][Ritual][Entrega] do Hub", tags: ["free"] },
+      { name: "n8n agendado", desc: "Ritual de segunda — roda query no Sheets e envia alerta", tags: ["free", "tecnico"] },
+      { name: "Gmail", desc: "Comunicação formal com cliente e lembretes automáticos", tags: ["free"] },
+    ],
+    fluxo: ["Onboarding no Hub", "→", "Calendar sincroniza", "→", "n8n monitora alertas", "→", "Gmail notifica", "→", "Renovação 30d antes"],
+    obs: "Ritual de segunda pode ser automático: n8n roda query nas células [Atencao] e [URGENTE] do Sheets e manda resumo via Gmail. Baixa complexidade técnica, alto impacto operacional."
+  },
+  {
+    num: "5",
+    nome: "Financeiro",
+    viab: "medio",
+    cor: "#3B6D11",
+    bg: "#EAF3DE",
+    tools: [
+      { name: "PagSeguro Recorrente", desc: "Cobrança automática — preferido para BR, sem taxa de setup", tags: ["limit"] },
+      { name: "Stripe", desc: "Alternativa com melhor UX — taxa 3,99%+R$0,39 por transação", tags: ["limit"] },
+      { name: "Google Sheets", desc: "Controle de inadimplência, vencimentos e D+3/7/15/30", tags: ["free"] },
+      { name: "n8n (alerta D+)", desc: "Automação de lembrete no prazo correto via Gmail/WhatsApp", tags: ["free", "tecnico"] },
+    ],
+    fluxo: ["Vencimento no Sheets", "→", "n8n detecta D+3", "→", "Gmail lembrete", "→", "D+7 notif. formal", "→", "D+15 pausa entregas"],
+    obs: "Pendência crítica: gateway de pagamento deve ser escolhido antes do 1º contrato. PagSeguro Recorrente tem aprovação mais fácil para PF. Stripe exige CNPJ ou conta verificada."
+  },
+  {
+    num: "6",
+    nome: "Jurídico",
+    viab: "medio",
+    cor: "#993C1D",
+    bg: "#FAECE7",
+    tools: [
+      { name: "PandaDoc (free)", desc: "Assinatura digital — 5 docs/mês gratuitos, suficiente p/ início", tags: ["free", "limit"] },
+      { name: "Docusign (free)", desc: "3 envelopes/mês gratuitos — backup do PandaDoc", tags: ["free", "limit"] },
+      { name: "GitHub Pages (privado)", desc: "Contratos em HTML com senha — repositório privado", tags: ["free"] },
+      { name: "CFM Resolução 2.336", desc: "Verificação manual de conformidade antes de qualquer entrega", tags: ["tecnico"] },
+    ],
+    fluxo: ["Contrato HTML gerado", "→", "PandaDoc envia p/ assinatura", "→", "Assinado → Sheets registra", "→", "Produção libera"],
+    obs: "Limitação real: PandaDoc free não tem automação de envio via API — é manual. Para automatizar envio via n8n, precisa do plano Business (~US$49/mês). Impacto baixo no início."
+  },
+  {
+    num: "7",
+    nome: "Parceiro",
+    viab: "alto",
+    cor: "#6B6B6B",
+    bg: "#F1EFE8",
+    tools: [
+      { name: "Google Sheets", desc: "Controle de indicações, comissões e status de conversão", tags: ["free"] },
+      { name: "Gmail (template)", desc: "Onboarding de vendedor externo e comunicação de comissão", tags: ["free"] },
+      { name: "GitHub Pages", desc: "Landing page de programa de indicação (pós 2º cliente)", tags: ["free"] },
+    ],
+    fluxo: ["Pós 2º cliente", "→", "Cadastro parceiro no Sheets", "→", "Indicação rastreada", "→", "Conversão registrada", "→", "Comissão calculada"],
+    obs: "Ativar somente após 2º cliente. Antes disso: apenas documentar o modelo no Sheets. Custo zero para estruturar — o rastreamento manual no Sheets é suficiente para os primeiros 5-10 indicações."
+  }
+];
+
+function viabLabel(v) {
+  if (v === "alto") return '<span class="viab viab-alto">Viabilidade alta</span>';
+  if (v === "medio") return '<span class="viab viab-medio">Viabilidade média</span>';
+  return '<span class="viab viab-baixo">Requer atenção</span>';
+}
+
+function tagLabel(t) {
+  if (t === "free") return '<span class="tool-tag tag-free">Gratuito</span>';
+  if (t === "limit") return '<span class="tool-tag tag-limit">Pago/limite</span>';
+  if (t === "tecnico") return '<span class="tool-tag tag-tecnico">Técnico</span>';
+  return '';
+}
+
+const container = document.getElementById('papeis');
+
+papeis.forEach((p, i) => {
+  const card = document.createElement('div');
+  card.className = 'papel-card';
+
+  const toolsHTML = p.tools.map(t => `
+    <div class="tool-chip">
+      <div class="tool-name">${t.name}</div>
+      <div class="tool-desc">${t.desc}</div>
+      <div>${t.tags.map(tagLabel).join(' ')}</div>
+    </div>
+  `).join('');
+
+  const fluxoHTML = p.fluxo.map(f => f === '→'
+    ? `<span class="integ-arrow">→</span>`
+    : `<span class="integ-node">${f}</span>`
+  ).join('');
+
+  card.innerHTML = `
+    <div class="papel-header" onclick="toggle(${i})">
+      <div class="papel-num" style="background:${p.bg};color:${p.cor}">${p.num}</div>
+      <div class="papel-name">${p.nome}</div>
+      ${viabLabel(p.viab)}
+      <div class="chevron" id="chev-${i}">›</div>
+    </div>
+    <div class="papel-body" id="body-${i}">
+      <div class="integ-label">Ferramentas</div>
+      <div class="tools-grid">${toolsHTML}</div>
+      <div class="integ-label">Fluxo de integração</div>
+      <div class="integ-flow">${fluxoHTML}</div>
+      <div class="obs">${p.obs}</div>
+    </div>
+  `;
+  container.appendChild(card);
+});
+
+function toggle(i) {
+  const body = document.getElementById('body-' + i);
+  const chev = document.getElementById('chev-' + i);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+</script>

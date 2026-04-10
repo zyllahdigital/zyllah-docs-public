@@ -1,0 +1,387 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+h2.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.wrap{padding:1rem 0;font-family:var(--font-sans)}
+.fase-header{display:flex;align-items:center;gap:10px;margin:20px 0 8px;cursor:pointer;user-select:none}
+.fase-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0}
+.fase-title{font-size:14px;font-weight:500;color:var(--color-text-primary);flex:1}
+.fase-count{font-size:11px;color:var(--color-text-tertiary)}
+.fase-chev{font-size:12px;color:var(--color-text-tertiary);transition:transform .2s}
+.fase-chev.open{transform:rotate(90deg)}
+.fase-body{display:none;margin-bottom:4px}
+.fase-body.open{display:block}
+.ramo{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);margin-bottom:6px;overflow:hidden}
+.ramo-header{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;cursor:pointer}
+.ramo-header:hover{background:var(--color-background-secondary)}
+.ramo-sig{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.ramo-label{font-size:13px;color:var(--color-text-primary);flex:1;line-height:1.4}
+.ramo-tag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:8px;flex-shrink:0;margin-top:1px}
+.tag-ok{background:var(--color-background-success);color:var(--color-text-success)}
+.tag-risco{background:var(--color-background-warning);color:var(--color-text-warning)}
+.tag-perda{background:var(--color-background-danger);color:var(--color-text-danger)}
+.tag-loop{background:var(--color-background-info);color:var(--color-text-info)}
+.ramo-detail{display:none;padding:8px 12px 10px 26px;border-top:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.ramo-detail.open{display:block}
+.detail-acao{font-size:12px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:6px}
+.detail-acao strong{font-weight:500;color:var(--color-text-primary)}
+.sub-ramos{margin-top:6px}
+.sub-ramo{display:flex;align-items:flex-start;gap:6px;padding:4px 0;border-top:0.5px solid var(--color-border-tertiary)}
+.sub-ramo:first-child{border-top:none}
+.sub-arrow{font-size:11px;color:var(--color-text-tertiary);flex-shrink:0;margin-top:2px}
+.sub-text{font-size:12px;color:var(--color-text-secondary);line-height:1.4}
+.sub-text em{color:var(--color-text-primary);font-style:normal;font-weight:500}
+.nav-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.nav-btn{font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;transition:all .15s}
+.nav-btn:hover,.nav-btn.active{background:var(--color-background-secondary);color:var(--color-text-primary);border-color:var(--color-border-primary)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary)}
+.leg-dot{width:8px;height:8px;border-radius:50%}
+.prog-bar{height:3px;background:var(--color-background-secondary);border-radius:2px;margin:6px 0 16px}
+.prog-fill{height:3px;border-radius:2px;transition:width .3s}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Jornada completa do cliente Zyllah — todos os ramos e bifurcações</h2>
+
+<div class="legend">
+  <div class="leg"><div class="leg-dot" style="background:var(--color-text-success)"></div> Caminho ideal</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--color-text-warning)"></div> Risco / desvio</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--color-text-danger)"></div> Perda / saída</div>
+  <div class="leg"><div class="leg-dot" style="background:var(--color-text-info)"></div> Loop / retorno</div>
+</div>
+
+<div class="nav-bar" id="nav"></div>
+<div class="prog-bar"><div class="prog-fill" id="prog" style="background:var(--color-text-success)"></div></div>
+
+<div id="fases"></div>
+</div>
+
+<script>
+const fases = [
+{
+  id:"F0", cor:"#1D9E75", bg:"#E1F5EE", label:"F0 — Antes do contato",
+  desc:"O prospect existe. Zyllah ainda não foi abordada.",
+  ramos:[
+    {sig:"ok", tag:"ok", label:"Prospect identificado com pesquisa prévia", acao:"Gemini + Google pesquisam Instagram, Google Meu Negócio, site. Classificação: baixo / médio / alto risco.", subs:[
+      {a:"baixo risco →", t:"Abordagem direta: comentários + DM"},
+      {a:"médio risco →", t:"Verificar Instagram antes de agir — pode ter agência em construção"},
+      {a:"alto risco →", t:"Analisar com cautela. Possível agência ativa. Entrar só se houver gap claro"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Prospect abordado sem diagnóstico", acao:"Erro clássico. Sem dados, a DM soa genérica e perde autoridade.", subs:[
+      {a:"consequência →", t:"Prospect ignora ou responde friamente — difícil recuperar"},
+      {a:"correção →", t:"Nunca abordar sem diagnóstico. Regra absoluta"},
+    ]},
+    {sig:"ok", tag:"ok", label:"Aquecimento por comentários (2 posts estratégicos)", acao:"Comentários técnicos que demonstram autoridade. Nunca mencionar a Zyllah. Aguardar 2–3 dias entre comentários e DM.", subs:[
+      {a:"post bem escolhido →", t:"Comentário com alcance alto — valida o posicionamento antes mesmo do contato direto"},
+      {a:"post errado →", t:"Comentário passa despercebido. Sem dano, mas sem ganho"},
+    ]},
+  ]
+},
+{
+  id:"F1", cor:"#185FA5", bg:"#E6F1FB", label:"F1 — Primeiro contato (DM)",
+  desc:"A mensagem foi enviada. Começa a zona de silêncio e suas bifurcações.",
+  ramos:[
+    {sig:"ok", tag:"ok", label:"Resposta positiva — interesse confirmado", acao:"Prospect responde com curiosidade ou pedido de mais informações.", subs:[
+      {a:"rápida (< 24h) →", t:"Alta probabilidade de conversão. Marcar reunião imediatamente"},
+      {a:"lenta (2–5 dias) →", t:"Interesse real mas agenda cheia. Manter cordialidade, propor data flexível"},
+      {a:"com perguntas →", t:"Não responder preço nem revelar gap. Redirecionar para reunião diagnóstica"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Silêncio por 7 dias", acao:"Regra atual: Dra. Lídia, Dr. Fabrício, Dra. Marina em stand-by. Não insistir.", subs:[
+      {a:"7 dias sem resposta →", t:"Ampliar base. Não é rejeição — é timing"},
+      {a:"retorno espontâneo posterior →", t:"Tratar como novo contato. Não referenciar o silêncio"},
+      {a:"visto sem resposta →", t:"Aguardar. DM de seguimento apenas se > 14 dias e se tiver novo gancho genuíno"},
+    ]},
+    {sig:"perda", tag:"perda", label:"Resposta negativa explícita", acao:"Prospect diz que não tem interesse ou já tem agência.", subs:[
+      {a:"tem agência →", t:"Não argumentar. Deixar porta aberta: 'Faz sentido. Se precisar de uma segunda opinião um dia, estarei por aqui.'"},
+      {a:"não quer aparecer →", t:"Entender a dor. Oferecer que o método não exige presença constante"},
+      {a:"não tem verba →", t:"Não insistir agora. Registrar no Sheets para retomar em 3–6 meses"},
+    ]},
+    {sig:"loop", tag:"loop", label:"Resposta positiva mas sem engajamento na reunião", acao:"Concorda em conversar mas adia repetidamente.", subs:[
+      {a:"1ª remarcação →", t:"Normal. Confirmar nova data com link de agenda"},
+      {a:"2ª remarcação →", t:"Sinal de ambivalência. Simplificar: 'Posso te ligar por 10 minutos?'"},
+      {a:"3ª remarcação →", t:"Pausar. Entrar em stand-by de 30 dias. Não é o momento certo"},
+    ]},
+  ]
+},
+{
+  id:"F2", cor:"#854F0B", bg:"#FAEEDA", label:"F2 — Reunião diagnóstica",
+  desc:"O momento de maior alavancagem. Tudo que foi construído antes converge aqui.",
+  ramos:[
+    {sig:"ok", tag:"ok", label:"Reunião acontece — prospect engajado", acao:"Escuta ativa nos primeiros 15min. Diagnóstico personalizado com dados reais.", subs:[
+      {a:"reconhece o gap →", t:"Mostrar o custo do problema atual. Não do serviço — do problema"},
+      {a:"compara com concorrentes locais →", t:"Diferencial já está no diagnóstico: nenhuma agência local faz isso"},
+      {a:"pergunta sobre resultados →", t:"Case Encantarys. Prova de método, não de velocidade"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Prospect levanta objeção de preço", acao:"Não baixar o preço. Mostrar custo do problema.", subs:[
+      {a:"'é caro' →", t:"Ancorar: Autoridade cria referência. Plano do meio é o alvo real"},
+      {a:"'não tenho certeza do retorno' →", t:"Quantificar: quantas consultas extras para cobrir o investimento?"},
+      {a:"'vou pensar' →", t:"Estabelecer prazo: 'Posso segurar essa condição até sexta?'"},
+      {a:"insistência em desconto →", t:"Contrapartida obrigatória: pagamento adiantado ou prazo menor"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Prospect já tem agência — reunião de comparação", acao:"Ele veio comparar. Não competir em preço. Competir em método.", subs:[
+      {a:"agência genérica →", t:"Mostrar diferença de nicho. 'Eles fazem para todo mundo. Nós só para saúde.'"},
+      {a:"agência especializada →", t:"Avaliar honestamente. Se é boa, dizer. Credibilidade > contrato forçado"},
+    ]},
+    {sig:"perda", tag:"perda", label:"Prospect não aparece na reunião", acao:"Sem aviso prévio.", subs:[
+      {a:"sem aviso →", t:"Aguardar 30min, enviar mensagem simpática. Propor reagendamento uma vez"},
+      {a:"reagenda e some de novo →", t:"Desqualificar por ora. Registrar no Sheets. Retomar em 60 dias"},
+    ]},
+    {sig:"ok", tag:"ok", label:"Acordo verbal na reunião", acao:"Prospect diz que quer contratar.", subs:[
+      {a:"mesmo dia →", t:"Enviar contrato em até 24h. Não dar tempo para esfriar"},
+      {a:"'me manda o contrato' →", t:"Enviar + ligar em 48h para confirmar recebimento"},
+    ]},
+  ]
+},
+{
+  id:"F3", cor:"#993C1D", bg:"#FAECE7", label:"F3 — Contrato e pagamento",
+  desc:"Da palavra à assinatura. Zona de evaporação silenciosa.",
+  ramos:[
+    {sig:"ok", tag:"ok", label:"Contrato assinado e pagamento confirmado", acao:"Condição para iniciar produção. Sem exceção.", subs:[
+      {a:"PandaDoc / Docusign →", t:"Assinatura digital. Registrar no Hub no mesmo dia"},
+      {a:"pagamento confirmado →", t:"Stripe ou PagSeguro recorrente ativado. Onboarding inicia"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Contrato enviado — sem retorno", acao:"Prospect sumiu após o acordo verbal.", subs:[
+      {a:"48h sem retorno →", t:"Mensagem de confirmação: 'Recebi algum erro no envio?'"},
+      {a:"72h →", t:"Ligação curta: 'Quero garantir que está tudo certo antes de reservar sua agenda'"},
+      {a:"7 dias →", t:"Stand-by. Pode ter mudado de ideia. Não forçar"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Prospect pede alterações no contrato", acao:"Depende da natureza do pedido.", subs:[
+      {a:"cláusula de prazo →", t:"Avaliar caso a caso. Flexibilidade controlada"},
+      {a:"pedido de exclusão de cláusula de inadimplência →", t:"Não remover. É proteção da operação"},
+      {a:"escopo diferente do plano →", t:"Não adaptar escopo sem repricing. Oferecer o plano correto"},
+    ]},
+    {sig:"perda", tag:"perda", label:"Prospect desiste após ver o contrato", acao:"Assustou com cláusulas ou reconsiderou.", subs:[
+      {a:"cláusula de inadimplência →", t:"Explicar: protege os dois lados. Se não confiar no serviço, faz sentido a dúvida"},
+      {a:"desistência definitiva →", t:"Registrar motivo. Refinar o contrato ou a comunicação prévia"},
+    ]},
+  ]
+},
+{
+  id:"F4", cor:"#533AB7", bg:"#EEEDFE", label:"F4 — Onboarding",
+  desc:"Primeiro contato operacional. A impressão que define a retenção.",
+  ramos:[
+    {sig:"ok", tag:"ok", label:"Onboarding completo na primeira semana", acao:"Briefing, acesso a perfis, guia de fotos, alinhamento de expectativas.", subs:[
+      {a:"cliente responsivo →", t:"Briefing rápido por formulário. Marcos iniciais registrados no Hub"},
+      {a:"cliente lento no briefing →", t:"Prazo de 5 dias úteis. Lembrete automatizado no D+3"},
+      {a:"cliente sem fotos →", t:"Enviar guia remoto (TEMPLATE_guia_fotos). Agendar sessão ou explicar como fazer pelo celular"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Cliente com expectativas desalinhadas", acao:"Esperava mais do que o plano entrega.", subs:[
+      {a:"quer resultados em semanas →", t:"Realinhar: presença digital é acúmulo. Mostrar o que será entregue no mês 1"},
+      {a:"quer aparecer diariamente →", t:"Explicar frequência do plano contratado. Upsell para Presença ou Autoridade"},
+      {a:"quer controlar tudo →", t:"Estabelecer fluxo de aprovação claro. Prazo de 48h é proteção mútua"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Cliente demora para enviar material", acao:"Fotos, logo, textos — dependências externas.", subs:[
+      {a:"D+5 sem material →", t:"Lembrete direto. Se persistir, iniciar com o que há e registrar a pendência"},
+      {a:"D+10 →", t:"Conversa de alinhamento: sem material não há entrega dentro do prazo"},
+      {a:"nunca envia →", t:"Produzir com recursos próprios (banco de imagem, simulacros Gemini). Cobrar mesmo assim"},
+    ]},
+  ]
+},
+{
+  id:"F5", cor:"#0F6E56", bg:"#E1F5EE", label:"F5 — Produção mensal",
+  desc:"O ciclo recorrente. Onde a relação se consolida ou se desgasta.",
+  ramos:[
+    {sig:"ok", tag:"ok", label:"Entrega dentro do prazo — aprovação em 48h", acao:"Ciclo ideal. Marcos atualizados no Hub.", subs:[
+      {a:"aprovação imediata →", t:"Marco registrado. Iniciar próximo ciclo"},
+      {a:"aprovação com ajuste menor →", t:"Rodada 1 de revisão. Dentro do escopo"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Pedido de revisão extenso", acao:"Além do escopo das 2 rodadas incluídas.", subs:[
+      {a:"1ª revisão: ajuste de cópia →", t:"Normal. Incluído no plano"},
+      {a:"2ª revisão: mudança de conceito →", t:"Alertar: próxima revisão é cobrada à parte"},
+      {a:"3ª revisão solicitada →", t:"Cobrar revisão adicional ou negociar no próximo mês"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Cliente some no período de aprovação", acao:"Não responde em 48h.", subs:[
+      {a:"48h sem resposta →", t:"Cláusula entra: silêncio = aprovado. Publicar"},
+      {a:"cliente questiona depois →", t:"Mostrar cláusula do contrato. Protege a operação"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Conteúdo em desacordo com o CFM", acao:"Risco identificado antes ou depois da entrega.", subs:[
+      {a:"antes →", t:"Reescrever. Nunca publicar com violação — dano ao cliente e à Zyllah"},
+      {a:"depois de publicado →", t:"Retirar imediatamente. Protocolo de comunicação com o cliente"},
+    ]},
+    {sig:"loop", tag:"loop", label:"Cliente pede conteúdo fora do escopo", acao:"Vídeos, tráfego pago, site — coisas não contratadas.", subs:[
+      {a:"tráfego pago →", t:"Nexa Ads como upsell natural. Apresentar proposta"},
+      {a:"site ou landing page →", t:"Fora do escopo atual. Orçar separado ou indicar parceiro"},
+      {a:"automação de atendimento →", t:"Zyllah Flow — mencionar como futuro, não como disponível agora"},
+    ]},
+  ]
+},
+{
+  id:"F6", cor:"#3B6D11", bg:"#EAF3DE", label:"F6 — Financeiro recorrente",
+  desc:"Cobrança, inadimplência e seus rituais de gestão.",
+  ramos:[
+    {sig:"ok", tag:"ok", label:"Pagamento em dia", acao:"Cobrança automática via Stripe ou PagSeguro. Registro no Hub.", subs:[
+      {a:"débito automático →", t:"Zero esforço. Vencimento registrado no Calendar"},
+      {a:"boleto/pix →", t:"Lembrete D-3 automatizado via Gmail"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Inadimplência — D+3 a D+30", acao:"Protocolo escalonado conforme contrato.", subs:[
+      {a:"D+3 →", t:"Lembrete amigável por WhatsApp. Tom cordial"},
+      {a:"D+7 →", t:"Notificação formal por escrito (Gmail). Citar cláusula"},
+      {a:"D+15 →", t:"Pausar entregas. Comunicar formalmente"},
+      {a:"D+30 →", t:"Protocolo de rescisão. Aviso prévio de 30 dias"},
+    ]},
+    {sig:"perda", tag:"perda", label:"Cliente contesta o valor após meses", acao:"Questiona o plano que contratou.", subs:[
+      {a:"quer downgrade →", t:"Avaliar: cliente valioso mas em dificuldade financeira? Propor plano menor"},
+      {a:"quer cancelar →", t:"Escutar o motivo real. Apresentar resultados do período. Se for preço, propor alternativa"},
+      {a:"cancela mesmo →", t:"Honrar o aviso prévio de 30 dias. Pedir depoimento antes de encerrar"},
+    ]},
+  ]
+},
+{
+  id:"F7", cor:"#5F5E5A", bg:"#F1EFE8", label:"F7 — Acompanhamento e crescimento",
+  desc:"O ritual de segunda e os marcos que indicam saúde da relação.",
+  ramos:[
+    {sig:"ok", tag:"ok", label:"Ritual de segunda funcionando", acao:"30 min revisando Hub, alertas e pendências. Toda semana.", subs:[
+      {a:"tudo verde →", t:"Próximo ciclo iniciado. Nenhuma intervenção necessária"},
+      {a:"alerta [Atencao] →", t:"Resolver em 48h. Registrar no Hub"},
+      {a:"alerta [URGENTE] →", t:"Resolver no mesmo dia. Mônica Ramos: G Search Console e GA4"},
+    ]},
+    {sig:"loop", tag:"loop", label:"Cliente pede reunião de resultados", acao:"Além do ritual mensal.", subs:[
+      {a:"resultado positivo →", t:"Oportunidade de upsell. Apresentar próximo plano"},
+      {a:"resultado aquém →", t:"Analisar causa: estratégia, execução ou expectativa? Proposta de ajuste"},
+      {a:"cliente compara com concorrente →", t:"Mostrar o que está construindo (brand equity), não só métricas de vaidade"},
+    ]},
+    {sig:"ok", tag:"ok", label:"Marco de depoimento atingido", acao:"Cliente satisfeito, momento certo para pedir prova social.", subs:[
+      {a:"aceita dar depoimento →", t:"Registrar no pipeline. Usar na apresentação de vendas"},
+      {a:"recusa →", t:"Normal. Não insistir. Pedir em outro momento"},
+    ]},
+    {sig:"risco", tag:"risco", label:"Queda no engajamento do cliente", acao:"Demora para responder, pouca colaboração.", subs:[
+      {a:"sem fotos há 2 semanas →", t:"Contato proativo. 'Posso ajudar a simplificar a produção de material?'"},
+      {a:"críticas ao conteúdo sem especificidade →", t:"Reunião rápida para realinhar direção criativa"},
+      {a:"silêncio total →", t:"Sinal de risco de cancelamento. Contato direto: 'Como você está se sentindo com o trabalho?'"},
+    ]},
+  ]
+},
+{
+  id:"F8", cor:"#993556", bg:"#FBEAF0", label:"F8 — Renovação e expansão",
+  desc:"30 dias antes do vencimento. A janela mais valiosa da relação.",
+  ramos:[
+    {sig:"ok", tag:"ok", label:"Renovação automática — cliente satisfeito", acao:"Continua no mesmo plano sem atrito.", subs:[
+      {a:"plano atual adequado →", t:"Renovar. Apresentar o que vem no próximo trimestre"},
+      {a:"crescimento documentado →", t:"Propor upgrade com dados reais. 'Você cresceu X% — o próximo plano faz sentido agora'"},
+    ]},
+    {sig:"loop", tag:"loop", label:"Cliente quer renegociar na renovação", acao:"Pede desconto ou mudança de escopo.", subs:[
+      {a:"pede desconto →", t:"Não dar sem contrapartida. Oferecer: pagamento semestral com desconto fixo"},
+      {a:"quer menos entregas →", t:"Downgrade de plano. Melhor que perder o cliente"},
+      {a:"quer mais por menos →", t:"Apresentar os números do que já entrega. Defender o valor"},
+    ]},
+    {sig:"ok", tag:"ok", label:"Upsell aceito na renovação", acao:"Cliente migra para plano superior.", subs:[
+      {a:"Essencial → Presença →", t:"Adicionar gestão ativa de redes e consistência editorial"},
+      {a:"Presença → Autoridade →", t:"Adicionar Zyllah Flow e posicionamento de autoridade no Google"},
+      {a:"Autoridade + Nexa Ads →", t:"Tráfego pago integrado. Cliente no topo do funil"},
+    ]},
+    {sig:"perda", tag:"perda", label:"Cliente encerra ao fim do contrato", acao:"Aviso prévio de 30 dias.", subs:[
+      {a:"motivo: preço →", t:"Propor plano menor antes de aceitar o encerramento"},
+      {a:"motivo: resultados →", t:"Analisar honestamente. Foi falha de execução ou expectativa?"},
+      {a:"motivo: situação pessoal →", t:"Registrar. Contato em 3–6 meses para retomar"},
+      {a:"encerra bem →", t:"Pedir depoimento e indicação. Saída limpa = porta aberta para retorno"},
+    ]},
+  ]
+},
+{
+  id:"F9", cor:"#185FA5", bg:"#E6F1FB", label:"F9 — Indicação e parceria",
+  desc:"O cliente vira ativo de crescimento. Ativar apenas após o 2º cliente.",
+  ramos:[
+    {sig:"ok", tag:"ok", label:"Cliente indica outro médico", acao:"Zyllah Confiança: 1 mês grátis para quem indica, 20% desconto para quem chega.", subs:[
+      {a:"indicação converte →", t:"Aplicar benefício. Registrar no Sheets. Prospect entra em F0"},
+      {a:"indicação não converte →", t:"Benefício não aplicado. Prospect vai para lista de stand-by"},
+    ]},
+    {sig:"ok", tag:"ok", label:"Vendedor externo traz prospect", acao:"20% do 1º mês + 10% recorrente por até 12 meses.", subs:[
+      {a:"converte →", t:"Comissão calculada no Sheets. Pagamento mensal"},
+      {a:"não converte →", t:"Registrar. Feedback para o vendedor sobre o perfil ideal"},
+    ]},
+    {sig:"loop", tag:"loop", label:"Parceria com Cloudia", acao:"Modelo ainda a definir. White label ou indicação mútua.", subs:[
+      {a:"white label →", t:"Zyllah produz, Cloudia apresenta como seu. Definir margem"},
+      {a:"indicação mútua →", t:"Comissão bilateral. Definir percentual e escopo"},
+      {a:"ativar →", t:"Somente pós 2º cliente. Antes disso é prematuro"},
+    ]},
+  ]
+},
+];
+
+const fasesEl = document.getElementById('fases');
+const navEl = document.getElementById('nav');
+const progEl = document.getElementById('prog');
+
+let totalRamos = fases.reduce((s,f)=>s+f.ramos.length,0);
+let abertos = new Set();
+
+fases.forEach((f,fi)=>{
+  const btn = document.createElement('button');
+  btn.className='nav-btn';
+  btn.textContent=f.id;
+  btn.onclick=()=>toggleFase(f.id);
+  navEl.appendChild(btn);
+
+  const wrap = document.createElement('div');
+  wrap.id='fase-'+f.id;
+
+  const hdr = document.createElement('div');
+  hdr.className='fase-header';
+  hdr.onclick=()=>toggleFase(f.id);
+  hdr.innerHTML=`<div class="fase-num" style="background:${f.bg};color:${f.cor}">${f.id}</div><div class="fase-title">${f.label}</div><div class="fase-count">${f.ramos.length} ramos</div><div class="fase-chev" id="chev-${f.id}">›</div>`;
+
+  const body = document.createElement('div');
+  body.className='fase-body';
+  body.id='body-'+f.id;
+
+  const descEl = document.createElement('div');
+  descEl.style.cssText='font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;padding-left:38px;';
+  descEl.textContent=f.desc;
+  body.appendChild(descEl);
+
+  f.ramos.forEach((r,ri)=>{
+    const rid=`r-${fi}-${ri}`;
+    const rDiv=document.createElement('div');
+    rDiv.className='ramo';
+
+    const sigColor=r.sig==='ok'?'var(--color-text-success)':r.sig==='risco'?'var(--color-text-warning)':r.sig==='perda'?'var(--color-text-danger)':'var(--color-text-info)';
+    const tagClass='tag-'+r.sig;
+
+    let subsHTML='';
+    if(r.subs){
+      subsHTML='<div class="sub-ramos">'+r.subs.map(s=>`<div class="sub-ramo"><span class="sub-arrow">${s.a}</span><span class="sub-text"><em>${s.t.split(':')[0]+(s.t.includes(':')?':':'')}</em>${s.t.includes(':')?s.t.slice(s.t.indexOf(':')+1):''}</span></div>`).join('')+'</div>';
+    }
+
+    rDiv.innerHTML=`
+      <div class="ramo-header" onclick="toggleRamo('${rid}')">
+        <div class="ramo-sig" style="background:${sigColor}"></div>
+        <div class="ramo-label">${r.label}</div>
+        <span class="ramo-tag ${tagClass}">${r.sig==='ok'?'ideal':r.sig==='risco'?'risco':r.sig==='perda'?'perda':'loop'}</span>
+      </div>
+      <div class="ramo-detail" id="${rid}">
+        <div class="detail-acao">${r.acao}</div>
+        ${subsHTML}
+      </div>`;
+
+    body.appendChild(rDiv);
+  });
+
+  wrap.appendChild(hdr);
+  wrap.appendChild(body);
+  fasesEl.appendChild(wrap);
+});
+
+function toggleFase(id){
+  const body=document.getElementById('body-'+id);
+  const chev=document.getElementById('chev-'+id);
+  const btn=[...navEl.children].find(b=>b.textContent===id);
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  chev.classList.toggle('open',!isOpen);
+  btn&&btn.classList.toggle('active',!isOpen);
+  updateProg();
+}
+
+function toggleRamo(id){
+  const el=document.getElementById(id);
+  el.classList.toggle('open');
+  abertos.has(id)?abertos.delete(id):abertos.add(id);
+  updateProg();
+}
+
+function updateProg(){
+  const pct=Math.round((abertos.size/totalRamos)*100);
+  progEl.style.width=pct+'%';
+}
+</script>

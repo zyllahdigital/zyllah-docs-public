@@ -1,0 +1,543 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.mp-wrap { padding: 1rem 0 2rem; font-family: var(--font-sans); }
+.mp-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.mp-btn {
+  padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 400;
+  cursor: pointer; border: 0.5px solid var(--color-border-secondary);
+  background: var(--color-background-secondary); color: var(--color-text-secondary);
+  transition: all .15s;
+}
+.mp-btn:hover { color: var(--color-text-primary); border-color: var(--color-border-primary); }
+.mp-btn.active { background: var(--color-background-primary); color: var(--color-text-primary); border-color: var(--color-border-primary); font-weight: 500; }
+.mp-panel { display: none; }
+.mp-panel.on { display: block; }
+.mp-role-header {
+  display: flex; align-items: baseline; gap: 12px;
+  margin-bottom: 1.5rem; padding-bottom: 1rem;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.mp-role-title { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.mp-role-desc { font-size: 13px; color: var(--color-text-secondary); }
+.mp-section { margin-bottom: 1.5rem; }
+.mp-section-label {
+  font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--color-text-tertiary); margin-bottom: 10px;
+}
+.mp-steps { display: flex; flex-direction: column; gap: 6px; }
+.mp-step {
+  display: flex; gap: 12px; padding: 10px 14px;
+  border-radius: var(--border-radius-md);
+  border: 0.5px solid var(--color-border-tertiary);
+  background: var(--color-background-primary);
+  align-items: flex-start;
+}
+.mp-step-num {
+  font-size: 11px; font-weight: 500; color: var(--color-text-tertiary);
+  min-width: 20px; padding-top: 2px;
+}
+.mp-step-body { flex: 1; }
+.mp-step-text { font-size: 14px; color: var(--color-text-primary); line-height: 1.5; }
+.mp-step-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; line-height: 1.4; }
+.mp-step.warn { border-left: 2px solid var(--color-border-warning); border-radius: 0; }
+.mp-step.danger { border-left: 2px solid var(--color-border-danger); border-radius: 0; }
+.mp-step.success { border-left: 2px solid var(--color-border-success); border-radius: 0; }
+.mp-rules { display: flex; flex-direction: column; gap: 6px; }
+.mp-rule {
+  display: flex; gap: 10px; padding: 9px 14px;
+  border-radius: var(--border-radius-md);
+  font-size: 13px; color: var(--color-text-secondary);
+  background: var(--color-background-secondary);
+}
+.mp-rule-tag {
+  font-size: 11px; font-weight: 500; padding: 2px 8px;
+  border-radius: 20px; white-space: nowrap; align-self: flex-start; margin-top: 1px;
+}
+.mp-rule-tag.never { background: #FCEBEB; color: #A32D2D; }
+.mp-rule-tag.always { background: #EAF3DE; color: #3B6D11; }
+.mp-rule-tag.tip { background: #E6F1FB; color: #185FA5; }
+.mp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mp-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 14px 16px;
+}
+.mp-card-title { font-size: 13px; font-weight: 500; margin-bottom: 10px; color: var(--color-text-primary); }
+.mp-card-item { font-size: 12px; color: var(--color-text-secondary); padding: 4px 0; border-bottom: 0.5px solid var(--color-border-tertiary); line-height: 1.4; }
+.mp-card-item:last-child { border-bottom: none; }
+.mp-ask-btn {
+  margin-top: 1.5rem; padding: 10px 20px; font-size: 13px; cursor: pointer;
+  border: 0.5px solid var(--color-border-secondary);
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary); border-radius: var(--border-radius-md);
+  width: 100%; text-align: left; transition: all .15s;
+}
+.mp-ask-btn:hover { color: var(--color-text-primary); border-color: var(--color-border-primary); }
+.mp-overview { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 8px; }
+.mp-ov-card {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 14px 16px; cursor: pointer; transition: border-color .15s;
+}
+.mp-ov-card:hover { border-color: var(--color-border-primary); }
+.mp-ov-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.mp-ov-tag { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 10px; }
+.mp-ov-steps { font-size: 12px; color: var(--color-text-tertiary); line-height: 1.6; }
+.mp-motor-bar {
+  display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem;
+  padding: 12px 16px; background: var(--color-background-secondary);
+  border-radius: var(--border-radius-md);
+}
+.mp-motor { font-size: 12px; color: var(--color-text-secondary); }
+.mp-motor span { color: var(--color-text-primary); font-weight: 500; }
+.mp-motor::after { content: '·'; margin-left: 6px; color: var(--color-text-tertiary); }
+.mp-motor:last-child::after { display: none; }
+</style>
+
+<div class="mp-wrap">
+
+<div class="mp-nav" id="mp-nav">
+  <button class="mp-btn active" onclick="show('overview')">Visão geral</button>
+  <button class="mp-btn" onclick="show('prospector')">Prospector</button>
+  <button class="mp-btn" onclick="show('vendedor')">Vendedor</button>
+  <button class="mp-btn" onclick="show('produtor')">Produtor</button>
+  <button class="mp-btn" onclick="show('gestor')">Gestor de cliente</button>
+  <button class="mp-btn" onclick="show('financeiro')">Financeiro</button>
+  <button class="mp-btn" onclick="show('juridico')">Jurídico</button>
+  <button class="mp-btn" onclick="show('parceiro')">Parceiro</button>
+</div>
+
+<div class="mp-panel on" id="p-overview">
+  <div class="mp-motor-bar">
+    <div class="mp-motor"><span>Entrada</span> Diagnóstico + Prospecção</div>
+    <div class="mp-motor"><span>Conversão</span> Vendas</div>
+    <div class="mp-motor"><span>Entrega</span> Produção</div>
+    <div class="mp-motor"><span>Retenção</span> Gestão de clientes</div>
+    <div class="mp-motor"><span>Passivo</span> Produto perpétuo</div>
+  </div>
+  <div class="mp-overview">
+    <div class="mp-ov-card" onclick="show('prospector')">
+      <div class="mp-ov-name">Prospector</div>
+      <div class="mp-ov-tag">Motor de entrada</div>
+      <div class="mp-ov-steps">Pesquisa → Comentários → DM → Reunião marcada</div>
+    </div>
+    <div class="mp-ov-card" onclick="show('vendedor')">
+      <div class="mp-ov-name">Vendedor</div>
+      <div class="mp-ov-tag">Motor de conversão</div>
+      <div class="mp-ov-steps">Diagnóstico → Apresentação → Proposta → Contrato</div>
+    </div>
+    <div class="mp-ov-card" onclick="show('produtor')">
+      <div class="mp-ov-name">Produtor</div>
+      <div class="mp-ov-tag">Motor de entrega</div>
+      <div class="mp-ov-steps">Briefing → Produção → Revisão → Entrega aprovada</div>
+    </div>
+    <div class="mp-ov-card" onclick="show('gestor')">
+      <div class="mp-ov-name">Gestor de cliente</div>
+      <div class="mp-ov-tag">Motor de retenção</div>
+      <div class="mp-ov-steps">Onboarding → Acompanhamento → Renovação</div>
+    </div>
+    <div class="mp-ov-card" onclick="show('financeiro')">
+      <div class="mp-ov-name">Financeiro</div>
+      <div class="mp-ov-tag">Suporte operacional</div>
+      <div class="mp-ov-steps">Cobrança → Inadimplência → Nota fiscal</div>
+    </div>
+    <div class="mp-ov-card" onclick="show('juridico')">
+      <div class="mp-ov-name">Jurídico</div>
+      <div class="mp-ov-tag">Suporte operacional</div>
+      <div class="mp-ov-steps">Contratos → CFM → LGPD → Rescisão</div>
+    </div>
+    <div class="mp-ov-card" onclick="show('parceiro')">
+      <div class="mp-ov-name">Parceiro</div>
+      <div class="mp-ov-tag">Expansão</div>
+      <div class="mp-ov-steps">Cloudia → Indicadores → Vendedor externo</div>
+    </div>
+  </div>
+</div>
+
+<div class="mp-panel" id="p-prospector">
+  <div class="mp-role-header">
+    <div class="mp-role-title">Prospector</div>
+    <div class="mp-role-desc">Do zero até a reunião marcada</div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Etapa 0 — diagnóstico digital</div>
+    <div class="mp-steps">
+      <div class="mp-step success">
+        <div class="mp-step-num">1</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Pesquisar o prospect antes de qualquer contato</div>
+          <div class="mp-step-sub">Google + Instagram. Usar prompt estruturado no Gemini. Classificar como risco baixo / médio / alto.</div>
+        </div>
+      </div>
+      <div class="mp-step success">
+        <div class="mp-step-num">2</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Classificar nível de presença digital</div>
+          <div class="mp-step-sub">Ecossistema completo = risco alto (pode ter agência). Presença inexistente = oportunidade direta.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Etapa 1 — aquecimento</div>
+    <div class="mp-steps">
+      <div class="mp-step">
+        <div class="mp-step-num">3</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Comentar em 2 posts estratégicos do prospect</div>
+          <div class="mp-step-sub">Escolher posts com relevância técnica. Comentário demonstra autoridade — nunca menciona a Zyllah.</div>
+        </div>
+      </div>
+      <div class="mp-step warn">
+        <div class="mp-step-num">4</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Aguardar 2–3 dias entre comentários e DM</div>
+          <div class="mp-step-sub">Reconhecimento precede abordagem. Pular essa etapa é o erro mais comum.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Etapa 2 — primeiro contato</div>
+    <div class="mp-steps">
+      <div class="mp-step">
+        <div class="mp-step-num">5</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Enviar DM com gancho de reconhecimento</div>
+          <div class="mp-step-sub">Mencionar algo específico do perfil deles. Nunca abrir com "trabalho com marketing digital".</div>
+        </div>
+      </div>
+      <div class="mp-step warn">
+        <div class="mp-step-num">6</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Silêncio após DM: aguardar 7 dias, depois ampliar base</div>
+          <div class="mp-step-sub">Regra atual: Dra. Lídia, Dr. Fabrício e Dra. Marina em stand-by. Não insistir no mesmo prospect.</div>
+        </div>
+      </div>
+      <div class="mp-step success">
+        <div class="mp-step-num">7</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Resposta positiva → marcar reunião diagnóstica</div>
+          <div class="mp-step-sub">Passar para o papel de Vendedor.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Regras deste papel</div>
+    <div class="mp-rules">
+      <div class="mp-rule"><span class="mp-rule-tag never">nunca</span>Revelar o gap digital na DM — isso é ouro que entregamos ao concorrente. O gap fica para a reunião.</div>
+      <div class="mp-rule"><span class="mp-rule-tag never">nunca</span>Mencionar a Zyllah nos comentários de aquecimento.</div>
+      <div class="mp-rule"><span class="mp-rule-tag always">sempre</span>Pesquisar antes de qualquer contato — sem diagnóstico, sem abordagem.</div>
+      <div class="mp-rule"><span class="mp-rule-tag tip">dica</span>Prospects de risco alto (Dr. Richard Robadey, Dra. Isabela Saleme) podem ter agência. Analisar com cautela antes de abordar.</div>
+    </div>
+  </div>
+  <button class="mp-ask-btn" onclick="sendPrompt('Me ajude a escrever a DM de primeiro contato para Dra. Kelly Purger com base no diagnóstico dela ↗')">Me ajude a escrever a DM para Dra. Kelly ↗</button>
+</div>
+
+<div class="mp-panel" id="p-vendedor">
+  <div class="mp-role-header">
+    <div class="mp-role-title">Vendedor</div>
+    <div class="mp-role-desc">Da reunião marcada até o contrato assinado</div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Etapa 1 — preparação</div>
+    <div class="mp-steps">
+      <div class="mp-step success">
+        <div class="mp-step-num">1</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Montar apresentação personalizada com dados reais do prospect</div>
+          <div class="mp-step-sub">Avaliações Google, posição nas buscas, feed do Instagram. Visto presencialmente, nunca gravado.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Etapa 2 — reunião diagnóstica</div>
+    <div class="mp-steps">
+      <div class="mp-step">
+        <div class="mp-step-num">2</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Escutar mais do que falar nos primeiros 15 min</div>
+          <div class="mp-step-sub">Entender a dor atual, o que já tentaram, o que os frustra.</div>
+        </div>
+      </div>
+      <div class="mp-step">
+        <div class="mp-step-num">3</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Mostrar o diagnóstico — avaliações, buscas, comparativo com concorrência local</div>
+          <div class="mp-step-sub">Diferencial que nenhuma agência local faz. Cria urgência sem pressão.</div>
+        </div>
+      </div>
+      <div class="mp-step success">
+        <div class="mp-step-num">4</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Apresentar os 3 planos (Essencial, Presença, Autoridade) com âncora de valor</div>
+          <div class="mp-step-sub">Plano do meio é o alvo. Autoridade cria âncora. Nexa Ads como upsell natural se tráfego pago surgir.</div>
+        </div>
+      </div>
+      <div class="mp-step warn">
+        <div class="mp-step-num">5</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Objeção de preço: não baixar — mostrar o custo do problema atual</div>
+          <div class="mp-step-sub">Usar o script de reunião (zyllah_script_reuniao.html) para guiar a resposta.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Etapa 3 — fechamento</div>
+    <div class="mp-steps">
+      <div class="mp-step success">
+        <div class="mp-step-num">6</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Acordo verbal → enviar contrato em até 24h</div>
+          <div class="mp-step-sub">Cobrança automática via Stripe/PagSeguro Recorrente — resolver antes do primeiro contrato.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Regras deste papel</div>
+    <div class="mp-rules">
+      <div class="mp-rule"><span class="mp-rule-tag never">nunca</span>Mencionar Claude Pro como "motor invisível" na reunião.</div>
+      <div class="mp-rule"><span class="mp-rule-tag never">nunca</span>Fazer desconto sem contrapartida (prazo menor, pagamento adiantado).</div>
+      <div class="mp-rule"><span class="mp-rule-tag always">sempre</span>Apresentação personalizada — dados reais do prospect específico.</div>
+      <div class="mp-rule"><span class="mp-rule-tag tip">pendente</span>Roleplay de vendas é o gargalo principal — simular antes da primeira reunião real.</div>
+    </div>
+  </div>
+  <button class="mp-ask-btn" onclick="sendPrompt('Vamos fazer o roleplay da reunião de vendas — você é o médico prospect, eu sou o Guilherme ↗')">Fazer roleplay da reunião agora ↗</button>
+</div>
+
+<div class="mp-panel" id="p-produtor">
+  <div class="mp-role-header">
+    <div class="mp-role-title">Produtor</div>
+    <div class="mp-role-desc">Do briefing até a entrega aprovada</div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Fluxo de produção</div>
+    <div class="mp-steps">
+      <div class="mp-step success">
+        <div class="mp-step-num">1</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Briefing via formulário padronizado</div>
+          <div class="mp-step-sub">Especialidade, público, tom, 3 palavras que definem o médico, referências visuais.</div>
+        </div>
+      </div>
+      <div class="mp-step">
+        <div class="mp-step-num">2</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Definir entregas do mês no Hub + Calendar</div>
+          <div class="mp-step-sub">Adicionar como eventos [Entrega] no Zyllah Hub → sincroniza automaticamente com Google Calendar.</div>
+        </div>
+      </div>
+      <div class="mp-step">
+        <div class="mp-step-num">3</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Produção: posts, reels, copy, stories</div>
+          <div class="mp-step-sub">Guia de fotos remoto (TEMPLATE_guia_fotos.html) para clientes que enviam material via celular.</div>
+        </div>
+      </div>
+      <div class="mp-step warn">
+        <div class="mp-step-num">4</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Revisões: máx. 2 rodadas incluídas no plano</div>
+          <div class="mp-step-sub">Prazo de aprovação: 48h. Sem retorno = aprovado. Incluir isso no contrato.</div>
+        </div>
+      </div>
+      <div class="mp-step success">
+        <div class="mp-step-num">5</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Entrega aprovada → marcar marco no Hub</div>
+          <div class="mp-step-sub">Atualizar status da entrega como "done" no Zyllah Hub. Avança no pipeline de marcos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Regras deste papel</div>
+    <div class="mp-rules">
+      <div class="mp-rule"><span class="mp-rule-tag never">nunca</span>Produzir conteúdo médico sem verificar conformidade com CFM.</div>
+      <div class="mp-rule"><span class="mp-rule-tag always">sempre</span>Registrar todas as entregas no Hub antes de iniciar produção.</div>
+      <div class="mp-rule"><span class="mp-rule-tag tip">dica</span>Encantarys é o caso de teste para documentar o método completo — prioridade pós-recuperação.</div>
+    </div>
+  </div>
+</div>
+
+<div class="mp-panel" id="p-gestor">
+  <div class="mp-role-header">
+    <div class="mp-role-title">Gestor de cliente</div>
+    <div class="mp-role-desc">Do onboarding até a renovação</div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Onboarding</div>
+    <div class="mp-steps">
+      <div class="mp-step success">
+        <div class="mp-step-num">1</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Criar cliente no Zyllah Hub com todos os dados</div>
+          <div class="mp-step-sub">Plano, valor, vencimento, próximo pagamento. Calendar sincroniza automaticamente.</div>
+        </div>
+      </div>
+      <div class="mp-step">
+        <div class="mp-step-num">2</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Marcar marcos iniciais: Briefing + Contrato</div>
+          <div class="mp-step-sub">Pipeline de marcos: Briefing → Contrato → Brandbook → Depoimento → Case → Renovação.</div>
+        </div>
+      </div>
+      <div class="mp-step">
+        <div class="mp-step-num">3</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Reunião [Reuniao] no Calendar — primeira semana</div>
+          <div class="mp-step-sub">Alinhamento de expectativas, acesso a perfis, guia de fotos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Acompanhamento mensal</div>
+    <div class="mp-steps">
+      <div class="mp-step">
+        <div class="mp-step-num">4</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Ritual de segunda-feira — 30 min</div>
+          <div class="mp-step-sub">Calendário recorrente [Ritual] já criado. Revisar Hub, alertas e pendências da semana.</div>
+        </div>
+      </div>
+      <div class="mp-step warn">
+        <div class="mp-step-num">5</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Alerta [Atencao] → resolver em até 48h</div>
+          <div class="mp-step-sub">Mônica Ramos: Site, Brandbook e padrão de redes — prazo 15/04.</div>
+        </div>
+      </div>
+      <div class="mp-step danger">
+        <div class="mp-step-num">6</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">Alerta [URGENTE] → resolver no mesmo dia</div>
+          <div class="mp-step-sub">Mônica Ramos: G Search Console e GA4 — prazo 17/04. Não pode atrasar.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mp-section">
+    <div class="mp-section-label">Renovação</div>
+    <div class="mp-steps">
+      <div class="mp-step success">
+        <div class="mp-step-num">7</div>
+        <div class="mp-step-body">
+          <div class="mp-step-text">30 dias antes do vencimento — iniciar conversa de renovação</div>
+          <div class="mp-step-sub">Apresentar resultados do período. Propor upgrade de plano se houver crescimento documentado.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mp-panel" id="p-financeiro">
+  <div class="mp-role-header">
+    <div class="mp-role-title">Financeiro</div>
+    <div class="mp-role-desc">Cobrança, inadimplência e nota fiscal</div>
+  </div>
+  <div class="mp-two">
+    <div class="mp-card">
+      <div class="mp-card-title">Cobrança recorrente</div>
+      <div class="mp-card-item">Stripe ou PagSeguro Recorrente — definir antes do 1º contrato</div>
+      <div class="mp-card-item">Vencimento mensal registrado no Hub</div>
+      <div class="mp-card-item">Evento [Pagamento] no Calendar sincronizado</div>
+      <div class="mp-card-item">Mônica Ramos: próx. pagamento 12/05</div>
+    </div>
+    <div class="mp-card">
+      <div class="mp-card-title">Inadimplência</div>
+      <div class="mp-card-item">D+3: lembrete amigável por WhatsApp</div>
+      <div class="mp-card-item">D+7: notificação formal por escrito</div>
+      <div class="mp-card-item">D+15: pausar entregas (cláusula no contrato)</div>
+      <div class="mp-card-item">D+30: protocolo de rescisão</div>
+    </div>
+  </div>
+  <div class="mp-section" style="margin-top: 1rem;">
+    <div class="mp-section-label">Regras</div>
+    <div class="mp-rules">
+      <div class="mp-rule"><span class="mp-rule-tag never">nunca</span>Iniciar produção sem confirmação de pagamento do primeiro mês.</div>
+      <div class="mp-rule"><span class="mp-rule-tag always">sempre</span>Política de revisões e inadimplência explícita no contrato antes de assinar.</div>
+      <div class="mp-rule"><span class="mp-rule-tag tip">pendente</span>Definir gateway de pagamento antes de fechar o primeiro cliente.</div>
+    </div>
+  </div>
+</div>
+
+<div class="mp-panel" id="p-juridico">
+  <div class="mp-role-header">
+    <div class="mp-role-title">Jurídico</div>
+    <div class="mp-role-desc">Contratos, CFM, LGPD e rescisão</div>
+  </div>
+  <div class="mp-two">
+    <div class="mp-card">
+      <div class="mp-card-title">Contratos — o que incluir</div>
+      <div class="mp-card-item">Escopo preciso por plano (Essencial / Presença / Autoridade)</div>
+      <div class="mp-card-item">Número de rodadas de revisão incluídas</div>
+      <div class="mp-card-item">Prazo de aprovação de 48h (sem retorno = aprovado)</div>
+      <div class="mp-card-item">Cláusula de inadimplência com pausagem de entregas</div>
+      <div class="mp-card-item">Aviso prévio de 30 dias para rescisão</div>
+    </div>
+    <div class="mp-card">
+      <div class="mp-card-title">Conformidade médica</div>
+      <div class="mp-card-item">CFM: proibido antes/depois, garantia de resultados, preços</div>
+      <div class="mp-card-item">CFM: depoimentos de pacientes requerem atenção especial</div>
+      <div class="mp-card-item">LGPD: pixel no site condicionado a consentimento de cookies</div>
+      <div class="mp-card-item">LGPD: dados de leads no n8n/Sheets precisam de política</div>
+    </div>
+  </div>
+  <div class="mp-section" style="margin-top: 1rem;">
+    <div class="mp-section-label">Regras</div>
+    <div class="mp-rules">
+      <div class="mp-rule"><span class="mp-rule-tag never">nunca</span>Criar conteúdo com garantia de resultados para médicos — violação direta do CFM.</div>
+      <div class="mp-rule"><span class="mp-rule-tag always">sempre</span>Contrato assinado antes de qualquer entrega, mesmo em cliente piloto.</div>
+    </div>
+  </div>
+  <button class="mp-ask-btn" onclick="sendPrompt('Me ajude a revisar as cláusulas de revisão e inadimplência no modelo de contrato Zyllah ↗')">Revisar cláusulas do contrato ↗</button>
+</div>
+
+<div class="mp-panel" id="p-parceiro">
+  <div class="mp-role-header">
+    <div class="mp-role-title">Parceiro</div>
+    <div class="mp-role-desc">Cloudia, indicadores e vendedor externo</div>
+  </div>
+  <div class="mp-two">
+    <div class="mp-card">
+      <div class="mp-card-title">Cloudia</div>
+      <div class="mp-card-item">Parceira estratégica — a definir modelo de colaboração</div>
+      <div class="mp-card-item">Possível: white label de serviços para clientes dela</div>
+      <div class="mp-card-item">Possível: indicação mútua com comissão</div>
+    </div>
+    <div class="mp-card">
+      <div class="mp-card-title">Indicadores e vendedor externo</div>
+      <div class="mp-card-item">Indicador: médico que indica outro médico → desconto ou benefício</div>
+      <div class="mp-card-item">Vendedor externo: comissão de X% no mês 1 + Y% recorrente</div>
+      <div class="mp-card-item">Regra: parceiro não tem acesso a dados de clientes</div>
+    </div>
+  </div>
+  <div class="mp-section" style="margin-top: 1rem;">
+    <div class="mp-section-label">Quando ativar</div>
+    <div class="mp-rules">
+      <div class="mp-rule"><span class="mp-rule-tag tip">pós 2º cliente</span>Estruturar programa de indicação formal — antes disso é prematuro.</div>
+      <div class="mp-rule"><span class="mp-rule-tag tip">pós 2º cliente</span>Definir modelo de parceria com Cloudia com clareza de escopo e comissão.</div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.mp-panel').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.mp-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('p-' + id).classList.add('on');
+  const btns = document.querySelectorAll('.mp-btn');
+  const labels = {overview:'Visão geral',prospector:'Prospector',vendedor:'Vendedor',produtor:'Produtor',gestor:'Gestor de cliente',financeiro:'Financeiro',juridico:'Jurídico',parceiro:'Parceiro'};
+  btns.forEach(b => { if(b.textContent.trim() === labels[id]) b.classList.add('active'); });
+}
+</script>
