@@ -105,6 +105,9 @@ Quando precisar de um documento específico, buscar o link aqui e acessar via we
 | Produto Perpétuo | `https://[REPO-PUBLIC]/zyllah_produto_perpetuo.html` | Produto digital pós 2 cases |
 | Nexa Ads | `https://[REPO-PUBLIC]/zyllah_nexa_ads.html` | Definição e regras CFM |
 | Zyllah Flow (rascunho) | `https://[REPO-PUBLIC]/zyllah_flow_rascunho.html` | Automação atendimento — não apresentar |
+https://zyllahdigital.github.io/zyllah-docs-public/zyllah_jornada_cliente_ramos.html
+https://zyllahdigital.github.io/zyllah-docs-public/zyllah_mapa_processos_arquitetura.html
+https://zyllahdigital.github.io/zyllah-docs-public/zyllah_stack_tecnico_7_papeis.html
 
 ### Cases
 | Documento | URL |
