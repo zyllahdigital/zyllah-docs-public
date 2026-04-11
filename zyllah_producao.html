@@ -134,6 +134,7 @@ select.campo-sm option{background:var(--ink2);}
 .post-item.aprovado{opacity:.5;}
 .post-header{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
 .post-tipo{font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:2px 8px;border-radius:2px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);}
+.post-formato{font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:2px 8px;border-radius:2px;background:rgba(184,151,106,.08);color:var(--gold-l);}
 .post-titulo{font-size:14px;color:var(--cream);font-weight:400;}
 .post-angulo{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;margin-top:4px;}
 .post-acoes{display:flex;gap:8px;margin-top:10px;}
@@ -187,7 +188,7 @@ select.campo-sm option{background:var(--ink2);}
   </div>
   <div class="topo-dir">
     <div class="topo-hora" id="hora-topo">—</div>
-    <a href="zyllah_hub_sheets.html" class="topo-link">← Hub Operacional</a>
+    <a href="zyllah_hub_sheets_html.html" class="topo-link">← Hub Operacional</a>
   </div>
 </div>
 
@@ -361,7 +362,7 @@ select.campo-sm option{background:var(--ink2);}
 // ══════════════════════════════════════════════════════════════
 // CONFIGURAÇÃO
 // ══════════════════════════════════════════════════════════════
-const SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbyz-9JGbWbmPspI4pOgolEUXOOoD0pHnqL--Doa6KSKUbJrID1Xu94ShUwurZzfqEULvA/exec';           // mesmo Apps Script do Hub
+const SCRIPT_URL   = 'COLE_SUA_URL_AQUI';           // mesmo Apps Script do Hub
 const CLAUDE_MODEL = 'claude-sonnet-4-20250514';
 
 // ══════════════════════════════════════════════════════════════
@@ -411,7 +412,7 @@ function setConn(tipo, msg) {
 }
 
 async function carregarClientes() {
-  if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbyz-9JGbWbmPspI4pOgolEUXOOoD0pHnqL--Doa6KSKUbJrID1Xu94ShUwurZzfqEULvA/exec') {
+  if (SCRIPT_URL === 'COLE_SUA_URL_AQUI') {
     setConn('err', 'Configure a URL do Apps Script no código');
     document.getElementById('cliente-grid').innerHTML =
       '<span class="nenhum-cliente">Cole a URL do Web App no topo do script JS.</span>';
@@ -494,7 +495,7 @@ function renderPainelCliente() {
   const c = clienteAtivo;
   const plL = { essencial:'Essencial', presenca:'Presença Completa', autoridade:'Autoridade' }[c.plano] || c.plano;
   const pagL = { 'em-dia':'Pagamento em dia', pendente:'Pagamento pendente', atrasado:'Pagamento atrasado' }[c.pagamento] || '';
-  const pagCls = { 'em-dia':'status-ok', pendente:'status-a', atrasado':'status-u' }[c.pagamento] || 'status-ok';
+  const pagCls = { 'em-dia':'status-ok', pendente:'status-a', atrasado:'status-u' }[c.pagamento] || 'status-ok';
 
   document.getElementById('pc-nome').textContent = c.nome;
   document.getElementById('pc-esp').textContent = c.esp || '—';
@@ -610,11 +611,13 @@ Análise estratégica em 4–6 parágrafos: perfil do cliente, posicionamento re
 
 [CALENDARIO]
 Calendário das primeiras 4 semanas. Para cada semana, liste os posts. Cada post em uma linha com este formato exato:
-SEMANA:1|TIPO:carrossel|TITULO:Título aqui|ANGULO:Ângulo/abordagem aqui
-SEMANA:1|TIPO:frase|TITULO:Título aqui|ANGULO:Ângulo/abordagem aqui
+SEMANA:1|TIPO:carrossel|FORMATO:feed|TITULO:Título aqui|ANGULO:Ângulo/abordagem aqui
+SEMANA:1|TIPO:frase|FORMATO:feed|TITULO:Título aqui|ANGULO:Ângulo/abordagem aqui
 ...
 
 Tipos disponíveis: carrossel, frase, quote, reel
+Formatos disponíveis: feed (1080x1080px · padrão), stories (1080x1920px · vertical), reels (1080x1920px · vídeo vertical)
+Inclua FORMATO em cada linha do calendário.
 [/CALENDARIO]`;
 
   } else {
@@ -654,9 +657,10 @@ Análise do período em 3–5 parágrafos: o que os dados dizem, o que está fun
 
 [CALENDARIO]
 Calendário para as próximas ${semanas} semana(s), ${freq} posts por semana. Cada post em uma linha:
-SEMANA:1|TIPO:carrossel|TITULO:Título aqui|ANGULO:Ângulo/abordagem aqui
+SEMANA:1|TIPO:carrossel|FORMATO:feed|TITULO:Título aqui|ANGULO:Ângulo/abordagem aqui
 
 Tipos disponíveis: carrossel, frase, quote, reel
+Formatos disponíveis: feed (1080x1080px · padrão), stories (1080x1920px · vertical), reels (1080x1920px · vídeo vertical)
 [/CALENDARIO]`;
   }
 
@@ -744,9 +748,10 @@ function parsearERenderizar(texto) {
     linhas.forEach((l, idx) => {
       const semana = (l.match(/SEMANA:(\d+)/) || [])[1] || '1';
       const tipo   = (l.match(/TIPO:(\w+)/) || [])[1] || 'carrossel';
+      const formato = (l.match(/FORMATO:(\w+)/) || [])[1] || 'feed';
       const titulo = (l.match(/TITULO:([^|]+)/) || [])[1]?.trim() || '—';
       const angulo = (l.match(/ANGULO:(.+)$/) || [])[1]?.trim() || '';
-      postsGerados.push({ id: idx, semana: parseInt(semana), tipo, titulo, angulo, aprovado: false, descartado: false });
+      postsGerados.push({ id: idx, semana: parseInt(semana), tipo, formato, titulo, angulo, aprovado: false, descartado: false });
     });
   }
 
@@ -774,6 +779,7 @@ function renderCalendario() {
             <div class="post-item ${p.tipo} ${p.aprovado ? 'aprovado' : ''}" id="post-${p.id}">
               <div class="post-header">
                 <span class="post-tipo">${p.tipo}</span>
+                <span class="post-formato">${p.formato === 'stories' ? 'Stories · 9:16' : p.formato === 'reels' ? 'Reels · 9:16' : 'Feed · 1:1'}</span>
               </div>
               <div class="post-titulo">${p.titulo}</div>
               <div class="post-angulo">${p.angulo}</div>
@@ -817,9 +823,9 @@ function exportarParaPlanilha() {
   // Colunas: tipo | tag | titulo | corpo | -- | fundo
   const tipoMap = { carrossel: 'conteudo', frase: 'frase', quote: 'quote', reel: 'conteudo' };
   const linhas = aprovados.map((p, i) =>
-    [tipoMap[p.tipo] || 'conteudo', `${p.tipo} ${i+1}`, p.titulo, p.angulo, '', ''].join('\t')
+    [tipoMap[p.tipo] || 'conteudo', `${p.tipo} ${i+1}`, p.titulo, p.angulo, p.formato || 'feed', ''].join('\t')
   );
-  const header = 'tipo\ttag\ttitulo\tcorpo\t_ref\tfundo';
+  const header = 'tipo\ttag\ttitulo\tcorpo\tformato\tfundo';
   const csv = [header, ...linhas].join('\n');
 
   // Download
