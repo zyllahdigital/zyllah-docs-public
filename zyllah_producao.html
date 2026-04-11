@@ -412,7 +412,7 @@ function setConn(tipo, msg) {
 }
 
 async function carregarClientes() {
-  if (!SCRIPT_URL || SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbyz-9JGbWbmPspI4pOgolEUXOOoD0pHnqL--Doa6KSKUbJrID1Xu94ShUwurZzfqEULvA/exec') {
+  if (!SCRIPT_URL || SCRIPT_URL === 'COLE_SUA_URL_AQUI') {
     setConn('err', 'Configure a URL do Apps Script no código');
     document.getElementById('cliente-grid').innerHTML =
       '<span class="nenhum-cliente">Cole a URL do Web App no topo do script JS.</span>';
