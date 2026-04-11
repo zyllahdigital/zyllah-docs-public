@@ -184,7 +184,7 @@ select.campo-sm option{background:var(--ink2);}
 <div class="topo">
   <div>
     <div class="topo-marca">Zyllah Digital</div>
-    <div class="topo-sub">Hub de Conteúdo Estratégico</div>
+    <div class="topo-sub">Hub de Conteúdo Estratégico · v4</div>
   </div>
   <div class="topo-dir">
     <div class="topo-hora" id="hora-topo">—</div>
@@ -362,7 +362,7 @@ select.campo-sm option{background:var(--ink2);}
 // ══════════════════════════════════════════════════════════════
 // CONFIGURAÇÃO
 // ══════════════════════════════════════════════════════════════
-const SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbyz-9JGbWbmPspI4pOgolEUXOOoD0pHnqL--Doa6KSKUbJrID1Xu94ShUwurZzfqEULvA/exec';           // mesmo Apps Script do Hub
+const SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbyz-9JGbWbmPspI4pOgolEUXOOoD0pHnqL--Doa6KSKUbJrID1Xu94ShUwurZzfqEULvA/exec'; // Apps Script do Hub
 const CLAUDE_MODEL = 'claude-sonnet-4-20250514';
 
 // ══════════════════════════════════════════════════════════════
@@ -673,7 +673,10 @@ Formatos disponíveis: feed (1080x1080px · padrão), stories (1080x1920px · ve
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: CLAUDE_MODEL,
         max_tokens: 1000,
