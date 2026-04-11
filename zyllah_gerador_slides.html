@@ -485,7 +485,7 @@ function gerarApresentacao(){
   if(!slides.length){ mostrarStatus('err','Adicione pelo menos um slide.'); return; }
   var titulo=document.getElementById('tituloApres').value.trim();
   if(!titulo){ mostrarStatus('err','Preencha o título da apresentação.'); return; }
-  if(APPS_SCRIPT_URL.includes('COLE_A_URL')){
+  if(APPS_SCRIPT_URL.includes('https://script.google.com/macros/s/AKfycbz47okedYlDDbBqhfePuxae3C1n2GeIpFQgzzC6UovVVEhAFQKM9olhjCsoagUVshdwxA/exec')){
     mostrarStatus('err','Cole a URL do Apps Script na variável APPS_SCRIPT_URL no código.');
     return;
   }
