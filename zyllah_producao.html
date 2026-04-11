@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah · Hub de Conteúdo Estratégico</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --ink:#1A1714;--ink2:#2A2420;--ink3:#3D3830;
+  --gold:#B8976A;--gold-l:#D4B896;--gold-p:#F0EBE1;
+  --cream:#FAF7F2;--cream-m:#F0EBE1;--brown:#4A3F35;
+  --ok:#6aaf7a;--warn:#c49a3a;--stop:#c46464;
+  --r:8px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);font-family:'Jost',sans-serif;font-weight:300;color:var(--cream);min-height:100vh;font-size:15px;line-height:1.7;}
+
+/* ── TOPO ── */
+.topo{background:var(--ink);border-bottom:1px solid rgba(184,151,106,.12);padding:18px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topo-marca{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;letter-spacing:.04em;color:var(--cream);}
+.topo-sub{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-top:2px;}
+.topo-dir{text-align:right;}
+.topo-hora{font-size:15px;color:var(--gold);font-weight:400;}
+.topo-link{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-top:6px;cursor:pointer;text-decoration:none;display:block;}
+.topo-link:hover{color:var(--gold);}
+
+/* ── CONN BAR ── */
+.conn-bar{padding:7px 40px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px;transition:background .3s;}
+.conn-bar.ok{background:rgba(106,175,122,.08);color:var(--ok);}
+.conn-bar.err{background:rgba(196,100,100,.08);color:var(--stop);}
+.conn-bar.load{background:rgba(184,151,106,.06);color:var(--gold);}
+.conn-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.conn-dot.pulse{animation:pulse 1.4s infinite;}
+@keyframes pulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+/* ── LAYOUT ── */
+.main{max-width:960px;margin:0 auto;padding:40px 40px 100px;}
+.sec-tag{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:16px;}
+
+/* ── SELETOR DE CLIENTE ── */
+.cliente-sel{background:var(--ink2);border:1px solid rgba(184,151,106,.15);border-radius:var(--r);padding:28px 32px;margin-bottom:32px;}
+.cliente-sel h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--cream);margin-bottom:20px;}
+.cliente-grid{display:flex;gap:12px;flex-wrap:wrap;}
+.cliente-btn{padding:10px 20px;border:1px solid rgba(255,255,255,.08);border-radius:4px;background:transparent;color:rgba(255,255,255,.5);font-family:'Jost',sans-serif;font-size:13px;font-weight:300;cursor:pointer;transition:all .2s;text-align:left;}
+.cliente-btn:hover{border-color:var(--gold);color:var(--gold);}
+.cliente-btn.ativo{border-color:var(--gold);background:rgba(184,151,106,.08);color:var(--gold);}
+.cliente-btn .cb-nome{display:block;font-weight:400;}
+.cliente-btn .cb-esp{display:block;font-size:11px;opacity:.6;margin-top:2px;}
+.nenhum-cliente{color:rgba(255,255,255,.2);font-size:13px;font-style:italic;}
+
+/* ── PAINEL CLIENTE ── */
+.painel-cliente{background:var(--ink2);border:1px solid rgba(184,151,106,.15);border-radius:var(--r);padding:28px 32px;margin-bottom:32px;display:none;}
+.painel-cliente.vis{display:block;}
+.pc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
+.pc-nome{font-family:'Cormorant Garamond',serif;font-size:26px;font-style:italic;color:var(--cream);}
+.pc-esp{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-top:4px;}
+.pc-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
+.badge{padding:3px 10px;border-radius:2px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;}
+.badge.plano-p{background:rgba(184,151,106,.12);color:var(--gold-l);}
+.badge.status-ok{background:rgba(106,175,122,.1);color:var(--ok);}
+.badge.status-u{background:rgba(196,100,100,.1);color:var(--stop);}
+.badge.status-a{background:rgba(196,154,58,.1);color:var(--warn);}
+.pc-dados{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;}
+.pc-dado{padding:14px;background:rgba(0,0,0,.2);border-radius:4px;}
+.pd-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px;}
+.pd-val{font-size:14px;color:var(--cream);}
+.pd-val.atencao{color:var(--warn);}
+.pd-val.urgente{color:var(--stop);}
+
+/* ── MODO ── */
+.modo-sel{background:var(--ink2);border:1px solid rgba(184,151,106,.15);border-radius:var(--r);padding:28px 32px;margin-bottom:32px;}
+.modo-sel h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--cream);margin-bottom:20px;}
+.modos{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.modo-card{padding:24px;border:1px solid rgba(255,255,255,.07);border-radius:6px;cursor:pointer;transition:all .2s;background:transparent;}
+.modo-card:hover{border-color:rgba(184,151,106,.3);background:rgba(184,151,106,.04);}
+.modo-card.ativo{border-color:var(--gold);background:rgba(184,151,106,.07);}
+.mc-titulo{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--cream);margin-bottom:6px;}
+.mc-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;}
+.mc-icon{font-size:22px;margin-bottom:12px;opacity:.7;}
+
+/* ── ÁREA DE INPUT ── */
+.input-area{background:var(--ink2);border:1px solid rgba(184,151,106,.15);border-radius:var(--r);padding:28px 32px;margin-bottom:32px;display:none;}
+.input-area.vis{display:block;}
+.input-area h2{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--cream);margin-bottom:8px;}
+.input-desc{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:24px;line-height:1.7;}
+
+/* TEXTAREA */
+.campo{width:100%;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.07);border-radius:4px;color:var(--cream);font-family:'Jost',sans-serif;font-size:14px;font-weight:300;padding:16px;resize:vertical;min-height:180px;outline:none;transition:border .2s;}
+.campo:focus{border-color:rgba(184,151,106,.3);}
+.campo::placeholder{color:rgba(255,255,255,.15);}
+.campo-label{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:block;}
+
+/* CONTEXTO ADICIONAL */
+.contexto-extra{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+.campo-sm{width:100%;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.07);border-radius:4px;color:var(--cream);font-family:'Jost',sans-serif;font-size:13px;font-weight:300;padding:10px 14px;outline:none;transition:border .2s;}
+.campo-sm:focus{border-color:rgba(184,151,106,.3);}
+.campo-sm::placeholder{color:rgba(255,255,255,.15);}
+select.campo-sm option{background:var(--ink2);}
+
+/* BOTÃO ANALISAR */
+.btn-analisar{display:flex;align-items:center;gap:10px;margin-top:24px;padding:14px 28px;background:var(--gold);color:var(--ink);font-family:'Jost',sans-serif;font-size:12px;font-weight:400;letter-spacing:.18em;text-transform:uppercase;border:none;border-radius:3px;cursor:pointer;transition:all .2s;}
+.btn-analisar:hover{background:var(--gold-l);}
+.btn-analisar:disabled{opacity:.4;cursor:not-allowed;}
+.btn-analisar .spin{display:none;width:14px;height:14px;border:2px solid rgba(26,23,20,.3);border-top-color:var(--ink);border-radius:50%;animation:girar .7s linear infinite;}
+.btn-analisar.loading .spin{display:block;}
+.btn-analisar.loading .btn-txt{opacity:.6;}
+@keyframes girar{to{transform:rotate(360deg);}}
+
+/* ── OUTPUT ── */
+.output-area{display:none;}
+.output-area.vis{display:block;}
+
+/* DIAGNÓSTICO */
+.diag-bloco{background:var(--ink2);border:1px solid rgba(184,151,106,.15);border-radius:var(--r);padding:28px 32px;margin-bottom:24px;}
+.diag-bloco h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--cream);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.diag-bloco h3::after{content:'';flex:1;height:1px;background:rgba(184,151,106,.12);}
+.diag-texto{font-size:14px;color:rgba(255,255,255,.65);line-height:1.85;white-space:pre-wrap;}
+
+/* CALENDÁRIO PROPOSTO */
+.cal-proposto{background:var(--ink2);border:1px solid rgba(184,151,106,.15);border-radius:var(--r);padding:28px 32px;margin-bottom:24px;}
+.cal-proposto h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-style:italic;color:var(--cream);margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.cal-proposto h3::after{content:'';flex:1;height:1px;background:rgba(184,151,106,.12);}
+.semana{margin-bottom:24px;}
+.semana-titulo{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.posts-lista{display:flex;flex-direction:column;gap:10px;}
+.post-item{padding:16px 20px;background:rgba(0,0,0,.2);border-radius:4px;border-left:2px solid transparent;cursor:pointer;transition:all .2s;}
+.post-item:hover{background:rgba(0,0,0,.3);}
+.post-item.carrossel{border-left-color:var(--gold);}
+.post-item.frase{border-left-color:var(--ok);}
+.post-item.quote{border-left-color:#7a9fc4;}
+.post-item.reel{border-left-color:var(--stop);}
+.post-item.aprovado{opacity:.5;}
+.post-header{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.post-tipo{font-size:9px;letter-spacing:.18em;text-transform:uppercase;padding:2px 8px;border-radius:2px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);}
+.post-titulo{font-size:14px;color:var(--cream);font-weight:400;}
+.post-angulo{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;margin-top:4px;}
+.post-acoes{display:flex;gap:8px;margin-top:10px;}
+.btn-sm{padding:5px 12px;border-radius:2px;font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border:none;transition:all .2s;}
+.btn-apr{background:rgba(106,175,122,.15);color:var(--ok);}
+.btn-apr:hover{background:rgba(106,175,122,.25);}
+.btn-apr.feito{background:rgba(106,175,122,.08);color:rgba(106,175,122,.4);cursor:default;}
+.btn-gerar{background:rgba(184,151,106,.15);color:var(--gold);}
+.btn-gerar:hover{background:rgba(184,151,106,.25);}
+.btn-descartar{background:rgba(255,255,255,.04);color:rgba(255,255,255,.25);}
+.btn-descartar:hover{color:var(--stop);}
+
+/* AÇÕES FINAIS */
+.acoes-finais{background:var(--ink2);border:1px solid rgba(184,151,106,.15);border-radius:var(--r);padding:24px 32px;margin-bottom:24px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+.acoes-finais p{font-size:13px;color:rgba(255,255,255,.35);flex:1;}
+.btn-planilha{padding:11px 22px;background:transparent;border:1px solid rgba(184,151,106,.3);color:var(--gold);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;border-radius:3px;cursor:pointer;transition:all .2s;}
+.btn-planilha:hover{background:rgba(184,151,106,.08);}
+.btn-nova{padding:11px 22px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.4);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;border-radius:3px;cursor:pointer;transition:all .2s;}
+.btn-nova:hover{color:var(--cream);border-color:rgba(255,255,255,.15);}
+
+/* LOADING STREAM */
+.stream-area{background:var(--ink2);border:1px solid rgba(184,151,106,.1);border-radius:var(--r);padding:28px 32px;margin-bottom:24px;display:none;}
+.stream-area.vis{display:block;}
+.stream-label{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.stream-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.2s infinite;}
+.stream-txt{font-size:13px;color:rgba(255,255,255,.5);line-height:1.9;white-space:pre-wrap;font-family:'Jost',sans-serif;}
+
+/* ERRO */
+.erro-box{background:rgba(196,100,100,.07);border:1px solid rgba(196,100,100,.2);border-radius:4px;padding:16px 20px;font-size:13px;color:var(--stop);margin-top:16px;display:none;}
+.erro-box.vis{display:block;}
+
+/* DIVISOR */
+.div{height:1px;background:rgba(184,151,106,.08);margin:8px 0 32px;}
+
+@media(max-width:640px){
+  .topo{padding:16px 20px;}
+  .main{padding:24px 20px 80px;}
+  .modos{grid-template-columns:1fr;}
+  .contexto-extra{grid-template-columns:1fr;}
+  .pc-dados{grid-template-columns:1fr 1fr;}
+  .acoes-finais{flex-direction:column;align-items:stretch;}
+}
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <div>
+    <div class="topo-marca">Zyllah Digital</div>
+    <div class="topo-sub">Hub de Conteúdo Estratégico</div>
+  </div>
+  <div class="topo-dir">
+    <div class="topo-hora" id="hora-topo">—</div>
+    <a href="zyllah_hub_sheets_html.html" class="topo-link">← Hub Operacional</a>
+  </div>
+</div>
+
+<div class="conn-bar load" id="conn-bar">
+  <div class="conn-dot pulse"></div>
+  <span id="conn-txt">Conectando ao Hub Operacional...</span>
+</div>
+
+<div class="main">
+
+  <!-- SELETOR DE CLIENTE -->
+  <div class="cliente-sel">
+    <span class="sec-tag">Passo 1 — Cliente</span>
+    <h2>Para quem é essa sessão?</h2>
+    <div class="cliente-grid" id="cliente-grid">
+      <span class="nenhum-cliente">Carregando clientes...</span>
+    </div>
+  </div>
+
+  <!-- PAINEL DO CLIENTE SELECIONADO -->
+  <div class="painel-cliente" id="painel-cliente">
+    <div class="pc-header">
+      <div>
+        <div class="pc-nome" id="pc-nome">—</div>
+        <div class="pc-esp" id="pc-esp">—</div>
+        <div class="pc-badges" id="pc-badges"></div>
+      </div>
+    </div>
+    <div class="pc-dados" id="pc-dados"></div>
+  </div>
+
+  <!-- SELETOR DE MODO -->
+  <div class="modo-sel" id="modo-sel" style="display:none;">
+    <span class="sec-tag">Passo 2 — Tipo de sessão</span>
+    <h2>O que estamos fazendo hoje?</h2>
+    <div class="modos">
+      <div class="modo-card" id="mc-diagnostico" onclick="selecionarModo('diagnostico')">
+        <div class="mc-icon">◈</div>
+        <div class="mc-titulo">Diagnóstico inicial</div>
+        <div class="mc-desc">Cliente novo ou mudança de rumo. Definição de voz, restrições, tipos de conteúdo recorrentes e primeiro calendário editorial.</div>
+      </div>
+      <div class="modo-card" id="mc-ciclo" onclick="selecionarModo('ciclo')">
+        <div class="mc-icon">↻</div>
+        <div class="mc-titulo">Ciclo recorrente</div>
+        <div class="mc-desc">Cliente em andamento. Cole o relatório de performance do período — o sistema analisa e propõe o próximo ciclo de conteúdo.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ÁREA DE INPUT: DIAGNÓSTICO -->
+  <div class="input-area" id="input-diagnostico">
+    <span class="sec-tag">Diagnóstico inicial</span>
+    <h2>Contexto do cliente</h2>
+    <p class="input-desc">Cole aqui o conteúdo do briefing preenchido, ou descreva livremente o cliente: especialidade, perfil de paciente, tom desejado, restrições (CFM/CFO se aplicável), o que já tentou, o que não funcionou.</p>
+
+    <label class="campo-label" for="diag-briefing">Briefing / Contexto</label>
+    <textarea class="campo" id="diag-briefing" placeholder="Ex: Dra. Ana Paula, dermatologista em BH, 8 anos de carreira, atende adultos de 30–50 anos, classe A/B. Não faz procedimentos com promessa de resultado. Já tentou postar sozinha, desistiu em 3 semanas por falta de tempo. Quer construir autoridade, não visibilidade de massa. Tom: preciso, acolhedor, sem sensacionalismo..."></textarea>
+
+    <div class="contexto-extra">
+      <div>
+        <label class="campo-label" for="diag-plano">Plano contratado</label>
+        <select class="campo-sm" id="diag-plano">
+          <option value="essencial">Essencial</option>
+          <option value="presenca" selected>Presença Completa</option>
+          <option value="autoridade">Autoridade</option>
+        </select>
+      </div>
+      <div>
+        <label class="campo-label" for="diag-canais">Canais ativos</label>
+        <input class="campo-sm" id="diag-canais" type="text" placeholder="Ex: Instagram, Google Meu Negócio">
+      </div>
+      <div>
+        <label class="campo-label" for="diag-restricoes">Restrições específicas</label>
+        <input class="campo-sm" id="diag-restricoes" type="text" placeholder="Ex: CFM, sem antes/depois, sem promessa">
+      </div>
+      <div>
+        <label class="campo-label" for="diag-objetivo">Objetivo primário</label>
+        <select class="campo-sm" id="diag-objetivo">
+          <option value="autoridade">Construir autoridade</option>
+          <option value="captacao">Captar novos pacientes</option>
+          <option value="retencao">Fidelizar pacientes atuais</option>
+          <option value="lancamento">Lançamento / novo serviço</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-analisar" id="btn-diag" onclick="analisar('diagnostico')">
+      <div class="spin"></div>
+      <span class="btn-txt">Analisar e gerar estratégia</span>
+    </button>
+    <div class="erro-box" id="erro-diag"></div>
+  </div>
+
+  <!-- ÁREA DE INPUT: CICLO RECORRENTE -->
+  <div class="input-area" id="input-ciclo">
+    <span class="sec-tag">Ciclo recorrente</span>
+    <h2>Relatório do período</h2>
+    <p class="input-desc">Cole o relatório de performance do último mês — pode ser o texto completo do documento Word. O sistema vai ler canal por canal, identificar o que funcionou, o que travou, onde está o cliente no calendário, e propor o próximo ciclo.</p>
+
+    <label class="campo-label" for="ciclo-relatorio">Relatório de performance</label>
+    <textarea class="campo" id="ciclo-relatorio" style="min-height:260px;" placeholder="Cole aqui o conteúdo do relatório. Pode incluir métricas, tabelas de posts, transcrições de conteúdo, observações — o sistema processa tudo..."></textarea>
+
+    <div class="contexto-extra">
+      <div>
+        <label class="campo-label" for="ciclo-contexto">Contexto do momento</label>
+        <input class="campo-sm" id="ciclo-contexto" type="text" placeholder="Ex: está lançando agenda de agosto, quer captar pacientes">
+      </div>
+      <div>
+        <label class="campo-label" for="ciclo-semanas">Horizonte do calendário</label>
+        <select class="campo-sm" id="ciclo-semanas">
+          <option value="1">1 semana</option>
+          <option value="2" selected>2 semanas</option>
+          <option value="4">4 semanas</option>
+        </select>
+      </div>
+      <div>
+        <label class="campo-label" for="ciclo-frequencia">Frequência semanal</label>
+        <select class="campo-sm" id="ciclo-frequencia">
+          <option value="2">2 posts por semana</option>
+          <option value="3" selected>3 posts por semana</option>
+          <option value="4">4 posts por semana</option>
+          <option value="5">5 posts por semana</option>
+        </select>
+      </div>
+      <div>
+        <label class="campo-label" for="ciclo-urgencia">Há algo urgente?</label>
+        <input class="campo-sm" id="ciclo-urgencia" type="text" placeholder="Ex: não, ou: precisa postar até sexta">
+      </div>
+    </div>
+
+    <button class="btn-analisar" id="btn-ciclo" onclick="analisar('ciclo')">
+      <div class="spin"></div>
+      <span class="btn-txt">Analisar relatório e propor calendário</span>
+    </button>
+    <div class="erro-box" id="erro-ciclo"></div>
+  </div>
+
+  <!-- STREAM DE ANÁLISE -->
+  <div class="stream-area" id="stream-area">
+    <div class="stream-label">
+      <div class="stream-dot"></div>
+      Analisando
+    </div>
+    <div class="stream-txt" id="stream-txt"></div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="output-area" id="output-area">
+
+    <div class="diag-bloco" id="bloco-analise">
+      <h3>Análise estratégica</h3>
+      <div class="diag-texto" id="txt-analise"></div>
+    </div>
+
+    <div class="cal-proposto" id="bloco-calendario">
+      <h3>Calendário proposto</h3>
+      <div id="cal-container"></div>
+    </div>
+
+    <div class="acoes-finais">
+      <p>Quando aprovar as peças que quer produzir, envie para a planilha de slides e dispare o gerador.</p>
+      <button class="btn-planilha" onclick="exportarParaPlanilha()">↗ Enviar aprovados para planilha</button>
+      <button class="btn-nova" onclick="novaSessao()">↺ Nova sessão</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// CONFIGURAÇÃO
+// ══════════════════════════════════════════════════════════════
+const SCRIPT_URL   = 'COLE_SUA_URL_AQUI';           // mesmo Apps Script do Hub
+const CLAUDE_MODEL = 'claude-sonnet-4-20250514';
+
+// ══════════════════════════════════════════════════════════════
+// ESTADO
+// ══════════════════════════════════════════════════════════════
+let clientes       = [];
+let clienteAtivo   = null;
+let modoAtivo      = null;
+let postsGerados   = [];
+
+// ══════════════════════════════════════════════════════════════
+// HORA
+// ══════════════════════════════════════════════════════════════
+function atualizarHora() {
+  const d = new Date();
+  const dias = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const meses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  document.getElementById('hora-topo').textContent =
+    `${dias[d.getDay()]} ${d.getDate()} ${meses[d.getMonth()]} · ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+
+// ══════════════════════════════════════════════════════════════
+// CONEXÃO COM SHEETS (mesmo padrão do Hub)
+// ══════════════════════════════════════════════════════════════
+async function gsCall(params) {
+  const url = SCRIPT_URL + '?' + new URLSearchParams(params).toString();
+  const r = await fetch(url);
+  return r.json();
+}
+
+function normalizeCliente(c) {
+  if (!c.entregas) c.entregas = [];
+  else if (typeof c.entregas === 'string') { try { c.entregas = JSON.parse(c.entregas); } catch(e) { c.entregas = []; } }
+  if (!Array.isArray(c.entregas)) c.entregas = [];
+  if (!c.marcos) c.marcos = {};
+  else if (typeof c.marcos === 'string') { try { c.marcos = JSON.parse(c.marcos); } catch(e) { c.marcos = {}; } }
+  return c;
+}
+
+function setConn(tipo, msg) {
+  const bar = document.getElementById('conn-bar');
+  const txt = document.getElementById('conn-txt');
+  const dot = bar.querySelector('.conn-dot');
+  bar.className = `conn-bar ${tipo}`;
+  dot.className = `conn-dot ${tipo === 'load' ? 'pulse' : ''}`;
+  txt.textContent = msg;
+}
+
+async function carregarClientes() {
+  if (SCRIPT_URL === 'COLE_SUA_URL_AQUI') {
+    setConn('err', 'Configure a URL do Apps Script no código');
+    document.getElementById('cliente-grid').innerHTML =
+      '<span class="nenhum-cliente">Cole a URL do Web App no topo do script JS.</span>';
+    return;
+  }
+  try {
+    const data = await gsCall({ action: 'listar' });
+    clientes = (data.clientes || []).map(normalizeCliente);
+    setConn('ok', `${clientes.length} cliente(s) carregado(s)`);
+    renderClienteGrid();
+  } catch(e) {
+    setConn('err', 'Erro ao conectar ao Hub — verifique a URL');
+    document.getElementById('cliente-grid').innerHTML =
+      '<span class="nenhum-cliente">Não foi possível carregar os clientes.</span>';
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// RENDER CLIENTES
+// ══════════════════════════════════════════════════════════════
+function renderClienteGrid() {
+  const g = document.getElementById('cliente-grid');
+  if (!clientes.length) {
+    g.innerHTML = '<span class="nenhum-cliente">Nenhum cliente cadastrado no Hub.</span>';
+    return;
+  }
+
+  // Adiciona opção "Zyllah (eu mesmo)" sempre
+  const todos = [
+    { id: '__zyllah__', nome: 'Zyllah Digital', esp: 'A própria agência', plano: 'autoridade', pagamento: 'em-dia', entregas: [], marcos: {}, notas: '' },
+    ...clientes
+  ];
+
+  g.innerHTML = todos.map(c => `
+    <button class="cliente-btn" onclick="selecionarCliente('${c.id}')">
+      <span class="cb-nome">${c.nome}</span>
+      <span class="cb-esp">${c.esp || '—'}</span>
+    </button>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════════════
+// SELECIONAR CLIENTE
+// ══════════════════════════════════════════════════════════════
+function selecionarCliente(id) {
+  const todos = [
+    { id: '__zyllah__', nome: 'Zyllah Digital', esp: 'A própria agência', plano: 'autoridade', pagamento: 'em-dia', entregas: [], marcos: {} },
+    ...clientes
+  ];
+  clienteAtivo = todos.find(c => c.id === id);
+  if (!clienteAtivo) return;
+
+  // Atualiza botões
+  document.querySelectorAll('.cliente-btn').forEach(b => b.classList.remove('ativo'));
+  event.currentTarget.classList.add('ativo');
+
+  // Preenche painel
+  renderPainelCliente();
+
+  // Mostra seletor de modo
+  document.getElementById('modo-sel').style.display = 'block';
+
+  // Reset output
+  resetOutput();
+}
+
+function fmtDL(d) {
+  if (!d) return '—';
+  const [y,m,dd] = d.split('-');
+  const ms = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  return `${parseInt(dd)} ${ms[parseInt(m)-1]}`;
+}
+function hoje() { return new Date().toISOString().split('T')[0]; }
+function diasAte(d) {
+  if (!d) return null;
+  return Math.round((new Date(d+'T00:00:00') - new Date(hoje()+'T00:00:00')) / 86400000);
+}
+
+function renderPainelCliente() {
+  const c = clienteAtivo;
+  const plL = { essencial:'Essencial', presenca:'Presença Completa', autoridade:'Autoridade' }[c.plano] || c.plano;
+  const pagL = { 'em-dia':'Pagamento em dia', pendente:'Pagamento pendente', atrasado:'Pagamento atrasado' }[c.pagamento] || '';
+  const pagCls = { 'em-dia':'status-ok', pendente:'status-a', atrasado':'status-u' }[c.pagamento] || 'status-ok';
+
+  document.getElementById('pc-nome').textContent = c.nome;
+  document.getElementById('pc-esp').textContent = c.esp || '—';
+  document.getElementById('pc-badges').innerHTML = `
+    <span class="badge plano-p">${plL}</span>
+    <span class="badge ${pagCls}">${pagL}</span>
+  `;
+
+  // Dados relevantes para produção de conteúdo
+  const diasInicio = c.inicio ? Math.round((new Date(hoje()) - new Date(c.inicio)) / 86400000) : null;
+  const mes = diasInicio !== null ? Math.floor(diasInicio/30)+1 : null;
+  const prazo = c.plano === 'autoridade' ? 12 : 6;
+
+  const entsPendentes = (c.entregas || []).filter(e => !e.done).length;
+  const proximaReun = c.reuniao ? diasAte(c.reuniao) : null;
+
+  document.getElementById('pc-dados').innerHTML = `
+    <div class="pc-dado">
+      <div class="pd-label">Mês do contrato</div>
+      <div class="pd-val">${mes !== null ? `${mes}º de ${prazo}` : '—'}</div>
+    </div>
+    <div class="pc-dado">
+      <div class="pd-label">Entregas pendentes</div>
+      <div class="pd-val ${entsPendentes > 0 ? 'atencao' : ''}">${entsPendentes}</div>
+    </div>
+    <div class="pc-dado">
+      <div class="pd-label">Próxima reunião</div>
+      <div class="pd-val ${proximaReun !== null && proximaReun <= 3 ? 'urgente' : ''}">${c.reuniao ? fmtDL(c.reuniao) : '—'}</div>
+    </div>
+  `;
+
+  document.getElementById('painel-cliente').classList.add('vis');
+}
+
+// ══════════════════════════════════════════════════════════════
+// SELECIONAR MODO
+// ══════════════════════════════════════════════════════════════
+function selecionarModo(modo) {
+  modoAtivo = modo;
+
+  document.getElementById('mc-diagnostico').classList.toggle('ativo', modo === 'diagnostico');
+  document.getElementById('mc-ciclo').classList.toggle('ativo', modo === 'ciclo');
+
+  document.getElementById('input-diagnostico').classList.toggle('vis', modo === 'diagnostico');
+  document.getElementById('input-ciclo').classList.toggle('vis', modo === 'ciclo');
+
+  // Preenche plano no diagnóstico se tiver cliente
+  if (modo === 'diagnostico' && clienteAtivo) {
+    document.getElementById('diag-plano').value = clienteAtivo.plano || 'presenca';
+  }
+
+  resetOutput();
+  document.getElementById('input-' + modo).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ══════════════════════════════════════════════════════════════
+// ANÁLISE VIA CLAUDE API
+// ══════════════════════════════════════════════════════════════
+async function analisar(modo) {
+  const btnId = modo === 'diagnostico' ? 'btn-diag' : 'btn-ciclo';
+  const erroId = modo === 'diagnostico' ? 'erro-diag' : 'erro-ciclo';
+  const btn = document.getElementById(btnId);
+  const erroEl = document.getElementById(erroId);
+
+  erroEl.classList.remove('vis');
+  resetOutput();
+
+  // Monta prompt
+  let prompt = '';
+  const c = clienteAtivo;
+  const contextCliente = `
+CLIENTE: ${c.nome}
+ESPECIALIDADE: ${c.esp || '—'}
+PLANO: ${c.plano || '—'}
+NOTAS: ${c.notas || '—'}
+MARCOS: ${JSON.stringify(c.marcos || {})}
+  `.trim();
+
+  if (modo === 'diagnostico') {
+    const briefing = document.getElementById('diag-briefing').value.trim();
+    if (!briefing) { erroEl.textContent = 'Preencha o campo de briefing antes de analisar.'; erroEl.classList.add('vis'); return; }
+    const plano = document.getElementById('diag-plano').value;
+    const canais = document.getElementById('diag-canais').value;
+    const restricoes = document.getElementById('diag-restricoes').value;
+    const objetivo = document.getElementById('diag-objetivo').value;
+
+    prompt = `Você é estrategista de conteúdo digital sênior da Zyllah Digital — agência especializada em presença digital para profissionais de saúde de alto padrão.
+
+CONTEXTO DO CLIENTE NO SISTEMA:
+${contextCliente}
+
+BRIEFING FORNECIDO:
+${briefing}
+
+PLANO: ${plano}
+CANAIS ATIVOS: ${canais || 'a definir'}
+RESTRIÇÕES: ${restricoes || 'nenhuma informada'}
+OBJETIVO PRIMÁRIO: ${objetivo}
+
+IDENTIDADE ZYLLAH (nunca quebrar):
+— Tom: preciso, acolhedor, sem sensacionalismo, sem promessas de resultado
+— Visual: alto padrão, ink/cream/gold, Cormorant Garamond + Jost
+— Nunca: antes/depois de procedimentos, promessa de resultado, conteúdo de massa
+
+SUA TAREFA:
+Faça uma análise estratégica completa e gere o primeiro calendário editorial para este cliente.
+
+Estruture sua resposta EXATAMENTE assim — use os marcadores para eu parsear:
+
+[ANALISE]
+Análise estratégica em 4–6 parágrafos: perfil do cliente, posicionamento recomendado, voz da marca, tipos de conteúdo que fazem sentido, o que evitar, oportunidades específicas da especialidade.
+[/ANALISE]
+
+[CALENDARIO]
+Calendário das primeiras 4 semanas. Para cada semana, liste os posts. Cada post em uma linha com este formato exato:
+SEMANA:1|TIPO:carrossel|TITULO:Título aqui|ANGULO:Ângulo/abordagem aqui
+SEMANA:1|TIPO:frase|TITULO:Título aqui|ANGULO:Ângulo/abordagem aqui
+...
+
+Tipos disponíveis: carrossel, frase, quote, reel
+[/CALENDARIO]`;
+
+  } else {
+    const relatorio = document.getElementById('ciclo-relatorio').value.trim();
+    if (!relatorio) { erroEl.textContent = 'Cole o relatório de performance antes de analisar.'; erroEl.classList.add('vis'); return; }
+    const contexto = document.getElementById('ciclo-contexto').value;
+    const semanas = document.getElementById('ciclo-semanas').value;
+    const freq = document.getElementById('ciclo-frequencia').value;
+    const urgencia = document.getElementById('ciclo-urgencia').value;
+
+    prompt = `Você é estrategista de conteúdo digital sênior da Zyllah Digital — agência especializada em presença digital para profissionais de saúde de alto padrão.
+
+CONTEXTO DO CLIENTE NO SISTEMA:
+${contextCliente}
+
+CONTEXTO DO MOMENTO: ${contexto || 'nenhum informado'}
+URGÊNCIA: ${urgencia || 'nenhuma'}
+HORIZONTE: ${semanas} semana(s)
+FREQUÊNCIA: ${freq} posts por semana
+
+RELATÓRIO DE PERFORMANCE DO PERÍODO:
+${relatorio}
+
+IDENTIDADE ZYLLAH (nunca quebrar):
+— Tom: preciso, acolhedor, sem sensacionalismo, sem promessas de resultado
+— Visual: alto padrão, ink/cream/gold
+— Nunca: antes/depois de procedimentos, promessa de resultado, conteúdo de massa
+
+SUA TAREFA:
+Leia o relatório canal por canal. Identifique o que funcionou, o que travou, padrões de engajamento, e o que falta. Então proponha o próximo ciclo de conteúdo.
+
+Estruture sua resposta EXATAMENTE assim:
+
+[ANALISE]
+Análise do período em 3–5 parágrafos: o que os dados dizem, o que está funcionando, o que precisa mudar, onde estão as oportunidades, e qual é o foco estratégico para o próximo ciclo.
+[/ANALISE]
+
+[CALENDARIO]
+Calendário para as próximas ${semanas} semana(s), ${freq} posts por semana. Cada post em uma linha:
+SEMANA:1|TIPO:carrossel|TITULO:Título aqui|ANGULO:Ângulo/abordagem aqui
+
+Tipos disponíveis: carrossel, frase, quote, reel
+[/CALENDARIO]`;
+  }
+
+  // Ativa loading
+  btn.classList.add('loading');
+  btn.disabled = true;
+  document.getElementById('stream-area').classList.add('vis');
+  document.getElementById('stream-txt').textContent = '';
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: CLAUDE_MODEL,
+        max_tokens: 1000,
+        stream: true,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`API erro ${response.status}`);
+    }
+
+    // Stream SSE
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+    const streamEl = document.getElementById('stream-txt');
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value);
+      const lines = chunk.split('\n');
+      for (const line of lines) {
+        if (line.startsWith('data: ')) {
+          const data = line.slice(6);
+          if (data === '[DONE]') continue;
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
+              fullText += parsed.delta.text;
+              streamEl.textContent = fullText;
+            }
+          } catch(e) {}
+        }
+      }
+    }
+
+    // Parse e render resultado
+    document.getElementById('stream-area').classList.remove('vis');
+    parsearERenderizar(fullText);
+
+  } catch(e) {
+    document.getElementById('stream-area').classList.remove('vis');
+    erroEl.textContent = 'Erro ao analisar: ' + e.message + '. Verifique a conexão e tente novamente.';
+    erroEl.classList.add('vis');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// PARSE E RENDER DO OUTPUT
+// ══════════════════════════════════════════════════════════════
+function parsearERenderizar(texto) {
+  // Extrai análise
+  const mAnalise = texto.match(/\[ANALISE\]([\s\S]*?)\[\/ANALISE\]/);
+  const analise = mAnalise ? mAnalise[1].trim() : texto;
+
+  // Extrai calendário
+  const mCal = texto.match(/\[CALENDARIO\]([\s\S]*?)\[\/CALENDARIO\]/);
+  const calTexto = mCal ? mCal[1].trim() : '';
+
+  // Render análise
+  document.getElementById('txt-analise').textContent = analise;
+
+  // Parse posts
+  postsGerados = [];
+  if (calTexto) {
+    const linhas = calTexto.split('\n').filter(l => l.includes('SEMANA:'));
+    linhas.forEach((l, idx) => {
+      const semana = (l.match(/SEMANA:(\d+)/) || [])[1] || '1';
+      const tipo   = (l.match(/TIPO:(\w+)/) || [])[1] || 'carrossel';
+      const titulo = (l.match(/TITULO:([^|]+)/) || [])[1]?.trim() || '—';
+      const angulo = (l.match(/ANGULO:(.+)$/) || [])[1]?.trim() || '';
+      postsGerados.push({ id: idx, semana: parseInt(semana), tipo, titulo, angulo, aprovado: false, descartado: false });
+    });
+  }
+
+  renderCalendario();
+  document.getElementById('output-area').classList.add('vis');
+  document.getElementById('bloco-analise').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderCalendario() {
+  const container = document.getElementById('cal-container');
+  const semanas = [...new Set(postsGerados.map(p => p.semana))].sort((a,b) => a-b);
+
+  if (!semanas.length) {
+    container.innerHTML = '<p style="color:rgba(255,255,255,.3);font-size:13px;">Nenhum post gerado.</p>';
+    return;
+  }
+
+  container.innerHTML = semanas.map(s => {
+    const posts = postsGerados.filter(p => p.semana === s && !p.descartado);
+    return `
+      <div class="semana">
+        <div class="semana-titulo">Semana ${s}</div>
+        <div class="posts-lista">
+          ${posts.map(p => `
+            <div class="post-item ${p.tipo} ${p.aprovado ? 'aprovado' : ''}" id="post-${p.id}">
+              <div class="post-header">
+                <span class="post-tipo">${p.tipo}</span>
+              </div>
+              <div class="post-titulo">${p.titulo}</div>
+              <div class="post-angulo">${p.angulo}</div>
+              <div class="post-acoes">
+                <button class="btn-sm btn-apr ${p.aprovado ? 'feito' : ''}" onclick="aprovarPost(${p.id})">${p.aprovado ? '✓ Aprovado' : 'Aprovar'}</button>
+                <button class="btn-sm btn-descartar" onclick="descartarPost(${p.id})">Descartar</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function aprovarPost(id) {
+  const p = postsGerados.find(x => x.id === id);
+  if (!p) return;
+  p.aprovado = !p.aprovado;
+  renderCalendario();
+}
+
+function descartarPost(id) {
+  const p = postsGerados.find(x => x.id === id);
+  if (!p) return;
+  p.descartado = true;
+  renderCalendario();
+}
+
+// ══════════════════════════════════════════════════════════════
+// EXPORTAR PARA PLANILHA DE SLIDES
+// ══════════════════════════════════════════════════════════════
+function exportarParaPlanilha() {
+  const aprovados = postsGerados.filter(p => p.aprovado && !p.descartado);
+  if (!aprovados.length) {
+    alert('Aprove ao menos um post antes de exportar.');
+    return;
+  }
+
+  // Monta CSV compatível com a planilha Zyllah_Conteudo_Slides
+  // Colunas: tipo | tag | titulo | corpo | -- | fundo
+  const tipoMap = { carrossel: 'conteudo', frase: 'frase', quote: 'quote', reel: 'conteudo' };
+  const linhas = aprovados.map((p, i) =>
+    [tipoMap[p.tipo] || 'conteudo', `${p.tipo} ${i+1}`, p.titulo, p.angulo, '', ''].join('\t')
+  );
+  const header = 'tipo\ttag\ttitulo\tcorpo\t_ref\tfundo';
+  const csv = [header, ...linhas].join('\n');
+
+  // Download
+  const blob = new Blob([csv], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `zyllah_slides_${(clienteAtivo?.nome || 'cliente').replace(/\s+/g,'_').toLowerCase()}_${new Date().toISOString().split('T')[0]}.tsv`;
+  a.click();
+  URL.revokeObjectURL(url);
+
+  alert(`${aprovados.length} post(s) exportado(s). Abra a planilha Zyllah_Conteudo_Slides, cole a partir da linha 6 na aba Conteudo, e dispare o gerador.`);
+}
+
+// ══════════════════════════════════════════════════════════════
+// UTILITÁRIOS
+// ══════════════════════════════════════════════════════════════
+function resetOutput() {
+  postsGerados = [];
+  document.getElementById('output-area').classList.remove('vis');
+  document.getElementById('stream-area').classList.remove('vis');
+  document.getElementById('stream-txt').textContent = '';
+  document.getElementById('txt-analise').textContent = '';
+  document.getElementById('cal-container').innerHTML = '';
+  document.querySelectorAll('.erro-box').forEach(e => e.classList.remove('vis'));
+}
+
+function novaSessao() {
+  clienteAtivo = null;
+  modoAtivo = null;
+  postsGerados = [];
+  document.querySelectorAll('.cliente-btn').forEach(b => b.classList.remove('ativo'));
+  document.getElementById('painel-cliente').classList.remove('vis');
+  document.getElementById('modo-sel').style.display = 'none';
+  document.getElementById('input-diagnostico').classList.remove('vis');
+  document.getElementById('input-ciclo').classList.remove('vis');
+  document.getElementById('mc-diagnostico').classList.remove('ativo');
+  document.getElementById('mc-ciclo').classList.remove('ativo');
+  resetOutput();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════
+atualizarHora();
+setInterval(atualizarHora, 30000);
+carregarClientes();
+</script>
+</body>
+</html>
