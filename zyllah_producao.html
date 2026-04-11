@@ -166,6 +166,11 @@ select.campo-sm option{background:var(--ink2);}
 .erro-box{background:rgba(196,100,100,.07);border:1px solid rgba(196,100,100,.2);border-radius:4px;padding:16px 20px;font-size:13px;color:var(--stop);margin-top:16px;display:none;}
 .erro-box.vis{display:block;}
 
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--gold);color:var(--ink);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:10px 24px;border-radius:3px;opacity:0;transition:all .3s;pointer-events:none;z-index:300;}
+.toast.vis{opacity:1;transform:translateX(-50%) translateY(0);}
+
 /* DIVISOR */
 .div{height:1px;background:rgba(184,151,106,.08);margin:8px 0 32px;}
 
@@ -184,7 +189,7 @@ select.campo-sm option{background:var(--ink2);}
 <div class="topo">
   <div>
     <div class="topo-marca">Zyllah Digital</div>
-    <div class="topo-sub">Hub de Conteúdo Estratégico · v4</div>
+    <div class="topo-sub">Hub de Conteúdo Estratégico · v6</div>
   </div>
   <div class="topo-dir">
     <div class="topo-hora" id="hora-topo">—</div>
@@ -275,9 +280,8 @@ select.campo-sm option{background:var(--ink2);}
       </div>
     </div>
 
-    <button class="btn-analisar" id="btn-diag" onclick="analisar('diagnostico')">
-      <div class="spin"></div>
-      <span class="btn-txt">Analisar e gerar estratégia</span>
+    <button class="btn-analisar" id="btn-diag" onclick="copiarPrompt('diagnostico')">
+      <span class="btn-txt">↗ Copiar prompt para o Claude</span>
     </button>
     <div class="erro-box" id="erro-diag"></div>
   </div>
@@ -319,20 +323,23 @@ select.campo-sm option{background:var(--ink2);}
       </div>
     </div>
 
-    <button class="btn-analisar" id="btn-ciclo" onclick="analisar('ciclo')">
-      <div class="spin"></div>
-      <span class="btn-txt">Analisar relatório e propor calendário</span>
+    <button class="btn-analisar" id="btn-ciclo" onclick="copiarPrompt('ciclo')">
+      <span class="btn-txt">↗ Copiar prompt para o Claude</span>
     </button>
     <div class="erro-box" id="erro-ciclo"></div>
   </div>
 
-  <!-- STREAM DE ANÁLISE -->
-  <div class="stream-area" id="stream-area">
-    <div class="stream-label">
-      <div class="stream-dot"></div>
-      Analisando
-    </div>
-    <div class="stream-txt" id="stream-txt"></div>
+  <!-- ÁREA DE RESPOSTA DO CLAUDE -->
+  <div class="input-area" id="area-resposta" style="display:none;">
+    <span class="sec-tag">Passo 3 — Resposta do Claude</span>
+    <h2>Cole a resposta aqui</h2>
+    <p class="input-desc">O prompt foi copiado. Abra o Claude.ai, cole e envie. Quando a resposta aparecer, copie o texto completo e cole abaixo.</p>
+    <label class="campo-label" for="campo-resposta">Resposta do Claude</label>
+    <textarea class="campo" id="campo-resposta" style="min-height:300px;" placeholder="Cole aqui a resposta completa do Claude — incluindo os blocos [ANALISE] e [CALENDARIO]..."></textarea>
+    <button class="btn-analisar" onclick="processarResposta()">
+      <span class="btn-txt">Processar resposta</span>
+    </button>
+    <div class="erro-box" id="erro-resposta"></div>
   </div>
 
   <!-- OUTPUT -->
@@ -552,14 +559,18 @@ function selecionarModo(modo) {
 }
 
 // ══════════════════════════════════════════════════════════════
-// ANÁLISE VIA CLAUDE API
+// COPIAR PROMPT
 // ══════════════════════════════════════════════════════════════
-async function analisar(modo) {
-  const btnId = modo === 'diagnostico' ? 'btn-diag' : 'btn-ciclo';
-  const erroId = modo === 'diagnostico' ? 'erro-diag' : 'erro-ciclo';
-  const btn = document.getElementById(btnId);
-  const erroEl = document.getElementById(erroId);
+function mostrarToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('vis');
+  setTimeout(() => t.classList.remove('vis'), 2800);
+}
 
+function copiarPrompt(modo) {
+  const erroId = modo === 'diagnostico' ? 'erro-diag' : 'erro-ciclo';
+  const erroEl = document.getElementById(erroId);
   erroEl.classList.remove('vis');
   resetOutput();
 
@@ -664,69 +675,49 @@ Formatos disponíveis: feed (1080x1080px · padrão), stories (1080x1920px · ve
 [/CALENDARIO]`;
   }
 
-  // Ativa loading
-  btn.classList.add('loading');
-  btn.disabled = true;
-  document.getElementById('stream-area').classList.add('vis');
-  document.getElementById('stream-txt').textContent = '';
+  // Copia prompt para clipboard e abre área de resposta
+  navigator.clipboard.writeText(prompt).then(() => {
+    mostrarToast('Prompt copiado — cole no Claude.ai');
+    document.getElementById('area-resposta').style.display = 'block';
+    document.getElementById('campo-resposta').value = '';
+    document.getElementById('erro-resposta').classList.remove('vis');
+    setTimeout(() => {
+      document.getElementById('area-resposta').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 200);
+  }).catch(() => {
+    // Fallback: mostra prompt em textarea para copiar manualmente
+    document.getElementById('area-resposta').style.display = 'block';
+    document.getElementById('campo-resposta').value = prompt;
+    document.getElementById('campo-resposta').select();
+    mostrarToast('Selecione o texto e copie manualmente');
+    setTimeout(() => {
+      document.getElementById('area-resposta').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 200);
+  });
+}
 
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: CLAUDE_MODEL,
-        max_tokens: 1000,
-        stream: true,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
+// ══════════════════════════════════════════════════════════════
+// PROCESSAR RESPOSTA DO CLAUDE
+// ══════════════════════════════════════════════════════════════
+function processarResposta() {
+  const texto = document.getElementById('campo-resposta').value.trim();
+  const erroEl = document.getElementById('erro-resposta');
+  erroEl.classList.remove('vis');
 
-    if (!response.ok) {
-      throw new Error(`API erro ${response.status}`);
-    }
-
-    // Stream SSE
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let fullText = '';
-    const streamEl = document.getElementById('stream-txt');
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const chunk = decoder.decode(value);
-      const lines = chunk.split('\n');
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const data = line.slice(6);
-          if (data === '[DONE]') continue;
-          try {
-            const parsed = JSON.parse(data);
-            if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
-              fullText += parsed.delta.text;
-              streamEl.textContent = fullText;
-            }
-          } catch(e) {}
-        }
-      }
-    }
-
-    // Parse e render resultado
-    document.getElementById('stream-area').classList.remove('vis');
-    parsearERenderizar(fullText);
-
-  } catch(e) {
-    document.getElementById('stream-area').classList.remove('vis');
-    erroEl.textContent = 'Erro ao analisar: ' + e.message + '. Verifique a conexão e tente novamente.';
+  if (!texto) {
+    erroEl.textContent = 'Cole a resposta do Claude antes de processar.';
     erroEl.classList.add('vis');
-  } finally {
-    btn.classList.remove('loading');
-    btn.disabled = false;
+    return;
   }
+
+  if (!texto.includes('[ANALISE]') && !texto.includes('[CALENDARIO]')) {
+    erroEl.textContent = 'A resposta não contém os blocos esperados. Verifique se copiou o texto completo.';
+    erroEl.classList.add('vis');
+    return;
+  }
+
+  parsearERenderizar(texto);
+  document.getElementById('area-resposta').style.display = 'none';
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -849,8 +840,8 @@ function exportarParaPlanilha() {
 function resetOutput() {
   postsGerados = [];
   document.getElementById('output-area').classList.remove('vis');
-  document.getElementById('stream-area').classList.remove('vis');
-  document.getElementById('stream-txt').textContent = '';
+  document.getElementById('area-resposta').style.display = 'none';
+  document.getElementById('campo-resposta').value = '';
   document.getElementById('txt-analise').textContent = '';
   document.getElementById('cal-container').innerHTML = '';
   document.querySelectorAll('.erro-box').forEach(e => e.classList.remove('vis'));
@@ -867,6 +858,7 @@ function novaSessao() {
   document.getElementById('input-ciclo').classList.remove('vis');
   document.getElementById('mc-diagnostico').classList.remove('ativo');
   document.getElementById('mc-ciclo').classList.remove('ativo');
+  document.getElementById('area-resposta').style.display = 'none';
   resetOutput();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -878,5 +870,6 @@ atualizarHora();
 setInterval(atualizarHora, 30000);
 carregarClientes();
 </script>
+<div class="toast" id="toast"></div>
 </body>
 </html>
