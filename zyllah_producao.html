@@ -362,7 +362,7 @@ select.campo-sm option{background:var(--ink2);}
 // ══════════════════════════════════════════════════════════════
 // CONFIGURAÇÃO
 // ══════════════════════════════════════════════════════════════
-const SCRIPT_URL   = 'COLE_SUA_URL_AQUI';           // mesmo Apps Script do Hub
+const SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbyz-9JGbWbmPspI4pOgolEUXOOoD0pHnqL--Doa6KSKUbJrID1Xu94ShUwurZzfqEULvA/exec';           // mesmo Apps Script do Hub
 const CLAUDE_MODEL = 'claude-sonnet-4-20250514';
 
 // ══════════════════════════════════════════════════════════════
@@ -412,7 +412,7 @@ function setConn(tipo, msg) {
 }
 
 async function carregarClientes() {
-  if (!SCRIPT_URL || SCRIPT_URL === 'COLE_SUA_URL_AQUI') {
+  if (!SCRIPT_URL || SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbyz-9JGbWbmPspI4pOgolEUXOOoD0pHnqL--Doa6KSKUbJrID1Xu94ShUwurZzfqEULvA/exec') {
     setConn('err', 'Configure a URL do Apps Script no código');
     document.getElementById('cliente-grid').innerHTML =
       '<span class="nenhum-cliente">Cole a URL do Web App no topo do script JS.</span>';
