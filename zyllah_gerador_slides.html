@@ -115,6 +115,9 @@ body{background:var(--ink);font-family:'Jost',sans-serif;font-weight:300;color:v
 .link-res.show{display:flex;}
 .link-res:hover{background:rgba(184,151,106,.11);}
 
+/* BADGE fontes */
+.fonts-badge{font-size:9px;color:rgba(255,255,255,.15);letter-spacing:.12em;text-align:center;padding:6px 0;}
+
 @media(max-width:820px){.wrap{grid-template-columns:1fr;}.preview-area{display:none;}}
 </style>
 </head>
@@ -241,23 +244,26 @@ body{background:var(--ink);font-family:'Jost',sans-serif;font-weight:300;color:v
   <div class="preview-canvas" id="previewCanvas">
     <canvas id="cvs"></canvas>
   </div>
+
+  <div class="fonts-badge" id="fontsBadge">carregando fontes…</div>
 </main>
 </div>
 
 <script>
-// ═══════════════════════════════
-// CONFIGURAÇÃO — cole sua URL aqui após publicar o Apps Script
-// ═══════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  CONFIGURAÇÃO — cole a URL do Apps Script aqui
+// ═══════════════════════════════════════════════════════════
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz_BH3fjjPMp_NYs4bQlROCNSI8jUywv-PecgpuM4TYQXkCcgWjG-phTK-eKADQh1-DMQ/exec';
 
-// ═══════════════════════════════
-// ESTADO
-// ═══════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  ESTADO
+// ═══════════════════════════════════════════════════════════
 var slides     = [];
 var slidxAtual = 0;
 var fmtAtual   = '1:1';
 var tipoAtual  = 'capa';
 var fundoAtual = 'auto';
+var fontesOk   = false;
 
 var DIMS = {
   '1:1':  {w:1080, h:1080, esc:0.50},
@@ -265,7 +271,28 @@ var DIMS = {
   '16:9': {w:1920, h:1080, esc:0.40}
 };
 
-// Logo SVG → Image
+// ═══════════════════════════════════════════════════════════
+//  AGUARDAR FONTES — FIX PRINCIPAL
+//  O Canvas só renderiza Cormorant/Jost depois que o browser
+//  confirmar que as fontes foram baixadas via document.fonts.
+// ═══════════════════════════════════════════════════════════
+document.fonts.ready.then(function() {
+  // Força pré-load medindo um caractere de cada fonte
+  var c = document.createElement('canvas');
+  var x = c.getContext('2d');
+  x.font = "300 italic 40px 'Cormorant Garamond', serif";
+  x.measureText('Zyllah');
+  x.font = "300 14px 'Jost', sans-serif";
+  x.measureText('Zyllah');
+  fontesOk = true;
+  document.getElementById('fontsBadge').textContent = 'fontes carregadas ✓';
+  setTimeout(function(){ document.getElementById('fontsBadge').style.display='none'; }, 2000);
+  if (slides.length) renderPreview();
+});
+
+// ═══════════════════════════════════════════════════════════
+//  LOGO SVG → Image object
+// ═══════════════════════════════════════════════════════════
 var logoImg = null;
 (function(){
   var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080">'
@@ -275,14 +302,14 @@ var logoImg = null;
     +'<path fill="#a58346" d="M760.37,680.02l4.22,111.19-383.6,2.71,162.35-235.5h42.43l-135.01,197.18,1.16,3.58,272.41-2.04s6.95-18.53,11.82-39.42c3.94-16.88,6.47-37.43,6.47-37.43l17.73-.28Z"/>'
     +'<polygon fill="#a38342" points="315.41 790.04 462.38 556.94 495.41 556.77 315.41 790.04"/>'
     +'</svg>';
-  var blob = new Blob([svg],{type:'image/svg+xml'});
+  var blob = new Blob([svg], {type:'image/svg+xml'});
   logoImg = new Image();
   logoImg.src = URL.createObjectURL(blob);
 })();
 
-// ═══════════════════════════════
-// SELETORES
-// ═══════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  SELETORES
+// ═══════════════════════════════════════════════════════════
 function selFmt(btn){
   document.querySelectorAll('.fmt-btn').forEach(b=>b.classList.remove('sel'));
   btn.classList.add('sel'); fmtAtual = btn.dataset.fmt;
@@ -298,43 +325,54 @@ function selFundo(btn){
   btn.classList.add('sel'); fundoAtual = btn.dataset.fundo;
 }
 function atualizarDicas(){
-  var dicas={capa:'subtítulo / contexto',motivo:'desenvolvimento',conteudo:'texto de apoio',
-    frase:'texto abaixo da linha',quote:'pergunta de engajamento',fechamento:'CTA / chamada para ação'};
-  document.getElementById('corpoLabel').textContent = 'Corpo — '+dicas[tipoAtual];
-  document.getElementById('campoTag').style.display = ['frase','quote'].includes(tipoAtual)?'none':'';
+  var dicas={
+    capa:'subtítulo / contexto da série',
+    motivo:'desenvolvimento do motivo',
+    conteudo:'texto de apoio / explicação',
+    frase:'texto abaixo da linha divisória',
+    quote:'pergunta de engajamento',
+    fechamento:'CTA / chamada para ação'
+  };
+  document.getElementById('corpoLabel').textContent = 'Corpo — ' + dicas[tipoAtual];
+  document.getElementById('campoTag').style.display = ['frase','quote'].includes(tipoAtual) ? 'none' : '';
 }
 
-// ═══════════════════════════════
-// GERENCIAR LISTA
-// ═══════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  GERENCIAR LISTA
+// ═══════════════════════════════════════════════════════════
 function adicionarSlide(){
   var titulo = document.getElementById('titulo').value.trim();
   if(!titulo){ mostrarStatus('err','Preencha o Título.'); return; }
   slides.push({
-    tipo:tipoAtual, tag:document.getElementById('tag').value.trim(),
-    titulo:titulo,  corpo:document.getElementById('corpo').value.trim(),
+    tipo:tipoAtual,
+    tag:document.getElementById('tag').value.trim(),
+    titulo:titulo,
+    corpo:document.getElementById('corpo').value.trim(),
     fundo:fundoAtual
   });
-  document.getElementById('titulo').value='';
-  document.getElementById('corpo').value='';
-  document.getElementById('tag').value='';
-  slidxAtual = slides.length-1;
+  document.getElementById('titulo').value = '';
+  document.getElementById('corpo').value  = '';
+  document.getElementById('tag').value    = '';
+  slidxAtual = slides.length - 1;
   renderLista(); renderPreview(); esconderStatus();
 }
 
 function removerSlide(i){
   slides.splice(i,1);
-  if(slidxAtual>=slides.length) slidxAtual=Math.max(0,slides.length-1);
+  if(slidxAtual >= slides.length) slidxAtual = Math.max(0, slides.length-1);
   renderLista(); renderPreview();
 }
 
-function irSlide(i){ slidxAtual=i; renderLista(); renderPreview(); }
+function irSlide(i){ slidxAtual = i; renderLista(); renderPreview(); }
 
 function renderLista(){
-  var el=document.getElementById('slidesLista');
-  document.getElementById('contSlides').textContent=slides.length;
-  if(!slides.length){ el.innerHTML='<div class="slides-vazio">Nenhum slide adicionado.</div>'; return; }
-  el.innerHTML=slides.map((s,i)=>`
+  var el = document.getElementById('slidesLista');
+  document.getElementById('contSlides').textContent = slides.length;
+  if(!slides.length){
+    el.innerHTML = '<div class="slides-vazio">Nenhum slide adicionado.</div>';
+    return;
+  }
+  el.innerHTML = slides.map((s,i) => `
     <div class="slide-item${i===slidxAtual?' ativo':''}" onclick="irSlide(${i})">
       <div class="si-info">
         <span class="si-tipo">${s.tipo}${s.tag?' · '+s.tag:''}</span><br>
@@ -344,207 +382,385 @@ function renderLista(){
     </div>`).join('');
 }
 
-// ═══════════════════════════════
-// PREVIEW CANVAS
-// ═══════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  UTILITÁRIOS DE CANVAS
+// ═══════════════════════════════════════════════════════════
+function pad2(n){ return n<10 ? '0'+n : String(n); }
+
+/**
+ * wrapLines — quebra texto em array de linhas respeitando maxW.
+ * Retorna array de strings.
+ */
+function wrapLines(ctx, text, maxW){
+  var words = text.split(' ');
+  var lines = [], line = '';
+  for(var i=0; i<words.length; i++){
+    var test = line + (line?' ':'') + words[i];
+    if(ctx.measureText(test).width > maxW && line){
+      lines.push(line);
+      line = words[i];
+    } else {
+      line = test;
+    }
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+
+/**
+ * drawWrapped — desenha texto com quebra de linha.
+ * Retorna Y final (última linha + lineH).
+ * maxLines: máximo de linhas (evita overflow).
+ */
+function drawWrapped(ctx, text, x, y, maxW, lineH, maxLines){
+  if(!text) return y;
+  var lines = wrapLines(ctx, text, maxW);
+  if(maxLines) lines = lines.slice(0, maxLines);
+  for(var i=0; i<lines.length; i++){
+    ctx.fillText(lines[i], x, y);
+    y += lineH;
+  }
+  return y;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LÓGICA DE FUNDO (espelha o Apps Script)
+// ═══════════════════════════════════════════════════════════
+var _contEditorial = 0;
+
+function decidirFundo(slide, idx){
+  if(slide.fundo !== 'auto') return slide.fundo;
+  if(['capa','frase','quote','fechamento'].includes(slide.tipo)) return 'ink';
+  // motivo e conteudo alternam
+  return idx % 2 === 0 ? 'cream' : 'ink';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER PREVIEW — corrigido
+// ═══════════════════════════════════════════════════════════
 function navSlide(d){
   if(!slides.length) return;
-  slidxAtual=(slidxAtual+d+slides.length)%slides.length;
+  slidxAtual = (slidxAtual + d + slides.length) % slides.length;
   renderLista(); renderPreview();
 }
 
-function decidirFundo(tipo,idx){
-  if(['capa','frase','quote','fechamento'].includes(tipo)) return 'ink';
-  return idx%2===0?'ink':'cream';
-}
-
-function pad2(n){return n<10?'0'+n:String(n);}
-
-function wrapText(ctx,text,x,y,maxW,lineH){
-  var words=text.split(' '),line='';
-  for(var i=0;i<words.length;i++){
-    var test=line+words[i]+' ';
-    if(ctx.measureText(test).width>maxW&&i>0){ctx.fillText(line,x,y);line=words[i]+' ';y+=lineH;}
-    else line=test;
-  }
-  ctx.fillText(line,x,y);
-}
-
 function renderPreview(){
-  var total=slides.length;
-  document.getElementById('navCnt').textContent=total?(slidxAtual+1)+' / '+total:'— / —';
+  var total = slides.length;
+  document.getElementById('navCnt').textContent = total ? (slidxAtual+1)+' / '+total : '— / —';
   if(!total) return;
 
-  var s=slides[slidxAtual];
-  var dim=DIMS[fmtAtual];
+  var s   = slides[slidxAtual];
+  var dim = DIMS[fmtAtual];
   var W=dim.w, H=dim.h, ESC=dim.esc;
-  var cvs=document.getElementById('cvs');
-  var ctx=cvs.getContext('2d');
-  cvs.width=Math.round(W*ESC); cvs.height=Math.round(H*ESC);
-  ctx.save(); ctx.scale(ESC,ESC);
+  var cvs = document.getElementById('cvs');
+  var ctx = cvs.getContext('2d');
+  cvs.width  = Math.round(W * ESC);
+  cvs.height = Math.round(H * ESC);
 
-  var fundo=s.fundo==='auto'?decidirFundo(s.tipo,slidxAtual):s.fundo;
-  var dark=fundo==='ink';
+  ctx.save();
+  ctx.scale(ESC, ESC);
 
-  // Fundo
-  ctx.fillStyle=fundo==='ink'?'#1A1714':fundo==='cream_mid'?'#F0EBE1':'#FAF7F2';
-  ctx.fillRect(0,0,W,H);
+  // ── FUNDO ──────────────────────────────────────────────
+  var fundo = decidirFundo(s, slidxAtual);
+  var dark  = fundo === 'ink';
+  var bgHex = fundo === 'ink' ? '#1A1714' : fundo === 'cream_mid' ? '#F0EBE1' : '#FAF7F2';
+  ctx.fillStyle = bgHex;
+  ctx.fillRect(0, 0, W, H);
 
-  var MAR=W*0.074;
-  var cTit  = dark?'#FAF7F2':'#1A1714';
-  var cCorpo= dark?'#C8C0B4':'#4A3F35';
-  var cTag  = '#B8976A';
-  var cNum  = dark?'#5A5040':'#9A8A78';
-  var cApoio= dark?'#7A7060':'#7A6A58';
+  // ── CONSTANTES DE LAYOUT ────────────────────────────────
+  // Margem proporcional — usamos valor fixo de 80px escalado para 1080,
+  // mas garantimos pelo menos 6% da menor dimensão.
+  var MAR = Math.max(W, H) > 1500 ? 140 : 80; // 16:9 usa MAR 140
 
-  // ── Tag ──
-  var semTag=['frase','quote'];
-  if(s.tag && !semTag.includes(s.tipo)){
-    ctx.font=`300 ${W*0.013}px Jost,sans-serif`;
-    ctx.fillStyle=cTag; ctx.textAlign='start';
-    ctx.fillText(s.tag.toUpperCase(), MAR, MAR+W*0.022);
+  var cTit   = dark ? '#FAF7F2' : '#1A1714';
+  var cCorpo = dark ? '#C8C0B4' : '#4A3F35';
+  var cTag   = '#B8976A';
+  var cNum   = dark ? '#5A5040' : '#9A8A78';
+  var cApoio = dark ? '#7A7060' : '#7A6A58';
+  var cGold  = '#B8976A';
+
+  // Cantoneiras douradas (elemento obrigatório da identidade)
+  var CANT = MAR * 0.35; // comprimento do traço
+  ctx.strokeStyle = cGold;
+  ctx.lineWidth   = W * 0.0009;
+  ctx.globalAlpha = 0.45;
+  // topo-esq
+  ctx.beginPath(); ctx.moveTo(MAR, MAR + CANT); ctx.lineTo(MAR, MAR); ctx.lineTo(MAR + CANT, MAR); ctx.stroke();
+  // topo-dir
+  ctx.beginPath(); ctx.moveTo(W-MAR-CANT, MAR); ctx.lineTo(W-MAR, MAR); ctx.lineTo(W-MAR, MAR+CANT); ctx.stroke();
+  // baixo-esq
+  ctx.beginPath(); ctx.moveTo(MAR, H-MAR-CANT); ctx.lineTo(MAR, H-MAR); ctx.lineTo(MAR+CANT, H-MAR); ctx.stroke();
+  // baixo-dir
+  ctx.beginPath(); ctx.moveTo(W-MAR-CANT, H-MAR); ctx.lineTo(W-MAR, H-MAR); ctx.lineTo(W-MAR, H-MAR-CANT); ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  // ── TAG ─────────────────────────────────────────────────
+  var SEM_TAG = ['frase','quote'];
+  if(s.tag && !SEM_TAG.includes(s.tipo)){
+    ctx.font      = `300 ${W*0.013}px 'Jost', sans-serif`;
+    ctx.fillStyle = cTag;
+    ctx.textAlign = 'left';
+    ctx.fillText(s.tag.toUpperCase(), MAR + CANT + MAR*0.25, MAR + CANT*0.5 + W*0.013);
   }
 
-  if(s.tipo==='capa'){
-    // Título itálico grande
-    ctx.font=`300 italic ${W*0.068}px 'Cormorant Garamond',serif`;
-    ctx.fillStyle=cTit;
-    wrapText(ctx,s.titulo,MAR,H*0.34,W-MAR*2,W*0.082);
-    // Linha
-    ctx.strokeStyle='#B8976A'; ctx.lineWidth=W*0.0012;
-    ctx.beginPath(); ctx.moveTo(MAR,H*0.70); ctx.lineTo(MAR+W*0.070,H*0.70); ctx.stroke();
-    // Subtítulo
-    if(s.corpo){
-      ctx.font=`300 ${W*0.020}px Jost`; ctx.fillStyle=cApoio;
-      ctx.fillText(s.corpo.toUpperCase().substring(0,55),MAR,H*0.70+W*0.026);
-    }
-
-  } else if(s.tipo==='frase'){
-    ctx.font=`300 italic ${W*0.057}px 'Cormorant Garamond',serif`;
-    ctx.fillStyle=cTit; ctx.textAlign='center';
-    wrapText(ctx,s.titulo,MAR,H*0.40,W-MAR*2,W*0.072);
-    ctx.strokeStyle='#B8976A'; ctx.lineWidth=W*0.0012;
-    ctx.beginPath(); ctx.moveTo(W/2-W*0.038,H*0.73); ctx.lineTo(W/2+W*0.038,H*0.73); ctx.stroke();
-    if(s.corpo){
-      ctx.font=`300 ${W*0.015}px Jost`; ctx.fillStyle=cApoio;
-      ctx.fillText(s.corpo.substring(0,55),W/2,H*0.73+W*0.028);
-    }
-    ctx.textAlign='start';
-
-  } else if(s.tipo==='quote'){
-    ctx.font=`300 ${W*0.096}px 'Cormorant Garamond',serif`;
-    ctx.fillStyle=dark?'#3A3028':'#C8C0B4';
-    ctx.fillText('\u201C',MAR-W*0.010,MAR+W*0.078);
-    ctx.font=`300 italic ${W*0.036}px 'Cormorant Garamond',serif`;
-    ctx.fillStyle=cTit; ctx.textAlign='center';
-    wrapText(ctx,s.titulo,MAR,H*0.40,W-MAR*2,W*0.054);
-    ctx.strokeStyle='#B8976A'; ctx.lineWidth=W*0.0012;
-    ctx.beginPath(); ctx.moveTo(W/2-W*0.034,H*0.72); ctx.lineTo(W/2+W*0.034,H*0.72); ctx.stroke();
-    if(s.corpo){
-      ctx.font=`300 ${W*0.015}px Jost`; ctx.fillStyle='#B8976A';
-      ctx.fillText(s.corpo.substring(0,58),W/2,H*0.72+W*0.030);
-    }
-    ctx.textAlign='start';
-
-  } else {
-    // motivo, conteudo, fechamento
-    ctx.font=`300 italic ${W*0.050}px 'Cormorant Garamond',serif`;
-    ctx.fillStyle=cTit;
-    wrapText(ctx,s.titulo,MAR,H*0.24,W-MAR*2,W*0.064);
-    ctx.strokeStyle='#B8976A'; ctx.lineWidth=W*0.0012;
-    ctx.beginPath(); ctx.moveTo(MAR,H*0.52); ctx.lineTo(MAR+W*0.062,H*0.52); ctx.stroke();
-    if(s.corpo){
-      ctx.font=`300 ${W*0.017}px Jost`; ctx.fillStyle=cCorpo;
-      wrapText(ctx,s.corpo,MAR,H*0.56,W-MAR*2,W*0.026);
-    }
+  // ── LINHA DIVISÓRIA ──────────────────────────────────────
+  function drawLinha(x1, y, x2){
+    ctx.strokeStyle = cGold;
+    ctx.lineWidth   = W * 0.0011;
+    ctx.beginPath();
+    ctx.moveTo(x1, y);
+    ctx.lineTo(x2, y);
+    ctx.stroke();
   }
 
-  // ── Numeração ──
-  ctx.font=`300 ${W*0.012}px 'Cormorant Garamond',serif`;
-  ctx.fillStyle=cNum; ctx.textAlign='start';
-  ctx.fillText(pad2(slidxAtual+1)+' · '+pad2(total), MAR, H-MAR*0.80);
+  // ── RODAPÉ ───────────────────────────────────────────────
+  var rodY = H - MAR * 0.85;
 
-  // ── Logo (canto inferior direito) ──
-  var logoH=W*0.068, logoW=logoH;
-  var lx=W-MAR-logoW, ly=H-MAR*0.80-logoH;
-  if(logoImg&&logoImg.complete&&logoImg.naturalWidth>0){
-    ctx.drawImage(logoImg,lx,ly,logoW,logoH);
+  // Numeração
+  ctx.font      = `300 ${W*0.012}px 'Cormorant Garamond', serif`;
+  ctx.fillStyle = cNum;
+  ctx.textAlign = 'left';
+  ctx.fillText(pad2(slidxAtual+1) + ' · ' + pad2(total), MAR + CANT*0.3, rodY);
+
+  // Logo (canto inferior direito, dentro das cantoneiras)
+  var lH = W * 0.055;
+  var lW = lH;
+  var lx = W - MAR - lW + lW*0.1;
+  var ly = rodY - lH * 0.85;
+  if(logoImg && logoImg.complete && logoImg.naturalWidth > 0){
+    ctx.drawImage(logoImg, lx, ly, lW, lH);
   } else {
-    ctx.font=`300 ${W*0.011}px Jost`; ctx.fillStyle=dark?'#B8976A':'#8A7A6A';
-    ctx.textAlign='end';
-    ctx.fillText('ZYLLAH',W-MAR,H-MAR*0.80);
+    ctx.font      = `300 ${W*0.011}px 'Jost', sans-serif`;
+    ctx.fillStyle = dark ? cGold : '#8A7A6A';
+    ctx.textAlign = 'right';
+    ctx.fillText('ZYLLAH DIGITAL', W - MAR, rodY);
+  }
+
+  // ── LAYOUTS ─────────────────────────────────────────────
+  // Área útil: entre tag e rodapé, com margens laterais
+  // Y de início do conteúdo (abaixo da tag)
+  var yContent  = MAR + CANT + MAR * 0.55; // espaço para tag
+  var xL        = MAR + CANT * 0.15;       // margem esquerda do texto
+  var maxTxtW   = W - xL - MAR - CANT * 0.15; // largura máxima do texto
+  var yFim      = rodY - W * 0.04;         // limite inferior do conteúdo
+
+  ctx.textAlign = 'left';
+
+  if(s.tipo === 'capa'){
+    // ── CAPA ──
+    // Título grande itálico, ocupa de yContent até 64% do H
+    var fsCapaTit = W * 0.068;
+    var lhCapaTit = fsCapaTit * 1.12;
+    ctx.font      = `300 italic ${fsCapaTit}px 'Cormorant Garamond', serif`;
+    ctx.fillStyle = cTit;
+    // máximo 4 linhas para não vazar
+    var yAposT = drawWrapped(ctx, s.titulo, xL, yContent + fsCapaTit, maxTxtW, lhCapaTit, 4);
+
+    // Linha divisória abaixo do título
+    var yLinha = Math.min(yAposT + fsCapaTit * 0.5, H * 0.72);
+    drawLinha(xL, yLinha, xL + W * 0.068);
+
+    // Subtítulo (corpo)
+    if(s.corpo){
+      ctx.font      = `300 ${W*0.020}px 'Jost', sans-serif`;
+      ctx.fillStyle = cApoio;
+      drawWrapped(ctx, s.corpo.toUpperCase(), xL, yLinha + W*0.030, maxTxtW, W*0.028, 2);
+    }
+
+  } else if(s.tipo === 'frase'){
+    // ── FRASE — centralizado ──
+    var fsFrase = W * 0.054;
+    var lhFrase = fsFrase * 1.12;
+    ctx.font      = `300 italic ${fsFrase}px 'Cormorant Garamond', serif`;
+    ctx.fillStyle = cTit;
+    ctx.textAlign = 'center';
+    var cx = W / 2;
+    // Calcula linhas para centralizar verticalmente
+    var linhasFrase = wrapLines(ctx, s.titulo, maxTxtW);
+    linhasFrase = linhasFrase.slice(0, 5);
+    var blocoH = linhasFrase.length * lhFrase;
+    var yFraseStart = (H - blocoH) / 2 - H * 0.06;
+    for(var i=0; i<linhasFrase.length; i++){
+      ctx.fillText(linhasFrase[i], cx, yFraseStart + i * lhFrase);
+    }
+    var yLinhaFrase = yFraseStart + blocoH + fsFrase * 0.7;
+    drawLinha(cx - W*0.038, yLinhaFrase, cx + W*0.038);
+    if(s.corpo){
+      ctx.font      = `300 ${W*0.015}px 'Jost', sans-serif`;
+      ctx.fillStyle = cApoio;
+      ctx.fillText(s.corpo.substring(0, 60), cx, yLinhaFrase + W*0.030);
+    }
+    ctx.textAlign = 'left';
+
+  } else if(s.tipo === 'quote'){
+    // ── QUOTE — centralizado ──
+    // Aspas decorativas
+    ctx.font      = `300 ${W*0.092}px 'Cormorant Garamond', serif`;
+    ctx.fillStyle = dark ? 'rgba(58,48,40,0.9)' : 'rgba(184,151,106,0.18)';
+    ctx.textAlign = 'left';
+    ctx.fillText('\u201C', xL - W*0.008, yContent + W*0.09);
+
+    var fsQuote = W * 0.034;
+    var lhQuote = fsQuote * 1.6;
+    ctx.font      = `300 italic ${fsQuote}px 'Cormorant Garamond', serif`;
+    ctx.fillStyle = cTit;
+    ctx.textAlign = 'center';
+    var cx = W / 2;
+    var linhasQ = wrapLines(ctx, s.titulo, maxTxtW);
+    linhasQ = linhasQ.slice(0, 6);
+    var blocoQH = linhasQ.length * lhQuote;
+    var yQStart = (H - blocoQH) / 2 - H*0.04;
+    for(var i=0; i<linhasQ.length; i++){
+      ctx.fillText(linhasQ[i], cx, yQStart + i * lhQuote);
+    }
+    var yLinhaQ = yQStart + blocoQH + fsQuote * 0.8;
+    drawLinha(cx - W*0.034, yLinhaQ, cx + W*0.034);
+    if(s.corpo){
+      ctx.font      = `300 ${W*0.015}px 'Jost', sans-serif`;
+      ctx.fillStyle = cGold;
+      ctx.fillText(s.corpo.substring(0, 62), cx, yLinhaQ + W*0.030);
+    }
+    ctx.textAlign = 'left';
+
+  } else if(s.tipo === 'motivo'){
+    // ── MOTIVO ──
+    // Número fantasma (decorativo) — só em fundo escuro, muito transparente
+    var numStr = s.tag.replace(/[^0-9]/g,'') || String(slidxAtual+1);
+    if(dark){
+      ctx.font      = `300 ${W*0.24}px 'Cormorant Garamond', serif`;
+      ctx.fillStyle = 'rgba(50,44,36,0.9)'; // escuro sobre escuro — sutil
+      ctx.textAlign = 'right';
+      ctx.fillText(numStr, W - MAR * 0.8, H * 0.78);
+      ctx.textAlign = 'left';
+    } else {
+      ctx.font      = `300 ${W*0.24}px 'Cormorant Garamond', serif`;
+      ctx.fillStyle = 'rgba(200,192,180,0.25)';
+      ctx.textAlign = 'right';
+      ctx.fillText(numStr, W - MAR * 0.8, H * 0.78);
+      ctx.textAlign = 'left';
+    }
+    // Linha divisória antes do título
+    drawLinha(xL, yContent + MAR*0.25, xL + W*0.052);
+    // Título
+    var fsMot = W * 0.044;
+    var lhMot = fsMot * 1.12;
+    ctx.font      = `300 italic ${fsMot}px 'Cormorant Garamond', serif`;
+    ctx.fillStyle = cTit;
+    var yMT = yContent + MAR*0.25 + MAR*0.45;
+    var yAposMot = drawWrapped(ctx, s.titulo, xL, yMT, W * 0.70, lhMot, 4);
+    // Corpo
+    if(s.corpo){
+      var yCorpoMot = Math.max(yAposMot + fsMot*0.4, H*0.44);
+      ctx.font      = `300 ${W*0.017}px 'Jost', sans-serif`;
+      ctx.fillStyle = cCorpo;
+      drawWrapped(ctx, s.corpo, xL, yCorpoMot, W*0.72, W*0.025, 7);
+    }
+
+  } else if(s.tipo === 'fechamento'){
+    // ── FECHAMENTO ──
+    drawLinha(xL, yContent + MAR*0.25, xL + W*0.052);
+    var fsFech = W * 0.042;
+    var lhFech = fsFech * 1.12;
+    ctx.font      = `300 italic ${fsFech}px 'Cormorant Garamond', serif`;
+    ctx.fillStyle = cTit;
+    var yFT = yContent + MAR*0.25 + MAR*0.45;
+    var yAposFech = drawWrapped(ctx, s.titulo, xL, yFT, maxTxtW, lhFech, 4);
+    if(s.corpo){
+      var yCorpoFech = Math.max(yAposFech + fsFech*0.5, H*0.50);
+      ctx.font      = `300 ${W*0.017}px 'Jost', sans-serif`;
+      ctx.fillStyle = cCorpo;
+      drawWrapped(ctx, s.corpo, xL, yCorpoFech, maxTxtW, W*0.025, 6);
+    }
+
+  } else {
+    // ── CONTEÚDO (default) ──
+    // Título
+    var fsCont = W * 0.044;
+    var lhCont = fsCont * 1.12;
+    ctx.font      = `300 italic ${fsCont}px 'Cormorant Garamond', serif`;
+    ctx.fillStyle = cTit;
+    var yContT = yContent + fsCont * 0.5;
+    var yAposCont = drawWrapped(ctx, s.titulo, xL, yContT, maxTxtW, lhCont, 4);
+    // Linha divisória abaixo do título
+    var yLinhaCont = yAposCont + fsCont * 0.5;
+    drawLinha(xL, yLinhaCont, xL + W*0.058);
+    // Corpo
+    if(s.corpo){
+      ctx.font      = `300 ${W*0.017}px 'Jost', sans-serif`;
+      ctx.fillStyle = cCorpo;
+      drawWrapped(ctx, s.corpo, xL, yLinhaCont + W*0.022, maxTxtW, W*0.025, 8);
+    }
   }
 
   ctx.restore();
 }
 
-// ═══════════════════════════════
-// GERAR NO GOOGLE SLIDES
-// ═══════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  GERAR NO GOOGLE SLIDES
+// ═══════════════════════════════════════════════════════════
 function gerarApresentacao(){
   if(!slides.length){ mostrarStatus('err','Adicione pelo menos um slide.'); return; }
-  var titulo=document.getElementById('tituloApres').value.trim();
+  var titulo = document.getElementById('tituloApres').value.trim();
   if(!titulo){ mostrarStatus('err','Preencha o título da apresentação.'); return; }
   if(APPS_SCRIPT_URL.includes('COLE_A_URL')){
     mostrarStatus('err','Cole a URL do Apps Script na variável APPS_SCRIPT_URL no código.');
     return;
   }
-
-  document.getElementById('btnGerar').disabled=true;
+  document.getElementById('btnGerar').disabled = true;
   document.getElementById('linkRes').classList.remove('show');
   mostrarStatus('load','Gerando apresentação no Google Drive…');
-  document.getElementById('topoStatus').textContent='Gerando…';
+  document.getElementById('topoStatus').textContent = 'Gerando…';
 
-  fetch(APPS_SCRIPT_URL,{
-    method:'POST',
-    body:JSON.stringify({titulo,formato:fmtAtual,slides})
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify({titulo, formato:fmtAtual, slides})
   })
-  .then(r=>r.json())
-  .then(res=>{
-    document.getElementById('btnGerar').disabled=false;
+  .then(r => r.json())
+  .then(res => {
+    document.getElementById('btnGerar').disabled = false;
     if(res.ok){
-      mostrarStatus('ok','Apresentação criada com sucesso!');
-      document.getElementById('topoStatus').textContent='✓ Criado';
-      var l=document.getElementById('linkRes');
-      l.href=res.url; l.classList.add('show');
+      mostrarStatus('ok', 'Apresentação criada com sucesso!');
+      document.getElementById('topoStatus').textContent = '✓ Criado';
+      var l = document.getElementById('linkRes');
+      l.href = res.url; l.classList.add('show');
     } else {
-      mostrarStatus('err','Erro: '+(res.erro||'resposta inválida.'));
-      document.getElementById('topoStatus').textContent='Erro';
+      mostrarStatus('err', 'Erro: '+(res.erro||'resposta inválida.'));
+      document.getElementById('topoStatus').textContent = 'Erro';
     }
   })
-  .catch(e=>{
-    document.getElementById('btnGerar').disabled=false;
-    mostrarStatus('err','Falha de conexão: '+e.message);
-    document.getElementById('topoStatus').textContent='Erro';
+  .catch(e => {
+    document.getElementById('btnGerar').disabled = false;
+    mostrarStatus('err', 'Falha de conexão: '+e.message);
+    document.getElementById('topoStatus').textContent = 'Erro';
   });
 }
 
-// ═══════════════════════════════
-// STATUS
-// ═══════════════════════════════
-function mostrarStatus(tipo,msg){
-  var bar=document.getElementById('statusBar');
-  var dot=document.getElementById('statusDot');
-  bar.className='status show '+tipo;
-  dot.className='status-dot'+(tipo==='load'?' spin':'');
-  document.getElementById('statusMsg').textContent=msg;
+// ═══════════════════════════════════════════════════════════
+//  STATUS
+// ═══════════════════════════════════════════════════════════
+function mostrarStatus(tipo, msg){
+  var bar = document.getElementById('statusBar');
+  var dot = document.getElementById('statusDot');
+  bar.className = 'status show ' + tipo;
+  dot.className = 'status-dot' + (tipo==='load' ? ' spin' : '');
+  document.getElementById('statusMsg').textContent = msg;
 }
-function esconderStatus(){ document.getElementById('statusBar').className='status'; }
+function esconderStatus(){ document.getElementById('statusBar').className = 'status'; }
 
-// ═══════════════════════════════
-// LIMPAR
-// ═══════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  LIMPAR
+// ═══════════════════════════════════════════════════════════
 function limparTudo(){
-  if(slides.length&&!confirm('Limpar todos os slides?')) return;
-  slides=[]; slidxAtual=0;
-  ['titulo','corpo','tag','tituloApres'].forEach(id=>document.getElementById(id).value='');
+  if(slides.length && !confirm('Limpar todos os slides?')) return;
+  slides = []; slidxAtual = 0;
+  ['titulo','corpo','tag','tituloApres'].forEach(id => document.getElementById(id).value = '');
   renderLista();
-  document.getElementById('navCnt').textContent='— / —';
+  document.getElementById('navCnt').textContent = '— / —';
   document.getElementById('linkRes').classList.remove('show');
   esconderStatus();
-  document.getElementById('topoStatus').textContent='—';
-  var cvs=document.getElementById('cvs');
-  cvs.getContext('2d').clearRect(0,0,cvs.width,cvs.height);
+  document.getElementById('topoStatus').textContent = '—';
+  var cvs = document.getElementById('cvs');
+  cvs.getContext('2d').clearRect(0, 0, cvs.width, cvs.height);
 }
 
 // Init
