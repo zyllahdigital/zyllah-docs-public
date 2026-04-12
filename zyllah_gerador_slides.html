@@ -248,7 +248,7 @@ body{background:var(--ink);font-family:'Jost',sans-serif;font-weight:300;color:v
 // ═══════════════════════════════
 // CONFIGURAÇÃO — cole sua URL aqui após publicar o Apps Script
 // ═══════════════════════════════
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTKs-7nLAVJf6HeWjytsfGjvKHNBSSnTVQFH29E02hrOJ5AXYS_PX4C8Vmmm_XdGI-fA/exec';
+var APPS_SCRIPT_URL = 'COLE_A_URL_DO_APPS_SCRIPT_AQUI';
 
 // ═══════════════════════════════
 // ESTADO
@@ -354,8 +354,12 @@ function navSlide(d){
 }
 
 function decidirFundo(tipo,idx){
-  if(['capa','frase','quote','fechamento'].includes(tipo)) return 'ink';
-  return idx%2===0?'ink':'cream';
+  if(['capa','fechamento','frase','quote'].includes(tipo)) return 'ink';
+  // motivo e conteudo: alterna baseado em quantos slides editoriais vieram antes
+  var contEditorial = slides.slice(0,idx).filter(function(s){
+    return ['motivo','conteudo'].includes(s.tipo);
+  }).length;
+  return contEditorial%2===0?'cream':'ink';
 }
 
 function pad2(n){return n<10?'0'+n:String(n);}
@@ -409,14 +413,14 @@ function renderPreview(){
     // Título itálico grande
     ctx.font=`300 italic ${W*0.068}px 'Cormorant Garamond',serif`;
     ctx.fillStyle=cTit;
-    wrapText(ctx,s.titulo,MAR,H*0.34,W-MAR*2,W*0.082);
+    wrapText(ctx,s.titulo,MAR,H*0.25,W-MAR*2,W*0.082);
     // Linha
     ctx.strokeStyle='#B8976A'; ctx.lineWidth=W*0.0012;
     ctx.beginPath(); ctx.moveTo(MAR,H*0.70); ctx.lineTo(MAR+W*0.070,H*0.70); ctx.stroke();
     // Subtítulo
     if(s.corpo){
-      ctx.font=`300 ${W*0.020}px Jost`; ctx.fillStyle=cApoio;
-      ctx.fillText(s.corpo.toUpperCase().substring(0,55),MAR,H*0.70+W*0.030);
+      ctx.font=`300 ${W*0.013}px Jost`; ctx.fillStyle=cApoio;
+      ctx.fillText(s.corpo.toUpperCase().substring(0,55),MAR,H*0.70+W*0.026);
     }
 
   } else if(s.tipo==='frase'){
@@ -465,7 +469,7 @@ function renderPreview(){
   ctx.fillText(pad2(slidxAtual+1)+' · '+pad2(total), MAR, H-MAR*0.80);
 
   // ── Logo (canto inferior direito) ──
-  var logoH=W*0.068, logoW=logoH;
+  var logoH=W*0.040, logoW=logoH;
   var lx=W-MAR-logoW, ly=H-MAR*0.80-logoH;
   if(logoImg&&logoImg.complete&&logoImg.naturalWidth>0){
     ctx.drawImage(logoImg,lx,ly,logoW,logoH);
