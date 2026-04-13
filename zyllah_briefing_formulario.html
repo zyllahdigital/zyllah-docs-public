@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital — Briefing de Produção</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --gold: #B8976A;
+  --gold-light: #D4B896;
+  --gold-dark: #8A6A3E;
+  --ink: #1A1714;
+  --ink-soft: #3D3830;
+  --cream: #FAF7F2;
+  --cream-mid: #F0EBE1;
+  --bloco1: #FAECE7;
+  --bloco1-text: #712B13;
+  --bloco2: #FAEEDA;
+  --bloco2-text: #633806;
+  --bloco3: #EAF3DE;
+  --bloco3-text: #27500A;
+  --bloco4: #E6F1FB;
+  --bloco4-text: #0C447C;
+  --bloco5: #EEEDFE;
+  --bloco5-text: #3C3489;
+  --obrigatorio: #712B13;
+  --recomendado: #633806;
+  --opcional: #0C447C;
+  --border: rgba(184,151,106,0.2);
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  background: var(--cream);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--ink);
+  padding: 56px 80px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.header::after {
+  content: 'BRIEF';
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 200px;
+  font-weight: 300;
+  color: rgba(184,151,106,0.04);
+  line-height: 1;
+  pointer-events: none;
+  letter-spacing: -0.02em;
+}
+.header-tag {
+  font-size: 11px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: block;
+}
+.header-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 300;
+  color: white;
+  line-height: 1.05;
+  margin-bottom: 12px;
+}
+.header-titulo em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+.header-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.35);
+  max-width: 480px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+.modo-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.modo-btn {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid rgba(184,151,106,0.25);
+  color: rgba(255,255,255,0.4);
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.modo-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.modo-btn.ativo {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--ink);
+}
+
+/* PROGRESS BAR */
+.progress-wrap {
+  background: rgba(26,23,20,0.95);
+  border-bottom: 1px solid rgba(184,151,106,0.1);
+  padding: 12px 80px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.progress-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.progress-bar {
+  flex: 1;
+  height: 2px;
+  background: rgba(184,151,106,0.15);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 1px;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+.progress-count {
+  font-size: 11px;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+
+/* CORPO */
+.corpo {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 64px 60px 100px;
+}
+
+/* BLOCO */
+.bloco {
+  margin-bottom: 64px;
+  scroll-margin-top: 70px;
+}
+.bloco-header {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.bloco-num {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.bloco-nome {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 300;
+  color: var(--ink);
+  flex: 1;
+}
+.bloco-nome em {
+  font-style: italic;
+  color: var(--gold);
+}
+.bloco-nota {
+  font-size: 11px;
+  color: rgba(26,23,20,0.35);
+  letter-spacing: 0.05em;
+}
+
+/* CAMPO */
+.campo {
+  margin-bottom: 20px;
+}
+.campo-label {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.campo-nome {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.campo-badge {
+  font-size: 9px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.campo-desc {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.campo-hint {
+  font-size: 11px;
+  color: rgba(26,23,20,0.35);
+  font-style: italic;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* INPUTS */
+input[type="text"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  background: white;
+  border: 1px solid rgba(184,151,106,0.2);
+  border-left: 3px solid rgba(184,151,106,0.25);
+  padding: 13px 16px;
+  font-family: 'Jost', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  border-radius: 0;
+  appearance: none;
+  resize: vertical;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(184,151,106,0.5);
+  border-left-color: var(--gold);
+  box-shadow: 0 2px 12px rgba(184,151,106,0.08);
+}
+input[type="text"].preenchido,
+textarea.preenchida,
+select.preenchido {
+  border-left-color: var(--gold);
+}
+textarea {
+  min-height: 90px;
+}
+select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23B8976A' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+select option { background: white; color: var(--ink); }
+
+/* CHIPS para modo do ciclo */
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.chip {
+  padding: 10px 18px;
+  border: 1px solid rgba(184,151,106,0.25);
+  background: white;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: all 0.15s;
+  border-radius: 0;
+}
+.chip:hover {
+  border-color: var(--gold);
+  color: var(--ink);
+}
+.chip.selecionado {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: white;
+  font-weight: 500;
+}
+.chip-desc {
+  font-size: 10px;
+  opacity: 0.7;
+  display: block;
+  margin-top: 2px;
+}
+
+/* CHECKBOX REDES */
+.redes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px;
+}
+.rede-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid rgba(184,151,106,0.2);
+  background: white;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.rede-check:hover {
+  border-color: var(--gold);
+}
+.rede-check.ativo {
+  border-left: 3px solid var(--gold);
+  background: rgba(184,151,106,0.04);
+}
+.rede-check input { display: none; }
+.rede-caixa {
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(184,151,106,0.4);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.rede-check.ativo .rede-caixa {
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.rede-caixa svg { display: none; }
+.rede-check.ativo .rede-caixa svg { display: block; }
+.rede-nome {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+/* ALERTA MODO CONTINUIDADE */
+.alerta-continuidade {
+  background: rgba(6, 68, 124, 0.05);
+  border: 1px solid rgba(12,68,124,0.15);
+  border-left: 3px solid #0C447C;
+  padding: 14px 18px;
+  font-size: 12px;
+  color: #0C447C;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  display: none;
+}
+.alerta-continuidade.visivel { display: block; }
+
+/* AVISO BLOCO 5 */
+.aviso {
+  background: rgba(184,151,106,0.06);
+  border: 1px solid rgba(184,151,106,0.2);
+  padding: 12px 16px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+  margin-top: 16px;
+}
+
+/* DIVISOR */
+.divisor {
+  height: 1px;
+  background: rgba(184,151,106,0.12);
+  margin: 48px 0;
+}
+
+/* FOOTER CTA */
+.footer-cta {
+  background: var(--ink);
+  padding: 48px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.footer-texto .label {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 6px;
+}
+.footer-texto .titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: white;
+  line-height: 1.1;
+}
+.footer-texto .titulo em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+.footer-status {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 8px;
+}
+.footer-status strong {
+  color: var(--gold);
+  font-weight: 400;
+}
+.btn-gerar {
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  padding: 18px 40px;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.btn-gerar:hover { background: var(--gold-light); }
+.btn-gerar:disabled {
+  background: rgba(184,151,106,0.3);
+  color: rgba(26,23,20,0.4);
+  cursor: not-allowed;
+}
+
+/* MODAL DE EXPORTAÇÃO */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,23,20,0.85);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.overlay.aberto { display: flex; }
+.modal {
+  background: var(--cream);
+  max-width: 600px;
+  width: 100%;
+  padding: 48px;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.modal-fechar {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: 'Cormorant Garamond', serif;
+}
+.modal-tag {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 12px;
+}
+.modal-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--ink);
+  margin-bottom: 24px;
+  line-height: 1.1;
+}
+.modal-titulo em { font-style: italic; color: var(--gold); }
+.output-area {
+  background: white;
+  border: 1px solid var(--border);
+  padding: 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  color: var(--ink);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 320px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+.modal-btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.btn-sec {
+  padding: 12px 22px;
+  border: 1px solid rgba(184,151,106,0.4);
+  background: transparent;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-sec:hover { background: rgba(184,151,106,0.08); }
+
+@media (max-width: 640px) {
+  .header { padding: 40px 24px 36px; }
+  .progress-wrap { padding: 12px 24px; }
+  .corpo { padding: 40px 20px 80px; }
+  .footer-cta { padding: 36px 24px; }
+  .modal { padding: 32px 24px; }
+  .modo-selector { flex-direction: column; }
+  .redes-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <span class="header-tag">Zyllah Digital · Produção</span>
+  <h1 class="header-titulo">Briefing de<br><em>produção</em></h1>
+  <p class="header-sub">Preencha os campos antes de qualquer calendário ser gerado. Sem esse diagnóstico, o gerador não tem base para nada.</p>
+  <div class="modo-selector" id="modoSelector">
+    <button class="modo-btn ativo" data-modo="novo" onclick="selecionarModo('novo')">
+      Novo negócio
+    </button>
+    <button class="modo-btn" data-modo="continuidade" onclick="selecionarModo('continuidade')">
+      Continuidade
+    </button>
+    <button class="modo-btn" data-modo="reposicionamento" onclick="selecionarModo('reposicionamento')">
+      Reposicionamento
+    </button>
+  </div>
+</div>
+
+<!-- BARRA DE PROGRESSO -->
+<div class="progress-wrap">
+  <span class="progress-label">Progresso</span>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <span class="progress-count" id="progressCount">0 / 10</span>
+</div>
+
+<div class="corpo">
+
+  <!-- BLOCO 1 -->
+  <div class="bloco" id="bloco1">
+    <div class="bloco-header">
+      <span class="bloco-num" style="background:#FAECE7;color:#712B13">Bloco 1</span>
+      <div class="bloco-nome">Identidade do <em>negócio</em></div>
+      <span class="bloco-nota">Obrigatório</span>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Nome do negócio / marca</span>
+        <span class="campo-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      </div>
+      <div class="campo-desc">Como o negócio se apresenta publicamente. Pode diferir do nome jurídico.</div>
+      <input type="text" id="campo_nome" placeholder="Ex: Clínica Reviver" oninput="atualizarProgresso()">
+      <p class="campo-hint">Não usar nome jurídico — usar o nome de marca que o público reconhece.</p>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Segmento e nicho</span>
+        <span class="campo-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      </div>
+      <div class="campo-desc">Categoria do negócio e especialização específica. Quanto mais preciso, melhor o calendário.</div>
+      <input type="text" id="campo_segmento" placeholder="Ex: Saúde · fisioterapia esportiva para corredores amadores" oninput="atualizarProgresso()">
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Modo do ciclo</span>
+        <span class="campo-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      </div>
+      <div class="campo-desc">Define qual template de calendário o gerador vai usar. Selecionado no topo da página — confirme abaixo.</div>
+      <div class="chips">
+        <div class="chip selecionado" id="chip_novo" onclick="selecionarChip('novo')">
+          Novo negócio
+          <span class="chip-desc">Apresentação e autoridade</span>
+        </div>
+        <div class="chip" id="chip_continuidade" onclick="selecionarChip('continuidade')">
+          Continuidade
+          <span class="chip-desc">Equilíbrio autoridade + conversão</span>
+        </div>
+        <div class="chip" id="chip_reposicionamento" onclick="selecionarChip('reposicionamento')">
+          Reposicionamento
+          <span class="chip-desc">Ruptura sem descartar histórico</span>
+        </div>
+      </div>
+      <input type="hidden" id="campo_modo" value="novo">
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- BLOCO 2 -->
+  <div class="bloco" id="bloco2">
+    <div class="bloco-header">
+      <span class="bloco-num" style="background:#FAEEDA;color:#633806">Bloco 2</span>
+      <div class="bloco-nome">Público e <em>voz</em></div>
+      <span class="bloco-nota">Obrigatório — calibra tom de todas as legendas</span>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Público-alvo</span>
+        <span class="campo-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      </div>
+      <div class="campo-desc">Perfil de quem vai receber o conteúdo. Inclui faixa etária, contexto de vida e dor principal.</div>
+      <textarea id="campo_publico" placeholder="Ex: Mulheres 35–55 anos, donas de negócio, sem tempo, querem crescer sem caos" oninput="atualizarProgresso()"></textarea>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Tom de voz</span>
+        <span class="campo-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      </div>
+      <div class="campo-desc">Como o negócio se comunica. Define vocabulário, nível de formalidade e personalidade das legendas.</div>
+      <textarea id="campo_tom" placeholder="Ex: Próximo e direto, sem corporativês. Usa perguntas. Nunca usa 'alavancar' ou 'potencializar'." oninput="atualizarProgresso()"></textarea>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Palavras e expressões proibidas</span>
+        <span class="campo-badge" style="background:#FAEEDA;color:#633806">Recomendado</span>
+      </div>
+      <div class="campo-desc">Termos que o cliente quer evitar — por preferência, setor regulado ou diferenciação de mercado.</div>
+      <textarea id="campo_proibidas" placeholder="Ex: Evitar: 'transformação', 'jornada', 'solução inovadora', qualquer promessa de resultado clínico" oninput="atualizarProgresso()" style="min-height:72px"></textarea>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- BLOCO 3 -->
+  <div class="bloco" id="bloco3">
+    <div class="bloco-header">
+      <span class="bloco-num" style="background:#EAF3DE;color:#27500A">Bloco 3</span>
+      <div class="bloco-nome">Redes e <em>escala</em></div>
+      <span class="bloco-nota">Obrigatório — define volume e formatos</span>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Redes ativas no período</span>
+        <span class="campo-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      </div>
+      <div class="campo-desc">Quais plataformas serão alimentadas. Cada rede tem formato, frequência e linguagem diferentes.</div>
+      <div class="redes-grid" id="redesGrid">
+        <label class="rede-check" onclick="toggleRede(this)">
+          <input type="checkbox" value="Instagram">
+          <div class="rede-caixa"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none"/></svg></div>
+          <span class="rede-nome">Instagram</span>
+        </label>
+        <label class="rede-check" onclick="toggleRede(this)">
+          <input type="checkbox" value="LinkedIn">
+          <div class="rede-caixa"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none"/></svg></div>
+          <span class="rede-nome">LinkedIn</span>
+        </label>
+        <label class="rede-check" onclick="toggleRede(this)">
+          <input type="checkbox" value="TikTok">
+          <div class="rede-caixa"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none"/></svg></div>
+          <span class="rede-nome">TikTok</span>
+        </label>
+        <label class="rede-check" onclick="toggleRede(this)">
+          <input type="checkbox" value="YouTube">
+          <div class="rede-caixa"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none"/></svg></div>
+          <span class="rede-nome">YouTube</span>
+        </label>
+        <label class="rede-check" onclick="toggleRede(this)">
+          <input type="checkbox" value="Facebook">
+          <div class="rede-caixa"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none"/></svg></div>
+          <span class="rede-nome">Facebook</span>
+        </label>
+        <label class="rede-check" onclick="toggleRede(this)">
+          <input type="checkbox" value="Pinterest">
+          <div class="rede-caixa"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none"/></svg></div>
+          <span class="rede-nome">Pinterest</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Período e frequência</span>
+        <span class="campo-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      </div>
+      <div class="campo-desc">Janela do calendário e quantos posts por semana por rede. Define o total de peças a produzir.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div>
+          <div style="font-size:11px;color:var(--ink-soft);margin-bottom:6px;letter-spacing:0.05em">Período</div>
+          <select id="campo_periodo" onchange="atualizarProgresso()">
+            <option value="">Selecionar →</option>
+            <option value="2 semanas">2 semanas</option>
+            <option value="Mês">Mês (4 semanas)</option>
+            <option value="Bimestre">Bimestre</option>
+            <option value="Semestre">Semestre</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--ink-soft);margin-bottom:6px;letter-spacing:0.05em">Posts / semana (principal rede)</div>
+          <select id="campo_frequencia" onchange="atualizarProgresso()">
+            <option value="">Selecionar →</option>
+            <option value="2x/semana">2x / semana</option>
+            <option value="3x/semana">3x / semana</option>
+            <option value="4x/semana">4x / semana</option>
+            <option value="5x/semana">5x / semana</option>
+            <option value="7x/semana">7x / semana (diário)</option>
+          </select>
+        </div>
+      </div>
+      <p class="campo-hint">Para começar: use 2 semanas (menor risco, ajuste mais rápido). Clientes em continuidade → mês. Consolidado → bimestre ou semestre.</p>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Mix de formatos</span>
+        <span class="campo-badge" style="background:#FAEEDA;color:#633806">Recomendado</span>
+      </div>
+      <div class="campo-desc">Proporção entre tipos de peça no período. Orienta o gerador sobre quantos carrosséis, alltype e vídeos criar.</div>
+      <textarea id="campo_mix" placeholder="Ex: 60% alltype · 30% carrossel · 10% mix foto. Vídeo: não neste ciclo." oninput="atualizarProgresso()" style="min-height:72px"></textarea>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- BLOCO 4 -->
+  <div class="bloco" id="bloco4">
+    <div class="bloco-header">
+      <span class="bloco-num" style="background:#E6F1FB;color:#0C447C">Bloco 4</span>
+      <div class="bloco-nome">Performance do <em>período anterior</em></div>
+      <span class="bloco-nota" id="bloco4Nota">Obrigatório no modo continuidade</span>
+    </div>
+
+    <div class="alerta-continuidade" id="alertaContinuidade">
+      Modo continuidade ativo — os campos de performance são obrigatórios. Sem eles, o gerador não tem base para ajustar a pauta do próximo período.
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Métricas principais</span>
+        <span class="campo-badge" id="badge_metricas" style="background:#FAEEDA;color:#633806">Modo continuidade</span>
+      </div>
+      <div class="campo-desc">Alcance, engajamento, cliques e conversões do período anterior. Base para ajuste de pauta.</div>
+      <textarea id="campo_metricas" placeholder="Ex: Alcance médio: 1.200 · Engajamento: 4,2% · Melhor post: carrossel identidade visual (8,7%)" oninput="atualizarProgresso()" style="min-height:80px"></textarea>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">O que funcionou / o que não funcionou</span>
+        <span class="campo-badge" id="badge_aprendizados" style="background:#FAEEDA;color:#633806">Modo continuidade</span>
+      </div>
+      <div class="campo-desc">Análise qualitativa. Evita repetir erros e amplifica o que engajou.</div>
+      <textarea id="campo_aprendizados" placeholder="Ex: Funcionou: bastidores, antes/depois. Não funcionou: posts só com texto longo, horário 9h." oninput="atualizarProgresso()" style="min-height:80px"></textarea>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Objetivo do próximo período</span>
+        <span class="campo-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      </div>
+      <div class="campo-desc">O que o cliente quer prioritariamente: mais seguidores, mais DMs, mais cliques, mais vendas.</div>
+      <textarea id="campo_objetivo" placeholder="Ex: Prioridade: gerar DMs para consulta. Secundário: crescer 200 seguidores." oninput="atualizarProgresso()" style="min-height:72px"></textarea>
+    </div>
+  </div>
+
+  <div class="divisor"></div>
+
+  <!-- BLOCO 5 -->
+  <div class="bloco" id="bloco5">
+    <div class="bloco-header">
+      <span class="bloco-num" style="background:#EEEDFE;color:#3C3489">Bloco 5</span>
+      <div class="bloco-nome">Contexto e <em>restrições</em></div>
+      <span class="bloco-nota">Recomendado — evita retrabalho</span>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Datas relevantes do período</span>
+        <span class="campo-badge" style="background:#FAEEDA;color:#633806">Recomendado</span>
+      </div>
+      <div class="campo-desc">Datas comerciais, sazonais ou internas que devem ser contempladas no calendário.</div>
+      <textarea id="campo_datas" placeholder="Ex: Dia das Mães 11/05 · Aniversário da clínica 22/05 · Não usar feriados para posts de venda" oninput="atualizarProgresso()" style="min-height:72px"></textarea>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Restrições do setor</span>
+        <span class="campo-badge" style="background:#FAEEDA;color:#633806">Recomendado</span>
+      </div>
+      <div class="campo-desc">Limitações regulatórias que afetam o que pode ser dito ou prometido no conteúdo.</div>
+      <textarea id="campo_restricoes" placeholder="Ex: Saúde: sem promessa de cura ou resultado garantido (CFM). Financeiro: sem previsão de retorno." oninput="atualizarProgresso()" style="min-height:72px"></textarea>
+    </div>
+
+    <div class="campo">
+      <div class="campo-label">
+        <span class="campo-nome">Assets disponíveis</span>
+        <span class="campo-badge" style="background:#E6F1FB;color:#0C447C">Opcional</span>
+      </div>
+      <div class="campo-desc">O que o cliente tem para fornecer: fotos, vídeos, depoimentos, dados. Define viabilidade dos formatos mix.</div>
+      <textarea id="campo_assets" placeholder="Ex: 12 fotos do espaço, 3 depoimentos em vídeo. Sem foto de equipe atualizada." oninput="atualizarProgresso()" style="min-height:72px"></textarea>
+    </div>
+
+    <div class="aviso">
+      Campos do Bloco 5 ausentes não travam o gerador — mas aumentam o risco de retrabalho. Um post que promete resultado clínico em saúde pode obrigar descarte completo da peça.
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER CTA -->
+<div class="footer-cta">
+  <div class="footer-texto">
+    <span class="label">Zyllah Digital · Geração</span>
+    <div class="titulo">Gerar <em>briefing</em></div>
+    <div class="footer-status" id="footerStatus">Preencha os campos obrigatórios para continuar.</div>
+  </div>
+  <button class="btn-gerar" id="btnGerar" onclick="gerarBriefing()" disabled>
+    Gerar briefing →
+  </button>
+</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="modal-fechar" onclick="fecharModal()">✕</button>
+    <span class="modal-tag">Zyllah Digital · Produção</span>
+    <div class="modal-titulo">Briefing <em>gerado</em></div>
+    <div class="output-area" id="outputArea"></div>
+    <div class="modal-btns">
+      <button class="btn-sec" onclick="copiarBriefing()">Copiar texto</button>
+      <button class="btn-sec" onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let modoAtual = 'novo';
+let redesSelecionadas = [];
+
+function selecionarModo(modo) {
+  modoAtual = modo;
+  // header buttons
+  document.querySelectorAll('.modo-btn').forEach(b => b.classList.remove('ativo'));
+  document.querySelector('[data-modo="' + modo + '"]').classList.add('ativo');
+  // chips
+  selecionarChip(modo);
+  // bloco 4
+  atualizarBloco4();
+  atualizarProgresso();
+}
+
+function selecionarChip(modo) {
+  modoAtual = modo;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selecionado'));
+  document.getElementById('chip_' + modo).classList.add('selecionado');
+  document.getElementById('campo_modo').value = modo;
+  // sync header buttons too
+  document.querySelectorAll('.modo-btn').forEach(b => b.classList.remove('ativo'));
+  const btn = document.querySelector('[data-modo="' + modo + '"]');
+  if (btn) btn.classList.add('ativo');
+  atualizarBloco4();
+  atualizarProgresso();
+}
+
+function atualizarBloco4() {
+  const alerta = document.getElementById('alertaContinuidade');
+  const nota = document.getElementById('bloco4Nota');
+  if (modoAtual === 'continuidade') {
+    alerta.classList.add('visivel');
+    nota.textContent = 'Obrigatório neste modo';
+  } else {
+    alerta.classList.remove('visivel');
+    nota.textContent = 'Obrigatório no modo continuidade';
+  }
+}
+
+function toggleRede(label) {
+  const cb = label.querySelector('input');
+  cb.checked = !cb.checked;
+  if (cb.checked) {
+    label.classList.add('ativo');
+    if (!redesSelecionadas.includes(cb.value)) redesSelecionadas.push(cb.value);
+  } else {
+    label.classList.remove('ativo');
+    redesSelecionadas = redesSelecionadas.filter(r => r !== cb.value);
+  }
+  atualizarProgresso();
+}
+
+function getCamposObrigatorios() {
+  const base = ['campo_nome','campo_segmento','campo_publico','campo_tom','campo_objetivo'];
+  const periodo = ['campo_periodo','campo_frequencia'];
+  const continuidade = modoAtual === 'continuidade' ? ['campo_metricas','campo_aprendizados'] : [];
+  return [...base, ...periodo, ...continuidade];
+}
+
+function atualizarProgresso() {
+  const obrig = getCamposObrigatorios();
+  let preenchidos = 0;
+  let total = obrig.length + 1; // +1 para redes
+
+  obrig.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value.trim()) {
+      preenchidos++;
+      el.classList.add('preenchido');
+    } else {
+      el && el.classList.remove('preenchido');
+    }
+  });
+  if (redesSelecionadas.length > 0) preenchidos++;
+
+  const pct = Math.round((preenchidos / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = preenchidos + ' / ' + total;
+
+  const btn = document.getElementById('btnGerar');
+  const status = document.getElementById('footerStatus');
+  const faltam = total - preenchidos;
+  if (faltam === 0) {
+    btn.disabled = false;
+    status.innerHTML = 'Tudo pronto. <strong style="color:var(--gold)">Clique para gerar o briefing.</strong>';
+  } else {
+    btn.disabled = true;
+    status.textContent = 'Faltam ' + faltam + ' campo' + (faltam > 1 ? 's' : '') + ' obrigatório' + (faltam > 1 ? 's' : '') + '.';
+  }
+}
+
+function gerarBriefing() {
+  const nome = document.getElementById('campo_nome').value.trim();
+  const segmento = document.getElementById('campo_segmento').value.trim();
+  const publico = document.getElementById('campo_publico').value.trim();
+  const tom = document.getElementById('campo_tom').value.trim();
+  const proibidas = document.getElementById('campo_proibidas').value.trim();
+  const periodo = document.getElementById('campo_periodo').value;
+  const frequencia = document.getElementById('campo_frequencia').value;
+  const mix = document.getElementById('campo_mix').value.trim();
+  const metricas = document.getElementById('campo_metricas').value.trim();
+  const aprendizados = document.getElementById('campo_aprendizados').value.trim();
+  const objetivo = document.getElementById('campo_objetivo').value.trim();
+  const datas = document.getElementById('campo_datas').value.trim();
+  const restricoes = document.getElementById('campo_restricoes').value.trim();
+  const assets = document.getElementById('campo_assets').value.trim();
+
+  const agora = new Date();
+  const dataStr = agora.toLocaleDateString('pt-BR') + ' às ' + agora.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+
+  let texto = '';
+  texto += '────────────────────────────\n';
+  texto += 'BRIEFING DE PRODUÇÃO · ZYLLAH DIGITAL\n';
+  texto += 'Gerado em ' + dataStr + '\n';
+  texto += '────────────────────────────\n\n';
+
+  texto += 'BLOCO 1 — IDENTIDADE\n';
+  texto += 'Negócio: ' + nome + '\n';
+  texto += 'Segmento: ' + segmento + '\n';
+  texto += 'Modo do ciclo: ' + modoAtual.charAt(0).toUpperCase() + modoAtual.slice(1) + '\n\n';
+
+  texto += 'BLOCO 2 — PÚBLICO E VOZ\n';
+  texto += 'Público-alvo: ' + publico + '\n';
+  texto += 'Tom de voz: ' + tom + '\n';
+  if (proibidas) texto += 'Palavras proibidas: ' + proibidas + '\n';
+  texto += '\n';
+
+  texto += 'BLOCO 3 — REDES E ESCALA\n';
+  texto += 'Redes ativas: ' + redesSelecionadas.join(', ') + '\n';
+  texto += 'Período: ' + periodo + ' · ' + frequencia + '\n';
+  if (mix) texto += 'Mix de formatos: ' + mix + '\n';
+  texto += '\n';
+
+  if (modoAtual === 'continuidade' || metricas || aprendizados) {
+    texto += 'BLOCO 4 — PERFORMANCE ANTERIOR\n';
+    if (metricas) texto += 'Métricas: ' + metricas + '\n';
+    if (aprendizados) texto += 'Aprendizados: ' + aprendizados + '\n';
+  }
+  texto += 'Objetivo do período: ' + objetivo + '\n\n';
+
+  if (datas || restricoes || assets) {
+    texto += 'BLOCO 5 — CONTEXTO E RESTRIÇÕES\n';
+    if (datas) texto += 'Datas relevantes: ' + datas + '\n';
+    if (restricoes) texto += 'Restrições do setor: ' + restricoes + '\n';
+    if (assets) texto += 'Assets disponíveis: ' + assets + '\n';
+    texto += '\n';
+  }
+
+  texto += '────────────────────────────\n';
+  texto += 'Próximo passo: passar este briefing ao gerador de calendário editorial.';
+
+  document.getElementById('outputArea').textContent = texto;
+  document.getElementById('overlay').classList.add('aberto');
+}
+
+function copiarBriefing() {
+  const texto = document.getElementById('outputArea').textContent;
+  navigator.clipboard.writeText(texto).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Copiado ✓';
+    setTimeout(() => { btn.textContent = 'Copiar texto'; }, 2000);
+  });
+}
+
+function fecharModal() {
+  document.getElementById('overlay').classList.remove('aberto');
+}
+
+// init
+atualizarProgresso();
+</script>
+</body>
+</html>

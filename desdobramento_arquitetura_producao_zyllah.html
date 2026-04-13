@@ -1,0 +1,216 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:1.25rem 0}
+.layer{margin-bottom:10px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.layer-header{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none}
+.layer-header:hover{background:var(--color-background-secondary)}
+.layer-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.layer-title{font-size:14px;font-weight:500;color:var(--color-text-primary);flex:1}
+.layer-sub{font-size:12px;color:var(--color-text-secondary)}
+.chevron{font-size:13px;color:var(--color-text-tertiary);transition:transform .2s}
+.chevron.open{transform:rotate(90deg)}
+.layer-body{border-top:0.5px solid var(--color-border-tertiary);padding:16px;display:none}
+.layer-body.open{display:block}
+.blocks-grid{display:grid;gap:10px}
+.block{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:12px 14px;cursor:pointer;transition:border-color .15s}
+.block:hover{border-color:var(--color-border-secondary)}
+.block-title{font-size:13px;font-weight:500;margin-bottom:4px}
+.block-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.5;margin-bottom:8px}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.tag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:8px}
+.flow-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;font-size:11px;margin-top:6px}
+.fn{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:5px;padding:2px 7px;color:var(--color-text-primary)}
+.fa{color:var(--color-text-tertiary);font-size:12px}
+.obs-box{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-primary);border-left:2px solid var(--color-border-secondary);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;padding:8px 10px;margin-top:10px;line-height:1.5}
+.ask-btn{font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;margin-top:8px;display:inline-flex;align-items:center;gap:4px}
+.ask-btn:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.layer-flow{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:12px 0 4px;padding:10px 12px;background:var(--color-background-primary);border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary)}
+.status-pill{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Desdobramento completo da arquitetura de produção Zyllah — do relatório ao Buffer</h2>
+
+<div id="layers"></div>
+</div>
+
+<script>
+const layers=[
+{
+  id:'gatilho',
+  label:'Gatilho',
+  title:'Entrada do ciclo',
+  sub:'Relatório de performance → período',
+  badgeColor:'background:#FAEEDA;color:#854F0B',
+  blocks:[
+    {
+      title:'Relatório de performance',
+      desc:'Documento crítico que dispara o ciclo de produção. Pode representar três contextos: negócio novo (onboarding), continuidade (revisão periódica) ou reposicionamento (mudança estratégica). Sem relatório, não há base para o calendário.',
+      tags:[{t:'Gatilho principal',s:'background:#FAEEDA;color:#633806'},{t:'Manual hoje',s:'background:#F1EFE8;color:#5F5E5A'}],
+      flow:['Dados do cliente','→','Análise crítica','→','Diagnóstico escrito','→','Briefing de produção'],
+      obs:'O relatório precisa conter: métricas do período anterior, posicionamento atual, tom de voz validado, redes ativas e público-alvo. Sem esses campos, o gerador não tem base para criar o calendário editorial.',
+      ask:'O que deve constar no relatório de performance que dispara o ciclo?'
+    },
+    {
+      title:'Período do calendário',
+      desc:'Define o horizonte de produção antes de qualquer geração de conteúdo. Opções: 2 semanas, mês, bimestre ou semestre. A escolha impacta volume de peças, cadência de postagem e carga de produção.',
+      tags:[{t:'Parâmetro de entrada',s:'background:#F1EFE8;color:#5F5E5A'},{t:'Define escala',s:'background:#EAF3DE;color:#3B6D11'}],
+      flow:['Escolha do período','→','Cálculo de slots','→','Distribuição por rede'],
+      obs:'Critério de escolha: para começar, use 2 semanas (menor risco, ajuste mais rápido). Clientes em continuidade → mês. Serviços consolidados → bimestre ou semestre.',
+      ask:'Como funciona o modo continuidade após relatório periódico?'
+    }
+  ]
+},
+{
+  id:'geracao',
+  label:'Geração automática',
+  title:'Calendário editorial completo',
+  sub:'Pauta · datas/horas · legendas · hashtags · estrutura visual',
+  badgeColor:'background:#E1F5EE;color:#0F6E56',
+  blocks:[
+    {
+      title:'Gerador de calendário editorial',
+      desc:'Núcleo da automação. Recebe o briefing do relatório e produz, para cada slot do período: data e hora de postagem, rede-alvo, tipo de peça (alltype, carrossel, mix, vídeo, story), legenda completa com call-to-action e bloco de hashtags categorizados.',
+      tags:[{t:'Automação central',s:'background:#E1F5EE;color:#085041'},{t:'Claude via API',s:'background:#E6F1FB;color:#0C447C'},{t:'Google Sheets saída',s:'background:#EAF3DE;color:#3B6D11'}],
+      flow:['Briefing do relatório','→','Prompt estruturado','→','Claude gera calendário','→','Sheets recebe dados','→','Calendário revisável'],
+      obs:'Cada linha do Sheets = um post. Colunas: ID, data, hora, rede, tipo de peça, tema, legenda, hashtags, status, link de pasta. O gerador deve receber: nome do negócio, segmento, público, tom, redes ativas, período e número máximo de posts.',
+      ask:'Quais são as entradas necessárias para gerar o calendário editorial automaticamente?'
+    }
+  ]
+},
+{
+  id:'pecas',
+  label:'Produção de peças',
+  title:'Três módulos de produção paralelos',
+  sub:'Alltype · Carrosséis · Mix foto+texto',
+  badgeColor:'background:#E6F1FB;color:#185FA5',
+  blocks:[
+    {
+      title:'Imagens alltype',
+      desc:'Peças 100% tipográficas — sem fotografia, apenas texto, cores e layout. São as mais escaláveis: geração automática a partir do texto do calendário. O gerador lê a legenda, aplica identidade visual (fontes, paleta, grid) e exporta o arquivo com nome no padrão data/hora/rede.',
+      tags:[{t:'Automação total',s:'background:#E1F5EE;color:#085041'},{t:'Geração via HTML/SVG',s:'background:#E6F1FB;color:#0C447C'},{t:'→ pasta automaticamente',s:'background:#EAF3DE;color:#3B6D11'}],
+      flow:['Texto do calendário','→','Gerador de layout','→','Render HTML','→','Export PNG/JPG','→','Pasta data·hora·rede·tipo'],
+      obs:'Ferramentas viáveis hoje: gerador HTML com Puppeteer headless, ou template SVG com substituição de texto via script. O nome da pasta/arquivo já contém data, hora, rede e tipo para facilitar o agendamento no Buffer.',
+      ask:'Como gerar as peças alltype automaticamente a partir do calendário?'
+    },
+    {
+      title:'Carrosséis',
+      desc:'Sequências de slides para Instagram e LinkedIn. Cada carrossel tem estrutura definida pelo calendário: slide de capa (gancho), slides de conteúdo (2 a 6), slide de fecho (CTA). O gerador popula cada slide com o texto correspondente e aplica o template visual.',
+      tags:[{t:'Semi-automático',s:'background:#FAEEDA;color:#633806'},{t:'Template por tipo',s:'background:#E6F1FB;color:#0C447C'},{t:'Revisão manual',s:'background:#F1EFE8;color:#5F5E5A'}],
+      flow:['Estrutura do calendário','→','Gerador de slides','→','5 slides por carrossel','→','Revisão de conteúdo','→','Export por pasta'],
+      obs:'Estrutura padrão de 5 slides: 1) capa/gancho, 2) motivo/contexto, 3) conteúdo principal, 4) frase de impacto, 5) fechamento/CTA. Cada slide é um artefato HTML independente — facilita edição pontual.',
+      ask:'Como estruturar o gerador de slides de carrossel?'
+    },
+    {
+      title:'Mix foto+texto',
+      desc:'Peças que combinam fotografia com tipografia. Exigem foto de alta qualidade como base — o que torna a automação parcial. O texto e o layout são gerados automaticamente, mas a foto precisa ser inserida manualmente ou vir de banco de imagens pré-aprovado.',
+      tags:[{t:'Semi-automático',s:'background:#FAEEDA;color:#633806'},{t:'Foto: intervenção manual',s:'background:#FAECE7;color:#712B13'},{t:'Layout: automático',s:'background:#E1F5EE;color:#085041'}],
+      flow:['Briefing visual','→','Seleção de foto','→','Composição automática','→','Revisão manual','→','Export final'],
+      obs:'Fluxo recomendado: criar pasta de fotos aprovadas por cliente. O gerador consulta essa pasta e aplica a foto ao template. Revisão manual garante que texto e imagem se complementam antes da publicação.',
+      ask:'Qual é a complexidade de montar peças mix foto+texto automaticamente?'
+    }
+  ]
+},
+{
+  id:'futuro',
+  label:'Fase 2 — futuro',
+  title:'Vídeos, reels, storys e outros formatos',
+  sub:'Automação a avaliar — viabilidade técnica em evolução',
+  badgeColor:'background:#FAECE7;color:#993C1D',
+  blocks:[
+    {
+      title:'Vídeos / reels / playlists temáticas',
+      desc:'Formato de maior alcance mas também de maior complexidade de produção automatizada. Hoje, a geração de vídeo via IA (Runway, Pika, Sora) ainda exige supervisão intensiva e custo por minuto. A abordagem viável no curto prazo é template de edição no CapCut com texto e imagens já prontos.',
+      tags:[{t:'Viabilidade futura',s:'background:#FAECE7;color:#712B13'},{t:'CapCut: viável hoje',s:'background:#FAEEDA;color:#633806'},{t:'IA-gerado: fase 2',s:'background:#F1EFE8;color:#5F5E5A'}],
+      flow:['Script do calendário','→','Template CapCut','→','Imagens/alltype como base','→','Narração opcional','→','Export MP4'],
+      obs:'Caminho de menor atrito hoje: usar as imagens alltype já produzidas como base visual de um reel simples com texto animado e trilha. Isso aproveita 100% do que já foi gerado e adiciona o formato vídeo sem criar um processo paralelo.',
+      ask:'O que precisaria para automatizar a produção de vídeos e storys?'
+    },
+    {
+      title:'Storys / outros formatos',
+      desc:'Stories têm vida útil de 24h e formato vertical (9:16). Automação parcialmente viável hoje: templates HTML/SVG em formato vertical com substituição de texto. O desafio é o volume — stories diários exigem produção constante.',
+      tags:[{t:'Viabilidade média',s:'background:#FAEEDA;color:#633806'},{t:'Template vertical',s:'background:#E6F1FB;color:#0C447C'},{t:'Volume alto',s:'background:#FAECE7;color:#712B13'}],
+      flow:['Template 9:16','→','Texto do calendário','→','Geração HTML','→','Screenshot/export','→','Agendamento manual'],
+      obs:'Para storys: priorizar templates de enquete, contagem regressiva e bastidores — formatos que aproveitam recursos nativos do Instagram sem depender de imagem elaborada. Geram engajamento com baixíssima produção.',
+      ask:'Storys têm alguma automação viável hoje com as ferramentas disponíveis?'
+    }
+  ]
+},
+{
+  id:'saida',
+  label:'Revisão + publicação',
+  title:'Pastas organizadas → Buffer → agendadores',
+  sub:'Freelancer executa com material pronto',
+  badgeColor:'background:#EAF3DE;color:#3B6D11',
+  blocks:[
+    {
+      title:'Pastas organizadas por data/hora',
+      desc:'Sistema de arquivamento que elimina decisão na hora de agendar. Cada pasta tem nome no formato: AAAA-MM-DD_HHMM_rede_tipo. Exemplo: 2026-04-15_1800_IG_carrossel. O freelancer abre a pasta, vê o arquivo, lê a legenda no Sheets e programa — sem precisar pensar.',
+      tags:[{t:'Nomeação automática',s:'background:#EAF3DE;color:#27500A'},{t:'Zero decisão operacional',s:'background:#E1F5EE;color:#085041'},{t:'Delegável',s:'background:#F1EFE8;color:#444441'}],
+      flow:['Export do gerador','→','Pasta nomeada automaticamente','→','Legenda no Sheets','→','Freelancer abre pasta','→','Agenda no Buffer'],
+      obs:'Padrão de nome recomendado: AAAA-MM-DD_HHMM_[IG|LI|TK|YT|FB]_[alltype|carrossel|mix|video|story]. Com esse padrão, as pastas já se ordenam cronologicamente no explorador de arquivos.',
+      ask:'Como estruturar a pasta de saída com nome data/hora para facilitar o agendamento no Buffer?'
+    },
+    {
+      title:'Revisão → Buffer / TikTok / YT Studio',
+      desc:'Etapa executada pelo freelancer ou pelo próprio fundador quando disponível. O processo é linear: abrir pasta → confirmar arquivo → copiar legenda do Sheets → agendar na plataforma correta. Buffer cobre Instagram, LinkedIn e Facebook. TikTok e YT Studio são agendados diretamente.',
+      tags:[{t:'Buffer: 3 canais free',s:'background:#EAF3DE;color:#27500A'},{t:'TikTok: agendamento nativo',s:'background:#E6F1FB;color:#0C447C'},{t:'YT Studio',s:'background:#FAECE7;color:#712B13'}],
+      flow:['Pasta do dia','→','Legenda + hashtags no Sheets','→','Buffer (IG · LI · FB)','→','TikTok Studio','→','YT Studio','→','Marco no Hub'],
+      obs:'Limitação real do Buffer free: 3 canais + 10 posts agendados simultaneamente. Se a escala ultrapassar 2 clientes, migrar para Metricool free (mais generoso) ou Buffer Essentials (~US$6/mês).',
+      ask:'Qual o fluxo de revisão que um freelancer consegue executar sem precisar do fundador?'
+    }
+  ]
+}
+];
+
+function buildTag(tg){return`<span class="tag" style="${tg.s}">${tg.t}</span>`}
+function buildFlow(f){return f.map(s=>s==='→'?`<span class="fa">→</span>`:`<span class="fn">${s}</span>`).join('')}
+
+const container=document.getElementById('layers');
+
+layers.forEach((l,li)=>{
+  const div=document.createElement('div');
+  div.className='layer';
+  
+  const colsClass=l.blocks.length>1?'grid-template-columns:repeat(auto-fit,minmax(280px,1fr))':'grid-template-columns:1fr';
+  
+  const blocksHTML=l.blocks.map(b=>`
+    <div class="block">
+      <div class="block-title" style="color:var(--color-text-primary)">${b.title}</div>
+      <div class="block-desc">${b.desc}</div>
+      <div class="tags">${b.tags.map(buildTag).join('')}</div>
+      <div style="font-size:11px;color:var(--color-text-tertiary);font-weight:500;margin-bottom:4px">FLUXO</div>
+      <div class="flow-row">${buildFlow(b.flow)}</div>
+      <div class="obs-box">${b.obs}</div>
+      <button class="ask-btn" onclick="sendPrompt('${b.ask}')">↗ Aprofundar</button>
+    </div>
+  `).join('');
+  
+  div.innerHTML=`
+    <div class="layer-header" onclick="toggleLayer(${li})">
+      <span class="layer-badge" style="${l.badgeColor}">${l.label}</span>
+      <div>
+        <div class="layer-title">${l.title}</div>
+        <div class="layer-sub">${l.sub}</div>
+      </div>
+      <span class="chevron" id="chev-${li}">›</span>
+    </div>
+    <div class="layer-body" id="body-${li}">
+      <div class="blocks-grid" style="${colsClass}">${blocksHTML}</div>
+    </div>
+  `;
+  container.appendChild(div);
+});
+
+function toggleLayer(i){
+  const b=document.getElementById('body-'+i);
+  const c=document.getElementById('chev-'+i);
+  const open=b.classList.contains('open');
+  b.classList.toggle('open',!open);
+  c.classList.toggle('open',!open);
+}
+
+toggleLayer(0);
+</script>

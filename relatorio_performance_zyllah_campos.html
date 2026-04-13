@@ -1,0 +1,181 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:1rem 0}
+.section{margin-bottom:20px}
+.sec-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sec-badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;letter-spacing:.04em;text-transform:uppercase}
+.sec-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.sec-note{font-size:11px;color:var(--color-text-secondary);margin-left:auto}
+.fields{display:grid;gap:8px}
+.field{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:11px 14px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:start}
+.field-name{font-size:13px;font-weight:500;color:var(--color-text-primary);grid-column:1}
+.field-desc{font-size:12px;color:var(--color-text-secondary);line-height:1.5;grid-column:1}
+.field-badge{font-size:10px;font-weight:500;padding:2px 7px;border-radius:8px;grid-column:2;grid-row:1;white-space:nowrap;align-self:start}
+.field-example{font-size:11px;color:var(--color-text-tertiary);font-style:italic;margin-top:4px;grid-column:1/3;padding-top:6px;border-top:0.5px solid var(--color-border-tertiary)}
+.warn-box{background:var(--color-background-warning);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px 14px;margin-top:8px;font-size:12px;color:var(--color-text-warning);line-height:1.5}
+.ask-btn{font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px;border:0.5px solid var(--color-border-secondary);background:transparent;color:var(--color-text-secondary);cursor:pointer;margin-top:10px;display:inline-flex;align-items:center;gap:4px}
+.ask-btn:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:4px 0 16px}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Campos obrigatórios e opcionais do relatório de performance Zyllah que dispara o ciclo de produção</h2>
+
+<div class="section">
+  <div class="sec-header">
+    <span class="sec-badge" style="background:#FAECE7;color:#712B13">Bloco 1</span>
+    <span class="sec-title">Identidade do negócio</span>
+    <span class="sec-note">Obrigatório — sem isso, nada funciona</span>
+  </div>
+  <div class="fields">
+    <div class="field">
+      <div class="field-name">Nome do negócio / marca</div>
+      <div class="field-desc">Como o negócio se apresenta publicamente. Pode diferir do nome jurídico.</div>
+      <span class="field-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      <div class="field-example">Ex: "Clínica Reviver" (não "Reviver Serviços de Saúde Ltda")</div>
+    </div>
+    <div class="field">
+      <div class="field-name">Segmento e nicho</div>
+      <div class="field-desc">Categoria do negócio e especialização específica. Quanto mais preciso, melhor o calendário.</div>
+      <span class="field-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      <div class="field-example">Ex: "Saúde · fisioterapia esportiva para corredores amadores"</div>
+    </div>
+    <div class="field">
+      <div class="field-name">Modo do ciclo</div>
+      <div class="field-desc">Define qual template de calendário o gerador vai usar. Muda a estrutura de temas e proporção de conteúdos.</div>
+      <span class="field-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      <div class="field-example">Novo negócio · Continuidade · Reposicionamento</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="sec-header">
+    <span class="sec-badge" style="background:#FAEEDA;color:#633806">Bloco 2</span>
+    <span class="sec-title">Público e voz</span>
+    <span class="sec-note">Obrigatório — calibra tom de todas as legendas</span>
+  </div>
+  <div class="fields">
+    <div class="field">
+      <div class="field-name">Público-alvo</div>
+      <div class="field-desc">Perfil de quem vai receber o conteúdo. Inclui faixa etária, contexto de vida e dor principal.</div>
+      <span class="field-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      <div class="field-example">Ex: "Mulheres 35–55 anos, donas de negócio, sem tempo, querem crescer sem caos"</div>
+    </div>
+    <div class="field">
+      <div class="field-name">Tom de voz</div>
+      <div class="field-desc">Como o negócio se comunica. Define vocabulário, nível de formalidade e personalidade das legendas.</div>
+      <span class="field-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      <div class="field-example">Ex: "Próximo e direto, sem corporativês. Usa perguntas. Nunca usa 'alavancar' ou 'potencializar'."</div>
+    </div>
+    <div class="field">
+      <div class="field-name">Palavras e expressões proibidas</div>
+      <div class="field-desc">Termos que o cliente quer evitar — por preferência, setor regulado ou diferenciação de mercado.</div>
+      <span class="field-badge" style="background:#FAEEDA;color:#633806">Recomendado</span>
+      <div class="field-example">Ex: "Evitar: 'transformação', 'jornada', 'solução inovadora', qualquer promessa de resultado clínico"</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="sec-header">
+    <span class="sec-badge" style="background:#EAF3DE;color:#27500A">Bloco 3</span>
+    <span class="sec-title">Redes e escala</span>
+    <span class="sec-note">Obrigatório — define o volume e os formatos gerados</span>
+  </div>
+  <div class="fields">
+    <div class="field">
+      <div class="field-name">Redes ativas no período</div>
+      <div class="field-desc">Quais plataformas serão alimentadas. Cada rede tem formato, frequência e linguagem diferentes.</div>
+      <span class="field-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      <div class="field-example">Ex: "Instagram + LinkedIn · TikTok ainda não"</div>
+    </div>
+    <div class="field">
+      <div class="field-name">Período e frequência</div>
+      <div class="field-desc">Janela do calendário e quantos posts por semana por rede. Define o total de peças a produzir.</div>
+      <span class="field-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      <div class="field-example">Ex: "Mês de maio · Instagram 4x/sem · LinkedIn 2x/sem = ~24 posts"</div>
+    </div>
+    <div class="field">
+      <div class="field-name">Mix de formatos</div>
+      <div class="field-desc">Proporção entre tipos de peça no período. Orienta o gerador sobre quantos carrosséis, alltype, vídeos etc. criar.</div>
+      <span class="field-badge" style="background:#FAEEDA;color:#633806">Recomendado</span>
+      <div class="field-example">Ex: "60% alltype · 30% carrossel · 10% mix foto. Vídeo: não neste ciclo."</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="sec-header">
+    <span class="sec-badge" style="background:#E6F1FB;color:#0C447C">Bloco 4</span>
+    <span class="sec-title">Performance do período anterior</span>
+    <span class="sec-note">Obrigatório no modo continuidade · Opcional no modo novo negócio</span>
+  </div>
+  <div class="fields">
+    <div class="field">
+      <div class="field-name">Métricas principais</div>
+      <div class="field-desc">Alcance, engajamento, cliques e conversões do período anterior. Base para ajuste de pauta.</div>
+      <span class="field-badge" style="background:#FAEEDA;color:#633806">Modo continuidade</span>
+      <div class="field-example">Ex: "Alcance médio: 1.200 · Engajamento: 4,2% · Melhor post: carrossel identidade visual (8,7%)"</div>
+    </div>
+    <div class="field">
+      <div class="field-name">O que funcionou / o que não funcionou</div>
+      <div class="field-desc">Análise qualitativa do que gerou resultado. Evita repetir erros e amplifica o que engajou.</div>
+      <span class="field-badge" style="background:#FAEEDA;color:#633806">Modo continuidade</span>
+      <div class="field-example">Ex: "Funcionou: bastidores, antes/depois. Não funcionou: posts só com texto longo, horário 9h."</div>
+    </div>
+    <div class="field">
+      <div class="field-name">Objetivo do próximo período</div>
+      <div class="field-desc">O que o cliente quer prioritariamente: mais seguidores, mais DMs, mais cliques no link, mais vendas.</div>
+      <span class="field-badge" style="background:#FAECE7;color:#712B13">Obrigatório</span>
+      <div class="field-example">Ex: "Prioridade: gerar DMs para consulta. Secundário: crescer 200 seguidores."</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="sec-header">
+    <span class="sec-badge" style="background:#EEEDFE;color:#3C3489">Bloco 5</span>
+    <span class="sec-title">Contexto e restrições</span>
+    <span class="sec-note">Recomendado — evita retrabalho e problemas regulatórios</span>
+  </div>
+  <div class="fields">
+    <div class="field">
+      <div class="field-name">Datas relevantes do período</div>
+      <div class="field-desc">Datas comerciais, sazonais ou internas que devem ser contempladas no calendário.</div>
+      <span class="field-badge" style="background:#FAEEDA;color:#633806">Recomendado</span>
+      <div class="field-example">Ex: "Dia das Mães 11/05 · Aniversário da clínica 22/05 · Não usar feriados para posts de venda"</div>
+    </div>
+    <div class="field">
+      <div class="field-name">Restrições do setor</div>
+      <div class="field-desc">Limitações regulatórias que afetam o que pode ser dito ou prometido no conteúdo.</div>
+      <span class="field-badge" style="background:#FAEEDA;color:#633806">Recomendado</span>
+      <div class="field-example">Ex: "Saúde: sem promessa de cura ou resultado garantido (CFM). Financeiro: sem previsão de retorno."</div>
+    </div>
+    <div class="field">
+      <div class="field-name">Assets disponíveis</div>
+      <div class="field-desc">O que o cliente tem para fornecer: fotos, vídeos, depoimentos, dados. Define viabilidade dos formatos mix.</div>
+      <span class="field-badge" style="background:#E6F1FB;color:#0C447C">Opcional</span>
+      <div class="field-example">Ex: "Tem: 12 fotos do espaço, 3 depoimentos em vídeo. Não tem: foto de equipe atualizada."</div>
+    </div>
+  </div>
+  <div class="warn-box">
+    Campos do Bloco 5 ausentes não travam o gerador — mas aumentam o risco de retrabalho. Um post que promete resultado clínico em saúde pode obrigar descarte completo da peça.
+  </div>
+</div>
+
+<button class="ask-btn" onclick="sendPrompt('Como transformar esses campos em um formulário de briefing que o cliente preenche antes do onboarding?')">↗ Transformar em formulário de briefing</button>
+<button class="ask-btn" style="margin-left:8px" onclick="sendPrompt('Como o gerador de calendário usa esses campos para montar a pauta automaticamente?')">↗ Ver como o gerador usa esses dados</button>
+
+</div>
+</script>
