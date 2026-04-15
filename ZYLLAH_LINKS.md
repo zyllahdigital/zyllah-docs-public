@@ -113,6 +113,9 @@ https://zyllahdigital.github.io/zyllah-docs-public/zyllah_stack_tecnico_7_papeis
 | Documento | URL |
 |---|---|
 | Case Encantarys | `https://[REPO-PUBLIC]/encantarys-relatorio-validacao-zyllah.html` |
+|Encantarys é da Fernanda, sua esposa — não um cliente externo
+É aluguel de itens para festas — não um cliente de saúde
+O piloto Encantarys não é uma venda — é uma validação interna com a empresa da família|
 
 ### Templates de Onboarding
 | Documento | URL |
