@@ -720,6 +720,24 @@ function gsGet(params) {
   });
 }
 
+// gs() — wrapper principal: separa action e serializa payload em data=
+// Suporta chamadas legadas onde sub-chaves (cliente, prospect, pauta, ritual)
+// chegam como strings JSON — faz o parse para enviar o objeto correto ao Apps Script.
+function gs(params) {
+  const { action, ...rest } = params;
+  const queryParams = { action };
+  if (Object.keys(rest).length > 0) {
+    const keys = Object.keys(rest);
+    let payload = rest;
+    // Se há uma única chave com valor string JSON (padrão legado), faz parse
+    if (keys.length === 1 && typeof rest[keys[0]] === 'string') {
+      try { payload = JSON.parse(rest[keys[0]]); } catch(e) { payload = rest; }
+    }
+    queryParams.data = encodeURIComponent(JSON.stringify(payload));
+  }
+  return gsGet(queryParams);
+}
+
 function hoje(){return new Date().toISOString().split('T')[0];}
 function uid(p){return (p||'x')+Date.now();}
 function diasAte(d){if(!d)return null;return Math.round((new Date(d+'T00:00:00')-new Date(hoje()+'T00:00:00'))/86400000);}
@@ -879,7 +897,7 @@ function renderKPIs(){
 // ── RITUAL ────────────────────────────
 function tR(el){
   const id=el.dataset.id;ritual[id]=!ritual[id];renderRitualEl();
-  gs({action:'ritual',ritual:JSON.stringify(ritual)}).catch(()=>{});
+  gs({action:'salvarRitual',ritual:JSON.stringify(ritual)}).catch(()=>{});
 }
 function renderRitual(){
   document.querySelectorAll('.rit-row').forEach(el=>{el.classList.toggle('feito',!!ritual[el.dataset.id]);});
