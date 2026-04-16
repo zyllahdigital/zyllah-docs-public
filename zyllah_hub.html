@@ -154,15 +154,16 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 .painel.ativo{display:block;}
 
 /* ══════════════════════════════════════════
-   DASHBOARD — 3 colunas
+   DASHBOARD — grid editável 6 colunas
 ══════════════════════════════════════════ */
 .dash-grid{
   display:grid;
-  grid-template-columns:1fr 280px;
+  grid-template-columns:repeat(6,1fr);
+  grid-auto-rows:50px;
   gap:12px;
+  position:relative;
 }
-.dash-left{display:flex;flex-direction:column;gap:12px;}
-.dash-right{display:flex;flex-direction:column;gap:12px;}
+[data-drag-id]{position:relative;overflow:hidden;}
 
 /* Bloco base */
 .bloco{background:var(--card);border:1px solid var(--border);border-radius:var(--r);}
@@ -282,10 +283,20 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 
 /* ══ DRAG & DROP ══ */
 .drag-handle{font-size:13px;color:var(--t4);cursor:grab;opacity:0;transition:opacity .15s;user-select:none;padding:0 3px;flex-shrink:0;}
-.fin-bloco:hover .drag-handle,.funil-bloco:hover .drag-handle,.semana-bloco:hover .drag-handle{opacity:.6;}
+[data-drag-id]:hover .drag-handle{opacity:.5;}
 .drag-handle:active{cursor:grabbing;}
-[data-drag-id].dragging{opacity:.28;border-style:dashed!important;}
-[data-drag-id].drag-over{border-color:var(--gold-dim)!important;background:rgba(196,152,90,.04);}
+[data-drag-id].dragging{opacity:.25;}
+.dash-grid-ghost{background:rgba(196,152,90,.06);border:1px dashed var(--gold-dim);border-radius:var(--r);pointer-events:none;transition:grid-column .08s,grid-row .08s;}
+
+/* ══ EDIT MODE ══ */
+.resize-handle{position:absolute;bottom:4px;right:4px;width:14px;height:14px;cursor:se-resize;opacity:0;color:var(--t4);font-size:9px;display:flex;align-items:center;justify-content:center;user-select:none;transition:opacity .15s;z-index:5;}
+.edit-active .dash-grid{background-image:repeating-linear-gradient(transparent,transparent calc(50px - 1px),rgba(196,152,90,.04) calc(50px - 1px),rgba(196,152,90,.04) 50px),repeating-linear-gradient(90deg,transparent,transparent calc(16.666% - 1px),rgba(196,152,90,.04) calc(16.666% - 1px),rgba(196,152,90,.04) 16.666%);}
+.edit-active [data-drag-id]{outline:1px dashed rgba(196,152,90,.25);cursor:default;}
+.edit-active [data-drag-id] .drag-handle{opacity:.7;cursor:grab;}
+.edit-active [data-drag-id] .resize-handle{opacity:.6;}
+.edit-active [data-drag-id]:hover{outline-color:var(--gold-dim);}
+.edit-bar{display:none;align-items:center;gap:6px;}
+.edit-bar.show{display:flex;}
 
 /* KPIs em linha */
 .fin-kpis{display:flex;gap:0;padding:0 16px 12px;}
@@ -702,9 +713,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 .vazio-msg{font-size:10px;color:var(--t4);letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:22px;}
 
 @media(max-width:1100px){
-  .dash-grid{grid-template-columns:1fr;}
-  .dash-right{flex-direction:row;flex-wrap:wrap;}
-  .dash-right > *{flex:1;min-width:260px;}
+  .dash-grid{grid-template-columns:repeat(2,1fr);}
 }
 @media(max-width:800px){
   .sidebar{width:160px;}
@@ -737,6 +746,11 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
     </div>
   </div>
   <div class="topo-right">
+    <div class="edit-bar" id="edit-bar">
+      <button class="btn-topo" style="color:var(--t4);" onclick="resetLayout()">↺ Padrão</button>
+      <button class="btn-topo active" onclick="toggleEditMode()">✓ Concluir</button>
+    </div>
+    <button class="btn-topo" id="btn-edit" onclick="toggleEditMode()" title="Editar layout do dashboard">⊞ Editar</button>
     <button class="btn-topo btn-foco" id="btn-foco" onclick="toggleFoco()">
       <div class="foco-dot"></div>Foco
     </button>
@@ -820,17 +834,16 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
        DASHBOARD
   ════════════════════════════════════ -->
   <div class="painel ativo" id="p-dash">
-    <div class="dash-grid">
+    <div class="dash-grid" id="dash-grid">
 
-      <!-- COLUNA ESQUERDA -->
-      <div class="dash-left">
-
-        <!-- ★ ATIVIDADES — HERÓI PRINCIPAL -->
-        <div class="ativ-hero">
+      <!-- ATIVIDADES -->
+      <div class="ativ-hero" data-drag-id="ativ">
+        <span class="resize-handle" title="Redimensionar">⤡</span>
           <div class="bloco-h">
             <span class="tag">Atividades</span>
             <div style="display:flex;align-items:center;gap:10px;">
               <span style="font-size:10px;color:var(--gold);" id="rit-prog-topo"></span>
+              <span class="drag-handle" title="Arrastar">⠿</span>
               <button class="bloco-a" onclick="ir('clientes')">Clientes →</button>
             </div>
           </div>
@@ -874,13 +887,9 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
           </div>
         </div>
 
-      </div><!-- /dash-left -->
-
-      <!-- COLUNA DIREITA -->
-      <div class="dash-right">
-
-        <!-- FINANCEIRO — compacto e colapsável -->
+      <!-- FINANCEIRO -->
         <div class="fin-bloco" data-drag-id="fin">
+          <span class="resize-handle" title="Redimensionar">⤡</span>
           <div class="fin-header" onclick="toggleFin()">
             <span class="tag">Financeiro</span>
             <span style="font-size:9px;color:var(--t4);" id="fin-meta-txt">—</span>
@@ -922,8 +931,9 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
           </div>
         </div>
 
-        <!-- FUNIL VISUAL — tátil -->
+      <!-- PROSPECÇÃO -->
         <div class="funil-bloco" data-drag-id="funil">
+          <span class="resize-handle" title="Redimensionar">⤡</span>
           <div class="bloco-h">
             <span class="tag">Prospecção</span>
             <div style="display:flex;align-items:center;gap:8px;">
@@ -935,8 +945,9 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
           <div class="pro-mini-list" id="pros-mini"></div>
         </div>
 
-        <!-- SEMANA -->
+      <!-- SEMANA -->
         <div class="semana-bloco" data-drag-id="semana">
+          <span class="resize-handle" title="Redimensionar">⤡</span>
           <div class="bloco-h">
             <span class="tag">Semana</span>
             <div style="display:flex;align-items:center;gap:8px;">
@@ -959,8 +970,6 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
             <div class="pauta-sug-lista" id="pauta-sug-lista"></div>
           </div>
         </div>
-
-      </div><!-- /dash-right -->
 
     </div>
   </div>
@@ -2036,57 +2045,160 @@ async function pautaSugAdd(i){
   if(el){el.style.opacity='.3';el.style.pointerEvents='none';el.querySelector('.pauta-sug-add').textContent='✓ Adicionado';}
 }
 
-// ── DRAG & DROP (dash-right) ─────────────
-function initDrag() {
-  const rail = document.querySelector('.dash-right');
-  if (!rail) return;
+// ── GRID EDITOR ──────────────────────────
+const GCOLS = 6, GROW_H = 50, GGAP = 12;
+const DEFAULT_LAYOUT = {
+  ativ:  {col:1,row:1,w:4,h:13},
+  fin:   {col:5,row:1,w:2,h:5},
+  funil: {col:5,row:6,w:2,h:5},
+  semana:{col:5,row:11,w:2,h:9}
+};
+let gridLayout = {}, editMode = false;
 
-  try {
-    const order = JSON.parse(localStorage.getItem('zyllah_dash_order') || '[]');
-    order.forEach(id => {
-      const el = rail.querySelector('[data-drag-id="' + id + '"]');
-      if (el) rail.appendChild(el);
-    });
-  } catch(e) {}
+function initGridEdit() {
+  try { gridLayout = JSON.parse(localStorage.getItem('zyllah_grid_v1') || 'null') || deepCopy(DEFAULT_LAYOUT); }
+  catch(e) { gridLayout = deepCopy(DEFAULT_LAYOUT); }
+  applyLayout();
+  initDragGrid();
+  initResizeGrid();
+}
 
-  let src = null;
+function deepCopy(o) { return JSON.parse(JSON.stringify(o)); }
 
-  rail.querySelectorAll('.drag-handle').forEach(h => {
-    h.addEventListener('mousedown', () => {
-      h.closest('[data-drag-id]').draggable = true;
-    });
+function applyLayout() {
+  const grid = document.getElementById('dash-grid');
+  if (!grid) return;
+  Object.entries(gridLayout).forEach(([id, p]) => {
+    const el = grid.querySelector('[data-drag-id="'+id+'"]');
+    if (!el) return;
+    el.style.gridColumn = p.col+' / span '+p.w;
+    el.style.gridRow    = p.row+' / span '+p.h;
   });
-  window.addEventListener('mouseup', () => {
-    rail.querySelectorAll('[data-drag-id]').forEach(b => { b.draggable = false; });
-  });
+}
 
-  rail.querySelectorAll('[data-drag-id]').forEach(block => {
-    block.addEventListener('dragstart', e => {
-      src = block;
-      setTimeout(() => block.classList.add('dragging'), 0);
-      e.dataTransfer.effectAllowed = 'move';
-    });
-    block.addEventListener('dragend', () => {
-      block.classList.remove('dragging');
-      block.draggable = false;
-      rail.querySelectorAll('[data-drag-id]').forEach(b => b.classList.remove('drag-over'));
-      src = null;
-      const ids = [...rail.querySelectorAll('[data-drag-id]')].map(b => b.dataset.dragId);
-      localStorage.setItem('zyllah_dash_order', JSON.stringify(ids));
-    });
-    block.addEventListener('dragover', e => {
+function saveLayout() { localStorage.setItem('zyllah_grid_v1', JSON.stringify(gridLayout)); }
+
+function toggleEditMode() {
+  editMode = !editMode;
+  document.body.classList.toggle('edit-active', editMode);
+  document.getElementById('btn-edit').classList.toggle('active', editMode);
+  document.getElementById('edit-bar').classList.toggle('show', editMode);
+  if (!editMode) saveLayout();
+}
+
+function resetLayout() {
+  gridLayout = deepCopy(DEFAULT_LAYOUT);
+  applyLayout();
+  saveLayout();
+}
+
+function pxToGrid(gridRect, cx, cy) {
+  const cellW = (gridRect.width  + GGAP) / GCOLS;
+  const cellH =  GROW_H + GGAP;
+  return {
+    col: Math.max(1, Math.round((cx - gridRect.left) / cellW) + 1),
+    row: Math.max(1, Math.round((cy - gridRect.top  + window.scrollY) / cellH) + 1)
+  };
+}
+
+function initDragGrid() {
+  const grid = document.getElementById('dash-grid');
+  if (!grid) return;
+  let dragEl = null, ghost = null, offX = 0, offY = 0;
+
+  grid.querySelectorAll('.drag-handle').forEach(h => {
+    h.addEventListener('mousedown', e => {
+      if (!editMode) return;
       e.preventDefault();
-      if (!src || src === block) return;
-      const r = block.getBoundingClientRect();
-      rail.insertBefore(src, e.clientY < r.top + r.height / 2 ? block : block.nextSibling);
+      dragEl = h.closest('[data-drag-id]');
+      const id = dragEl.dataset.dragId;
+      const p  = gridLayout[id];
+      const rect = dragEl.getBoundingClientRect();
+      offX = e.clientX - rect.left;
+      offY = e.clientY - rect.top;
+
+      ghost = document.createElement('div');
+      ghost.className = 'dash-grid-ghost';
+      ghost.style.gridColumn = p.col+' / span '+p.w;
+      ghost.style.gridRow    = p.row+' / span '+p.h;
+      grid.appendChild(ghost);
+
+      dragEl.classList.add('dragging');
+      dragEl.style.position = 'fixed';
+      dragEl.style.zIndex   = '500';
+      dragEl.style.width    = rect.width+'px';
+      dragEl.style.left     = rect.left+'px';
+      dragEl.style.top      = rect.top+'px';
+      dragEl.style.margin   = '0';
+
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup',   onUp);
     });
-    block.addEventListener('dragenter', e => {
-      e.preventDefault();
-      if (src && src !== block) block.classList.add('drag-over');
-    });
-    block.addEventListener('dragleave', () => block.classList.remove('drag-over'));
-    block.addEventListener('drop', e => { e.preventDefault(); block.classList.remove('drag-over'); });
   });
+
+  function onMove(e) {
+    if (!dragEl) return;
+    dragEl.style.left = (e.clientX - offX)+'px';
+    dragEl.style.top  = (e.clientY - offY)+'px';
+    const id = dragEl.dataset.dragId;
+    const p  = gridLayout[id];
+    const gRect = grid.getBoundingClientRect();
+    const {col, row} = pxToGrid(gRect, e.clientX - offX, e.clientY - offY + window.scrollY);
+    const nc = Math.min(col, GCOLS - p.w + 1);
+    ghost.style.gridColumn = nc+' / span '+p.w;
+    ghost.style.gridRow    = row+' / span '+p.h;
+    dragEl._nc = nc; dragEl._nr = row;
+  }
+
+  function onUp() {
+    if (!dragEl) return;
+    const id = dragEl.dataset.dragId;
+    if (dragEl._nc) { gridLayout[id].col = dragEl._nc; gridLayout[id].row = dragEl._nr; }
+    dragEl.classList.remove('dragging');
+    dragEl.style.cssText = '';
+    dragEl._nc = null; dragEl._nr = null;
+    if (ghost) { ghost.remove(); ghost = null; }
+    applyLayout();
+    dragEl = null;
+    window.removeEventListener('mousemove', onMove);
+    window.removeEventListener('mouseup',   onUp);
+  }
+}
+
+function initResizeGrid() {
+  const grid = document.getElementById('dash-grid');
+  if (!grid) return;
+  let resEl = null, startY = 0, startH = 0, startW = 0, startX = 0;
+
+  grid.querySelectorAll('.resize-handle').forEach(h => {
+    h.addEventListener('mousedown', e => {
+      if (!editMode) return;
+      e.preventDefault(); e.stopPropagation();
+      resEl   = h.closest('[data-drag-id]');
+      startY  = e.clientY; startX = e.clientX;
+      startH  = gridLayout[resEl.dataset.dragId].h;
+      startW  = gridLayout[resEl.dataset.dragId].w;
+      window.addEventListener('mousemove', onRMove);
+      window.addEventListener('mouseup',   onRUp);
+    });
+  });
+
+  function onRMove(e) {
+    if (!resEl) return;
+    const id = resEl.dataset.dragId;
+    const dRow = Math.round((e.clientY - startY) / (GROW_H + GGAP));
+    const dCol = Math.round((e.clientX - startX) / ((document.getElementById('dash-grid').getBoundingClientRect().width + GGAP) / GCOLS));
+    gridLayout[id].h = Math.max(2, startH + dRow);
+    gridLayout[id].w = Math.max(1, Math.min(GCOLS - gridLayout[id].col + 1, startW + dCol));
+    applyLayout();
+  }
+
+  function onRUp() {
+    resEl = null;
+    window.removeEventListener('mousemove', onRMove);
+    window.removeEventListener('mouseup',   onRUp);
+    saveLayout();
+  }
 }
 
 // ── INIT ─────────────────────────────────
@@ -2095,7 +2207,7 @@ setInterval(atuHora,30000);
 timerAtualizar();
 sincronizar();
 ytInit();
-initDrag();
+initGridEdit();
 </script>
 </body>
 </html>
