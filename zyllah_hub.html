@@ -695,7 +695,7 @@ body{background:var(--bg);font-family:'Jost',sans-serif;font-weight:300;color:va
 <script>
 // ══════════════════════════════════════════
 // CONFIG
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdWRsoRZWvoZWxc3NajIuMOuyV2AP866QRGx50ycFJJipllZItgV1TU7TW062PPoaqqQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzoJKDj5qiJkxD18RtFmDXzK4aM0C1yB23bvpCO2ScjI4WQSeGREGq9kkvFKuQNE-Q3EQ/exec';
 const MAX_CL = 4;
 // ══════════════════════════════════════════
 
@@ -704,7 +704,6 @@ let editCl=null, editPr=null, editPa=null;
 let salvando=false;
 
 // ── UTILS ─────────────────────────────
-const GS_WRITE=['salvar','remover','salvarProspect','removerProspect','salvarPauta','removerPauta','salvarFinanceiro','ritual'];
 
 // GET via JSONP (evita bloqueio CORS do Apps Script em doGet)
 function gsGet(params) {
@@ -719,13 +718,6 @@ function gsGet(params) {
     script.onerror = () => { cleanup(); reject(new Error('JSONP error')); };
     document.head.appendChild(script);
   });
-}
-
-async function gs(params) {
-  const { action, ...resto } = params;
-  // Serializa os dados extras como parâmetro 'data'
-  const data = encodeURIComponent(JSON.stringify(resto));
-  return gsGet({ action, data });
 }
 
 // POST com Content-Type correto (doPost lê e.postData.contents)
