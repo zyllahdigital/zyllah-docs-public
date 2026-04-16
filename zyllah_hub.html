@@ -2092,12 +2092,12 @@ function resetLayout() {
   saveLayout();
 }
 
-function pxToGrid(gridRect, cx, cy) {
-  const cellW = (gridRect.width  + GGAP) / GCOLS;
-  const cellH =  GROW_H + GGAP;
+function pxToGrid(gridRect, clientX, clientY) {
+  const cellW = (gridRect.width + GGAP) / GCOLS;
+  const cellH = GROW_H + GGAP;
   return {
-    col: Math.max(1, Math.round((cx - gridRect.left) / cellW) + 1),
-    row: Math.max(1, Math.round((cy - gridRect.top  + window.scrollY) / cellH) + 1)
+    col: Math.max(1, Math.round((clientX - gridRect.left) / cellW) + 1),
+    row: Math.max(1, Math.round((clientY - gridRect.top)  / cellH) + 1)
   };
 }
 
@@ -2143,7 +2143,7 @@ function initDragGrid() {
     const id = dragEl.dataset.dragId;
     const p  = gridLayout[id];
     const gRect = grid.getBoundingClientRect();
-    const {col, row} = pxToGrid(gRect, e.clientX - offX, e.clientY - offY + window.scrollY);
+    const {col, row} = pxToGrid(gRect, e.clientX - offX, e.clientY - offY);
     const nc = Math.min(col, GCOLS - p.w + 1);
     ghost.style.gridColumn = nc+' / span '+p.w;
     ghost.style.gridRow    = row+' / span '+p.h;
@@ -2155,7 +2155,7 @@ function initDragGrid() {
     const id = dragEl.dataset.dragId;
     if (dragEl._nc) { gridLayout[id].col = dragEl._nc; gridLayout[id].row = dragEl._nr; }
     dragEl.classList.remove('dragging');
-    dragEl.style.cssText = '';
+    ['position','zIndex','width','left','top','margin','opacity'].forEach(p => dragEl.style[p] = '');
     dragEl._nc = null; dragEl._nr = null;
     if (ghost) { ghost.remove(); ghost = null; }
     applyLayout();
