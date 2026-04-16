@@ -280,6 +280,13 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 }
 .fin-header:hover{background:rgba(255,255,255,.01);}
 
+/* ══ DRAG & DROP ══ */
+.drag-handle{font-size:13px;color:var(--t4);cursor:grab;opacity:0;transition:opacity .15s;user-select:none;padding:0 3px;flex-shrink:0;}
+.fin-bloco:hover .drag-handle,.funil-bloco:hover .drag-handle,.semana-bloco:hover .drag-handle{opacity:.6;}
+.drag-handle:active{cursor:grabbing;}
+[data-drag-id].dragging{opacity:.28;border-style:dashed!important;}
+[data-drag-id].drag-over{border-color:var(--gold-dim)!important;background:rgba(196,152,90,.04);}
+
 /* KPIs em linha */
 .fin-kpis{display:flex;gap:0;padding:0 16px 12px;}
 .fin-kpi{flex:1;text-align:center;padding:0 6px;border-right:1px solid var(--border);}
@@ -873,11 +880,14 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
       <div class="dash-right">
 
         <!-- FINANCEIRO — compacto e colapsável -->
-        <div class="fin-bloco">
+        <div class="fin-bloco" data-drag-id="fin">
           <div class="fin-header" onclick="toggleFin()">
             <span class="tag">Financeiro</span>
             <span style="font-size:9px;color:var(--t4);" id="fin-meta-txt">—</span>
-            <span style="font-size:10px;color:var(--t4);margin-left:auto;" id="fin-icon">▾</span>
+            <div style="display:flex;align-items:center;gap:6px;margin-left:auto;">
+              <span class="drag-handle" onclick="event.stopPropagation()" title="Arrastar">⠿</span>
+              <span style="font-size:10px;color:var(--t4);" id="fin-icon">▾</span>
+            </div>
           </div>
           <div class="fin-kpis" id="fin-kpis-row">
             <div class="fin-kpi">
@@ -913,20 +923,26 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
         </div>
 
         <!-- FUNIL VISUAL — tátil -->
-        <div class="funil-bloco">
+        <div class="funil-bloco" data-drag-id="funil">
           <div class="bloco-h">
             <span class="tag">Prospecção</span>
-            <button class="bloco-a" onclick="ir('prospects')">Ver todos →</button>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="drag-handle" title="Arrastar">⠿</span>
+              <button class="bloco-a" onclick="ir('prospects')">Ver todos →</button>
+            </div>
           </div>
           <div class="funil-body" id="funil-mini-wrap"></div>
           <div class="pro-mini-list" id="pros-mini"></div>
         </div>
 
         <!-- SEMANA -->
-        <div class="semana-bloco">
+        <div class="semana-bloco" data-drag-id="semana">
           <div class="bloco-h">
             <span class="tag">Semana</span>
-            <button class="bloco-a" onclick="ir('pauta')">Pauta →</button>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="drag-handle" title="Arrastar">⠿</span>
+              <button class="bloco-a" onclick="ir('pauta')">Pauta →</button>
+            </div>
           </div>
           <div class="pcal" id="pcal-mini"></div>
           <div class="cal-mini" id="cal-mini"></div>
@@ -2020,12 +2036,66 @@ async function pautaSugAdd(i){
   if(el){el.style.opacity='.3';el.style.pointerEvents='none';el.querySelector('.pauta-sug-add').textContent='✓ Adicionado';}
 }
 
+// ── DRAG & DROP (dash-right) ─────────────
+function initDrag() {
+  const rail = document.querySelector('.dash-right');
+  if (!rail) return;
+
+  try {
+    const order = JSON.parse(localStorage.getItem('zyllah_dash_order') || '[]');
+    order.forEach(id => {
+      const el = rail.querySelector('[data-drag-id="' + id + '"]');
+      if (el) rail.appendChild(el);
+    });
+  } catch(e) {}
+
+  let src = null;
+
+  rail.querySelectorAll('.drag-handle').forEach(h => {
+    h.addEventListener('mousedown', () => {
+      h.closest('[data-drag-id]').draggable = true;
+    });
+  });
+  window.addEventListener('mouseup', () => {
+    rail.querySelectorAll('[data-drag-id]').forEach(b => { b.draggable = false; });
+  });
+
+  rail.querySelectorAll('[data-drag-id]').forEach(block => {
+    block.addEventListener('dragstart', e => {
+      src = block;
+      setTimeout(() => block.classList.add('dragging'), 0);
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    block.addEventListener('dragend', () => {
+      block.classList.remove('dragging');
+      block.draggable = false;
+      rail.querySelectorAll('[data-drag-id]').forEach(b => b.classList.remove('drag-over'));
+      src = null;
+      const ids = [...rail.querySelectorAll('[data-drag-id]')].map(b => b.dataset.dragId);
+      localStorage.setItem('zyllah_dash_order', JSON.stringify(ids));
+    });
+    block.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (!src || src === block) return;
+      const r = block.getBoundingClientRect();
+      rail.insertBefore(src, e.clientY < r.top + r.height / 2 ? block : block.nextSibling);
+    });
+    block.addEventListener('dragenter', e => {
+      e.preventDefault();
+      if (src && src !== block) block.classList.add('drag-over');
+    });
+    block.addEventListener('dragleave', () => block.classList.remove('drag-over'));
+    block.addEventListener('drop', e => { e.preventDefault(); block.classList.remove('drag-over'); });
+  });
+}
+
 // ── INIT ─────────────────────────────────
 atuHora();
 setInterval(atuHora,30000);
 timerAtualizar();
 sincronizar();
 ytInit();
+initDrag();
 </script>
 </body>
 </html>
