@@ -41,7 +41,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 ══════════════════════════════════════════ */
 .topo{
   position:fixed;top:0;left:0;right:0;z-index:300;
-  height:48px;background:rgba(13,12,10,.98);
+  height:56px;background:rgba(13,12,10,.98);
   border-bottom:1px solid var(--border);
   display:flex;align-items:center;gap:0;
   backdrop-filter:blur(8px);
@@ -59,7 +59,9 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 .conn-dot.pulse{background:var(--atencao);animation:pulse 1.2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 
-.hora-pill{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--t3);font-variant-numeric:tabular-nums;}
+.hora-pill{display:flex;align-items:baseline;gap:10px;font-variant-numeric:tabular-nums;}
+.hora-data{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--t3);letter-spacing:.04em;}
+.hora-hm{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold);line-height:1;}
 .btn-topo{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--t3);background:none;border:1px solid var(--border);padding:5px 12px;cursor:pointer;border-radius:2px;transition:all .15s;}
 .btn-topo:hover{color:var(--gold);border-color:var(--border-strong);}
 .btn-topo.active{color:var(--gold);border-color:var(--gold);background:var(--gold-pale);}
@@ -73,13 +75,13 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 /* ══════════════════════════════════════════
    LAYOUT
 ══════════════════════════════════════════ */
-.layout{display:flex;padding-top:48px;min-height:100vh;}
+.layout{display:flex;padding-top:56px;min-height:100vh;}
 
 /* SIDEBAR */
 .sidebar{
   width:188px;flex-shrink:0;
   background:var(--surface);border-right:1px solid var(--border);
-  position:fixed;top:48px;bottom:0;left:0;
+  position:fixed;top:56px;bottom:0;left:0;
   overflow-y:auto;display:flex;flex-direction:column;
   transition:transform .22s cubic-bezier(.4,0,.2,1);z-index:100;
 }
@@ -254,6 +256,20 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 .rit-ag{font-size:8px;color:var(--t4);margin-left:auto;letter-spacing:.1em;}
 .rit-row.feito .rit-ag{color:rgba(106,170,122,.35);}
 
+/* Botão "Ver checks" — só segunda */
+.btn-checks{
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;
+  padding:4px 12px;background:var(--gold-pale);
+  border:1px solid var(--gold);color:var(--gold);
+  cursor:pointer;border-radius:2px;transition:all .15s;
+  animation:pulse-gold 1.8s infinite;
+}
+@keyframes pulse-gold{0%,100%{border-color:var(--gold);box-shadow:0 0 0 0 rgba(196,152,90,0);}60%{border-color:var(--gold);box-shadow:0 0 0 4px rgba(196,152,90,.15);}}
+.btn-checks.completo{animation:none;background:none;color:var(--ok);border-color:rgba(106,170,122,.3);}
+
+/* Ritual — escondido quando não é segunda */
+.ritual-hero.dia-nao-segunda{display:none;}
+
 /* ══════════════════════════════════════════
    FINANCEIRO — linha discreta colapsável
 ══════════════════════════════════════════ */
@@ -387,6 +403,36 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 .cal-data{font-size:9px;color:var(--gold);min-width:26px;font-weight:400;margin-top:1px;}
 .cal-txt{flex:1;line-height:1.35;}
 .cal-cl{font-size:9px;color:var(--t4);}
+
+/* Gerador de pauta IA */
+.pauta-gen{border-top:1px solid var(--border);padding:10px 14px 14px;margin-top:0;}
+.pauta-gen-label{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--t4);margin-bottom:8px;}
+.pauta-gen-input{
+  width:100%;background:rgba(255,255,255,.015);border:1px solid var(--border);
+  color:rgba(255,255,255,.5);font-family:'DM Sans';font-size:10px;font-weight:300;
+  padding:7px 10px;resize:none;line-height:1.5;border-radius:2px;
+}
+.pauta-gen-input:focus{outline:none;border-color:var(--border-strong);color:var(--t2);}
+.pauta-gen-btn{
+  margin-top:6px;width:100%;
+  font-size:8px;letter-spacing:.25em;text-transform:uppercase;
+  padding:8px;background:var(--gold-pale);border:1px solid var(--border-strong);
+  color:var(--gold);cursor:pointer;transition:all .15s;border-radius:2px;
+}
+.pauta-gen-btn:hover{border-color:var(--gold);background:rgba(196,152,90,.15);}
+.pauta-gen-btn:disabled{opacity:.4;cursor:not-allowed;}
+.pauta-sug-lista{display:flex;flex-direction:column;gap:3px;margin-top:8px;}
+.pauta-sug-item{
+  background:var(--card-hi);border:1px solid var(--border);
+  padding:8px 12px;border-radius:2px;cursor:pointer;
+  transition:border-color .12s;
+}
+.pauta-sug-item:hover{border-color:var(--border-strong);}
+.pauta-sug-tema{font-size:11px;color:var(--t2);}
+.pauta-sug-meta{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap;}
+.pauta-sug-tag{font-size:7.5px;padding:1px 5px;border:1px solid rgba(255,255,255,.09);color:var(--t3);border-radius:1px;}
+.pauta-sug-add{font-size:8px;margin-left:auto;color:var(--gold);opacity:.6;transition:opacity .12s;}
+.pauta-sug-item:hover .pauta-sug-add{opacity:1;}
 
 /* ══════════════════════════════════════════
    MODO FOCO OVERLAY
@@ -675,7 +721,13 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
       <div class="conn-dot pulse" id="cdot"></div>
       <span id="ctxt">Conectando...</span>
     </div>
-    <span class="hora-pill" id="hora">—</span>
+    <button class="btn-checks" id="btn-checks" style="display:none" onclick="ir('dash');document.querySelector('.ritual-hero').scrollIntoView({behavior:'smooth'})">
+      ⬡ Checks de hoje
+    </button>
+    <div class="hora-pill">
+      <span class="hora-data" id="hora-data">—</span>
+      <span class="hora-hm" id="hora-hm">—:—</span>
+    </div>
   </div>
   <div class="topo-right">
     <button class="btn-topo btn-foco" id="btn-foco" onclick="toggleFoco()">
@@ -878,6 +930,18 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
           </div>
           <div class="pcal" id="pcal-mini"></div>
           <div class="cal-mini" id="cal-mini"></div>
+
+          <!-- NOVO: gerador de pauta -->
+          <div class="pauta-gen" id="pauta-gen-box">
+            <div class="pauta-gen-label">Gerar sugestões de pauta</div>
+            <textarea class="pauta-gen-input" id="pauta-gen-diag"
+              placeholder="O que aconteceu esta semana? (opcional — ex: post sobre CFM teve bom alcance, cliente pediu conteúdo sobre consulta online...)"
+              rows="3"></textarea>
+            <button class="pauta-gen-btn" id="pauta-gen-btn" onclick="gerarPautaIA()">
+              <span id="pauta-gen-txt">↳ Gerar pauta com IA</span>
+            </button>
+            <div class="pauta-sug-lista" id="pauta-sug-lista"></div>
+          </div>
         </div>
 
       </div><!-- /dash-right -->
@@ -1168,8 +1232,10 @@ function atuHora(){
   const d=new Date();
   const ds=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
   const ms=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
-  const el=document.getElementById('hora');
-  if(el)el.textContent=`${ds[d.getDay()]} ${d.getDate()} ${ms[d.getMonth()]} · ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  const elData=document.getElementById('hora-data');
+  const elHm=document.getElementById('hora-hm');
+  if(elData)elData.textContent=`${ds[d.getDay()]} ${d.getDate()} ${ms[d.getMonth()]}`;
+  if(elHm)elHm.textContent=`${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
 }
 
 // ── NAVEGAÇÃO ────────────────────────────
@@ -1347,9 +1413,32 @@ function clicouAtiv(cid,ei){if(!cid||ei<0){if(cid)abrirEditCl(cid);return;}tEnt(
 function tR(el){const id=el.dataset.id;ritual[id]=!ritual[id];renderRitualEl();gs({action:'ritual',ritual:JSON.stringify(ritual)}).catch(()=>{});}
 function renderRitual(){document.querySelectorAll('.rit-row').forEach(el=>{el.classList.toggle('feito',!!ritual[el.dataset.id]);});renderRitualEl();}
 function renderRitualEl(){
-  let f=0;document.querySelectorAll('.rit-row').forEach(el=>{if(el.classList.contains('feito'))f++;});
-  const rp=document.getElementById('rit-prog');if(rp)rp.textContent=f+'/7';
-  const rt=document.getElementById('rit-prog-topo');if(rt)rt.textContent=f>0?`Ritual: ${f}/7`:'';
+  let f=0;const total=document.querySelectorAll('.rit-row').length;
+  document.querySelectorAll('.rit-row').forEach(el=>{if(el.classList.contains('feito'))f++;});
+  const rp=document.getElementById('rit-prog');if(rp)rp.textContent=f+'/'+total;
+  const rt=document.getElementById('rit-prog-topo');if(rt)rt.textContent=f>0?`Ritual: ${f}/${total}`:'';
+
+  // Só segunda-feira (getDay() === 1)
+  const ehSegunda=new Date().getDay()===1;
+  const rh=document.querySelector('.ritual-hero');
+  if(rh)rh.classList.toggle('dia-nao-segunda',!ehSegunda);
+
+  // Botão no topo
+  const btnChecks=document.getElementById('btn-checks');
+  if(btnChecks){
+    if(ehSegunda){
+      btnChecks.style.display='inline-flex';
+      if(f>=total){
+        btnChecks.textContent='✓ Ritual completo';
+        btnChecks.classList.add('completo');
+      } else {
+        btnChecks.textContent=`⬡ Checks: ${f}/${total}`;
+        btnChecks.classList.remove('completo');
+      }
+    } else {
+      btnChecks.style.display='none';
+    }
+  }
 }
 function salvarFoco(v){
   localStorage.setItem('zyllah_foco',v);
@@ -1891,6 +1980,44 @@ function ytAtualizarStats(){
   const badge=document.getElementById('badge-yt');
   if(pendentes>0){badge.textContent=pendentes;badge.style.display='inline-block';}
   else badge.style.display='none';
+}
+
+// ── PAUTA IA ────────────────────────────
+async function gerarPautaIA(){
+  const btn=document.getElementById('pauta-gen-btn');
+  const txt=document.getElementById('pauta-gen-txt');
+  const lista=document.getElementById('pauta-sug-lista');
+  const diag=document.getElementById('pauta-gen-diag')?.value||'';
+  btn.disabled=true;txt.textContent='Gerando...';lista.innerHTML='';
+  try{
+    const res=await gs({action:'gerarPauta',diagnostico:diag,clientes:JSON.stringify(clientes.map(c=>c.nome+' ('+c.plano+')')),prospects:JSON.stringify(prospects.filter(p=>p.status!=='arquivado').map(p=>p.nome))});
+    const sugestoes=res.sugestoes||[];
+    if(!sugestoes.length){lista.innerHTML='<div style="font-size:10px;color:var(--t4);padding:8px 0;">Nenhuma sugestão retornada. Verifique o Apps Script.</div>';return;}
+    lista.innerHTML=sugestoes.map((s,i)=>`
+      <div class="pauta-sug-item" onclick="pautaSugAdd(${i})">
+        <div class="pauta-sug-tema">${s.tema}</div>
+        <div class="pauta-sug-meta">
+          ${(s.plataformas||[]).map(p=>`<span class="pauta-sug-tag ${p}">${p}</span>`).join('')}
+          ${s.formato?`<span class="pauta-sug-tag">${s.formato}</span>`:''}
+          <span class="pauta-sug-add">+ Adicionar →</span>
+        </div>
+      </div>`).join('');
+    window._pautaSugestoes=sugestoes;
+  }catch(e){
+    lista.innerHTML=`<div style="font-size:10px;color:var(--urgente);padding:8px 0;">Erro: ${e.message||'verifique o Apps Script'}</div>`;
+  }finally{
+    btn.disabled=false;txt.textContent='↳ Gerar pauta com IA';
+  }
+}
+
+async function pautaSugAdd(i){
+  const s=(window._pautaSugestoes||[])[i];if(!s)return;
+  const nova={id:uid('pa'),tema:s.tema,plataforma:(s.plataformas||['instagram'])[0],status:'rascunho',cfm_ok:'nao',data_publicacao:'',cliente:'',notas:s.justificativa||''};
+  pauta.push(nova);
+  renderPauta();renderBadges();renderPcal('pcal-mini');renderPcal('pcal-full');
+  try{await gs({action:'salvarPauta',entrada:JSON.stringify(nova)});}catch(e){}
+  const el=document.querySelectorAll('.pauta-sug-item')[i];
+  if(el){el.style.opacity='.3';el.style.pointerEvents='none';el.querySelector('.pauta-sug-add').textContent='✓ Adicionado';}
 }
 
 // ── INIT ─────────────────────────────────
