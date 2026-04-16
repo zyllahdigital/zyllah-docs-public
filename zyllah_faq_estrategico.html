@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital · FAQ Estratégico</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8976A; --gold-light: #D4B896;
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1;
+    --brown: #4A3F35;
+    --alerta: #c46464; --ok: #6aaf7a; --info: #6496b8;
+  }
+  body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); }
+
+  /* HEADER */
+  .header { background: var(--ink); padding: 64px 80px 56px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: -80px; right: -80px; width: 400px; height: 400px; border-radius: 50%; border: 1px solid rgba(184,151,106,0.08); }
+  .h-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: block; }
+  .h-titulo { font-family: 'Cormorant Garamond', serif; font-size: 64px; font-weight: 300; color: var(--cream); line-height: 1.05; margin-bottom: 20px; }
+  .h-titulo em { font-style: italic; color: var(--gold); }
+  .h-sub { font-size: 15px; color: rgba(255,255,255,0.4); line-height: 1.85; max-width: 640px; }
+  .h-meta { display: flex; gap: 40px; margin-top: 40px; flex-wrap: wrap; }
+  .h-meta-item { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+  .h-meta-item strong { display: block; font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--gold); letter-spacing: 0; text-transform: none; font-weight: 300; margin-bottom: 4px; }
+
+  /* ÍNDICE */
+  .indice { background: var(--ink-soft); padding: 32px 80px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .indice-label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-right: 8px; flex-shrink: 0; }
+  .indice-link { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.45); text-decoration: none; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.08); transition: all 0.2s; white-space: nowrap; }
+  .indice-link:hover { color: var(--gold); border-color: rgba(184,151,106,0.3); }
+
+  /* BODY */
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 80px 100px; }
+
+  /* SECÃO */
+  .secao { margin-top: 72px; }
+  .secao-header { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; padding-top: 4px; }
+  .secao-icone { font-size: 22px; flex-shrink: 0; }
+  .secao-tag { font-size: 11px; letter-spacing: 0.5em; text-transform: uppercase; color: var(--gold); flex: 1; }
+  .secao-titulo { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: var(--ink); margin-bottom: 32px; }
+  .secao-titulo em { font-style: italic; color: var(--gold); }
+
+  /* CARD */
+  .card { background: white; border: 1px solid rgba(184,151,106,0.12); margin-bottom: 2px; }
+  .card-q { padding: 24px 28px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; cursor: pointer; border-left: 3px solid transparent; transition: border-color 0.2s; }
+  .card-q:hover { border-left-color: rgba(184,151,106,0.3); }
+  .card-q.aberto { border-left-color: var(--gold); }
+  .card-pergunta { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 21px; font-weight: 300; color: var(--ink); line-height: 1.25; flex: 1; }
+  .card-badge { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 3px 9px; border: 1px solid; flex-shrink: 0; margin-top: 3px; white-space: nowrap; }
+  .badge-risco { border-color: rgba(196,100,100,0.35); color: var(--alerta); }
+  .badge-op { border-color: rgba(106,175,122,0.35); color: var(--ok); }
+  .badge-legal { border-color: rgba(100,150,184,0.35); color: var(--info); }
+  .badge-fin { border-color: rgba(184,151,106,0.4); color: var(--gold); }
+  .badge-proc { border-color: rgba(150,100,184,0.35); color: #9664b8; }
+
+  .card-body { display: none; padding: 0 28px 28px; border-top: 1px solid rgba(184,151,106,0.08); }
+  .card-body.vis { display: block; }
+
+  .r-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(61,56,48,0.4); margin: 20px 0 8px; display: block; }
+  .resposta { font-size: 15px; line-height: 1.9; color: var(--ink-soft); }
+  .resposta strong { font-weight: 400; color: var(--ink); }
+
+  .box { padding: 14px 18px; font-size: 13px; line-height: 1.75; margin-top: 12px; }
+  .box-gold { background: rgba(184,151,106,0.07); border-left: 3px solid var(--gold); color: var(--ink-soft); }
+  .box-red  { background: rgba(196,100,100,0.06); border-left: 3px solid var(--alerta); color: var(--ink-soft); }
+  .box-blue { background: rgba(100,150,184,0.07); border-left: 3px solid var(--info); color: var(--ink-soft); }
+  .box-green{ background: rgba(106,175,122,0.07); border-left: 3px solid var(--ok); color: var(--ink-soft); }
+  .box strong { font-weight: 500; color: var(--ink); }
+
+  /* FOOTER */
+  .footer-doc { background: var(--ink); padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 80px; }
+  .footer-doc p { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+  .footer-doc span { color: var(--gold); }
+
+  @media (max-width: 768px) {
+    .header, .wrap, .indice, .footer-doc { padding-left: 24px; padding-right: 24px; }
+    .h-titulo { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="h-tag">Zyllah Digital · Uso interno · Fundador</span>
+  <h1 class="h-titulo">FAQ <em>Estratégico</em></h1>
+  <p class="h-sub">Todas as circunstâncias adversas antecipadas — clientes, operação, jurídico, finanças, parceiros e reputação. Para cada problema imaginável, uma resposta preparada.</p>
+  <div class="h-meta">
+    <div class="h-meta-item"><strong>9</strong>Categorias</div>
+    <div class="h-meta-item"><strong>60+</strong>Perguntas</div>
+    <div class="h-meta-item"><strong>Vivo</strong>Atualizar sempre</div>
+  </div>
+</div>
+
+<div class="indice">
+  <span class="indice-label">Ir para</span>
+  <a class="indice-link" href="#vendas">Vendas</a>
+  <a class="indice-link" href="#clientes">Clientes difíceis</a>
+  <a class="indice-link" href="#entrega">Entrega</a>
+  <a class="indice-link" href="#financeiro">Financeiro</a>
+  <a class="indice-link" href="#juridico">Jurídico</a>
+  <a class="indice-link" href="#cfm">CFM / Conselhos</a>
+  <a class="indice-link" href="#parceiros">Parceiros · Cloudia</a>
+  <a class="indice-link" href="#reputacao">Reputação</a>
+  <a class="indice-link" href="#operacao">Operação solo</a>
+</div>
+
+<div class="wrap">
+
+<!-- ══════════════════════════════════ -->
+<!-- 1. VENDAS                          -->
+<!-- ══════════════════════════════════ -->
+<div class="secao" id="vendas">
+  <div class="secao-header">
+    <span class="secao-icone">🎯</span>
+    <span class="secao-tag">Categoria 01</span>
+  </div>
+  <h2 class="secao-titulo">Vendas e <em>prospecção</em></h2>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O prospect pediu proposta por escrito antes de qualquer reunião. Envio?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Não. Proposta sem diagnóstico é um documento sem contexto — e é a forma mais rápida de ser comparado por preço. A resposta correta é: "Posso enviar uma visão geral dos planos, mas a proposta personalizada só faz sentido depois de uma conversa de 20 minutos — para que eu entenda o que você realmente precisa. Caso contrário, estarei chutando." Se ele não aceitar nem os 20 minutos, não é um prospect qualificado.</div>
+      <div class="box box-red">⚠️ Proposta sem reunião = comparação de preço. Você perde antes de começar.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O prospect sumiu depois da reunião. Quando e como fazer follow-up?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Sequência: 48h após a reunião — mensagem curta reforçando um ponto específico da conversa, sem pressão. 7 dias — pergunta aberta sobre a decisão. 21 dias — conteúdo de valor (um diagnóstico do perfil do prospect, um dado relevante para a especialidade). Depois dos 21 dias, silêncio ativo. Não perseguir. Quem vai fechar, fecha. Quem some não estava pronto — mas pode voltar em 3 meses.</div>
+      <div class="box box-gold">💡 Nunca perguntar "o que você achou?" — é fraco. Perguntar "surgiu alguma dúvida desde nossa conversa?" — é consultivo.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O prospect quer o plano Essencial mas claramente precisa do Presença Completa. O que fazer?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Apresentar os dois e ser honesto sobre o que cada um entrega. "O Essencial resolve a identidade e a consistência. Mas pelo que você me descreveu — sem site, sem LinkedIn, sem automação de atendimento — o Essencial vai deixar metade do problema em aberto. Você vai estar mais bem posicionado, mas ainda vai perder pacientes no WhatsApp. Fica a seu critério, mas quero que a decisão seja consciente."</div>
+      <div class="box box-gold">💡 Não force o upgrade. Deixe o diagnóstico honesto trabalhar. Quem entende a diferença, escolhe o certo.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Dois prospects interessados ao mesmo tempo. Como priorizar?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Priorizar por: (1) fit com o posicionamento Zyllah — especialista de saúde com dor real identificada, (2) capacidade de pagamento clara, (3) abertura para o processo sem microgerenciamento. O que não pode acontecer é aceitar os dois simultaneamente sem capacidade de entregar os dois com qualidade. Melhor recusar um agora e deixar a porta aberta do que entregar mal para os dois.</div>
+      <div class="box box-red">⚠️ Com operação solo, o limite real de clientes simultâneos é 3–4 no máximo. Aceitar além disso sem contratação é receita para entrega ruim e cancelamento.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O prospect pergunta se tenho cases de clientes de saúde. Só tenho o Encantarys (outro setor). O que dizer?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Ser direto e reposicionar pelo método, não pelo case: "O case que tenho documentado é de outro setor — mas o que ele prova não é que trabalhei com saúde antes. Prova que o método funciona: briefing profundo, identidade coerente, execução consistente. O que eu trago para saúde é isso — mais o conhecimento específico de CFM, CFO e CFP, que a maioria das agências não tem." Nunca mentir sobre ter cases de saúde que não existem.</div>
+      <div class="box box-red">⚠️ Nunca fabricar case. Se descobrirem, a credibilidade vai junto.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O prospect quer desconto em troca de ser o 'caso piloto público' da Zyllah."</div>
+      <div class="card-badge badge-fin">Financeiro</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">As condições do piloto já existem e são fixas: 50% de desconto na mensalidade, implantação isenta, em troca de liberdade criativa, depoimento após 60 dias e autorização de uso como case. Não há negociação adicional sobre o desconto. Se ele quer mais, o projeto sai do piloto e vai para o preço cheio. A escassez das 3 vagas é real — não é argumento de venda, é fato.</div>
+      <div class="box box-gold">💡 Reforçar a escassez: "Restam X vagas de piloto. Quando encerrarem, o próximo cliente entra no preço cheio."</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- 2. CLIENTES DIFÍCEIS               -->
+<!-- ══════════════════════════════════ -->
+<div class="secao" id="clientes">
+  <div class="secao-header">
+    <span class="secao-icone">⚡</span>
+    <span class="secao-tag">Categoria 02</span>
+  </div>
+  <h2 class="secao-titulo">Clientes <em>difíceis</em></h2>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente quer mudanças constantes no brand book depois de aprovado."</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">O brand book é aprovado formalmente com assinatura. Revisões pós-aprovação que alteram identidade (cores, tipografia, logo) não estão incluídas no contrato e são cobradas à parte. A conversa é: "Entendo que você queira ajustar, mas a identidade aprovada foi o resultado de um processo — mudá-la agora desfaz o trabalho e cria inconsistência na presença que estamos construindo. Se ainda assim quiser revisar, posso fazer um orçamento para isso."</div>
+      <div class="box box-red">⚠️ Cliente que questiona brand book aprovado tem problema de confiança no processo, não de estética. Esse padrão vai se repetir em tudo.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente aprova o calendário e depois pede para trocar posts de última hora."</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Até 48h antes da publicação, ajustes dentro do tema aprovado são possíveis sem custo. Mudança de tema, conteúdo ou data com menos de 48h é considerada retrabalho e pode gerar cobrança adicional ou deslocamento do calendário. Documentar essa regra no contrato e reforçar no onboarding. No momento da ocorrência: "Posso ajustar o texto, mas se mudarmos o tema completamente agora, vou precisar deslocar para a próxima semana ou cobrar o retrabalho. O que prefere?"</div>
+      <div class="box box-gold">💡 Incluir cláusula de revisão clara no contrato: 2 rounds por peça, prazo mínimo de 48h para aprovação.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente não responde aprovações a tempo e depois culpa a Zyllah pelo atraso."</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">A regra documentada no contrato: aprovação não dada em 72h = aprovação tácita para publicar. Comunicar isso no onboarding, registrar por escrito (WhatsApp ou e-mail). Quando o cliente reclamar: "Enviamos para aprovação em [data] e não recebemos retorno no prazo acordado. Conforme nosso contrato, procedemos com a publicação. Vou documentar isso para referência futura."</div>
+      <div class="box box-red">⚠️ Nunca publicar sem algum tipo de registro enviado ao cliente, mesmo que a aprovação seja tácita. O registro protege a Zyllah.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente quer que você publique conteúdo que viola o CFM."</div>
+      <div class="card-badge badge-legal">Legal</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Recusa firme e documentada: "Esse conteúdo viola a Resolução CFM 2.336/2023 — especificamente [citar o ponto]. Publicá-lo coloca em risco seu CRM, não o CNPJ da Zyllah. Não vou publicar. Posso criar uma alternativa que comunica o mesmo resultado dentro das normas." Se o cliente insistir após explicação clara, é motivo de rescisão por justa causa — cláusula que deve constar no contrato.</div>
+      <div class="box box-red">⚠️ Incluir no contrato: "A Zyllah reserva-se o direito de recusar conteúdo que viole normas dos conselhos profissionais regulamentadores." Isso protege juridicamente.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente diz que o resultado não veio e ameaça cancelar."</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Primeiro: entender o que ele chama de "resultado". Mais pacientes? Mais seguidores? Mais visibilidade? Reunir os dados do período — impressões, alcance, visitas ao perfil, buscas no Google — e mostrar o que está acontecendo. Se os números estão crescendo mas ele esperava mais: "Presença digital tem efeito cumulativo — os primeiros 3 meses constroem a base. O crescimento acelerado vem a partir daí." Se os números realmente estão ruins: diagnóstico honesto do que ajustar, sem defensividade.</div>
+      <div class="box box-gold">💡 Relatório mensal não é burocracia — é o documento que salva o contrato quando o cliente começa a duvidar.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente quer falar com você fora do horário comercial com frequência."</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">O canal de suporte é definido no contrato: dias úteis, 9h às 18h. Urgências reais (post publicado com erro, crise de imagem) têm tratamento diferenciado. Mensagem fora do horário recebe resposta no próximo dia útil. Comunicar isso no onboarding com clareza. Se o padrão persistir: "Quero te atender bem. Para isso preciso de horário estruturado — me manda tudo o que precisar até 17h e respondo até o fim do dia."</div>
+      <div class="box box-red">⚠️ Disponibilidade ilimitada destrói a operação solo. Limite é profissionalismo, não descaso.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- 3. ENTREGA                         -->
+<!-- ══════════════════════════════════ -->
+<div class="secao" id="entrega">
+  <div class="secao-header">
+    <span class="secao-icone">📦</span>
+    <span class="secao-tag">Categoria 03</span>
+  </div>
+  <h2 class="secao-titulo">Entrega e <em>operação</em></h2>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Não consegui entregar o calendário do mês no prazo. O que fazer?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Comunicar ao cliente antes do prazo vencer — nunca depois. "Estou finalizando o calendário e vou enviar até [data específica] — um dia além do previsto." Sem desculpas extensas. Com operação solo, atrasos acontecem; o que distingue profissionalismo é a comunicação proativa. Se for atraso recorrente, é sinal de sobrecarga — rever a quantidade de clientes ou contratar apoio pontual.</div>
+      <div class="box box-gold">💡 Buffer operacional: montar os calendários com 5 dias de antecedência. O que parece folga é o que salva em semanas pesadas.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Publiquei um post com erro — texto errado, dado incorreto ou visual ruim."</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Ação imediata: deletar ou editar (se editável) assim que identificado. Comunicar ao cliente o ocorrido e a ação tomada, sem esperar ele perceber. Se o erro gerou engajamento negativo: monitorar e, se necessário, responder com correção nos comentários. Nunca fingir que não aconteceu. A transparência rápida preserva mais confiança do que o erro em si destrói.</div>
+      <div class="box box-red">⚠️ Nunca deixar um post com erro no ar esperando o cliente não perceber. Quando ele perceber, o problema dobra.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente ficou doente ou viajou e não consegue gravar os vídeos do mês."</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">O calendário foi planejado com formatos alternativos para exatamente esse caso. Substituir os vídeos por carrosséis, posts estáticos ou cards animados — sem buraco na publicação. Comunicar ao cliente: "Sem problema. Vou adaptar o calendário com formatos que não precisam de gravação. Reagendamos os vídeos para o próximo mês." A presença não para por ausência do cliente.</div>
+      <div class="box box-gold">💡 Todo calendário deve ter pelo menos 30% de conteúdo que não depende do cliente. Isso é resiliência operacional.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Uma ferramenta essencial saiu do ar (GitHub Pages, Canva, n8n). O que fazer?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Para cada ferramenta crítica, ter um plano B mapeado: GitHub Pages fora — site temporariamente indisponível, comunicar ao cliente e abrir ticket no GitHub. Canva fora — usar assets HTML já produzidos. n8n fora — atendimento automático fica em modo manual até restauração. Nunca prometer ao cliente "não vai cair" — prometer "quando cair, ativamos o plano B em X horas".</div>
+      <div class="box box-blue">ℹ️ Documentar o plano B de cada ferramenta crítica em um checklist de contingência. Isso ainda não existe — criar.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O site do cliente saiu do ar. Como agir?"</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Verificar imediatamente: problema no DNS (domínio vencido ou mal configurado), problema no GitHub Pages (build quebrado), ou problema no repositório (arquivo deletado). Resolver na ordem. Comunicar ao cliente assim que identificar a causa e o prazo de resolução. Se o domínio venceu por responsabilidade do cliente (ele paga), alertar — não é falha da Zyllah, mas é sua reputação.</div>
+      <div class="box box-gold">💡 Criar alerta de vencimento de domínio para todos os clientes — notificar 30 e 15 dias antes.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- 4. FINANCEIRO                      -->
+<!-- ══════════════════════════════════ -->
+<div class="secao" id="financeiro">
+  <div class="secao-header">
+    <span class="secao-icone">💰</span>
+    <span class="secao-tag">Categoria 04</span>
+  </div>
+  <h2 class="secao-titulo">Financeiro e <em>pagamento</em></h2>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente atrasou o pagamento. Quando e como cobrar?"</div>
+      <div class="card-badge badge-fin">Financeiro</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Sequência: Dia do vencimento — lembrete automático (via Stripe ou PagSeguro). 3 dias após — mensagem direta, tom neutro: "Identifiquei que o pagamento de [mês] ainda está pendente. Segue o link para regularizar." 7 dias após — comunicar que a entrega do próximo ciclo está condicionada à regularização. 15 dias — notificação formal de inadimplência conforme contrato, com prazo para rescisão.</div>
+      <div class="box box-red">⚠️ Nunca continuar entregando trabalho para cliente inadimplente há mais de 15 dias. O contrato precisa ter cláusula clara sobre suspensão de serviço por inadimplência.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente cancela dentro do prazo mínimo. Como proceder?"</div>
+      <div class="card-badge badge-fin">Financeiro</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Aplicar a multa rescisória prevista em contrato — normalmente o equivalente aos meses restantes do prazo mínimo ou percentual sobre eles. Documentar a rescisão por escrito. Entregar o brand book e todos os arquivos produzidos que pertencem ao cliente (conforme cláusula de propriedade). Fazer isso sem drama — profissionalismo na saída preserva a possibilidade de retorno.</div>
+      <div class="box box-gold">💡 Cliente que cancela mal pode se tornar detrator. Cliente que cancela bem pode indicar outros ou voltar. A saída vale tanto quanto a entrada.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Como precificar um serviço extra que o cliente pediu fora do escopo?"</div>
+      <div class="card-badge badge-fin">Financeiro</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Ter uma tabela de serviços avulsos definida antes que o cliente pergunte. Exemplos: criação de arte extra (+R$ X por peça), vídeo adicional (+R$ X), identidade para evento específico, criação de apresentação. Responder sempre com clareza: "Isso não está incluído no plano atual. Posso fazer — o valor é R$ X. Confirma?" Nunca fazer "só dessa vez" sem cobrar. Gratuidades pontuais viram expectativa permanente.</div>
+      <div class="box box-red">⚠️ Escopo rastejante — pequenos extras não cobrados acumulam e viram trabalho grátis. Todo extra tem preço ou não acontece.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Quanto guardar de reserva antes de depender da Zyllah como renda principal?"</div>
+      <div class="card-badge badge-fin">Financeiro</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Mínimo 3 meses de despesas pessoais em reserva antes de largar outra fonte de renda. Meta mais segura: 6 meses. Além disso, ter pelo menos 2 clientes ativos pagando — nunca depender de 1 cliente único. Um cliente representa 100% do risco; dois representam 50% cada. A meta de R$ 5.000 líquidos/mês com 3 clientes Presença Completa cria resiliência razoável.</div>
+      <div class="box box-blue">ℹ️ Reserva de emergência da operação (ferramentas, imprevistos): mínimo R$ 2.000 separados da reserva pessoal.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- 5. JURÍDICO                        -->
+<!-- ══════════════════════════════════ -->
+<div class="secao" id="juridico">
+  <div class="secao-header">
+    <span class="secao-icone">⚖️</span>
+    <span class="secao-tag">Categoria 05</span>
+  </div>
+  <h2 class="secao-titulo">Jurídico e <em>contratos</em></h2>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente diz que o brand book é 'propriedade intelectual dele' e quer levar tudo se sair."</div>
+      <div class="card-badge badge-legal">Legal</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">O contrato deve especificar: todo material produzido e pago é propriedade do cliente — logo, brand book, fotos, conteúdos. O que não é transferido: processos internos, templates proprietários da Zyllah, ferramentas de automação. Se o cliente pagou, ele leva o que foi entregue. Se há parcelas em aberto, os arquivos ficam retidos até quitação.</div>
+      <div class="box box-blue">ℹ️ Incluir cláusula clara de propriedade intelectual no contrato. O que é do cliente, o que é da Zyllah — sem ambiguidade.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente ameaça processar por 'resultado não entregue'."</div>
+      <div class="card-badge badge-legal">Legal</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">A proteção está no contrato — que nunca promete resultado (número de pacientes, faturamento), apenas entrega de serviços (brand book, gestão de conteúdo, relatórios). Se o contrato está correto, a ameaça não tem base. Reunir toda a documentação de entrega: aprovações, relatórios mensais, comunicações. Não responder emocionalmente. Se necessário, acionar assessoria jurídica.</div>
+      <div class="box box-red">⚠️ Nunca colocar no contrato ou em mensagem qualquer promessa de resultado mensurável (mais pacientes, mais faturamento). Isso transforma serviço em obrigação de resultado.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Preciso de CNPJ para emitir nota fiscal?"</div>
+      <div class="card-badge badge-legal">Legal</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">MEI resolve para faturamento até R$ 81.000/ano (~R$ 6.750/mês). Para a meta de R$ 5.000 líquidos, MEI é suficiente no início. Serviços de comunicação e marketing se enquadram no MEI desde que dentro do escopo permitido. Verificar com contador se as atividades específicas da Zyllah se enquadram no CNAE correto. Quando a receita bruta aproximar de R$ 6.000/mês, avaliar migração para ME.</div>
+      <div class="box box-blue">ℹ️ Pendência ativa: abrir MEI se ainda não feito. Emissão de nota fiscal protege ambos os lados e profissionaliza a operação.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente pediu exclusividade — não atender concorrentes dele. Aceito?"</div>
+      <div class="card-badge badge-legal">Legal</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Exclusividade tem custo. Se aceitar, cobrar adicional de 20–30% sobre a mensalidade pelo valor da exclusiva. Definir claramente o escopo: "exclusividade de especialidade na mesma cidade" ou "exclusividade total"? A segunda é muito restritiva para uma agência em crescimento. Documentar no contrato com prazo definido.</div>
+      <div class="box box-gold">💡 No início, exclusividade pode ser um diferencial competitivo para fechar o cliente. Com escala, torna-se limitação. Avaliar caso a caso.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- 6. CFM / CONSELHOS                 -->
+<!-- ══════════════════════════════════ -->
+<div class="secao" id="cfm">
+  <div class="secao-header">
+    <span class="secao-icone">🏥</span>
+    <span class="secao-tag">Categoria 06</span>
+  </div>
+  <h2 class="secao-titulo">CFM, CFO, CFP <em>e conselhos</em></h2>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O que é absolutamente proibido publicar para médicos?"</div>
+      <div class="card-badge badge-legal">Legal</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resolução CFM 2.336/2023</span>
+      <div class="resposta">Proibido: imagens de antes/depois de procedimentos, preço de procedimento em destaque como argumento de atração, depoimento de paciente com identificação (nome, foto, perfil) mesmo com autorização, promessa de resultado ("elimine rugas em X sessões"), uso de títulos sem diploma comprovado, conteúdo sensacionalista.</div>
+      <div class="box box-green">✓ Permitido: conteúdo educativo sobre saúde, informar especialidade e onde atende, mostrar conquistas profissionais e formação, anúncio informativo de pesquisa local no Google, mostrar o consultório e equipe.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"E para dentistas? O CFO tem regras diferentes?"</div>
+      <div class="card-badge badge-legal">Legal</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">CFO — Conselho Federal de Odontologia</span>
+      <div class="resposta">Similar ao CFM: proibido antes/depois, proibido preço em destaque, proibido depoimento identificado, proibido promessa de resultado estético. Diferença: CFO tende a ser mais restritivo com imagens de procedimentos em andamento. Verificar Resolução CFO vigente antes de qualquer campanha de tráfego pago para dentista.</div>
+      <div class="box box-blue">ℹ️ Cada conselho tem sua resolução específica. Manter o documento zyllah_quiz_conselhos.html atualizado e consultá-lo antes de criar conteúdo para nova especialidade.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Posso fazer tráfego pago para médico no Google e Meta?"</div>
+      <div class="card-badge badge-legal">Legal</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Nexa Ads — regras</span>
+      <div class="resposta">Sim, com restrições. Google: anúncio de pesquisa local permitido ("cardiologista em Nova Friburgo"), anúncio educativo permitido. Meta: conteúdo informativo permitido, boost de post educativo permitido. Proibido em qualquer plataforma: antes/depois, promessa de resultado, preço de procedimento como argumento, depoimento identificado. A responsabilidade pelo conteúdo do anúncio é do médico, mas a Zyllah não pode criar conteúdo que ela sabe que viola as normas.</div>
+      <div class="box box-red">⚠️ Meta tem próprias restrições para anúncios de saúde além das do CFM. Verificar as políticas da plataforma separadamente antes de subir campanha.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente (psicólogo) pediu para publicar depoimento de paciente sem nome, só com iniciais."</div>
+      <div class="card-badge badge-legal">Legal</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">CFP — Conselho Federal de Psicologia</span>
+      <div class="resposta">Não publicar. O CFP proíbe depoimentos de clientes/pacientes em qualquer formato — mesmo sem identificação, mesmo com autorização assinada. A Nota Técnica CFP nº 1/2022 é clara. Alternativa: publicar conteúdo educativo sobre o tipo de demanda atendida sem identificar o paciente, usando linguagem de terceira pessoa genérica ("pessoas que chegam com..."). Nunca individualizar um caso, mesmo anonimizado.</div>
+      <div class="box box-red">⚠️ Psicólogo tem sigilo profissional regulamentado. Qualquer conteúdo que possa identificar um paciente — direta ou indiretamente — é infração ética.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- 7. PARCEIROS — CLOUDIA             -->
+<!-- ══════════════════════════════════ -->
+<div class="secao" id="parceiros">
+  <div class="secao-header">
+    <span class="secao-icone">🤝</span>
+    <span class="secao-tag">Categoria 07</span>
+  </div>
+  <h2 class="secao-titulo">Parceiros · <em>Cloudia e automação</em></h2>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Qual a diferença entre o Partners Tradicional e o Partners Full da Cloudia?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta"><strong>Partners Tradicional:</strong> você indica o cliente, a equipe Cloudia faz tudo — negociação, fluxo, onboarding, configuração e suporte. Você recebe percentual recorrente sem precisar operar a plataforma. <strong>Partners Full (Mão na Massa):</strong> você participa ativamente de toda a operação — negocia, detalha o fluxo, faz onboarding, configura a conta e dá suporte final. Exige conhecimento técnico da plataforma.</div>
+      <div class="box box-gold">💡 Para o momento atual: Partners Tradicional. Quando tiver domínio técnico e primeiro cliente Autoridade ativo: avaliar migração para Full para ter mais margem e controle.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Qual plano Cloudia faz sentido para um consultório individual em Nova Friburgo?"</div>
+      <div class="card-badge badge-fin">Financeiro</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Para consultório individual de especialista com volume moderado de agendamentos: plano Básico (R$ 599,90/mês — 400 pacientes únicos) ou Inicial (R$ 449,90/mês — 200 pacientes únicos). Um consultório com 15–20 consultas/semana dificilmente ultrapassa 200 contatos únicos por mês. Começar no Inicial e escalar conforme demanda. O custo é absorvido no plano Autoridade da Zyllah — não repassado separadamente.</div>
+      <div class="box box-blue">ℹ️ Custo da Cloudia entra como infraestrutura do plano Autoridade (R$ 4.500/mês). Com plano Inicial (~R$ 450), a margem do Autoridade permanece saudável.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"A Cloudia tem programa de parceria mas a Zyllah não tem cliente Autoridade ainda. Como abordar?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Abordar via Partners Tradicional sem exigir volume mínimo imediato. A conversa com Maria Claudia já está aberta. Perguntar: percentual recorrente do Tradicional, se há exigência de volume mínimo de indicações, se é possível migrar para o Full depois. Não forçar parceria antes de ter cliente Autoridade — a conversa fica mais forte com histórico real. Manter o contato aquecido com uma indicação potencial futura.</div>
+      <div class="box box-gold">💡 Mesmo sem cliente ativo, fechar o entendimento do programa agora economiza tempo quando o primeiro cliente Autoridade aparecer.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente Autoridade quer saber qual ferramenta de automação será usada. O que dizer?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Nunca nomear ferramenta específica na reunião de vendas. A resposta é: "Usamos uma plataforma especializada em atendimento automatizado para clínicas — integrada ao WhatsApp via API oficial, com inteligência artificial treinada para a sua especialidade. O que importa para você é o resultado: pacientes respondidos em segundos, agenda integrada, nenhum contato perdido." A ferramenta é decisão operacional da Zyllah, não do cliente.</div>
+      <div class="box box-red">⚠️ Nomear a Cloudia ou GeraCare na reunião abre brecha para o cliente contratar direto sem a Zyllah. A solução é da Zyllah — as ferramentas são internas.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"E se o cliente já tiver uma ferramenta de automação própria?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Diagnosticar o que ele tem: é funcional? Está integrado ao Google Agenda? Tem IA treinada para a especialidade? Se a ferramenta dele atende bem, não há necessidade de trocar — o Zyllah Flow pode ser adaptado para trabalhar em cima do que ele tem. Se a ferramenta dele é insuficiente, o argumento é: "O que você tem resolve a saudação automática. O que entregamos no Autoridade resolve a qualificação, o agendamento e o reengajamento — são camadas diferentes."</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Qual a diferença entre o atendimento automático do Presença Completa e o Zyllah Flow do Autoridade?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta"><strong>Presença Completa:</strong> atendimento automático básico — saudação, mensagem fora do horário, menu de opções. Feito via n8n + Z-API (~R$ 50/mês, absorvido na operação). <strong>Autoridade (Zyllah Flow):</strong> automação completa — qualificação com IA, integração com Google Agenda, CRM, reengajamento passivo de leads frios, NPS pós-consulta. Feito via Cloudia ou GeraCare. São produtos fundamentalmente diferentes — um para presença, outro para conversão.</div>
+      <div class="box box-blue">ℹ️ Nunca prometer triagem clínica em nenhum dos dois. O atendimento automático qualifica intenção de agendamento — nunca sintomas ou diagnóstico.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O Zyllah Flow ainda não foi validado. O que fazer se um cliente pedir detalhes?"</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Não detalhar. A resposta é: "A automação de atendimento inclusa no Autoridade cobre qualificação, agendamento integrado e reengajamento. Os detalhes técnicos da implementação são definidos no onboarding, de acordo com o sistema de agendamento que você já usa." Se o cliente insistir em saber exatamente como funciona antes de assinar: "Posso mostrar um fluxo exemplo na reunião de onboarding — é mais produtivo do que descrever tecnicamente aqui."</div>
+      <div class="box box-red">⚠️ Não vender o Zyllah Flow com detalhes técnicos que ainda não foram validados com Encantarys. Vender o resultado — não a arquitetura.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- 8. REPUTAÇÃO                       -->
+<!-- ══════════════════════════════════ -->
+<div class="secao" id="reputacao">
+  <div class="secao-header">
+    <span class="secao-icone">🌐</span>
+    <span class="secao-tag">Categoria 08</span>
+  </div>
+  <h2 class="secao-titulo">Reputação e <em>crise</em></h2>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Um ex-cliente faz uma avaliação negativa pública da Zyllah."</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Responder publicamente — sempre. Tom: calmo, profissional, sem atacar. Estrutura: reconhecer que a experiência foi diferente do esperado, reafirmar o compromisso com qualidade, oferecer canal privado para resolver. Nunca revelar detalhes do projeto, nunca contra-atacar, nunca ignorar. Uma resposta bem elaborada converte mais do que a ausência de avaliações negativas.</div>
+      <div class="box box-gold">💡 Uma resposta profissional a uma crítica pública vale mais do que 5 avaliações positivas. Prospects leem as duas.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Um concorrente começa a copiar o posicionamento ou os materiais da Zyllah."</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Ser copiado é sinal de que o posicionamento funciona. A resposta não é reagir ao concorrente — é acelerar a diferenciação. Documentar os materiais originais com data (GitHub tem histórico). Se houver cópia literal de textos ou identidade visual, pode ser cabível notificação jurídica por concorrência desleal. Na comunicação pública: nunca citar o concorrente, nunca comparar. Continuar executando com qualidade superior.</div>
+      <div class="box box-blue">ℹ️ O GitHub Pages com histórico de commits é prova de autoria com data. Manter os documentos versionados lá por isso também.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O Instagram ou LinkedIn da Zyllah é hackeado ou suspenso."</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Prevenção: autenticação de dois fatores em todas as contas, e-mails de recuperação atualizados, senhas no catálogo de senhas. Se suspenso: acionar o suporte da plataforma com documentação de identidade. Comunicar ao público via outro canal (LinkedIn se Instagram cair, WhatsApp se LinkedIn cair). Nunca criar conta nova — as plataformas penalizam contas duplicadas.</div>
+      <div class="box box-red">⚠️ 2FA é obrigatório em todas as contas. Verificar se está ativo agora — pendência de segurança.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"A Zyllah publicou algo que gerou polêmica ou foi mal interpretado."</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Avaliar primeiro: é uma interpretação legítima que merece esclarecimento, ou é uma minoria barulhenta sem base? Se o problema é real: deletar, publicar esclarecimento direto, sem longo texto de desculpas. Se é ataque infundado: não reagir publicamente, ignorar ou responder com uma frase neutra. Nunca apagar sem deixar rastro — screenshots sempre antes de deletar.</div>
+      <div class="box box-gold">💡 Antes de publicar qualquer conteúdo sensível (crítica ao mercado, dado específico, opinião forte): revisão crítica com a pergunta "o que o pior caso disso parece?"</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════ -->
+<!-- 9. OPERAÇÃO SOLO                   -->
+<!-- ══════════════════════════════════ -->
+<div class="secao" id="operacao">
+  <div class="secao-header">
+    <span class="secao-icone">⚙️</span>
+    <span class="secao-tag">Categoria 09</span>
+  </div>
+  <h2 class="secao-titulo">Operação <em>solo</em></h2>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Fico doente e não consigo trabalhar por uma semana. O que fazer?"</div>
+      <div class="card-badge badge-risco">Risco</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Comunicar aos clientes ativos com antecedência quando possível, ou assim que possível. O buffer operacional (calendários montados com 5–7 dias de antecedência) permite absorver alguns dias sem impacto. Para publicações urgentes: ter um freelancer de confiança mapeado que pode operar o calendário aprovado em emergência. Para situações mais longas: acionar cláusula de força maior no contrato.</div>
+      <div class="box box-red">⚠️ Pendência: mapear pelo menos um freelancer de confiança que possa cobrir emergências. Isso ainda não existe — criar antes de precisar.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Quantos clientes simultâneos é o limite real com operação solo?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Com a stack atual (n8n, Canva, Samsung A52S, sem equipe): 3 clientes Presença Completa é o limite com qualidade. 4 é possível se dois tiverem perfis de baixa demanda (aprovam rápido, não pedem muito). Acima de 4, a entrega começa a degradar. O sinal de que o limite foi atingido: atrasos de calendário, respostas lentas, qualidade visual caindo. A solução não é trabalhar mais — é contratar apoio ou reajustar preço para filtrar demanda.</div>
+      <div class="box box-gold">💡 Preço mais alto = menos clientes, mais margem, mais qualidade por cliente. Essa é a escala correta para operação solo premium.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Quando contratar a primeira pessoa para a equipe?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Quando a receita estiver consistente por 3 meses consecutivos acima de R$ 8.000 bruto. A primeira contratação ideal: assistente de produção (edição de vídeo, montagem de carrosséis, agendamento de posts) — liberando Guilherme para estratégia, reuniões e vendas. Não contratar CLT no início — freelancer por projeto ou PJ por hora é mais flexível e menos risco.</div>
+      <div class="box box-blue">ℹ️ O programa Zyllah Confiança (indicação entre clientes) ativa após o 2º cliente — pode gerar crescimento sem custo de aquisição antes da primeira contratação.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"Como manter o TDAH sob controle na operação do negócio?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Os sistemas que funcionam para TDAH na operação: (1) uma única lista de prioridades visível — a planilha Zyllah Pendências já existe para isso, usar todo dia, (2) blocos de tempo fixos por tipo de tarefa — não misturar produção com reunião com financeiro no mesmo turno, (3) documentação pesada como substituto de memória — não confiar em lembrar, confiar nos documentos, (4) sessão de abertura estruturada (ler relatório, verificar pendências, confirmar foco) antes de qualquer produção nova.</div>
+      <div class="box box-gold">💡 O Claude funciona como sistema de memória externo — usar o início de cada sessão para retomar contexto sem depender de memória interna.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-q" onclick="toggle(this)">
+      <div class="card-pergunta">"O cliente quer reunião toda semana. O que fazer?"</div>
+      <div class="card-badge badge-proc">Processo</div>
+    </div>
+    <div class="card-body">
+      <span class="r-label">Resposta</span>
+      <div class="resposta">Reunião semanal não está em nenhum plano. A resposta é firme e amigável: "Nosso modelo funciona com reunião mensal — é quando há dados concretos para analisar juntos. Reuniões semanais antes de ter dados não produzem decisões melhores, só ocupam seu tempo e o meu. O canal de suporte diário existe exatamente para questões pontuais." Se o cliente insistir muito, é sinal de ansiedade ou desconfiança — tratar o problema de origem, não o sintoma.</div>
+      <div class="box box-red">⚠️ Reunião semanal com um cliente consome tempo que seria de outro cliente. Não é sustentável com 3+ clientes.</div>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- /wrap -->
+
+<div class="footer-doc">
+  <p>Zyllah Digital · <span>FAQ Estratégico v1.0</span> · Uso interno · Fundador</p>
+  <p>Criado em <span>08 de abril de 2026</span> · Atualizar sempre que novo cenário surgir</p>
+</div>
+
+<script>
+  function toggle(el) {
+    el.classList.toggle('aberto');
+    const body = el.nextElementSibling;
+    body.classList.toggle('vis');
+  }
+</script>
+
+</body>
+</html>

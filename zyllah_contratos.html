@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital — Pacote Jurídico v2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8976A; --gold-light: #D4B896;
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1; --cream-dark: #E5DDD0;
+    --adv: #6496b8;
+  }
+  body { font-family: 'Jost', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); font-size: 15px; line-height: 1.85; }
+
+  /* SENHA */
+  #senha-tela { position: fixed; inset: 0; z-index: 99999; background: #1A1714; display: flex; align-items: center; justify-content: center; }
+  .senha-box { width: 100%; max-width: 400px; padding: 48px; display: flex; flex-direction: column; gap: 20px; }
+  .senha-logo { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(184,151,106,0.5); letter-spacing: 0.3em; }
+  .senha-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: white; line-height: 1.1; }
+  .senha-titulo em { font-style: italic; color: #D4B896; }
+  .senha-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(184,151,106,0.35); padding: 14px 0; font-family: 'Jost', sans-serif; font-size: 18px; color: white; outline: none; letter-spacing: 0.1em; transition: border-color 0.2s; }
+  .senha-input:focus { border-bottom-color: #B8976A; }
+  .senha-input::placeholder { color: rgba(255,255,255,0.55); font-size: 14px; letter-spacing: 0.2em; }
+  .senha-btn { background: #B8976A; color: #1A1714; border: none; padding: 14px 32px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; align-self: flex-start; }
+  .senha-btn:hover { background: #D4B896; }
+  .senha-erro { font-size: 13px; color: rgba(210,100,100,0.9); min-height: 18px; }
+
+  /* HEADER */
+  .header { background: var(--ink); padding: 56px 80px; }
+  .header-tag { font-size: 12px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .header-title { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: white; line-height: 1.0; margin-bottom: 16px; }
+  .header-title em { font-style: italic; color: var(--gold-light); }
+  .header-sub { font-size: 15px; color: rgba(255,255,255,0.5); max-width: 680px; line-height: 1.8; margin-bottom: 24px; }
+  .header-aviso { background: rgba(100,150,184,0.12); border-left: 3px solid var(--adv); padding: 14px 20px; max-width: 680px; }
+  .header-aviso p { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.75; }
+  .header-aviso strong { color: var(--gold-light); font-weight: 400; }
+
+  /* SELETOR */
+  .corpo { max-width: 980px; margin: 0 auto; padding: 48px 60px; }
+  .seletor { display: flex; gap: 2px; margin-bottom: 48px; flex-wrap: wrap; }
+  .sel-btn { flex: 1; min-width: 160px; padding: 18px 20px; border: none; cursor: pointer; font-family: 'Jost', sans-serif; font-weight: 300; text-align: left; transition: all 0.2s; border-top: 2px solid transparent; }
+  .sel-btn.ativo { border-top-color: var(--gold); background: var(--ink); color: white; }
+  .sel-btn.ativo .sel-tag { color: var(--gold); }
+  .sel-btn.ativo .sel-nome { color: white; }
+  .sel-btn.ativo .sel-desc { color: rgba(255,255,255,0.35); }
+  .sel-btn:not(.ativo) { background: var(--cream-mid); }
+  .sel-btn:not(.ativo):hover { background: var(--cream-dark); }
+  .sel-tag { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; display: block; }
+  .sel-nome { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 300; margin-bottom: 3px; }
+  .sel-desc { font-size: 11px; color: var(--ink-soft); line-height: 1.45; }
+
+  /* DOCUMENTO */
+  .doc { display: none; }
+  .doc.ativo { display: block; }
+  .doc-wrap { background: white; border: 1px solid rgba(184,151,106,0.15); }
+  .doc-topo { background: var(--ink); padding: 40px 56px; text-align: center; }
+  .doc-logo { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: var(--gold); letter-spacing: 0.3em; margin-bottom: 20px; display: block; }
+  .doc-titulo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: white; line-height: 1.3; }
+  .doc-subtitulo { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 8px; }
+  .doc-corpo { padding: 48px 56px; }
+
+  /* PARTES */
+  .partes { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 40px; padding: 32px; background: var(--cream-mid); }
+  .parte-label { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; display: block; }
+  .campo { margin-bottom: 12px; }
+  .campo-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px; }
+  .campo-linha { border-bottom: 1px solid rgba(184,151,106,0.25); padding-bottom: 4px; font-size: 14px; color: var(--ink-soft); min-height: 22px; }
+  .campo-fixo { font-size: 14px; color: var(--ink); font-weight: 400; }
+
+  /* CLÁUSULAS */
+  .divider { height: 1px; background: rgba(184,151,106,0.1); margin: 28px 0; }
+  .clausula { margin-bottom: 26px; }
+  .c-num { font-size: 11px; letter-spacing: 0.2em; color: var(--gold); font-weight: 500; margin-bottom: 5px; }
+  .c-titulo { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 400; color: var(--ink); margin-bottom: 8px; }
+  .c-texto { font-size: 14px; color: var(--ink-soft); line-height: 1.85; }
+  .c-texto strong { color: var(--ink); font-weight: 500; }
+  .c-texto ul { margin: 8px 0; padding-left: 20px; }
+  .c-texto ul li { margin-bottom: 6px; }
+  .destaque { background: rgba(184,151,106,0.07); border-left: 2px solid var(--gold); padding: 12px 16px; margin-top: 12px; font-style: italic; font-size: 13.5px; }
+
+  /* NOTA ADVOGADO */
+  .nota-adv { background: rgba(100,150,184,0.07); border-left: 3px solid var(--adv); padding: 12px 18px; margin-top: 12px; font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
+  .nota-adv strong { color: var(--adv); font-weight: 500; display: block; margin-bottom: 4px; }
+
+  /* ASSINATURAS */
+  .assinaturas { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(184,151,106,0.15); }
+  .ass-linha { border-top: 1px solid rgba(61,56,48,0.25); margin: 48px 0 10px; }
+  .ass-campo { margin-bottom: 16px; }
+  .ass-campo-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .ass-campo-linha { border-bottom: 1px solid rgba(184,151,106,0.2); padding-bottom: 4px; min-height: 22px; font-size: 13px; color: var(--ink-soft); }
+  .local-data { font-size: 13px; color: var(--ink-soft); text-align: center; margin-bottom: 32px; }
+
+  /* ANEXO — TABELA DE ESCOPO */
+  .escopo-table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; }
+  .escopo-table th { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(184,151,106,0.2); background: var(--cream-mid); }
+  .escopo-table td { font-size: 13px; color: var(--ink-soft); padding: 10px 12px; border-bottom: 1px solid rgba(184,151,106,0.07); vertical-align: top; }
+  .escopo-table td:first-child { font-weight: 400; color: var(--ink); }
+  .inc { color: #5a9e6f; font-weight: 500; }
+  .nin { color: rgba(61,56,48,0.35); }
+  .escopo-table tr:hover td { background: var(--cream-mid); }
+
+  /* VALORES TABELA */
+  .val-box { background: var(--cream-mid); padding: 24px 28px; margin: 20px 0; display: flex; gap: 32px; flex-wrap: wrap; }
+  .val-item { display: flex; flex-direction: column; gap: 6px; }
+  .val-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+  .val-linha { border-bottom: 1px solid rgba(184,151,106,0.3); min-width: 200px; padding-bottom: 4px; font-size: 15px; color: var(--ink-soft); min-height: 26px; }
+
+  /* RODAPÉ DOC */
+  .rodape-doc { margin-top: 48px; padding-top: 28px; border-top: 1px solid rgba(184,151,106,0.15); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  .rodape-doc p { font-size: 11px; color: rgba(61,56,48,0.4); letter-spacing: 0.1em; }
+
+  /* BTN IMPRIMIR */
+  .btn-imprimir { display: inline-block; margin-top: 28px; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; background: var(--ink); color: var(--gold); padding: 14px 32px; border: none; cursor: pointer; font-family: 'Jost', sans-serif; transition: all 0.2s; }
+  .btn-imprimir:hover { background: var(--gold); color: var(--ink); }
+
+  /* ADENDO — marcador de substituição */
+  .sub-clausula { background: rgba(184,151,106,0.06); border: 1px dashed rgba(184,151,106,0.35); padding: 16px 20px; margin: 12px 0; }
+  .sub-tag { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; display: block; }
+
+  @media print {
+    .seletor, .btn-imprimir, .no-print, .header-aviso { display: none !important; }
+    .doc.ativo { display: block !important; }
+    body { background: white; font-size: 12px; }
+    .header { padding: 32px 40px; }
+    .corpo { padding: 32px 40px; }
+    .doc-corpo { padding: 32px 40px; }
+  }
+  @media (max-width: 700px) {
+    .header { padding: 48px 24px; }
+    .corpo { padding: 32px 20px; }
+    .partes { grid-template-columns: 1fr; }
+    .assinaturas { grid-template-columns: 1fr; }
+    .doc-corpo { padding: 28px 24px; }
+    .val-box { flex-direction: column; }
+  }
+</style>
+
+<script>
+(function() {
+  var SENHA = '2026';
+  var KEY = 'zyl_contratos_v2';
+  if (sessionStorage.getItem(KEY) === '1') return;
+  window.addEventListener('DOMContentLoaded', function() {
+    var tela = document.getElementById('senha-tela');
+    if (tela) { tela.style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+    var inp = document.getElementById('senha-input');
+    if (inp) { inp.focus(); inp.addEventListener('keydown', function(e) { if (e.key === 'Enter') verificarSenha(); }); }
+  });
+  window.verificarSenha = function() {
+    var inp = document.getElementById('senha-input');
+    var err = document.getElementById('senha-erro');
+    if (inp.value === SENHA) {
+      sessionStorage.setItem(KEY, '1');
+      var tela = document.getElementById('senha-tela');
+      tela.style.transition = 'opacity 0.3s'; tela.style.opacity = '0';
+      setTimeout(function() { tela.style.display = 'none'; document.body.style.overflow = ''; }, 300);
+    } else { err.textContent = 'Senha incorreta.'; inp.value = ''; inp.focus(); setTimeout(function() { err.textContent = ''; }, 2000); }
+  };
+})();
+function mostrar(id, btn) {
+  document.querySelectorAll('.doc').forEach(function(el) { el.classList.remove('ativo'); });
+  document.querySelectorAll('.sel-btn').forEach(function(el) { el.classList.remove('ativo'); });
+  document.getElementById('doc-' + id).classList.add('ativo');
+  btn.classList.add('ativo');
+}
+</script>
+</head>
+<body>
+
+<div id="senha-tela" style="display:none;">
+  <div class="senha-box">
+    <div class="senha-logo">Zyllah Digital</div>
+    <div class="senha-titulo">Pacote<br><em>Jurídico v2.0</em></div>
+    <input id="senha-input" type="password" class="senha-input" placeholder="senha" autocomplete="off">
+    <div id="senha-erro" class="senha-erro"></div>
+    <button class="senha-btn" onclick="verificarSenha()">Entrar →</button>
+  </div>
+</div>
+
+<div class="header">
+  <span class="header-tag">Zyllah Digital · Documentos Jurídicos · v2.0 · Revisão obrigatória por advogado</span>
+  <h1 class="header-title">Pacote Jurídico<br><em>Completo</em></h1>
+  <p class="header-sub">Contrato Base + 3 Anexos de Escopo (Essencial, Presença Completa, Autoridade) + Adendo Piloto. Arquitetura: o Contrato Base governa todos os planos. O Anexo I define escopo e preço do plano específico contratado. O Adendo Piloto substitui as cláusulas de remuneração e prazo quando aplicável.</p>
+  <div class="header-aviso">
+    <p><strong>Instrução para o advogado:</strong> Estes documentos incorporam as cláusulas sugeridas no Mapa de Riscos Contratuais v2.0 (12 categorias, 25 cenários). Solicita-se validação de: (1) percentuais de multa rescisória à luz do CDC; (2) adequação da cláusula LGPD para dados sensíveis de saúde (art. 11, Lei 13.709/2018); (3) cláusulas de foro em contratos com consumidores PF; (4) cláusulas de exclusividade à luz da Lei 9.279/1996 e regulação antitruste. Notas específicas por cláusula estão destacadas em azul no documento.</p>
+  </div>
+</div>
+
+<div class="corpo">
+  <div class="seletor no-print">
+    <button class="sel-btn ativo" onclick="mostrar('base', this)">
+      <span class="sel-tag">Doc 01</span>
+      <div class="sel-nome">Contrato Base</div>
+      <div class="sel-desc">Termos gerais. Rege todos os planos. Assinar junto com o Anexo I do plano escolhido.</div>
+    </button>
+    <button class="sel-btn" onclick="mostrar('ane1', this)">
+      <span class="sel-tag">Anexo I-A</span>
+      <div class="sel-nome">Plano Essencial</div>
+      <div class="sel-desc">R$ 1.800/mês + R$ 1.200 implantação. Mínimo 6 meses.</div>
+    </button>
+    <button class="sel-btn" onclick="mostrar('ane2', this)">
+      <span class="sel-tag">Anexo I-B</span>
+      <div class="sel-nome">Presença Completa</div>
+      <div class="sel-desc">R$ 2.800/mês + R$ 1.800 implantação. Mínimo 6 meses.</div>
+    </button>
+    <button class="sel-btn" onclick="mostrar('ane3', this)">
+      <span class="sel-tag">Anexo I-C</span>
+      <div class="sel-nome">Plano Autoridade</div>
+      <div class="sel-desc">R$ 4.500/mês + R$ 2.500 implantação. Mínimo 12 meses.</div>
+    </button>
+    <button class="sel-btn" onclick="mostrar('piloto', this)">
+      <span class="sel-tag">Doc 05</span>
+      <div class="sel-nome">Adendo Piloto</div>
+      <div class="sel-desc">Substitui remuneração e prazo para clientes piloto. Assinar junto com o Contrato Base + Anexo I.</div>
+    </button>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- DOC 1 — CONTRATO BASE                                     -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="doc ativo" id="doc-base">
+    <div class="doc-wrap">
+      <div class="doc-topo">
+        <span class="doc-logo">ZYLLAH DIGITAL</span>
+        <div class="doc-titulo">Contrato de Prestação de Serviços<br>de Presença Digital — Termos Gerais</div>
+        <div class="doc-subtitulo">Versão 2.0 · Rege todos os planos · Assinar junto com o Anexo I do plano contratado</div>
+      </div>
+      <div class="doc-corpo">
+
+        <div class="partes">
+          <div>
+            <span class="parte-label">Contratante</span>
+            <div class="campo"><div class="campo-label">Nome completo</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">CPF / CNPJ</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Registro profissional (CRM / CRO / CRP etc.)</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Endereço do consultório / empresa</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">E-mail</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">WhatsApp</div><div class="campo-linha"></div></div>
+          </div>
+          <div>
+            <span class="parte-label">Contratada</span>
+            <div class="campo"><div class="campo-label">Nome / Razão social</div><div class="campo-fixo">Guilherme de Oliveira Caetano — Zyllah Digital</div></div>
+            <div class="campo"><div class="campo-label">CPF / CNPJ</div><div class="campo-linha">___.___.___ - __ / _____________</div></div>
+            <div class="campo"><div class="campo-label">E-mail</div><div class="campo-fixo">guilherme@zyllah.com.br</div></div>
+            <div class="campo"><div class="campo-label">Cidade / UF</div><div class="campo-fixo">Nova Friburgo — RJ</div></div>
+          </div>
+        </div>
+
+        <p style="font-size:13px;color:var(--ink-soft);margin-bottom:28px;line-height:1.75;">As partes identificadas acima celebram o presente <strong>Contrato de Prestação de Serviços de Presença Digital</strong>, que se rege pelas cláusulas abaixo e pelo <strong>Anexo I</strong> — Escopo de Serviços do plano contratado, parte integrante e indissociável deste instrumento. Quando aplicável, o <strong>Adendo de Projeto Piloto</strong> também integra este contrato e prevalece sobre as cláusulas 3 e 4 que substituir.</p>
+
+        <div class="divider"></div>
+
+        <!-- CL. 1 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 1 — OBJETO</div>
+          <div class="c-titulo">Prestação de Serviços de Presença Digital</div>
+          <div class="c-texto">A <strong>Contratada</strong> prestará ao <strong>Contratante</strong> serviços de presença digital de alto padrão, incluindo gestão de redes sociais, produção de conteúdo, identidade visual e demais serviços especificados no <strong>Anexo I</strong> do plano contratado, cujo escopo é taxativo: serviços não listados no Anexo I não integram o objeto deste contrato. O Anexo I deve ser preenchido, assinado e datado por ambas as partes antes do início de qualquer execução de serviços. Qualquer ampliação de escopo exige aditivo escrito assinado por ambas as partes.</div>
+        </div>
+
+        <!-- CL. 2 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 2 — ESCOPO, ENTREGAS E SERVIÇOS ADICIONAIS</div>
+          <div class="c-titulo">Definição taxativa do escopo contratado</div>
+          <div class="c-texto">
+            <ul>
+              <li>O escopo mensal está descrito de forma taxativa no <strong>Anexo I</strong>. Quaisquer solicitações fora do Anexo I constituem <strong>serviço adicional</strong>, sujeito a orçamento prévio e confirmação por escrito pela Contratada antes da execução.</li>
+              <li>A execução de um serviço adicional pontual, sem formalização de aditivo, não cria obrigação de repetição nem altera o escopo contratual.</li>
+              <li>Revisões do Brand Book após sua aprovação formal — incluindo alteração de paleta, tipografia ou identidade visual — constituem novo escopo e serão orçadas separadamente, independentemente do número de revisões disponíveis no plano.</li>
+              <li>Cada entrega inclui <strong>até 2 (duas) rodadas de revisão</strong>. Revisões adicionais ou solicitações que desconstroem o conceito aprovado no briefing original são cobradas a <strong>R$ 100,00 por hora</strong>, confirmados por escrito antes da execução.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CL. 3 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 3 — REMUNERAÇÃO E CONDIÇÕES DE PAGAMENTO</div>
+          <div class="c-titulo">Valores, vencimento e protocolo de inadimplência</div>
+          <div class="c-texto">
+            Os valores, taxa de implantação e demais condições financeiras específicas do plano contratado estão definidos no <strong>Anexo I</strong>. As condições gerais de pagamento são:
+            <ul>
+              <li><strong>Taxa de implantação:</strong> devida na assinatura deste contrato, <strong>não reembolsável</strong> em nenhuma hipótese, inclusive rescisão antecipada, pois remunera o trabalho de onboarding, brand book e setup inicial, já realizados no momento do pagamento.</li>
+              <li><strong>Mensalidade:</strong> vence todo dia ____ de cada mês. Pagamento via PIX, transferência bancária ou boleto.</li>
+              <li><strong>Atraso:</strong> multa de 2% sobre o valor em atraso + juros de 1% ao mês, contados do vencimento.</li>
+              <li><strong>Protocolo de inadimplência:</strong> (a) <strong>Dia 5 após vencimento:</strong> aviso formal por escrito; (b) <strong>Dia 8:</strong> suspensão das publicações nas redes sociais do Contratante; (c) <strong>Dia 15:</strong> suspensão total dos serviços — sem responsabilidade da Contratada por prejuízos decorrentes; (d) <strong>Dia 30:</strong> rescisão automática do contrato com aplicação da multa rescisória da Cláusula 9, sem necessidade de notificação adicional. A suspensão dos serviços não suspende a obrigação de pagamento das mensalidades vincendas.</li>
+              <li><strong>Reajuste anual:</strong> no aniversário de cada contrato, pelo IPCA acumulado nos 12 meses anteriores, comunicado com 30 dias de antecedência. O índice pode ser substituído pelo IGPM ou INPC a critério da Contratada, desde que não superior ao IPCA do período.</li>
+            </ul>
+            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se a cobrança de taxa de implantação não reembolsável é compatível com o CDC em contratos firmados com consumidor pessoa física. Avaliar se a redação atual é suficiente ou se há necessidade de destaque conforme art. 54, §4º, CDC.</div>
+          </div>
+        </div>
+
+        <!-- CL. 4 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 4 — PRAZO, VIGÊNCIA E RENOVAÇÃO</div>
+          <div class="c-titulo">Fidelidade mínima e renovação automática</div>
+          <div class="c-texto">
+            <ul>
+              <li>O prazo mínimo de fidelidade está definido no Anexo I (6 meses para Essencial e Presença Completa; 12 meses para Autoridade).</li>
+              <li>Após o prazo mínimo, o contrato <strong>renova-se automaticamente</strong> por períodos iguais ao prazo mínimo original, salvo manifestação contrária de qualquer das partes mediante <strong>notificação escrita com 30 (trinta) dias de antecedência</strong>.</li>
+              <li>O aviso de não renovação não isenta o pagamento das mensalidades do período de aviso.</li>
+              <li>A falta de notificação no prazo implica renovação automática nas mesmas condições, ficando vedada rescisão imotivada no período renovado sem pagamento da multa proporcional prevista na Cláusula 9.</li>
+              <li>A Contratada notificará o Contratante sobre o vencimento do prazo mínimo com antecedência mínima de <strong>45 (quarenta e cinco) dias</strong>, acompanhada de proposta de renovação nas condições vigentes.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CL. 5 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 5 — APROVAÇÃO DE MATERIAIS</div>
+          <div class="c-titulo">Aprovação, aprovação tácita e responsabilidade pelo conteúdo aprovado</div>
+          <div class="c-texto">
+            <ul>
+              <li>Todos os materiais produzidos serão submetidos ao Contratante para aprovação prévia à publicação, por canal documentado (WhatsApp ou e-mail).</li>
+              <li>O <strong>prazo para retorno é de 72 (setenta e duas) horas úteis</strong>. Decorrido esse prazo sem manifestação, o material é considerado <strong>aprovado tacitamente</strong>, e a Contratada fica autorizada a publicar imediatamente.</li>
+              <li>Atrasos no calendário editorial decorrentes da inércia do Contratante no prazo de aprovação não são de responsabilidade da Contratada e não configuram descumprimento contratual.</li>
+              <li>A <strong>aprovação expressa ou tácita</strong> do conteúdo pelo Contratante, por qualquer meio documentado, constitui aceitação integral da conformidade do material com as normas dos conselhos profissionais aplicáveis. A responsabilidade final pelo conteúdo publicado é do <strong>Contratante</strong>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CL. 6 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 6 — OBRIGAÇÕES DO CONTRATANTE</div>
+          <div class="c-titulo">Colaboração necessária para a execução dos serviços</div>
+          <div class="c-texto">
+            São obrigações do Contratante:
+            <ul>
+              <li>Fornecer informações, materiais (fotos, textos, dados do consultório) e aprovações solicitadas em até <strong>5 (cinco) dias úteis</strong>. O descumprimento implica extensão proporcional do prazo de entrega pela Contratada, sem caracterizar inadimplência desta;</li>
+              <li>Disponibilizar-se para <strong>ao menos uma sessão de captação de conteúdo por mês</strong>, conforme descrito no Anexo I, confirmando local e horário com mínimo de <strong>7 (sete) dias úteis</strong> de antecedência;</li>
+              <li>Comunicar mudanças relevantes no negócio — mudança de especialidade, encerramento de consultório, alteração de público-alvo, mudança de endereço — com antecedência mínima de <strong>15 (quinze) dias corridos</strong>;</li>
+              <li><strong>Não solicitar</strong> publicação de conteúdo que viole as normas dos conselhos profissionais regulamentadores (CFM, CRO, CFP, CRN, COFFITO ou equivalente). A responsabilidade por conteúdo solicitado em desconformidade com essas normas é exclusivamente do Contratante;</li>
+              <li>Preencher completamente o <strong>Briefing de Identidade</strong> no prazo de 5 (cinco) dias úteis após a assinatura deste contrato;</li>
+              <li>Respeitar o calendário editorial aprovado e comunicar impedimentos com antecedência mínima de 5 dias úteis.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CL. 7 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 7 — ACESSO A PLATAFORMAS DIGITAIS</div>
+          <div class="c-titulo">Gestão de acessos sem compartilhamento de senhas pessoais</div>
+          <div class="c-texto">
+            <ul>
+              <li>O acesso às redes sociais e plataformas digitais do Contratante será realizado <strong>exclusivamente por meio de permissões de gestor</strong> concedidas nas ferramentas oficiais de cada plataforma (Meta Business Suite, LinkedIn Campaign Manager, Google Search Console etc.), sem compartilhamento de senhas pessoais em nenhuma hipótese;</li>
+              <li>O Contratante pode revogar as permissões a qualquer momento diretamente nas plataformas. A revogação durante a vigência do contrato caracteriza inadimplência contratual, sujeitando o Contratante à suspensão imediata dos serviços e à cobrança da mensalidade integral do período, sem reembolso;</li>
+              <li>A Contratada não se responsabiliza por incidentes de segurança decorrentes de ações realizadas fora do escopo das permissões concedidas, por vulnerabilidades das plataformas ou por ações de terceiros que obtenham acesso indevido por meios externos à operação da Contratada.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CL. 8 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 8 — PROPRIEDADE INTELECTUAL</div>
+          <div class="c-titulo">O que é transferido ao cliente e o que é patrimônio da Contratada</div>
+          <div class="c-texto">
+            <ul>
+              <li><strong>Transferência ao Contratante:</strong> após quitação integral de cada entrega, são transferidos ao Contratante a propriedade dos materiais produzidos especificamente para ele — logotipo, brand book personalizado, fotografias, textos de sua autoria ou de sua especialidade, layouts exclusivos e código-fonte de site desenvolvido no âmbito deste contrato. A transferência é condicionada à quitação; enquanto houver valores em aberto, a Contratada retém os arquivos editáveis e não é obrigada a fornecê-los;</li>
+              <li><strong>Patrimônio exclusivo da Contratada:</strong> a metodologia de trabalho, processos internos, templates base de design, sistemas de automação, banco de conteúdo genérico, prompts e qualquer ferramenta de produção são propriedade exclusiva da Contratada e <strong>não integram o escopo de transferência ao Contratante em nenhuma hipótese</strong>, mesmo após quitação integral;</li>
+              <li><strong>Portfólio:</strong> o Contratante autoriza expressamente a Contratada a utilizar os materiais produzidos — incluindo capturas de tela de perfis gerenciados, antes-e-depois de identidade visual e métricas gerais (sem identificação de dados sensíveis de pacientes) — como portfólio e material de divulgação da Contratada, pelo período de 3 (três) anos após o encerramento deste contrato. Esta autorização pode ser limitada mediante notificação escrita, com efeito para materiais não ainda publicados pela Contratada;</li>
+              <li>O uso indevido de materiais cuja propriedade não foi transferida por falta de pagamento constitui violação de direitos autorais, sujeito às medidas legais cabíveis, incluindo medidas cautelares de retirada.</li>
+            </ul>
+            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se a cláusula de portfólio deve conter menção expressa à Lei de Direitos Autorais (9.610/1998) e se a autorização de uso de imagem do profissional (que eventualmente aparece nos materiais) exige cláusula específica de autorização de uso de imagem.</div>
+          </div>
+        </div>
+
+        <!-- CL. 9 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 9 — RESCISÃO IMOTIVADA E MULTA COMPENSATÓRIA</div>
+          <div class="c-titulo">Penalidades por saída antes do prazo mínimo</div>
+          <div class="c-texto">
+            A rescisão imotivada pelo Contratante antes do término do prazo mínimo estipulado no Anexo I implica:
+            <ul>
+              <li>Perda da <strong>taxa de implantação</strong> já paga, que remunera o trabalho de setup já realizado;</li>
+              <li>Pagamento de <strong>multa compensatória de 20% (vinte por cento)</strong> sobre o valor total das mensalidades vincendas até o término do prazo mínimo, calculado sobre o valor integral do plano, sem deduções de descontos eventualmente concedidos;</li>
+              <li>A multa é devida independentemente do motivo alegado pelo Contratante e será exigível em até <strong>15 (quinze) dias corridos</strong> após a notificação de rescisão.</li>
+            </ul>
+            <div class="destaque">Rescisão por decurso do prazo mínimo: findo o prazo mínimo, qualquer das partes pode não renovar o contrato, mediante aviso prévio de 30 dias conforme Cláusula 4, sem multa.</div>
+            <div class="nota-adv"><strong>Nota ao advogado</strong> O CDC admite multa rescisória em contratos de prestação de serviços contínuos, mas o percentual de 20% sobre as parcelas vincendas pode ser questionado como abusivo em relações de consumo (art. 51, IV, CDC) dependendo do perfil do contratante. Sugerir percentual validado e eventuais limitações para contratos com PF versus PJ. Avaliar se é mais defensável fixar multa em valor fixo equivalente a 1 ou 2 mensalidades.</div>
+          </div>
+        </div>
+
+        <!-- CL. 10 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 10 — RESCISÃO POR JUSTA CAUSA DA CONTRATADA</div>
+          <div class="c-titulo">Hipóteses em que a Contratada rescinde sem ônus</div>
+          <div class="c-texto">
+            A Contratada poderá rescindir o presente contrato <strong>imediatamente, sem ônus e sem devolução de valores pagos</strong>, mediante notificação por escrito, nas seguintes hipóteses:
+            <ul>
+              <li>Inadimplência superior a <strong>30 (trinta) dias corridos</strong> após o vencimento;</li>
+              <li>Solicitação pelo Contratante de publicação de conteúdo que viole as normas dos conselhos profissionais regulamentadores (CFM, CRO, CFP, CRN, COFFITO ou equivalente), após notificação formal e recusa em aceitar alternativa dentro das normas no prazo de 5 dias úteis;</li>
+              <li>Descumprimento reiterado das obrigações do Contratante previstas na Cláusula 6, após <strong>notificação escrita com prazo de cura de 10 (dez) dias corridos</strong>;</li>
+              <li>Comportamento comprovadamente abusivo, assédio moral ou comunicações hostis registradas em meios documentáveis;</li>
+              <li>Solicitação de atividade ilegal, antiética ou que exponha a Contratada a risco reputacional ou jurídico.</li>
+            </ul>
+            <div class="destaque">Em caso de rescisão por justa causa da Contratada, os materiais produzidos e pagos integralmente até a data de rescisão permanecem de propriedade do Contratante. Materiais em produção com valores em aberto ficam retidos até regularização.</div>
+          </div>
+        </div>
+
+        <!-- CL. 11 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 11 — CONFORMIDADE COM NORMAS PROFISSIONAIS</div>
+          <div class="c-titulo">CFM, CRM, CRO, CFP e demais conselhos regulamentadores</div>
+          <div class="c-texto">
+            <ul>
+              <li>A Contratada aplica filtros de conformidade com as normas dos conselhos profissionais regulamentadores em todo conteúdo produzido, em especial as vedações do CFM (Resolução 2.336/2023 e precedentes), CRO, CFP, CRN e COFFITO relativas a publicidade de serviços de saúde;</li>
+              <li>A responsabilidade final pelo conteúdo publicado é do Contratante, que aprova cada publicação antes de sua veiculação conforme Cláusula 5. A aprovação, expressa ou tácita, constitui aceitação do Contratante sobre a conformidade do material;</li>
+              <li>A Contratada <strong>não se responsabiliza por eventuais processos administrativos, éticos ou judiciais</strong> decorrentes de conteúdo aprovado pelo Contratante, nem por alterações feitas diretamente pelo Contratante nas plataformas após publicação;</li>
+              <li>O sistema de automação de atendimento (quando incluso no plano) é configurado exclusivamente para <strong>agendamento, informação sobre serviços e triagem de intenção de contato</strong>. Não é configurado para fornecer orientação clínica, diagnóstico, prescrição ou qualquer atividade privativa de profissional de saúde habilitado;</li>
+              <li>O Contratante é responsável por garantir que o sistema de atendimento não seja utilizado como substituto do atendimento clínico e por informar adequadamente seus pacientes sobre a natureza automatizada do atendimento inicial.</li>
+            </ul>
+            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se a operação de bot de atendimento para serviços de saúde requer alguma notificação à ANVISA, ao CFM ou ao respectivo conselho profissional do Contratante. A legislação sobre IA em saúde e telemedicina está em evolução no Brasil (vide Resolução CFM 2.314/2022 sobre telemedicina).</div>
+          </div>
+        </div>
+
+        <!-- CL. 12 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 12 — PLATAFORMAS DE TERCEIROS E LIMITAÇÃO DE RESPONSABILIDADE</div>
+          <div class="c-titulo">Instagram, LinkedIn, Google, Meta Ads e ferramentas de terceiros</div>
+          <div class="c-texto">
+            <ul>
+              <li>As redes sociais, plataformas de anúncios e ferramentas digitais utilizadas na execução dos serviços são de propriedade e controle exclusivo de terceiros. A Contratada não se responsabiliza por suspensão, exclusão, restrição ou alteração de contas, perfis ou campanhas decorrente de políticas próprias dessas plataformas, ainda que o conteúdo publicado esteja em conformidade com as normas dos conselhos profissionais regulamentadores;</li>
+              <li>A Contratada reserva-se o direito de utilizar as ferramentas e plataformas que julgar tecnicamente mais adequadas para a entrega dos serviços, sem obrigação de identificar as ferramentas específicas ao Contratante. Em caso de reajuste de custo por parte de plataformas terceirizadas essenciais à entrega do escopo, a Contratada poderá repassar o aumento proporcional ao Contratante mediante notificação prévia de <strong>30 (trinta) dias</strong>;</li>
+              <li><strong>Limitação de responsabilidade:</strong> a responsabilidade total da Contratada, em qualquer hipótese — dano direto, indireto, perda de oportunidade — fica limitada ao valor efetivamente pago pelo Contratante no mês em que o evento danoso ocorrer. A Contratada não responde por lucros cessantes, perda de pacientes ou dano reputacional atribuído a terceiros ou plataformas externas.</li>
+            </ul>
+            <div class="nota-adv"><strong>Nota ao advogado</strong> Cláusulas de limitação de responsabilidade são válidas entre partes de relação civil, mas podem ser questionadas em relações de consumo (CDC, art. 51, I). Avaliar se a limitação ao valor da mensalidade é suficientemente defensável ou se deve ser ampliada para N mensalidades (ex: últimas 3).</div>
+          </div>
+        </div>
+
+        <!-- CL. 13 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 13 — LGPD E PROTEÇÃO DE DADOS</div>
+          <div class="c-titulo">Tratamento de dados pessoais — DPA integrado</div>
+          <div class="c-texto">
+            <ul>
+              <li>Para fins da Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018), o <strong>Contratante é o Controlador</strong> dos dados pessoais de seus pacientes, clientes e colaboradores, e a <strong>Contratada atua como Operadora</strong>, processando dados estritamente necessários à execução dos serviços contratados;</li>
+              <li>A Contratada <strong>não tratará dados de pacientes para finalidades próprias</strong>, não os compartilhará com terceiros não autorizados e implementará medidas técnicas e organizacionais adequadas à proteção desses dados, incluindo controle de acesso, criptografia em trânsito e restrição de uso aos colaboradores estritamente necessários;</li>
+              <li>O <strong>Contratante é responsável</strong> pela coleta legal dos dados de seus pacientes, pela existência de bases legais de tratamento (consentimento, legítimo interesse ou obrigação legal) e pelo cumprimento dos direitos dos titulares (acesso, correção, exclusão, portabilidade);</li>
+              <li>Em caso de incidente de segurança envolvendo dados pessoais cujo tratamento seja de responsabilidade da Contratada, esta notificará o Contratante em até <strong>72 (setenta e duas) horas</strong> do conhecimento do incidente, conforme art. 48 da LGPD;</li>
+              <li>Ao término do contrato, a Contratada eliminará os dados pessoais de pacientes do Contratante que estejam em seu poder, salvo obrigação legal de retenção, notificando o Contratante sobre o prazo e forma de eliminação.</li>
+            </ul>
+            <div class="nota-adv"><strong>Nota ao advogado</strong> Dados de saúde são categoria sensível pela LGPD (art. 11). Verificar se: (a) a Contratada precisa de política de privacidade própria registrada na ANPD; (b) o tratamento de dados de saúde pelo sistema de automação de atendimento exige base legal reforçada (consentimento específico, art. 11, I); (c) é necessário designar um DPO (Encarregado de Dados) considerando o volume e sensibilidade dos dados tratados.</div>
+          </div>
+        </div>
+
+        <!-- CL. 14 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 14 — CONFIDENCIALIDADE E SEGREDO DE NEGÓCIO</div>
+          <div class="c-titulo">NDA recíproco e proteção de metodologia</div>
+          <div class="c-texto">
+            <ul>
+              <li>As partes comprometem-se a manter em <strong>absoluto sigilo</strong> todas as informações confidenciais trocadas no curso deste contrato — incluindo, sem limitação, dados financeiros, estratégias comerciais, base de pacientes, honorários praticados, conflitos internos, processos de trabalho e metodologias proprietárias. São consideradas confidenciais todas as informações não disponíveis publicamente, independentemente de estarem marcadas como "confidencial";</li>
+              <li>O <strong>Contratante reconhece</strong> que os processos, metodologias, templates, sistemas de automação e demais instrumentos de trabalho utilizados pela Contratada na execução dos serviços são propriedade exclusiva da Contratada e constituem segredo de negócio protegido pela Lei 9.279/1996. O Contratante compromete-se a não reproduzir, repassar, ensinar ou licenciar esses instrumentos a terceiros;</li>
+              <li>A obrigação de sigilo <strong>persiste por 2 (dois) anos</strong> após o término ou rescisão deste contrato, independentemente do motivo do encerramento;</li>
+              <li>O descumprimento desta cláusula sujeita a parte infratora ao pagamento de indenização por perdas e danos, sem prejuízo de medidas cautelares de urgência.</li>
+            </ul>
+            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se a cláusula de proteção de metodologia e segredo de negócio está adequada à Lei de Propriedade Industrial (9.279/1996) e se "não reproduzir a metodologia" é suficientemente determinado para ser exequível judicialmente. Avaliar necessidade de especificar penalidade líquida (multa por descumprimento) para facilitar execução.</div>
+          </div>
+        </div>
+
+        <!-- CL. 15 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 15 — EXCLUSIVIDADE</div>
+          <div class="c-titulo">Padrão: sem exclusividade — add-on opcional</div>
+          <div class="c-texto">
+            <ul>
+              <li>O presente contrato <strong>não confere ao Contratante qualquer direito de exclusividade</strong> sobre os serviços da Contratada. A Contratada é livre para prestar serviços a outros profissionais de saúde, independentemente de especialidade, localidade ou grau de concorrência com o Contratante;</li>
+              <li>Exclusividade geográfica e/ou de especialidade pode ser contratada como <strong>add-on</strong> mediante aditivo específico, sujeito a acréscimo de <strong>30% (trinta por cento)</strong> sobre o valor mensal do plano e prazo mínimo de 12 meses para o add-on de exclusividade. A exclusividade cessa automaticamente em caso de rescisão, inadimplência ou não renovação do contrato.</li>
+            </ul>
+            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se cláusula de exclusividade geográfica por especialidade configura restrição à concorrência relevante para fins de análise pelo CADE, considerando o porte da empresa e o mercado local delimitado (Nova Friburgo, RJ).</div>
+          </div>
+        </div>
+
+        <!-- CL. 16 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 16 — FORÇA MAIOR E CONTINGÊNCIA OPERACIONAL</div>
+          <div class="c-titulo">Incapacidade temporária, desastres e indisponibilidade de plataformas</div>
+          <div class="c-texto">
+            <ul>
+              <li>Nenhuma das partes será responsabilizada por atraso ou descumprimento de obrigações decorrentes de caso fortuito ou força maior — incluindo, sem limitação, doenças incapacitantes, desastres naturais, falhas de infraestrutura de internet ou energia elétrica, atos governamentais, pandemias, greves ou outros eventos alheios ao controle razoável da parte afetada;</li>
+              <li>A indisponibilidade de plataformas de terceiros (Instagram, LinkedIn, Google, Meta etc.) configura força maior, não caracterizando inadimplência da Contratada;</li>
+              <li>A parte afetada deverá <strong>notificar a outra em até 48 (quarenta e oito) horas</strong> após o início do evento;</li>
+              <li>Se a incapacidade da Contratada durar mais de <strong>15 (quinze) dias corridos</strong>, qualquer das partes pode suspender o contrato pelo período equivalente, sem ônus;</li>
+              <li>Se a incapacidade durar mais de <strong>30 (trinta) dias corridos</strong>, qualquer das partes pode rescindir o contrato sem multa, devendo a Contratada restituir proporcionalmente os valores pagos por períodos de serviço efetivamente não prestados.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CL. 17 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 17 — DISPOSIÇÕES GERAIS</div>
+          <div class="c-titulo">Integração, aditivos, comunicações e hierarquia documental</div>
+          <div class="c-texto">
+            <ul>
+              <li><strong>Integração:</strong> este contrato, o Anexo I do plano contratado e, quando aplicável, o Adendo de Projeto Piloto, constituem o acordo integral entre as partes, substituindo qualquer entendimento, proposta ou negociação anterior, verbal ou escrita;</li>
+              <li><strong>Aditivos:</strong> quaisquer alterações ao escopo, prazo, valores ou condições deste contrato somente produzem efeitos quando formalizadas por escrito e assinadas por ambas as partes;</li>
+              <li><strong>Comunicações:</strong> todas as comunicações relevantes — aprovações, solicitações, notificações de rescisão, alertas de inadimplência — devem ser realizadas por canal documentado (e-mail ou WhatsApp com registro de data e hora). Acordos verbais não produzem obrigações contratuais;</li>
+              <li><strong>Hierarquia:</strong> em caso de conflito entre o Contrato Base e o Anexo I, prevalece o Contrato Base nas cláusulas gerais e o Anexo I nas especificações de escopo e valores. O Adendo Piloto, quando presente, prevalece sobre as cláusulas que substituir expressamente;</li>
+              <li><strong>Invalidade parcial:</strong> a nulidade de qualquer cláusula não contamina as demais, permanecendo o restante do contrato em plena vigência.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- CL. 18 -->
+        <div class="clausula">
+          <div class="c-num">CLÁUSULA 18 — MEDIAÇÃO PRÉVIA E FORO</div>
+          <div class="c-titulo">Resolução amigável obrigatória antes de qualquer ação judicial</div>
+          <div class="c-texto">
+            <ul>
+              <li>As partes comprometem-se a buscar solução amigável para qualquer controvérsia decorrente deste contrato, por meio de <strong>negociação direta por até 15 (quinze) dias corridos</strong> após a notificação da parte reclamante;</li>
+              <li>Não havendo acordo na negociação direta, as partes poderão recorrer à <strong>mediação extrajudicial</strong>, preferencialmente perante câmara de mediação de Nova Friburgo ou câmara reconhecida no Estado do Rio de Janeiro;</li>
+              <li>Esgotadas as vias alternativas, fica eleito o <strong>foro da Comarca de Nova Friburgo, Estado do Rio de Janeiro</strong>, para dirimir quaisquer litígios, com renúncia a qualquer outro foro, por mais privilegiado que seja.</li>
+            </ul>
+            <div class="nota-adv"><strong>Nota ao advogado</strong> Em contratos firmados com consumidores PF, o CDC pode garantir ao consumidor o direito de ajuizar no foro de seu domicílio (art. 101, I, CDC), sobrepondo o foro eleito. Verificar a redação que melhor protege a Contratada considerando esse risco, possivelmente diferenciando contratos com PJ (onde o foro eleito é plenamente válido) dos contratos com PF.</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <p class="local-data">Nova Friburgo — RJ, _____ de _________________ de 2026.</p>
+        <p style="font-size:13px;color:var(--ink-soft);text-align:center;margin-bottom:32px;">Este instrumento é assinado junto com o <strong>Anexo I — [Plano contratado]</strong> e, quando aplicável, com o <strong>Adendo de Projeto Piloto</strong>.</p>
+
+        <div class="assinaturas">
+          <div>
+            <div class="ass-campo"><div class="ass-campo-label">Nome completo do Contratante</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-campo"><div class="ass-campo-label">CPF</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-campo"><div class="ass-campo-label">Registro profissional</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-linha"></div>
+            <div>Assinatura do Contratante</div>
+          </div>
+          <div>
+            <div class="ass-campo"><div class="ass-campo-label">Contratada</div><div class="ass-campo-linha">Guilherme de Oliveira Caetano · Zyllah Digital</div></div>
+            <div class="ass-campo"><div class="ass-campo-label">CPF / CNPJ</div><div class="ass-campo-linha">___.___.___ - __</div></div>
+            <div class="ass-campo"><div class="ass-campo-label">Cidade / UF</div><div class="ass-campo-linha">Nova Friburgo — RJ</div></div>
+            <div class="ass-linha"></div>
+            <div>Assinatura da Contratada</div>
+          </div>
+        </div>
+
+        <div class="rodape-doc">
+          <p>Zyllah Digital · Contrato Base v2.0 · Uso interno</p>
+          <p>Revisão jurídica obrigatória antes de qualquer uso com clientes</p>
+        </div>
+      </div>
+    </div>
+    <button class="btn-imprimir no-print" onclick="window.print()">Imprimir / PDF</button>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- DOC 2 — ANEXO I-A: ESSENCIAL                              -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="doc" id="doc-ane1">
+    <div class="doc-wrap">
+      <div class="doc-topo">
+        <span class="doc-logo">ZYLLAH DIGITAL</span>
+        <div class="doc-titulo">Anexo I-A — Escopo de Serviços e Condições Comerciais<br>Plano Essencial</div>
+        <div class="doc-subtitulo">Parte integrante do Contrato Base v2.0 · Assinar junto · Prazo mínimo: 6 meses</div>
+      </div>
+      <div class="doc-corpo">
+        <p style="font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:28px;">Este Anexo I-A integra o Contrato de Prestação de Serviços celebrado entre as partes identificadas no Contrato Base. Em caso de conflito de interpretação, o Contrato Base prevalece nas cláusulas gerais e este Anexo prevalece nas especificações de escopo e valores.</p>
+
+        <div class="c-num" style="margin-bottom:8px;">IDENTIFICAÇÃO DO CONTRATO</div>
+        <div class="partes" style="margin-bottom:32px;">
+          <div>
+            <div class="campo"><div class="campo-label">Contratante — Nome</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">CPF / CNPJ</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Registro profissional</div><div class="campo-linha"></div></div>
+          </div>
+          <div>
+            <div class="campo"><div class="campo-label">Data de início dos serviços</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Data de vencimento do prazo mínimo</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Vencimento da mensalidade (dia do mês)</div><div class="campo-linha"></div></div>
+          </div>
+        </div>
+
+        <div class="c-num">CONDIÇÕES COMERCIAIS — PLANO ESSENCIAL</div>
+        <div class="val-box">
+          <div class="val-item">
+            <div class="val-label">Taxa de implantação (paga na assinatura)</div>
+            <div class="val-linha">R$ 1.200,00</div>
+          </div>
+          <div class="val-item">
+            <div class="val-label">Mensalidade</div>
+            <div class="val-linha">R$ 1.800,00</div>
+          </div>
+          <div class="val-item">
+            <div class="val-label">Prazo mínimo</div>
+            <div class="val-linha">6 (seis) meses</div>
+          </div>
+          <div class="val-item">
+            <div class="val-label">Forma de pagamento</div>
+            <div class="val-linha">PIX / TED / Boleto</div>
+          </div>
+        </div>
+
+        <div class="c-num" style="margin:24px 0 12px;">ESCOPO DE ENTREGAS MENSAIS — TAXATIVO</div>
+        <table class="escopo-table">
+          <thead>
+            <tr><th>Serviço</th><th>Especificação</th><th>Incluso</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Brand Book</td><td>Identidade visual completa, logotipo, paleta, tipografia, padrões visuais — entregue na implantação. Revisões pós-aprovação constituem escopo adicional.</td><td class="inc">✓ Implantação</td></tr>
+            <tr><td>Gestão Instagram</td><td>3 publicações por semana (12/mês). Formatos: post estático, carrossel, reels. Calendário editorial enviado para aprovação até o dia 25 do mês anterior.</td><td class="inc">✓ 12 posts/mês</td></tr>
+            <tr><td>Stories</td><td>Até 2 stories por semana, complementares às publicações do feed.</td><td class="inc">✓ Incluído</td></tr>
+            <tr><td>Sessão fotográfica</td><td>1 sessão trimestral. Entrega de 20–30 fotos editadas. Local: consultório ou local acordado. Agendamento com 7 dias úteis de antecedência.</td><td class="inc">✓ Trimestral</td></tr>
+            <tr><td>Legendas e hashtags</td><td>Todos os posts com legenda otimizada para a especialidade e filtro de conformidade CFM/conselho.</td><td class="inc">✓ Incluso</td></tr>
+            <tr><td>Calendário editorial</td><td>Planejamento mensal enviado para aprovação antes do início de cada mês.</td><td class="inc">✓ Incluso</td></tr>
+            <tr><td>Relatório mensal</td><td>Relatório simplificado (alcance, engajamento, crescimento) enviado até o 5º dia útil do mês seguinte.</td><td class="inc">✓ Simplificado</td></tr>
+            <tr><td>Suporte</td><td>Canal WhatsApp. Dias úteis, 9h–18h. Retorno em até 6 horas úteis.</td><td class="inc">✓ Incluso</td></tr>
+            <tr><td>Reunião mensal</td><td>Não inclusa no plano Essencial.</td><td class="nin">— Não incluso</td></tr>
+            <tr><td>LinkedIn</td><td>Não incluso. Disponível como serviço adicional.</td><td class="nin">— Não incluso</td></tr>
+            <tr><td>Site institucional</td><td>Não incluso. Disponível como serviço adicional.</td><td class="nin">— Não incluso</td></tr>
+            <tr><td>Vídeos curtos (Reels)</td><td>Até 1 reel/mês com conteúdo disponibilizado pelo Contratante (gravação própria no celular). Edição pela Contratada. Reels adicionais: orçamento separado.</td><td class="inc">✓ 1/mês (edição)</td></tr>
+            <tr><td>Automação WhatsApp</td><td>Não inclusa. Disponível nos planos superiores.</td><td class="nin">— Não incluso</td></tr>
+            <tr><td>Gestão de anúncios (Ads)</td><td>Não inclusa. Disponível no plano Autoridade.</td><td class="nin">— Não incluso</td></tr>
+          </tbody>
+        </table>
+
+        <div class="clausula" style="margin-top:28px;">
+          <div class="c-num">NOTA DE ESCOPO — LER ANTES DE ASSINAR</div>
+          <div class="c-texto">
+            <ul>
+              <li>O plano <strong>não inclui</strong> criação de conteúdo pago (tráfego), gestão de comentários/DMs em tempo real, criação de site, gestão de LinkedIn, automação de WhatsApp nem produção de vídeos longos (YouTube);</li>
+              <li><strong>Sessão fotográfica:</strong> o Contratante disponibiliza o consultório e se organiza para a sessão na data agendada. Cancelamentos com menos de 48h de antecedência consomem a sessão do mês. Reagendamento no mesmo mês sujeito à disponibilidade;</li>
+              <li><strong>Reels:</strong> o Contratante grava o vídeo no próprio celular seguindo o roteiro e as instruções de enquadramento fornecidos pela Contratada. A Contratada realiza a edição, legenda e publicação.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <p class="local-data">Nova Friburgo — RJ, _____ de _________________ de 2026.</p>
+        <div class="assinaturas">
+          <div>
+            <div class="ass-campo"><div class="ass-campo-label">Contratante — Nome completo</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-campo"><div class="ass-campo-label">CPF</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-linha"></div>
+            <div>Assinatura</div>
+          </div>
+          <div>
+            <div class="ass-campo"><div class="ass-campo-label">Contratada</div><div class="ass-campo-linha">Guilherme de Oliveira Caetano · Zyllah Digital</div></div>
+            <div class="ass-campo"><div class="ass-campo-label">CPF / CNPJ</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-linha"></div>
+            <div>Assinatura</div>
+          </div>
+        </div>
+        <div class="rodape-doc">
+          <p>Zyllah Digital · Anexo I-A · Plano Essencial v2.0</p>
+          <p>Parte integrante e indissociável do Contrato Base v2.0</p>
+        </div>
+      </div>
+    </div>
+    <button class="btn-imprimir no-print" onclick="window.print()">Imprimir / PDF</button>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- DOC 3 — ANEXO I-B: PRESENÇA COMPLETA                      -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="doc" id="doc-ane2">
+    <div class="doc-wrap">
+      <div class="doc-topo">
+        <span class="doc-logo">ZYLLAH DIGITAL</span>
+        <div class="doc-titulo">Anexo I-B — Escopo de Serviços e Condições Comerciais<br>Plano Presença Completa</div>
+        <div class="doc-subtitulo">Parte integrante do Contrato Base v2.0 · Plano Recomendado · Prazo mínimo: 6 meses</div>
+      </div>
+      <div class="doc-corpo">
+        <p style="font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:28px;">Este Anexo I-B integra o Contrato de Prestação de Serviços celebrado entre as partes identificadas no Contrato Base. Em caso de conflito de interpretação, o Contrato Base prevalece nas cláusulas gerais e este Anexo prevalece nas especificações de escopo e valores.</p>
+
+        <div class="c-num" style="margin-bottom:8px;">IDENTIFICAÇÃO DO CONTRATO</div>
+        <div class="partes" style="margin-bottom:32px;">
+          <div>
+            <div class="campo"><div class="campo-label">Contratante — Nome</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">CPF / CNPJ</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Registro profissional</div><div class="campo-linha"></div></div>
+          </div>
+          <div>
+            <div class="campo"><div class="campo-label">Data de início dos serviços</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Data de vencimento do prazo mínimo</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Vencimento da mensalidade (dia do mês)</div><div class="campo-linha"></div></div>
+          </div>
+        </div>
+
+        <div class="c-num">CONDIÇÕES COMERCIAIS — PLANO PRESENÇA COMPLETA</div>
+        <div class="val-box">
+          <div class="val-item">
+            <div class="val-label">Taxa de implantação (paga na assinatura)</div>
+            <div class="val-linha">R$ 1.800,00</div>
+          </div>
+          <div class="val-item">
+            <div class="val-label">Mensalidade</div>
+            <div class="val-linha">R$ 2.800,00</div>
+          </div>
+          <div class="val-item">
+            <div class="val-label">Prazo mínimo</div>
+            <div class="val-linha">6 (seis) meses</div>
+          </div>
+          <div class="val-item">
+            <div class="val-label">Forma de pagamento</div>
+            <div class="val-linha">PIX / TED / Boleto</div>
+          </div>
+        </div>
+
+        <div class="c-num" style="margin:24px 0 12px;">ESCOPO DE ENTREGAS MENSAIS — TAXATIVO</div>
+        <table class="escopo-table">
+          <thead>
+            <tr><th>Serviço</th><th>Especificação</th><th>Incluso</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Brand Book</td><td>Identidade visual completa, logotipo, paleta, tipografia, padrões visuais — entregue na implantação. Revisões pós-aprovação constituem escopo adicional.</td><td class="inc">✓ Implantação</td></tr>
+            <tr><td>Site institucional</td><td>1 landing page entregue na implantação. Hospedagem em plataforma gratuita (GitHub Pages ou Netlify). Domínio .com.br por conta do Contratante (~R$ 40/ano, não incluso). Até 2 revisões de conteúdo pós-entrega. Atualizações posteriores: escopo adicional.</td><td class="inc">✓ Implantação</td></tr>
+            <tr><td>Gestão Instagram</td><td>3 publicações por semana (12/mês). Formatos: post estático, carrossel, reels. Calendário editorial enviado para aprovação até o dia 25 do mês anterior.</td><td class="inc">✓ 12 posts/mês</td></tr>
+            <tr><td>Stories</td><td>Até 3 stories por semana, complementares às publicações.</td><td class="inc">✓ Incluído</td></tr>
+            <tr><td>Gestão LinkedIn</td><td>4 a 6 publicações mensais no perfil pessoal do Contratante. Otimização inicial do perfil (headline, about, experiências). 1 a 2 posts na página da empresa quando aplicável.</td><td class="inc">✓ 4–6/mês</td></tr>
+            <tr><td>Vídeos curtos (Reels)</td><td>2 vídeos por mês. Roteiro elaborado pela Contratada. Gravação pelo Contratante no próprio celular seguindo instruções de enquadramento e luz. Edição completa e publicação pela Contratada.</td><td class="inc">✓ 2/mês</td></tr>
+            <tr><td>Sessão fotográfica</td><td>1 sessão mensal. Entrega de 20–30 fotos editadas. Local: consultório ou local acordado. Agendamento com 7 dias úteis de antecedência. Cancelamentos com menos de 48h consomem a sessão do mês.</td><td class="inc">✓ Mensal</td></tr>
+            <tr><td>Automação WhatsApp — básica</td><td>Configuração de: saudação automática, mensagem de ausência fora do horário, menu de opções (agendamento, localização, contato). Não inclui qualificação com IA, integração com agenda ou chatbot avançado.</td><td class="inc">✓ Básica</td></tr>
+            <tr><td>Relatório mensal</td><td>Relatório completo (Instagram, LinkedIn, site) enviado até o 5º dia útil do mês seguinte. Inclui métricas de alcance, engajamento, crescimento de seguidores e acessos ao site.</td><td class="inc">✓ Completo</td></tr>
+            <tr><td>Reunião mensal</td><td>1 reunião de 45 minutos por mês. Formato: videoconferência ou presencial em Nova Friburgo. Agendamento por link de calendário com antecedência de 5 dias úteis.</td><td class="inc">✓ 1×/mês 45min</td></tr>
+            <tr><td>Suporte</td><td>Canal WhatsApp. Dias úteis, 9h–18h. Retorno em até 4 horas úteis.</td><td class="inc">✓ Prioritário</td></tr>
+            <tr><td>Gestão de anúncios (Ads)</td><td>Não inclusa. Disponível no plano Autoridade.</td><td class="nin">— Não incluso</td></tr>
+            <tr><td>Automação WhatsApp avançada</td><td>Não inclusa. Qualificação com IA, integração com Google Agenda e CRM disponíveis no plano Autoridade.</td><td class="nin">— Não incluso</td></tr>
+          </tbody>
+        </table>
+
+        <div class="clausula" style="margin-top:28px;">
+          <div class="c-num">NOTAS DE ESCOPO</div>
+          <div class="c-texto">
+            <ul>
+              <li><strong>Site:</strong> o domínio .com.br é adquirido e pago diretamente pelo Contratante (~R$ 40/ano no Registro.br ou Hostinger). A Contratada orienta o processo de compra e realiza a configuração. Custos de domínio não integram a mensalidade;</li>
+              <li><strong>Vídeos:</strong> o Contratante é responsável por gravar os vídeos no próprio celular, seguindo roteiro, enquadramento e orientações de luz fornecidos pela Contratada. A Contratada realiza edição, trilha, legenda e publicação. Não há gravação presencial da Contratada neste plano;</li>
+              <li><strong>WhatsApp automático:</strong> a automação básica opera por mensagens programadas, sem inteligência artificial. Não inclui triagem clínica, agendamento automático integrado com agenda médica nem reengajamento ativo de pacientes — essas funções estão no plano Autoridade.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <p class="local-data">Nova Friburgo — RJ, _____ de _________________ de 2026.</p>
+        <div class="assinaturas">
+          <div>
+            <div class="ass-campo"><div class="ass-campo-label">Contratante — Nome completo</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-campo"><div class="ass-campo-label">CPF</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-linha"></div>
+            <div>Assinatura</div>
+          </div>
+          <div>
+            <div class="ass-campo"><div class="ass-campo-label">Contratada</div><div class="ass-campo-linha">Guilherme de Oliveira Caetano · Zyllah Digital</div></div>
+            <div class="ass-campo"><div class="ass-campo-label">CPF / CNPJ</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-linha"></div>
+            <div>Assinatura</div>
+          </div>
+        </div>
+        <div class="rodape-doc">
+          <p>Zyllah Digital · Anexo I-B · Plano Presença Completa v2.0</p>
+          <p>Parte integrante e indissociável do Contrato Base v2.0</p>
+        </div>
+      </div>
+    </div>
+    <button class="btn-imprimir no-print" onclick="window.print()">Imprimir / PDF</button>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- DOC 4 — ANEXO I-C: AUTORIDADE                             -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="doc" id="doc-ane3">
+    <div class="doc-wrap">
+      <div class="doc-topo">
+        <span class="doc-logo">ZYLLAH DIGITAL</span>
+        <div class="doc-titulo">Anexo I-C — Escopo de Serviços e Condições Comerciais<br>Plano Autoridade</div>
+        <div class="doc-subtitulo">Parte integrante do Contrato Base v2.0 · Inclui automação avançada e Ads · Prazo mínimo: 12 meses</div>
+      </div>
+      <div class="doc-corpo">
+        <p style="font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:28px;">Este Anexo I-C integra o Contrato de Prestação de Serviços celebrado entre as partes identificadas no Contrato Base. Em caso de conflito de interpretação, o Contrato Base prevalece nas cláusulas gerais e este Anexo prevalece nas especificações de escopo e valores. As disposições específicas sobre automação de atendimento e proteção de dados (DPA) previstas neste Anexo complementam e se integram às cláusulas 11, 12 e 13 do Contrato Base.</p>
+
+        <div class="c-num" style="margin-bottom:8px;">IDENTIFICAÇÃO DO CONTRATO</div>
+        <div class="partes" style="margin-bottom:32px;">
+          <div>
+            <div class="campo"><div class="campo-label">Contratante — Nome</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">CPF / CNPJ</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Registro profissional</div><div class="campo-linha"></div></div>
+          </div>
+          <div>
+            <div class="campo"><div class="campo-label">Data de início dos serviços</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Data de vencimento do prazo mínimo</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Vencimento da mensalidade (dia do mês)</div><div class="campo-linha"></div></div>
+          </div>
+        </div>
+
+        <div class="c-num">CONDIÇÕES COMERCIAIS — PLANO AUTORIDADE</div>
+        <div class="val-box">
+          <div class="val-item">
+            <div class="val-label">Taxa de implantação (paga na assinatura)</div>
+            <div class="val-linha">R$ 2.500,00</div>
+          </div>
+          <div class="val-item">
+            <div class="val-label">Mensalidade</div>
+            <div class="val-linha">R$ 4.500,00</div>
+          </div>
+          <div class="val-item">
+            <div class="val-label">Prazo mínimo</div>
+            <div class="val-linha">12 (doze) meses</div>
+          </div>
+          <div class="val-item">
+            <div class="val-label">Budget de mídia (Ads)</div>
+            <div class="val-linha">Até R$ 1.000/mês incluso na gestão. Pago diretamente pelo Contratante nas plataformas. Excedente: 15% de taxa de gestão.</div>
+          </div>
+        </div>
+
+        <div class="c-num" style="margin:24px 0 12px;">ESCOPO DE ENTREGAS MENSAIS — TAXATIVO</div>
+        <table class="escopo-table">
+          <thead>
+            <tr><th>Serviço</th><th>Especificação</th><th>Incluso</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Tudo do Plano Presença Completa</td><td>Incluídos todos os itens do Plano Presença Completa (Brand Book, site, Instagram 12/mês, LinkedIn, 2 vídeos/mês, sessão fotográfica mensal, relatório completo). Reunião quinzenal (em vez de mensal) de 45 minutos.</td><td class="inc">✓ Completo</td></tr>
+            <tr><td>Nexa Ads — Gestão de anúncios</td><td>Gestão de Google Ads e Meta Ads. Budget de mídia pago diretamente pelo Contratante nas plataformas. A Contratada gerencia as campanhas, cria os criativos e otimiza semanalmente. Budget incluso na gestão: até R$ 1.000/mês. Budget acima de R$ 1.000/mês: taxa de gestão adicional de 15% sobre o excedente. Conformidade CFM garantida em todos os criativos. Não inclui LinkedIn Ads (disponível como add-on).</td><td class="inc">✓ Google + Meta</td></tr>
+            <tr><td>Automação de atendimento WhatsApp — avançada</td><td>Configuração completa: saudação, fora de horário, menu, qualificação de interesse do paciente, integração com Google Agenda para agendamento automático, CRM básico de acompanhamento, reengajamento passivo de pacientes inativos. Plataforma a critério da Contratada. Não inclui interpretação de sintomas, orientação clínica nem acesso a prontuário.</td><td class="inc">✓ Avançada</td></tr>
+            <tr><td>LinkedIn B2B</td><td>Posicionamento B2B para hospitais, operadoras e imprensa. Artigos mensais de autoridade. Contato com jornalistas e formadores de opinião do setor saúde, quando aplicável.</td><td class="inc">✓ B2B</td></tr>
+            <tr><td>Vídeos curtos</td><td>1 vídeo por semana (4/mês). Roteiro pela Contratada. Gravação pelo Contratante. Edição e publicação pela Contratada.</td><td class="inc">✓ 4/mês</td></tr>
+            <tr><td>Painel de resultados</td><td>Painel Notion com métricas em tempo real — atualizações semanais com dados de Instagram, LinkedIn, site, Ads e WhatsApp.</td><td class="inc">✓ Tempo real</td></tr>
+            <tr><td>Suporte prioritário</td><td>Canal WhatsApp com retorno em até 2 horas úteis, dias úteis, 8h–20h.</td><td class="inc">✓ 2h úteis</td></tr>
+            <tr><td>Reunião</td><td>Quinzenal, 45 minutos, videoconferência ou presencial em Nova Friburgo.</td><td class="inc">✓ Quinzenal</td></tr>
+          </tbody>
+        </table>
+
+        <div class="clausula" style="margin-top:28px;">
+          <div class="c-num">DISPOSIÇÕES ESPECÍFICAS — AUTOMAÇÃO DE ATENDIMENTO E DADOS</div>
+          <div class="c-texto">
+            <ul>
+              <li><strong>Plataforma de automação:</strong> a Contratada contrata e opera, em nome próprio, a plataforma de automação de atendimento utilizada neste plano. O Contratante não precisa contratar a plataforma diretamente e não terá acesso às credenciais administrativas da plataforma. A Contratada poderá substituir a plataforma por outra equivalente sem necessidade de notificação prévia, desde que mantidas as funcionalidades descritas no escopo acima;</li>
+              <li><strong>Custo de rescisão antecipada (plataforma):</strong> em caso de rescisão antecipada pelo Contratante antes do 12º mês, além da multa prevista na Cláusula 9 do Contrato Base, o Contratante ressarcirá a Contratada pelos custos de encerramento da plataforma de automação ativos em seu benefício, pelo período mínimo de fidelidade vigente da plataforma, calculado sobre os custos de custo incorridos pela Contratada. A Contratada apresentará comprovante dos custos;</li>
+              <li><strong>DPA — Automação e dados de pacientes:</strong> em razão do acesso a dados de contato de pacientes para operação da automação de atendimento, aplicam-se integralmente as disposições da Cláusula 13 do Contrato Base (LGPD). O Contratante declara que possui base legal para o tratamento dos dados de seus pacientes (consentimento ou legítimo interesse) e que informará seus pacientes sobre o atendimento automático inicial. A Contratada não utiliza esses dados para finalidades próprias nem os compartilha com terceiros não essenciais à operação da automação;</li>
+              <li><strong>Ads — Budget e responsabilidade:</strong> o budget de mídia é pago diretamente pelo Contratante nas plataformas de anúncios (Google Ads, Meta Ads Manager). A Contratada gerencia as campanhas mas não responde por resultados específicos em termos de número de consultas, leads ou pacientes — conforme vedação CFM e limitações técnicas das plataformas. A Contratada garante a conformidade dos criativos com as normas do CFM e demais conselhos aplicáveis à época da veiculação.</li>
+            </ul>
+            <div class="nota-adv"><strong>Nota ao advogado</strong> A automação de atendimento em saúde com acesso a dados de pacientes pode enquadrar a Contratada como operadora de dados sensíveis (art. 11, LGPD). Verificar se é necessário: (a) contrato de processamento de dados (DPA) separado mais detalhado; (b) registro de operações de tratamento (art. 37, LGPD); (c) notificação ao CFM ou conselho do Contratante sobre automação de primeiro contato com pacientes.</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <p class="local-data">Nova Friburgo — RJ, _____ de _________________ de 2026.</p>
+        <div class="assinaturas">
+          <div>
+            <div class="ass-campo"><div class="ass-campo-label">Contratante — Nome completo</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-campo"><div class="ass-campo-label">CPF</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-linha"></div>
+            <div>Assinatura</div>
+          </div>
+          <div>
+            <div class="ass-campo"><div class="ass-campo-label">Contratada</div><div class="ass-campo-linha">Guilherme de Oliveira Caetano · Zyllah Digital</div></div>
+            <div class="ass-campo"><div class="ass-campo-label">CPF / CNPJ</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-linha"></div>
+            <div>Assinatura</div>
+          </div>
+        </div>
+        <div class="rodape-doc">
+          <p>Zyllah Digital · Anexo I-C · Plano Autoridade v2.0</p>
+          <p>Parte integrante e indissociável do Contrato Base v2.0</p>
+        </div>
+      </div>
+    </div>
+    <button class="btn-imprimir no-print" onclick="window.print()">Imprimir / PDF</button>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- DOC 5 — ADENDO PILOTO                                     -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <div class="doc" id="doc-piloto">
+    <div class="doc-wrap">
+      <div class="doc-topo">
+        <span class="doc-logo">ZYLLAH DIGITAL</span>
+        <div class="doc-titulo">Adendo de Projeto Piloto<br>Substituição de Remuneração e Prazo</div>
+        <div class="doc-subtitulo">Assinar junto com o Contrato Base v2.0 + Anexo I correspondente · Máximo 3 clientes · Uso único por cliente</div>
+      </div>
+      <div class="doc-corpo">
+
+        <p style="font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:28px;">Este Adendo integra e complementa o Contrato de Prestação de Serviços celebrado entre as partes identificadas no Contrato Base v2.0. Suas disposições <strong>substituem</strong> as Cláusulas 3 (Remuneração) e 4 (Prazo) do Contrato Base exclusivamente para este cliente piloto. Todas as demais cláusulas do Contrato Base e do Anexo I do plano contratado permanecem integralmente vigentes.</p>
+
+        <div class="c-num" style="margin-bottom:8px;">IDENTIFICAÇÃO</div>
+        <div class="partes" style="margin-bottom:32px;">
+          <div>
+            <div class="campo"><div class="campo-label">Contratante (Piloto)</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Plano contratado</div><div class="campo-linha"> ☐ Essencial &nbsp; ☐ Presença Completa</div></div>
+          </div>
+          <div>
+            <div class="campo"><div class="campo-label">Data de início</div><div class="campo-linha"></div></div>
+            <div class="campo"><div class="campo-label">Data de término do piloto</div><div class="campo-linha"></div></div>
+          </div>
+        </div>
+
+        <div class="sub-clausula">
+          <span class="sub-tag">Substitui Cláusula 3 do Contrato Base — Remuneração</span>
+          <div class="clausula">
+            <div class="c-num">CLÁUSULA 3-P — CONTRAPARTIDAS NÃO-MONETÁRIAS</div>
+            <div class="c-titulo">Remuneração por contrapartidas em substituição ao pagamento monetário</div>
+            <div class="c-texto">
+              Em razão de se tratar de <strong>Projeto Piloto de Lançamento</strong>, a prestação dos serviços descritos no Contrato Base e no Anexo I do plano contratado <strong>não envolve remuneração monetária</strong> por parte do Contratante durante o período do piloto. Em substituição integral ao pagamento, o Contratante assume as seguintes contrapartidas, todas <strong>obrigatórias</strong> com prazos definidos:
+              <ul style="margin-top:12px;">
+                <li><strong>Depoimento:</strong> até o <strong>60º (sexagésimo) dia corrido</strong> após o início dos serviços, o Contratante fornecerá depoimento escrito (mínimo 5 linhas) ou em vídeo (mínimo 60 segundos) sobre o processo e os resultados observados até aquele momento;</li>
+                <li><strong>Autorização de portfólio:</strong> autorização expressa, irrevogável pelo prazo de <strong>3 (três) anos</strong> após o encerramento do piloto, para uso dos materiais produzidos como portfólio, redes sociais e apresentações comerciais da Contratada, com identificação do nome e especialidade do Contratante (sem divulgação de dados de pacientes);</li>
+                <li><strong>Indicação nominal:</strong> até o <strong>45º (quadragésimo quinto) dia corrido</strong> após o início dos serviços, indicação nominal de ao menos 1 (um) colega especialista com potencial interesse nos serviços da Zyllah Digital. O envio do nome e contato cumpre a obrigação — o fechamento de contrato com o indicado não é exigido;</li>
+                <li><strong>Disponibilidade para sessões:</strong> ao menos 1 (uma) sessão de captação de conteúdo por mês, com duração mínima de 2 horas, em local acordado com antecedência mínima de 7 dias úteis;</li>
+                <li><strong>Briefing:</strong> preenchimento completo do Briefing de Identidade em até <strong>5 (cinco) dias úteis</strong> após a assinatura deste adendo.</li>
+              </ul>
+              <div class="destaque">
+                <strong>Consequência do descumprimento:</strong> o descumprimento de qualquer contrapartida acima, após notificação escrita com prazo de cura de <strong>10 (dez) dias corridos</strong>, implica a <strong>conversão automática</strong> deste adendo para as condições normais do plano contratado, com <strong>cobrança retroativa</strong> dos valores integrais do plano — taxa de implantação + mensalidades — a partir da data de início dos serviços, deduzindo qualquer valor já eventualmente pago. O Contratante será notificado por escrito (WhatsApp ou e-mail) no momento da conversão, com apresentação do débito apurado.
+              </div>
+              <div class="nota-adv" style="margin-top:12px;"><strong>Nota ao advogado</strong> Verificar se a "conversão automática" para cobrança retroativa é juridicamente exequível ou se configura penalidade desproporcional pelo CDC. Avaliar alternativa: cobrança retroativa limitada aos meses efetivamente prestados (não a todo o período mínimo). Verificar também se a ausência de remuneração monetária no piloto pode ser enquadrada como relação de trabalho disfarçada ou outra forma atípica de contrato.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub-clausula" style="margin-top:20px;">
+          <span class="sub-tag">Substitui Cláusula 4 do Contrato Base — Prazo</span>
+          <div class="clausula">
+            <div class="c-num">CLÁUSULA 4-P — PRAZO DO PILOTO</div>
+            <div class="c-titulo">Vigência e transição ao plano comercial</div>
+            <div class="c-texto">
+              <ul>
+                <li>O presente adendo tem vigência de <strong>3 (três) meses</strong> contados da data de início dos serviços;</li>
+                <li>Ao término do piloto, o contrato pode ser: (a) <strong>renovado nas condições comerciais integrais</strong> do plano contratado vigentes à época, mediante novo contrato; (b) <strong>encerrado sem ônus</strong> para nenhuma das partes, desde que todas as contrapartidas da Cláusula 3-P tenham sido cumpridas integralmente. O encerramento deve ser comunicado por escrito com <strong>15 (quinze) dias de antecedência</strong> do término;</li>
+                <li>A renovação pós-piloto não é automática e depende de manifestação expressa de ambas as partes;</li>
+                <li>Em caso de <strong>rescisão antecipada pelo Contratante</strong> antes do término dos 3 meses do piloto, e não havendo descumprimento de contrapartida pela Contratada, o Contratante pagará à Contratada o equivalente ao <strong>valor integral de 1 (uma) mensalidade</strong> do plano contratado, como compensação pelo trabalho de implantação e pelos meses de serviço prestados. As contrapartidas já cumpridas são reconhecidas e descontadas da obrigação de conversão.</li>
+              </ul>
+              <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se a combinação de contrato de prestação de serviços + contrapartidas não-monetárias configura relação jurídica distinta (permuta, parceria, outra). Avaliar se a estrutura atual é suficiente ou se é mais seguro tratar como contrato oneroso com desconto de 100%, mantendo a lógica financeira explícita (mesmo que sem cobrança efetiva no período piloto).</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="clausula" style="margin-top:24px;">
+          <div class="c-num">DISPOSIÇÕES FINAIS DO ADENDO</div>
+          <div class="c-texto">
+            <ul>
+              <li>Este adendo é <strong>de uso exclusivo para os 3 (três) primeiros clientes piloto</strong> da Zyllah Digital e não pode ser reutilizado para clientes subsequentes;</li>
+              <li>A concessão das condições de piloto não implica precedente ou obrigação de oferecer as mesmas condições a outros contratantes;</li>
+              <li>Todas as demais cláusulas do Contrato Base v2.0 e do Anexo I do plano contratado permanecem integralmente vigentes, incluindo, sem limitação: aprovação de materiais (Cláusula 5), obrigações do Contratante (Cláusula 6), acesso a plataformas (Cláusula 7), propriedade intelectual (Cláusula 8), rescisão por justa causa da Contratada (Cláusula 10), conformidade CFM (Cláusula 11), LGPD (Cláusula 13), confidencialidade (Cláusula 14) e foro (Cláusula 18).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <p class="local-data">Nova Friburgo — RJ, _____ de _________________ de 2026.</p>
+        <p style="font-size:13px;color:var(--ink-soft);text-align:center;margin-bottom:32px;">Este adendo é assinado junto com o <strong>Contrato Base v2.0</strong> e o <strong>Anexo I — [Plano contratado]</strong>, todos datados da mesma data.</p>
+
+        <div class="assinaturas">
+          <div>
+            <div class="ass-campo"><div class="ass-campo-label">Contratante — Nome completo</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-campo"><div class="ass-campo-label">CPF</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-campo"><div class="ass-campo-label">Registro profissional</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-linha"></div>
+            <div>Assinatura do Contratante</div>
+          </div>
+          <div>
+            <div class="ass-campo"><div class="ass-campo-label">Contratada</div><div class="ass-campo-linha">Guilherme de Oliveira Caetano · Zyllah Digital</div></div>
+            <div class="ass-campo"><div class="ass-campo-label">CPF / CNPJ</div><div class="ass-campo-linha"></div></div>
+            <div class="ass-campo"><div class="ass-campo-label">Cidade / UF</div><div class="ass-campo-linha">Nova Friburgo — RJ</div></div>
+            <div class="ass-linha"></div>
+            <div>Assinatura da Contratada</div>
+          </div>
+        </div>
+
+        <div style="margin-top:48px;padding:24px 32px;background:var(--ink);border-left:3px solid var(--gold);">
+          <div style="font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Composição do pacote assinado para cliente piloto</div>
+          <div style="font-size:14px;color:rgba(255,255,255,.6);line-height:2;">
+            ☐ &nbsp;<strong style="color:white;">Contrato Base v2.0</strong> — termos gerais<br>
+            ☐ &nbsp;<strong style="color:white;">Anexo I-A ou I-B</strong> — escopo do plano Essencial ou Presença Completa<br>
+            ☐ &nbsp;<strong style="color:white;">Adendo de Projeto Piloto</strong> — este documento<br><br>
+            <span style="font-size:12px;color:rgba(255,255,255,.35);">Os três documentos devem ser assinados na mesma data e constituem um único instrumento contratual.</span>
+          </div>
+        </div>
+
+        <div class="rodape-doc">
+          <p>Zyllah Digital · Adendo Piloto v2.0</p>
+          <p>Integra e complementa o Contrato Base v2.0</p>
+        </div>
+      </div>
+    </div>
+    <button class="btn-imprimir no-print" onclick="window.print()">Imprimir / PDF</button>
+  </div>
+
+</div><!-- /corpo -->
+
+<div style="background:var(--ink);padding:32px 80px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-top:60px;">
+  <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);">Zyllah Digital · <span style="color:var(--gold);">Pacote Jurídico v2.0</span> · Uso interno</p>
+  <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);">5 documentos · 18 cláusulas base · 12 categorias de risco cobertas · Revisão jurídica obrigatória</p>
+</div>
+
+</body>
+</html>
