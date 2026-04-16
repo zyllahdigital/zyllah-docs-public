@@ -363,6 +363,63 @@ body{background:var(--bg);font-family:'Jost',sans-serif;font-weight:300;color:va
 .corner-tl::before{top:6px;left:6px;border-width:1px 0 0 1px;}
 .corner-br::after{bottom:6px;right:6px;border-width:0 1px 1px 0;}
 
+/* ══════════════════════════════════════════
+   MÓDULO YOUTUBE
+══════════════════════════════════════════ */
+.yt-toolbar{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.yt-buscar{padding:8px 18px;font-size:9px;letter-spacing:.3em;text-transform:uppercase;background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.25);color:rgba(255,80,80,.9);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:7px;}
+.yt-buscar:hover{background:rgba(255,0,0,.14);border-color:rgba(255,0,0,.4);}
+.yt-buscar:disabled{opacity:.4;cursor:not-allowed;}
+.yt-buscar .yt-spin{display:none;width:10px;height:10px;border:1.5px solid rgba(255,80,80,.3);border-top-color:rgba(255,80,80,.9);border-radius:50%;animation:spin .7s linear infinite;}
+.yt-buscar.loading .yt-spin{display:block;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.yt-filtro{font-size:10px;color:var(--t3);padding:7px 10px;background:rgba(255,255,255,.02);border:1px solid var(--border);}
+.yt-filtro-label{font-size:8px;letter-spacing:.35em;text-transform:uppercase;color:var(--t4);margin-right:6px;}
+.yt-stats{font-size:10px;color:var(--t3);margin-left:auto;letter-spacing:.1em;}
+.yt-stats span{color:var(--gold);}
+
+.yt-lista{display:flex;flex-direction:column;gap:6px;}
+.yt-card{background:var(--card);border:1px solid var(--border);padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start;transition:border-color .15s;}
+.yt-card:hover{border-color:var(--border-strong);}
+.yt-card.postado{border-left:2px solid var(--ok);opacity:.6;}
+.yt-thumb{width:80px;height:52px;object-fit:cover;flex-shrink:0;background:var(--card-hi);}
+.yt-thumb-ph{width:80px;height:52px;background:var(--card-hi);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.yt-thumb-ph::after{content:'▶';color:rgba(255,0,0,.4);font-size:18px;}
+.yt-info{flex:1;min-width:0;}
+.yt-titulo{font-size:13px;color:var(--t2);margin-bottom:5px;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.yt-canal{font-size:10px;color:var(--t3);margin-bottom:5px;}
+.yt-meta{display:flex;gap:10px;flex-wrap:wrap;}
+.yt-m{font-size:9px;color:var(--t4);}
+.yt-m span{color:var(--t3);}
+.yt-termo{font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:1px 6px;border:1px solid rgba(184,151,106,.2);color:var(--gold);}
+
+.yt-acoes{display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0;}
+.yt-btn-ver{font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:4px 10px;background:none;border:1px solid rgba(255,0,0,.2);color:rgba(255,80,80,.7);cursor:pointer;transition:all .12s;text-decoration:none;display:inline-block;text-align:center;}
+.yt-btn-ver:hover{background:rgba(255,0,0,.08);border-color:rgba(255,0,0,.4);}
+.yt-btn-copiar{font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:4px 10px;background:none;border:1px solid var(--border);color:var(--t3);cursor:pointer;transition:all .12s;}
+.yt-btn-copiar:hover{color:var(--gold);border-color:var(--border-strong);}
+.yt-btn-ok{font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:4px 10px;background:none;border:1px solid rgba(106,175,122,.2);color:rgba(106,175,122,.6);cursor:pointer;transition:all .12s;}
+.yt-btn-ok:hover{background:rgba(106,175,122,.07);border-color:var(--ok);color:var(--ok);}
+.yt-btn-ok.marcado{background:rgba(106,175,122,.1);border-color:var(--ok);color:var(--ok);}
+
+.yt-comentario{margin-top:8px;padding:8px 10px;background:rgba(184,151,106,.04);border-left:2px solid rgba(184,151,106,.2);font-size:11px;color:rgba(255,255,255,.55);font-style:italic;line-height:1.6;grid-column:1/-1;}
+.yt-gerando{font-size:9px;color:var(--t4);letter-spacing:.2em;display:flex;align-items:center;gap:6px;padding:6px 0;}
+.yt-gerando::before{content:'';width:8px;height:8px;border:1.5px solid rgba(184,151,106,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+
+.yt-vazio{text-align:center;padding:40px 20px;}
+.yt-vazio-icon{font-size:32px;margin-bottom:10px;opacity:.3;}
+.yt-vazio-txt{font-size:10px;color:var(--t4);letter-spacing:.2em;text-transform:uppercase;}
+.yt-vazio-sub{font-size:11px;color:var(--t4);margin-top:6px;line-height:1.6;}
+
+.yt-termos-config{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.yt-termo-chip{font-size:9px;letter-spacing:.15em;padding:3px 9px;background:rgba(184,151,106,.06);border:1px solid rgba(184,151,106,.18);color:var(--gold);display:flex;align-items:center;gap:5px;}
+.yt-termo-chip button{background:none;border:none;color:var(--t4);cursor:pointer;font-size:10px;padding:0;line-height:1;}
+.yt-termo-chip button:hover{color:var(--stop);}
+.yt-add-termo{display:flex;gap:6px;margin-bottom:16px;}
+.yt-add-termo input{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(184,151,106,.12);color:var(--cream);font-family:'Jost';font-size:11px;font-weight:300;padding:6px 10px;}
+.yt-add-termo input:focus{outline:none;border-color:var(--border-strong);}
+.yt-add-btn{padding:6px 12px;font-size:9px;letter-spacing:.2em;background:none;border:1px solid var(--border-strong);color:var(--gold);cursor:pointer;}
+
 @media(max-width:1100px){
   .dash-grid{grid-template-columns:1fr 1fr;}
 }
@@ -371,6 +428,8 @@ body{background:var(--bg);font-family:'Jost',sans-serif;font-weight:300;color:va
   .main,.footer{margin-left:160px;}
   .dash-grid{grid-template-columns:1fr;}
   .kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .yt-card{grid-template-columns:1fr auto;}
+  .yt-thumb,.yt-thumb-ph{display:none;}
 }
 </style>
 </head>
@@ -408,7 +467,8 @@ body{background:var(--bg);font-family:'Jost',sans-serif;font-weight:300;color:va
   <div class="nav-item" onclick="ir('financeiro')" id="nav-fin"><span class="nav-icon">◑</span>Financeiro</div>
 
   <div class="sidebar-divider"></div>
-  <div class="sidebar-sec">Foco da semana</div>
+  <div class="sidebar-sec">Prospecção</div>
+  <div class="nav-item" onclick="ir('youtube')" id="nav-youtube"><span class="nav-icon">▶</span>YouTube<span class="nav-badge nb-info" id="badge-yt" style="display:none">0</span></div>
   <div class="sidebar-foco">
     <span class="sf-label">Entregável único</span>
     <input class="sf-input" id="foco-input" placeholder="Uma frase." oninput="salvarFoco(this.value)">
@@ -570,6 +630,56 @@ body{background:var(--bg);font-family:'Jost',sans-serif;font-weight:300;color:va
       <div class="inad d7"><div class="inad-d">D+7</div><div class="inad-t">Notif. formal</div></div>
       <div class="inad d15"><div class="inad-d">D+15</div><div class="inad-t">Pausar entregas</div></div>
       <div class="inad d30"><div class="inad-d">D+30</div><div class="inad-t">Cláusula rescis.</div></div>
+    </div>
+  </div>
+
+  <!-- ════ YOUTUBE ════ -->
+  <div class="painel" id="p-youtube">
+    <div class="p-header" style="flex-wrap:wrap;gap:12px;">
+      <span class="p-tag">YouTube · Oportunidades de Comentário</span>
+      <div style="display:flex;gap:8px;align-items:center;margin-left:auto;">
+        <button class="yt-buscar" id="btn-yt-buscar" onclick="ytBuscar()">
+          <div class="yt-spin"></div>
+          ▶ Buscar vídeos
+        </button>
+        <button class="btn-novo" onclick="ytAbrirConfig()" style="border-color:var(--border);color:var(--t3);">⚙ Termos</button>
+      </div>
+    </div>
+
+    <!-- Termos ativos (colapsável) -->
+    <div id="yt-config-area" style="display:none;margin-bottom:16px;background:var(--card);border:1px solid var(--border);padding:14px 16px;">
+      <div style="font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Termos de busca</div>
+      <div class="yt-termos-config" id="yt-termos-chips"></div>
+      <div class="yt-add-termo">
+        <input id="yt-novo-termo" placeholder="Ex: marketing médico" onkeydown="if(event.key==='Enter')ytAdicionarTermo()">
+        <button class="yt-add-btn" onclick="ytAdicionarTermo()">+ Adicionar</button>
+      </div>
+      <div style="font-size:9px;color:var(--t4);letter-spacing:.1em;">Filtros: vídeos dos últimos 7 dias · mín. 500 visualizações · comentários abertos</div>
+    </div>
+
+    <!-- Stats -->
+    <div class="yt-toolbar">
+      <div style="font-size:9px;color:var(--t3);letter-spacing:.1em;" id="yt-ultima-busca">Nenhuma busca realizada</div>
+      <div class="yt-stats" id="yt-stats" style="display:none;">
+        <span id="yt-n-total">0</span> vídeos encontrados ·
+        <span id="yt-n-postado">0</span> comentados
+      </div>
+      <div style="margin-left:auto;display:flex;gap:6px;">
+        <select id="yt-filtro-st" onchange="ytFiltrar()" style="font-size:10px;color:var(--t3);padding:4px 8px;background:rgba(255,255,255,.02);border:1px solid var(--border);">
+          <option value="todos">Todos</option>
+          <option value="pendente">Pendentes</option>
+          <option value="postado">Comentados</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Lista de vídeos -->
+    <div class="yt-lista" id="yt-lista">
+      <div class="yt-vazio">
+        <div class="yt-vazio-icon">▶</div>
+        <div class="yt-vazio-txt">Nenhum vídeo ainda</div>
+        <div class="yt-vazio-sub">Clique em "Buscar vídeos" para encontrar<br>oportunidades de comentário no YouTube.</div>
+      </div>
     </div>
   </div>
 
@@ -775,6 +885,7 @@ function ir(id){
   else if(id==='prospects'){document.getElementById('nav-prospects').classList.add('ativo');document.getElementById('p-prospects').classList.add('ativo');}
   else if(id==='pauta'){document.getElementById('nav-pauta').classList.add('ativo');document.getElementById('p-pauta').classList.add('ativo');}
   else if(id==='financeiro'){document.getElementById('nav-fin').classList.add('ativo');document.getElementById('p-financeiro').classList.add('ativo');}
+  else if(id==='youtube'){document.getElementById('nav-youtube').classList.add('ativo');document.getElementById('p-youtube').classList.add('ativo');}
   else{document.getElementById('nav-dash').classList.add('ativo');document.getElementById('p-dash').classList.add('ativo');}
   window.scrollTo(0,0);
 }
@@ -1217,8 +1328,312 @@ async function salvarPa(){
 }
 async function removerPa(){if(!editPa)return;if(!confirm('Remover entrada?'))return;try{await gs({action:'removerPauta',id:editPa});}catch(e){}pauta=pauta.filter(x=>x.id!==editPa);fechar('ov-pa');renderTudo();}
 
+// ══════════════════════════════════════════
+// MÓDULO YOUTUBE
+// ══════════════════════════════════════════
+
+const YT_API_KEY = 'AIzaSyDRLpjY4UZjs5fw8V1J6xeE-Qf6QBrvbk4';
+const YT_ANTHROPIC_KEY = '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';
+
+const YT_TERMOS_DEFAULT = [
+  'marketing médico',
+  'autoridade médica',
+  'presença digital médico',
+  'personal branding saúde',
+  'médico empreendedor',
+  'captação pacientes consultório',
+  'marketing para clínicas',
+  'instagram para médicos',
+  'conteúdo profissionais de saúde'
+];
+
+let ytVideos = [];     // { id, titulo, canal, views, publishedAt, termo, thumbnail, comentario, postado, gerandoComentario }
+let ytTermos = [];
+
+function ytInit() {
+  const salvo = localStorage.getItem('zyllah_yt_termos');
+  ytTermos = salvo ? JSON.parse(salvo) : [...YT_TERMOS_DEFAULT];
+  const vidsSalvos = localStorage.getItem('zyllah_yt_videos');
+  if (vidsSalvos) {
+    ytVideos = JSON.parse(vidsSalvos);
+    ytRenderLista();
+    ytAtualizarStats();
+    const ts = localStorage.getItem('zyllah_yt_ultima_busca');
+    if (ts) document.getElementById('yt-ultima-busca').textContent = 'Última busca: ' + new Date(parseInt(ts)).toLocaleString('pt-BR');
+  }
+  ytRenderChips();
+}
+
+function ytSalvarLocal() {
+  localStorage.setItem('zyllah_yt_videos', JSON.stringify(ytVideos));
+  localStorage.setItem('zyllah_yt_termos', JSON.stringify(ytTermos));
+}
+
+function ytAbrirConfig() {
+  const area = document.getElementById('yt-config-area');
+  area.style.display = area.style.display === 'none' ? 'block' : 'none';
+  ytRenderChips();
+}
+
+function ytRenderChips() {
+  const el = document.getElementById('yt-termos-chips');
+  el.innerHTML = ytTermos.map((t, i) =>
+    `<div class="yt-termo-chip">${t}<button onclick="ytRemoverTermo(${i})" title="Remover">✕</button></div>`
+  ).join('');
+}
+
+function ytAdicionarTermo() {
+  const inp = document.getElementById('yt-novo-termo');
+  const v = inp.value.trim();
+  if (!v || ytTermos.includes(v)) { inp.value = ''; return; }
+  ytTermos.push(v);
+  inp.value = '';
+  ytSalvarLocal();
+  ytRenderChips();
+}
+
+function ytRemoverTermo(i) {
+  ytTermos.splice(i, 1);
+  ytSalvarLocal();
+  ytRenderChips();
+}
+
+async function ytBuscar() {
+  const btn = document.getElementById('btn-yt-buscar');
+  btn.classList.add('loading');
+  btn.disabled = true;
+  document.getElementById('yt-lista').innerHTML = `<div class="yt-vazio"><div class="yt-gerando" style="justify-content:center;font-size:11px;">Buscando vídeos no YouTube...</div></div>`;
+
+  try {
+    const seteAtras = new Date();
+    seteAtras.setDate(seteAtras.getDate() - 7);
+    const publishedAfter = seteAtras.toISOString();
+
+    const novosIds = new Set();
+    const novosVideos = [];
+
+    // Buscar até 3 termos por vez para não esgotar quota
+    const termosParaBuscar = ytTermos.slice(0, 9);
+
+    for (const termo of termosParaBuscar) {
+      try {
+        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(termo)}&type=video&videoDuration=medium&order=relevance&publishedAfter=${publishedAfter}&maxResults=5&relevanceLanguage=pt&key=${YT_API_KEY}`;
+        const resp = await fetch(url);
+        if (!resp.ok) continue;
+        const data = await resp.json();
+        if (!data.items) continue;
+
+        const ids = data.items.map(i => i.id.videoId).join(',');
+        const statsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics,status&id=${ids}&key=${YT_API_KEY}`;
+        const statsResp = await fetch(statsUrl);
+        const statsData = await statsResp.json();
+        const statsMap = {};
+        (statsData.items || []).forEach(v => { statsMap[v.id] = v; });
+
+        data.items.forEach(item => {
+          const vid = item.id.videoId;
+          if (novosIds.has(vid)) return;
+          const st = statsMap[vid];
+          if (!st) return;
+          const views = parseInt(st.statistics.viewCount || 0);
+          if (views < 500) return;
+          if (st.status?.madeForKids) return;
+          if (st.statistics.commentCount === '0') return;
+          novosIds.add(vid);
+          novosVideos.push({
+            id: vid,
+            titulo: item.snippet.title,
+            canal: item.snippet.channelTitle,
+            views,
+            publishedAt: item.snippet.publishedAt,
+            termo,
+            thumbnail: item.snippet.thumbnails?.default?.url || '',
+            comentario: null,
+            postado: false,
+            gerandoComentario: false
+          });
+        });
+      } catch(e) { console.warn('Erro termo:', termo, e); }
+    }
+
+    // Mesclar com existentes (preservar postados e comentários já gerados)
+    const existentesMap = {};
+    ytVideos.forEach(v => { existentesMap[v.id] = v; });
+    novosVideos.forEach(nv => {
+      if (existentesMap[nv.id]) {
+        // preserva comentário e status de postado
+        nv.comentario = existentesMap[nv.id].comentario;
+        nv.postado = existentesMap[nv.id].postado;
+      }
+    });
+
+    // Adicionar antigos ainda pendentes que não apareceram na busca
+    ytVideos.filter(v => v.postado).forEach(v => {
+      if (!novosIds.has(v.id)) novosVideos.push(v);
+    });
+
+    ytVideos = novosVideos.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+    ytSalvarLocal();
+    localStorage.setItem('zyllah_yt_ultima_busca', Date.now().toString());
+    document.getElementById('yt-ultima-busca').textContent = 'Última busca: ' + new Date().toLocaleString('pt-BR');
+
+    ytRenderLista();
+    ytAtualizarStats();
+
+    // Gerar comentários para os que ainda não têm
+    ytGerarComentariosPendentes();
+
+  } catch(e) {
+    document.getElementById('yt-lista').innerHTML = `<div class="yt-vazio"><div class="yt-vazio-txt">Erro na busca</div><div class="yt-vazio-sub">${e.message}</div></div>`;
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+async function ytGerarComentariosPendentes() {
+  const semCom = ytVideos.filter(v => !v.comentario && !v.postado);
+  for (const v of semCom) {
+    v.gerandoComentario = true;
+    ytRenderCard(v);
+    await ytGerarComentario(v);
+    v.gerandoComentario = false;
+    ytRenderCard(v);
+    ytSalvarLocal();
+    await new Promise(r => setTimeout(r, 800)); // evitar rate limit
+  }
+}
+
+async function ytGerarComentario(v) {
+  try {
+    // Encontrar prospect mais próximo do nicho do vídeo
+    const prospectCtx = prospects.filter(p => !['arquivado','perdido'].includes(p.status))
+      .map(p => `${p.nome} (${p.esp || 'esp. saúde'})`).join(', ') || 'médicos especialistas';
+
+    const prompt = `Você é Guilherme Caetano, fundador da Zyllah Digital — agência de presença digital para especialistas de saúde em Nova Friburgo, RJ.
+Escreva um comentário para o vídeo abaixo. O comentário deve:
+- Ser genuíno e agregar valor à conversa
+- Demonstrar expertise em presença digital e marketing para saúde (SEM vender)
+- 2-3 frases, tom natural e profissional
+- Terminar com uma pergunta aberta que gere engajamento
+- NÃO mencionar a Zyllah ou fazer autopropaganda
+- Escrever em português (pt-BR)
+
+Vídeo: "${v.titulo}"
+Canal: ${v.canal}
+Termo de busca que levou a este vídeo: ${v.termo}
+Prospects ativos da Zyllah (contexto): ${prospectCtx}
+
+Responda SOMENTE com o texto do comentário, sem aspas ou formatação.`;
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 300,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!resp.ok) return;
+    const data = await resp.json();
+    v.comentario = data.content?.[0]?.text?.trim() || null;
+  } catch(e) { console.warn('Erro gerando comentário:', e); }
+}
+
+function ytRenderCard(v) {
+  const el = document.getElementById('ytcard-' + v.id);
+  if (!el) return;
+  el.outerHTML = ytCardHTML(v);
+}
+
+function ytFiltrar() {
+  ytRenderLista();
+}
+
+function ytRenderLista() {
+  const filtro = document.getElementById('yt-filtro-st')?.value || 'todos';
+  const lista = document.getElementById('yt-lista');
+  let vids = ytVideos;
+  if (filtro === 'pendente') vids = vids.filter(v => !v.postado);
+  if (filtro === 'postado') vids = vids.filter(v => v.postado);
+
+  if (!vids.length) {
+    lista.innerHTML = `<div class="yt-vazio"><div class="yt-vazio-icon">▶</div><div class="yt-vazio-txt">${ytVideos.length ? 'Nenhum resultado' : 'Nenhum vídeo ainda'}</div></div>`;
+    return;
+  }
+  lista.innerHTML = vids.map(v => ytCardHTML(v)).join('');
+  ytAtualizarStats();
+}
+
+function ytCardHTML(v) {
+  const diasAtras = Math.floor((Date.now() - new Date(v.publishedAt)) / 86400000);
+  const viewsFmt = v.views >= 1000 ? (v.views / 1000).toFixed(0) + 'k' : v.views;
+  const thumb = v.thumbnail
+    ? `<img class="yt-thumb" src="${v.thumbnail}" loading="lazy" onerror="this.style.display='none'">`
+    : `<div class="yt-thumb-ph"></div>`;
+
+  let comHtml = '';
+  if (v.gerandoComentario) {
+    comHtml = `<div class="yt-comentario yt-gerando">Gerando comentário com IA...</div>`;
+  } else if (v.comentario) {
+    comHtml = `<div class="yt-comentario" id="ytcom-${v.id}">${v.comentario}</div>`;
+  }
+
+  return `<div class="yt-card ${v.postado ? 'postado' : ''}" id="ytcard-${v.id}">
+    ${thumb}
+    <div class="yt-info">
+      <div class="yt-titulo">${v.titulo}</div>
+      <div class="yt-canal">${v.canal}</div>
+      <div class="yt-meta">
+        <div class="yt-m">👁 <span>${viewsFmt} views</span></div>
+        <div class="yt-m">🕐 <span>${diasAtras === 0 ? 'hoje' : diasAtras + 'd atrás'}</span></div>
+        <div class="yt-termo">${v.termo}</div>
+      </div>
+    </div>
+    <div class="yt-acoes">
+      <a href="https://www.youtube.com/watch?v=${v.id}" target="_blank" class="yt-btn-ver">▶ Abrir</a>
+      ${v.comentario ? `<button class="yt-btn-copiar" onclick="ytCopiar('${v.id}')">Copiar texto</button>` : ''}
+      <button class="yt-btn-ok ${v.postado ? 'marcado' : ''}" onclick="ytTogglePostado('${v.id}')">
+        ${v.postado ? '✓ Comentado' : '○ Marcar postado'}
+      </button>
+    </div>
+    ${comHtml}
+  </div>`;
+}
+
+function ytCopiar(vid) {
+  const v = ytVideos.find(x => x.id === vid);
+  if (!v?.comentario) return;
+  navigator.clipboard.writeText(v.comentario).then(() => {
+    const btn = document.querySelector(`#ytcard-${vid} .yt-btn-copiar`);
+    if (btn) { btn.textContent = '✓ Copiado!'; setTimeout(() => { btn.textContent = 'Copiar texto'; }, 1500); }
+  });
+}
+
+function ytTogglePostado(vid) {
+  const v = ytVideos.find(x => x.id === vid);
+  if (!v) return;
+  v.postado = !v.postado;
+  ytSalvarLocal();
+  ytRenderLista();
+  ytAtualizarStats();
+}
+
+function ytAtualizarStats() {
+  const total = ytVideos.length;
+  const postados = ytVideos.filter(v => v.postado).length;
+  const pendentes = total - postados;
+  document.getElementById('yt-stats').style.display = total ? 'block' : 'none';
+  document.getElementById('yt-n-total').textContent = total;
+  document.getElementById('yt-n-postado').textContent = postados;
+  const badge = document.getElementById('badge-yt');
+  if (pendentes > 0) { badge.textContent = pendentes; badge.style.display = 'inline-block'; }
+  else badge.style.display = 'none';
+}
+
 // ── INIT ──────────────────────────────
-atuHora();setInterval(atuHora,30000);sincronizar();
+atuHora();setInterval(atuHora,30000);sincronizar();ytInit();
 </script>
 </body>
 </html>
