@@ -1223,7 +1223,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 <script>
 // ══════════════════════════════════════════
 // CONFIG
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbycWNsKExOqcwwaOyEInrCcHvNlikRtBnvCqSa9vN7IbdYYfqNNKSKyWNDOtkVarLbC/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxU0HWblXEn6gFmh15LHTPEPh6s5LHrYl1bJatC6g7FtAYk1NZyrGvROT6J-PqTrxGe/exec';
 const MAX_CL = 4;
 // ══════════════════════════════════════════
 
@@ -1640,7 +1640,6 @@ async function ytBuscarMini(){
     novos.forEach(nv=>{if(exMap[nv.id]){nv.comentario=exMap[nv.id].comentario;nv.postado=exMap[nv.id].postado;}});
     ytVideos=novos.sort((a,b)=>new Date(b.data||b.publishedAt||0)-new Date(a.data||a.publishedAt||0));
     ytSalvarLocal();
-    document.getElementById('yt-ultima-busca').textContent='Última busca: '+new Date().toLocaleString('pt-BR');
     const el=document.getElementById('yt-mini-ultima');if(el)el.textContent=new Date().toLocaleTimeString('pt-BR');
     ytRenderMini();ytRenderLista();ytAtualizarStats();
     ytGerarComentariosPendentes();
@@ -2063,7 +2062,8 @@ function ytInit(){
   const vs=localStorage.getItem('zyllah_yt_videos');
   if(vs){ytVideos=JSON.parse(vs);ytRenderLista();ytAtualizarStats();}
   const ts=localStorage.getItem('zyllah_yt_ultima_busca');
-  if(ts)document.getElementById('yt-ultima-busca').textContent='Última busca: '+new Date(parseInt(ts)).toLocaleString('pt-BR');
+  const elUs=document.getElementById('yt-ultima-busca');
+  if(ts&&elUs)elUs.textContent='Última busca: '+new Date(parseInt(ts)).toLocaleString('pt-BR');
   ytRenderChips();
 }
 
@@ -2074,18 +2074,18 @@ function ytSalvarLocal(){
 
 function ytAbrirConfig(){
   const a=document.getElementById('yt-config-area');
-  a.style.display=a.style.display==='none'?'block':'none';
+  if(a)a.style.display=a.style.display==='none'?'block':'none';
   ytRenderChips();
 }
 
 function ytRenderChips(){
-  document.getElementById('yt-termos-chips').innerHTML=ytTermos.map((t,i)=>
-    `<div class="yt-chip">${t}<button onclick="ytRemoverTermo(${i})">✕</button></div>`
-  ).join('');
+  const el=document.getElementById('yt-termos-chips');
+  if(el)el.innerHTML=ytTermos.map((t,i)=>`<div class="yt-chip">${t}<button onclick="ytRemoverTermo(${i})">✕</button></div>`).join('');
 }
 
 function ytAdicionarTermo(){
   const inp=document.getElementById('yt-novo-termo');
+  if(!inp)return;
   const v=inp.value.trim();
   if(!v||ytTermos.includes(v)){inp.value='';return;}
   ytTermos.push(v);inp.value='';ytSalvarLocal();ytRenderChips();
@@ -2096,8 +2096,9 @@ function ytRemoverTermo(i){ytTermos.splice(i,1);ytSalvarLocal();ytRenderChips();
 // Busca via Apps Script (servidor) — sem expor chave
 async function ytBuscar(){
   const btn=document.getElementById('btn-yt-buscar');
-  btn.classList.add('loading');btn.disabled=true;
-  document.getElementById('yt-lista').innerHTML=`<div class="yt-vazio"><div class="yt-vazio-txt" style="color:var(--t4);font-style:italic;">Buscando via Apps Script...</div></div>`;
+  if(btn){btn.classList.add('loading');btn.disabled=true;}
+  const lista=document.getElementById('yt-lista');
+  if(lista)lista.innerHTML=`<div class="yt-vazio"><div class="yt-vazio-txt" style="color:var(--t4);font-style:italic;">Buscando via Apps Script...</div></div>`;
   try{
     // Chama o Apps Script passando os termos — o AS faz a busca com a chave YT guardada lá
     const resultado=await gs({
@@ -2115,12 +2116,14 @@ async function ytBuscar(){
     ytVideos=novos.sort((a,b)=>new Date(b.data||b.publishedAt||0)-new Date(a.data||a.publishedAt||0));
     ytSalvarLocal();
     localStorage.setItem('zyllah_yt_ultima_busca',Date.now().toString());
-    document.getElementById('yt-ultima-busca').textContent='Última busca: '+new Date().toLocaleString('pt-BR');
+    const elUs2=document.getElementById('yt-ultima-busca');
+    if(elUs2)elUs2.textContent='Última busca: '+new Date().toLocaleString('pt-BR');
     ytRenderLista();ytAtualizarStats();
     ytGerarComentariosPendentes();
   }catch(e){
-    document.getElementById('yt-lista').innerHTML=`<div class="yt-vazio"><div class="yt-vazio-ico" style="color:var(--urgente);">⚠</div><div class="yt-vazio-txt">Erro na busca</div><div class="yt-vazio-sub">${e.message}<br><br><span style="color:var(--t4);">Certifique-se que o Apps Script tem a action "buscarYouTube" implementada com sua chave YouTube Data API v3.</span></div></div>`;
-  }finally{btn.classList.remove('loading');btn.disabled=false;}
+    const listaErr=document.getElementById('yt-lista');
+    if(listaErr)listaErr.innerHTML=`<div class="yt-vazio"><div class="yt-vazio-ico" style="color:var(--urgente);">⚠</div><div class="yt-vazio-txt">Erro na busca</div><div class="yt-vazio-sub">${e.message}</div></div>`;
+  }finally{if(btn){btn.classList.remove('loading');btn.disabled=false;}}
 }
 
 async function ytGerarComentario(v){
@@ -2150,6 +2153,7 @@ function ytFiltrar(){ytRenderLista();}
 function ytRenderLista(){
   const filtro=document.getElementById('yt-filtro-st')?.value||'todos';
   const lista=document.getElementById('yt-lista');
+  if(!lista)return;
   let vids=ytVideos;
   if(filtro==='pendente')vids=vids.filter(v=>!v.postado);
   if(filtro==='postado')vids=vids.filter(v=>v.postado);
