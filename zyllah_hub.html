@@ -555,6 +555,9 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 .risco-badge{font-size:8px;padding:1px 5px;border:1px solid;border-radius:1px;}
 .risco-baixo{border-color:rgba(106,170,122,.2);color:rgba(106,170,122,.6);}
 .risco-medio{border-color:rgba(196,150,58,.2);color:rgba(196,150,58,.6);}
+.apres-btn{display:inline-block;font-size:10px;color:var(--gold);border:1px solid var(--border-strong);padding:2px 7px;border-radius:1px;text-decoration:none;letter-spacing:.04em;transition:background .12s;white-space:nowrap;}
+.apres-btn:hover{background:var(--gold-pale);}
+.apres-tag{font-size:9px;color:var(--t4);letter-spacing:.06em;}
 .risco-alto{border-color:rgba(212,96,96,.2);color:rgba(212,96,96,.6);}
 
 /* Funil grande na página prospect */
@@ -708,6 +711,47 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 
 .vazio-msg{font-size:10px;color:var(--t4);letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:22px;}
 
+/* ══ ENTREGÁVEL ÚNICO ══ */
+.ent-bloco{background:var(--card);border:1px solid var(--border-strong);border-radius:var(--r);padding:0;margin-bottom:14px;overflow:hidden;}
+.ent-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid var(--border);}
+.ent-tools{display:flex;align-items:center;gap:6px;}
+.ent-assoc-sel{font-size:9px;color:var(--t3);background:rgba(255,255,255,.03);border:1px solid var(--border);padding:3px 8px;border-radius:2px;max-width:160px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.ent-assoc-sel:focus{outline:none;border-color:var(--border-strong);}
+.ent-assoc-sel option{background:var(--surface);}
+.ent-add{width:22px;height:22px;border-radius:50%;border:1px solid var(--border-strong);background:none;color:var(--gold);font-size:15px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;flex-shrink:0;}
+.ent-add:hover{background:var(--gold-pale);border-color:var(--gold);}
+.ent-lista{padding:4px 0;min-height:10px;}
+.ent-empty{font-size:10px;color:var(--t4);letter-spacing:.12em;text-align:center;padding:10px 14px;font-style:italic;}
+.ent-item{display:flex;align-items:flex-start;gap:8px;padding:5px 14px;transition:opacity .3s;}
+.ent-item.done{opacity:.35;}
+.ent-chk{flex-shrink:0;width:15px;height:15px;border-radius:50%;border:1px solid var(--border-strong);background:none;color:var(--t3);font-size:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;margin-top:3px;}
+.ent-chk:hover{border-color:var(--gold);color:var(--gold);}
+.ent-chk.done{background:var(--ok);border-color:var(--ok);color:var(--bg);}
+.ent-txt{flex:1;background:transparent;border:none;color:var(--t2);font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;outline:none;line-height:1.45;resize:none;overflow:hidden;min-height:22px;width:100%;}
+.ent-txt::placeholder{color:var(--t4);font-size:13px;}
+.ent-txt.done{text-decoration:line-through;color:var(--t4);}
+.ent-del{flex-shrink:0;background:none;border:none;color:var(--t4);font-size:9px;cursor:pointer;padding:2px 4px;margin-top:3px;opacity:0;transition:opacity .12s;}
+.ent-item:hover .ent-del{opacity:1;}
+.ent-del:hover{color:var(--urgente);}
+
+/* ══ PAUTA UPLOAD ══ */
+.pauta-gen-upload{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);cursor:pointer;display:flex;align-items:center;gap:5px;padding:5px 0 2px;transition:color .12s;border:none;background:none;font-family:'DM Sans',sans-serif;width:100%;}
+.pauta-gen-upload:hover{color:var(--gold);}
+.pauta-gen-upload-ok{color:rgba(106,170,122,.8);}
+
+/* ══ YT MINI (dentro de Prospects) ══ */
+.yt-mini-bloco{border-top:1px solid var(--border);margin-top:18px;padding-top:14px;}
+.yt-mini-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.yt-mini-lista{display:flex;flex-direction:column;gap:6px;max-height:260px;overflow-y:auto;}
+.yt-mini-card{display:flex;gap:8px;align-items:flex-start;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:7px 10px;cursor:pointer;transition:border-color .12s;}
+.yt-mini-card:hover{border-color:var(--border-strong);}
+.yt-mini-thumb{width:56px;height:36px;object-fit:cover;flex-shrink:0;border-radius:1px;}
+.yt-mini-thumb-ph{width:56px;height:36px;background:rgba(255,0,0,.05);border:1px solid rgba(255,0,0,.1);flex-shrink:0;border-radius:1px;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,0,0,.3);}
+.yt-mini-info{flex:1;min-width:0;}
+.yt-mini-titulo{font-size:10.5px;color:var(--t2);line-height:1.35;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.yt-mini-canal{font-size:8.5px;color:var(--t4);letter-spacing:.05em;margin-top:2px;}
+.yt-mini-vazio{font-size:10px;color:var(--t4);text-align:center;padding:14px;font-style:italic;}
+
 @media(max-width:1100px){
   .dash-grid{flex-direction:column;}
   #dash-col-side{width:100%;}
@@ -802,12 +846,6 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
     </div>
   </div>
 
-  <!-- Foco único -->
-  <div class="sw">
-    <span class="sw-label">Entregável único agora</span>
-    <textarea class="foco-unico" id="foco-input" rows="2" placeholder="Uma coisa." oninput="salvarFoco(this.value)"></textarea>
-  </div>
-
   <!-- Energia do dia -->
   <div class="sw">
     <span class="sw-label">Energia hoje</span>
@@ -826,6 +864,22 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 
   <!-- ALERTAS -->
   <div class="alerta-strip" id="alertas"><span class="al-ok">Sincronizando...</span></div>
+
+  <!-- ════ ENTREGÁVEL ÚNICO ════ -->
+  <div class="ent-bloco" id="ent-bloco">
+    <div class="ent-header">
+      <span class="tag">Entregável de agora</span>
+      <div class="ent-tools">
+        <select class="ent-assoc-sel" id="ent-assoc" onchange="entSalvar()" title="Associar a cliente ou prospect">
+          <option value="">· sem associação</option>
+        </select>
+        <button class="ent-add" onclick="entAdd()" title="Adicionar item">+</button>
+      </div>
+    </div>
+    <div class="ent-lista" id="ent-lista">
+      <div class="ent-empty">Clique + para adicionar um entregável</div>
+    </div>
+  </div>
 
   <!-- ════════════════════════════════════
        DASHBOARD
@@ -960,7 +1014,11 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
             <div class="pauta-gen-label">Gerar sugestões de pauta</div>
             <textarea class="pauta-gen-input" id="pauta-gen-diag"
               placeholder="O que aconteceu esta semana? (opcional — ex: post sobre CFM teve bom alcance, cliente pediu conteúdo sobre consulta online...)"
-              rows="3"></textarea>
+              rows="3" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+            <label class="pauta-gen-upload" id="pauta-gen-upload-lbl" title="Carregar .txt ou .md como contexto">
+              📎 Carregar contexto (TXT / MD)
+              <input type="file" id="pauta-gen-file" accept=".txt,.md,.text" style="display:none" onchange="pautaCarregarArquivo(this)">
+            </label>
             <button class="pauta-gen-btn" id="pauta-gen-btn" onclick="gerarPautaIA()">
               <span id="pauta-gen-txt">↳ Gerar pauta com IA</span>
             </button>
@@ -989,6 +1047,23 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
     </div>
     <div class="funil-grande" id="funil-full-visual"></div>
     <div class="pros-full" id="pros-full"><div class="vazio-msg">Nenhum prospect</div></div>
+
+    <!-- YouTube dentro de Prospecção -->
+    <div class="yt-mini-bloco">
+      <div class="yt-mini-header">
+        <span class="tag">YouTube · Oportunidades de Comentário</span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span style="font-size:9px;color:var(--t4);" id="yt-mini-ultima">Nenhuma busca</span>
+          <button class="yt-buscar-btn" id="btn-yt-mini" onclick="ytBuscarMini()" style="font-size:8px;padding:5px 11px;">
+            <div class="yt-spin"></div>▶ Buscar
+          </button>
+          <button class="bloco-a" onclick="ir('youtube')">Ver tudo →</button>
+        </div>
+      </div>
+      <div class="yt-mini-lista" id="yt-mini-lista">
+        <div class="yt-mini-vazio">Nenhum vídeo — clique "Buscar" para carregar oportunidades de comentário.</div>
+      </div>
+    </div>
   </div>
 
   <!-- ════ PAUTA ════ -->
@@ -1308,9 +1383,7 @@ function renderTudo(){
   renderAtividades();renderFunilMini();renderProsMini();
   renderCalMini();renderPcal('pcal-mini');renderPcal('pcal-full');
   renderClientesFull();renderProsFull();renderPauta();renderFinanceiro();
-  const foco=localStorage.getItem('zyllah_foco')||'';
-  const fi=document.getElementById('foco-input');if(fi)fi.value=foco;
-  const ft=document.getElementById('foco-tarefa-txt');if(ft)ft.textContent=foco||'Defina seu foco na barra lateral';
+  entPopularAssoc();entRender();ytRenderMini();
   renderEnergia();
 }
 
@@ -1465,7 +1538,148 @@ function renderRitualEl(){
 }
 function salvarFoco(v){
   localStorage.setItem('zyllah_foco',v);
-  const ft=document.getElementById('foco-tarefa-txt');if(ft)ft.textContent=v||'Defina seu foco na barra lateral';
+  const ft=document.getElementById('foco-tarefa-txt');if(ft)ft.textContent=v||'Defina seu entregável acima';
+}
+
+// ── ENTREGÁVEL ÚNICO ─────────────────────
+let entItems=JSON.parse(localStorage.getItem('zyllah_ent_items')||'[]');
+
+function entSalvar(){
+  localStorage.setItem('zyllah_ent_items',JSON.stringify(entItems));
+  localStorage.setItem('zyllah_ent_assoc',document.getElementById('ent-assoc')?.value||'');
+  const primeiro=entItems.find(x=>!x.done);
+  const ft=document.getElementById('foco-tarefa-txt');
+  if(ft)ft.textContent=primeiro?.txt||'Nenhum entregável definido';
+}
+
+function autoGrow(el){
+  if(!el)return;
+  el.style.height='auto';
+  el.style.height=el.scrollHeight+'px';
+}
+
+function entRender(){
+  const lista=document.getElementById('ent-lista');
+  if(!lista)return;
+  if(!entItems.length){
+    lista.innerHTML='<div class="ent-empty">Clique + para adicionar um entregável</div>';
+    const ft=document.getElementById('foco-tarefa-txt');
+    if(ft)ft.textContent='Nenhum entregável definido';
+    return;
+  }
+  lista.innerHTML=entItems.map(item=>`
+    <div class="ent-item${item.done?' done':''}" data-id="${item.id}">
+      <button class="ent-chk${item.done?' done':''}" onclick="entCheck('${item.id}')">${item.done?'✓':'○'}</button>
+      <textarea class="ent-txt${item.done?' done':''}"
+        oninput="autoGrow(this);entUpdate('${item.id}',this.value)"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();entAdd();}"
+        placeholder="Uma coisa...">${(item.txt||'').replace(/</g,'&lt;')}</textarea>
+      <button class="ent-del" onclick="entDel('${item.id}')">✕</button>
+    </div>`).join('');
+  lista.querySelectorAll('.ent-txt').forEach(autoGrow);
+  const primeiro=entItems.find(x=>!x.done);
+  const ft=document.getElementById('foco-tarefa-txt');
+  if(ft)ft.textContent=primeiro?.txt||'Nenhum entregável pendente';
+}
+
+function entPopularAssoc(){
+  const sel=document.getElementById('ent-assoc');if(!sel)return;
+  const cur=localStorage.getItem('zyllah_ent_assoc')||'';
+  sel.innerHTML='<option value="">· sem associação</option>'+
+    clientes.map(c=>`<option value="cl:${c.id}">${c.nome}</option>`).join('')+
+    prospects.filter(p=>!['arquivado','perdido'].includes(p.status))
+      .map(p=>`<option value="pr:${p.id}">[P] ${p.nome}</option>`).join('');
+  sel.value=cur;
+}
+
+function entAdd(){
+  const novo={id:uid('e'),txt:'',done:false};
+  entItems.push(novo);
+  entSalvar();entRender();
+  setTimeout(()=>{
+    const txts=document.querySelectorAll('.ent-txt');
+    if(txts.length)txts[txts.length-1].focus();
+  },40);
+}
+
+function entCheck(id){
+  const item=entItems.find(x=>x.id===id);if(!item)return;
+  item.done=!item.done;
+  entSalvar();entRender();
+  if(item.done){
+    setTimeout(()=>{
+      entItems=entItems.filter(x=>x.id!==id||!x.done);
+      entSalvar();entRender();
+    },1600);
+  }
+}
+
+function entDel(id){
+  entItems=entItems.filter(x=>x.id!==id);
+  entSalvar();entRender();
+}
+
+function entUpdate(id,val){
+  const item=entItems.find(x=>x.id===id);
+  if(item){item.txt=val;entSalvar();}
+}
+
+// ── PAUTA UPLOAD ─────────────────────────
+function pautaCarregarArquivo(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const diag=document.getElementById('pauta-gen-diag');
+    const conteudo=e.target.result.substring(0,3000);
+    diag.value=(diag.value?diag.value+'\n\n---\n':'')+conteudo;
+    autoGrow(diag);
+    input.value='';
+    const lbl=document.getElementById('pauta-gen-upload-lbl');
+    if(lbl){
+      lbl.innerHTML=`✓ ${file.name} carregado <input type="file" id="pauta-gen-file" accept=".txt,.md,.text" style="display:none" onchange="pautaCarregarArquivo(this)">`;
+      lbl.className='pauta-gen-upload pauta-gen-upload-ok';
+    }
+  };
+  reader.onerror=()=>alert('Erro ao ler arquivo. Use formato .txt ou .md');
+  reader.readAsText(file,'UTF-8');
+}
+
+// ── YOUTUBE MINI (dentro de Prospects) ──
+async function ytBuscarMini(){
+  const btn=document.getElementById('btn-yt-mini');
+  if(btn){btn.classList.add('loading');btn.disabled=true;}
+  try{
+    const resultado=await gs({action:'buscarYouTube',termos:ytTermos.slice(0,6),maxPorTermo:3});
+    if(!resultado||resultado.error||resultado.erro)throw new Error(resultado?.error||resultado?.erro||'Erro na busca');
+    const novos=resultado.videos||[];
+    const exMap={};ytVideos.forEach(v=>{exMap[v.id]=v;});
+    novos.forEach(nv=>{if(exMap[nv.id]){nv.comentario=exMap[nv.id].comentario;nv.postado=exMap[nv.id].postado;}});
+    ytVideos=novos.sort((a,b)=>new Date(b.data||b.publishedAt||0)-new Date(a.data||a.publishedAt||0));
+    ytSalvarLocal();
+    document.getElementById('yt-ultima-busca').textContent='Última busca: '+new Date().toLocaleString('pt-BR');
+    const el=document.getElementById('yt-mini-ultima');if(el)el.textContent=new Date().toLocaleTimeString('pt-BR');
+    ytRenderMini();ytRenderLista();ytAtualizarStats();
+    ytGerarComentariosPendentes();
+  }catch(e){
+    const lista=document.getElementById('yt-mini-lista');
+    if(lista)lista.innerHTML=`<div class="yt-mini-vazio" style="color:var(--urgente);">Erro: ${e.message}</div>`;
+  }finally{if(btn){btn.classList.remove('loading');btn.disabled=false;}}
+}
+
+function ytRenderMini(){
+  const lista=document.getElementById('yt-mini-lista');if(!lista)return;
+  const top=ytVideos.filter(v=>!v.postado).slice(0,5);
+  if(!top.length){lista.innerHTML='<div class="yt-mini-vazio">Nenhum vídeo pendente de comentário.</div>';return;}
+  lista.innerHTML=top.map(v=>{
+    const thumb=v.thumb?`<img class="yt-mini-thumb" src="${v.thumb}" loading="lazy" onerror="this.style.display='none'">`:`<div class="yt-mini-thumb-ph">▶</div>`;
+    return `<div class="yt-mini-card" onclick="ir('youtube')">
+      ${thumb}
+      <div class="yt-mini-info">
+        <div class="yt-mini-titulo">${v.titulo||'—'}</div>
+        <div class="yt-mini-canal">${v.canal||''}</div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 // ── ENERGIA ──────────────────────────────
@@ -1592,6 +1806,11 @@ function renderProsFull(){
     <div class="pro-st">
       <span class="stbadge st-${p.status}">${(p.status||'').replace('_',' ')}</span>
       ${p.risco?`<span class="risco-badge risco-${p.risco}">${p.risco}</span>`:''}
+      ${p.apresentacao_gerada&&p.apresentacao_gerada.startsWith('http')
+        ?`<a class="apres-btn" href="${p.apresentacao_gerada}" target="_blank" onclick="event.stopPropagation()">📊 Apresentação</a>`
+        :p.apresentacao_gerada
+          ?`<span class="apres-tag">📊 gerado</span>`
+          :''}
     </div>
   </div>`).join('');
 }
@@ -1899,17 +2118,17 @@ async function ytBuscar(){
     // Chama o Apps Script passando os termos — o AS faz a busca com a chave YT guardada lá
     const resultado=await gs({
       action:'buscarYouTube',
-      termos:JSON.stringify(ytTermos.slice(0,8)),
+      termos:ytTermos.slice(0,8),
       maxPorTermo:5
     });
-    if(!resultado||resultado.error){
-      throw new Error(resultado?.error||'Apps Script não retornou dados. Verifique se a action "buscarYouTube" está implementada.');
+    if(!resultado||resultado.error||resultado.erro){
+      throw new Error(resultado?.error||resultado?.erro||'Apps Script não retornou dados. Verifique se "buscarYouTube" está no script e se YT_API_KEY está configurada.');
     }
     const novos=resultado.videos||[];
     // Preservar status de videos já comentados
     const exMap={};ytVideos.forEach(v=>{exMap[v.id]=v;});
     novos.forEach(nv=>{if(exMap[nv.id]){nv.comentario=exMap[nv.id].comentario;nv.postado=exMap[nv.id].postado;}});
-    ytVideos=novos.sort((a,b)=>new Date(b.publishedAt||0)-new Date(a.publishedAt||0));
+    ytVideos=novos.sort((a,b)=>new Date(b.data||b.publishedAt||0)-new Date(a.data||a.publishedAt||0));
     ytSalvarLocal();
     localStorage.setItem('zyllah_yt_ultima_busca',Date.now().toString());
     document.getElementById('yt-ultima-busca').textContent='Última busca: '+new Date().toLocaleString('pt-BR');
@@ -1956,9 +2175,10 @@ function ytRenderLista(){
 }
 
 function ytCardHTML(v){
-  const dias=Math.floor((Date.now()-new Date(v.publishedAt||0))/86400000);
+  const dias=Math.floor((Date.now()-new Date(v.data||v.publishedAt||0))/86400000);
   const vf=v.views>=1000?(v.views/1000).toFixed(0)+'k':v.views||'—';
-  const thumb=v.thumbnail?`<img class="yt-thumb" src="${v.thumbnail}" loading="lazy" onerror="this.style.display='none'">`:`<div class="yt-thumb-ph"></div>`;
+  const src=v.thumb||v.thumbnail||'';
+  const thumb=src?`<img class="yt-thumb" src="${src}" loading="lazy" onerror="this.style.display='none'">`:`<div class="yt-thumb-ph"></div>`;
   let comHtml='';
   if(v.gerandoComentario)comHtml=`<div class="yt-comment yt-gerando">Gerando sugestão de comentário...</div>`;
   else if(v.comentario)comHtml=`<div class="yt-comment">${v.comentario}</div>`;
