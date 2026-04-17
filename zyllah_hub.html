@@ -239,6 +239,12 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 .ativ-item.normal .ativ-prazo{color:var(--t4);}
 
 .prio-vazio{padding:10px 18px;font-size:9px;color:var(--t4);letter-spacing:.12em;font-style:italic;}
+.ativ-del{margin-left:auto;flex-shrink:0;color:var(--t4);cursor:pointer;background:none;border:none;font-size:14px;line-height:1;padding:0 3px;opacity:0;transition:opacity .12s;font-family:inherit;}
+.ativ-item:hover .ativ-del{opacity:.7;}
+.ativ-item.done .ativ-del{opacity:.45;}
+.toast-undo{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--card-lift);border:1px solid var(--border-strong);border-radius:var(--r);padding:10px 18px;display:flex;align-items:center;gap:14px;font-size:11px;color:var(--t2);z-index:500;box-shadow:var(--shadow);animation:toastIn .15s;}
+.toast-undo-btn{background:none;border:none;color:var(--gold);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11px;padding:0;letter-spacing:.04em;}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 
 /* Ritual dentro do herói */
 .ritual-hero{border-top:1px solid rgba(255,255,255,.04);padding:12px 18px 14px;}
@@ -829,10 +835,6 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
   <div class="nav-item" onclick="ir('financeiro')" id="nav-fin"><span class="nav-icon">◑</span>Financeiro</div>
 
   <div class="sidebar-div"></div>
-  <div class="nav-sec">Prospecção</div>
-  <div class="nav-item" onclick="ir('youtube')" id="nav-youtube"><span class="nav-icon">▶</span>YouTube<span class="nav-badge nb-info" id="badge-yt" style="display:none">0</span></div>
-
-  <div class="sidebar-div"></div>
 
   <!-- Timer Pomodoro -->
   <div class="sw">
@@ -1057,7 +1059,6 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
           <button class="yt-buscar-btn" id="btn-yt-mini" onclick="ytBuscarMini()" style="font-size:8px;padding:5px 11px;">
             <div class="yt-spin"></div>▶ Buscar
           </button>
-          <button class="bloco-a" onclick="ir('youtube')">Ver tudo →</button>
         </div>
       </div>
       <div class="yt-mini-lista" id="yt-mini-lista">
@@ -1097,54 +1098,6 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
       <div class="inad d7"><div class="inad-d">D+7</div><div class="inad-t">Notif. formal</div></div>
       <div class="inad d15"><div class="inad-d">D+15</div><div class="inad-t">Pausar entregas</div></div>
       <div class="inad d30"><div class="inad-d">D+30</div><div class="inad-t">Cláusula rescis.</div></div>
-    </div>
-  </div>
-
-  <!-- ════ YOUTUBE ════ -->
-  <div class="painel" id="p-youtube">
-    <div class="p-header" style="flex-wrap:wrap;gap:10px;">
-      <span class="p-tag">YouTube · Oportunidades de Comentário</span>
-      <div style="display:flex;gap:8px;align-items:center;margin-left:auto;">
-        <button class="yt-buscar-btn" id="btn-yt-buscar" onclick="ytBuscar()">
-          <div class="yt-spin"></div>▶ Buscar vídeos
-        </button>
-        <button class="btn-novo" onclick="ytAbrirConfig()" style="border-color:var(--border);color:var(--t3);">⚙ Termos</button>
-      </div>
-    </div>
-
-    <!-- Aviso segurança -->
-    <div style="background:rgba(100,150,200,.05);border:1px solid rgba(100,150,200,.15);border-radius:var(--r);padding:10px 14px;margin-bottom:14px;font-size:10px;color:var(--t3);line-height:1.6;">
-      <strong style="color:var(--info);">✓ Busca via Apps Script</strong> — Nenhuma chave de API fica exposta no front-end. A busca é feita pelo servidor Google Apps Script com sua chave YouTube Data API v3 configurada lá. <span style="color:var(--t4);">Se os vídeos não aparecerem, verifique se a ação <code style="color:var(--gold);">buscarYouTube</code> está implementada no seu Apps Script.</span>
-    </div>
-
-    <div id="yt-config-area" style="display:none;margin-bottom:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;">
-      <div class="micro" style="color:var(--gold);margin-bottom:10px;">Termos de busca</div>
-      <div class="yt-chips" id="yt-termos-chips"></div>
-      <div class="yt-add-row">
-        <input class="yt-add-input" id="yt-novo-termo" placeholder="Ex: médico empreendedor" onkeydown="if(event.key==='Enter')ytAdicionarTermo()">
-        <button class="yt-add-btn" onclick="ytAdicionarTermo()">+ Adicionar</button>
-      </div>
-      <div style="font-size:9px;color:var(--t4);letter-spacing:.1em;">Dica: use termos específicos — "médico dermatologista SP" converte melhor que "médico"</div>
-    </div>
-
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
-      <div style="font-size:9px;color:var(--t3);letter-spacing:.1em;" id="yt-ultima-busca">Nenhuma busca realizada</div>
-      <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
-        <span style="font-size:10px;color:var(--t3);display:none;" id="yt-stats"><span id="yt-n-total">0</span> vídeos · <span style="color:var(--ok);" id="yt-n-postado">0</span> comentados</span>
-        <select id="yt-filtro-st" onchange="ytFiltrar()" style="font-size:10px;color:var(--t3);padding:4px 8px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:2px;">
-          <option value="todos">Todos</option>
-          <option value="pendente">Pendentes</option>
-          <option value="postado">Comentados</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="yt-lista" id="yt-lista">
-      <div class="yt-vazio">
-        <div class="yt-vazio-ico">▶</div>
-        <div class="yt-vazio-txt">Nenhum vídeo ainda</div>
-        <div class="yt-vazio-sub">Clique "Buscar vídeos" — a busca é feita<br>com segurança pelo servidor Apps Script.</div>
-      </div>
     </div>
   </div>
 
@@ -1270,13 +1223,14 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;font-weight:300;color
 <script>
 // ══════════════════════════════════════════
 // CONFIG
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbycWNsKExOqcwwaOyEInrCcHvNlikRtBnvCqSa9vN7IbdYYfqNNKSKyWNDOtkVarLbC/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxU0HWblXEn6gFmh15LHTPEPh6s5LHrYl1bJatC6g7FtAYk1NZyrGvROT6J-PqTrxGe/exec';
 const MAX_CL = 4;
 // ══════════════════════════════════════════
 
 let clientes=[], prospects=[], pauta=[], financeiro=[], ritual={};
 let editCl=null, editPr=null, editPa=null;
 let salvando=false;
+let _undoEnt=null, _undoTimer=null;
 
 // ── JSONP helper ─────────────────────────
 function gsGet(params){
@@ -1340,7 +1294,7 @@ function atuHora(){
 function ir(id){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('ativo'));
   document.querySelectorAll('.painel').forEach(p=>p.classList.remove('ativo'));
-  const validIds=['dash','clientes','prospects','pauta','financeiro','youtube'];
+  const validIds=['dash','clientes','prospects','pauta','financeiro'];
   const realId=validIds.includes(id)?id:'dash';
   document.getElementById('nav-'+realId)?.classList.add('ativo');
   document.getElementById('p-'+realId)?.classList.add('ativo');
@@ -1496,14 +1450,44 @@ function renderAtividades(){
   function renderSec(items,cid){
     const el=document.getElementById(cid);if(!el)return;
     if(!items.length){el.innerHTML=`<div class="prio-vazio">Tudo certo por aqui ✓</div>`;return;}
-    el.innerHTML=items.map(it=>`<div class="ativ-item ${it.tipo}${it.done?' done':''}" onclick="clicouAtiv('${it.cid}',${it.ei})"><div class="ativ-box"></div><div class="ativ-desc">${it.desc}<span class="ativ-cliente">${it.cliente}</span></div>${it.prazo?`<div class="ativ-prazo">${it.prazo}</div>`:''}</div>`).join('');
+    el.innerHTML=items.map(it=>`<div class="ativ-item ${it.tipo}${it.done?' done':''}" onclick="clicouAtiv('${it.cid}',${it.ei})"><div class="ativ-box"></div><div class="ativ-desc">${it.desc}<span class="ativ-cliente">${it.cliente}</span></div>${it.prazo?`<div class="ativ-prazo">${it.prazo}</div>`:''}${it.ei>=0?`<button class="ativ-del" onclick="event.stopPropagation();delEnt('${it.cid}',${it.ei})" title="Remover">×</button>`:''}</div>`).join('');
   }
   renderSec(urgentes,'ativ-urgente');renderSec(atencao,'ativ-atencao');renderSec(normais,'ativ-normal');
   const cu=document.getElementById('count-urgente');if(cu)cu.textContent=urgentes.length||'';
   const ca=document.getElementById('count-atencao');if(ca)ca.textContent=atencao.length||'';
   const cn=document.getElementById('count-normal');if(cn)cn.textContent=normais.length||'';
 }
-function clicouAtiv(cid,ei){if(!cid||ei<0){if(cid)abrirEditCl(cid);return;}tEnt(cid,ei);}
+function clicouAtiv(cid,ei){if(!cid||ei<0){if(cid)abrirEditCl(cid);return;}tEntAtiv(cid,ei);}
+function tEntAtiv(cid,ei){
+  const c=clientes.find(x=>x.id===cid);if(!c||!c.entregas[ei])return;
+  if(_undoTimer){clearTimeout(_undoTimer);_undoTimer=null;_undoEnt=null;document.getElementById('toast-undo')?.remove();}
+  c.entregas[ei].done=true;
+  renderAtividades();renderClientesFull();
+  _undoEnt={c,ei};
+  const t=document.createElement('div');t.className='toast-undo';t.id='toast-undo';
+  t.innerHTML=`Feito ✓ — <button class="toast-undo-btn" onclick="desfazerEnt()">Desfazer</button>`;
+  document.body.appendChild(t);
+  _undoTimer=setTimeout(async()=>{
+    _undoEnt=null;_undoTimer=null;
+    document.getElementById('toast-undo')?.remove();
+    try{await pushCl(c);}catch(e){}
+  },5000);
+}
+function desfazerEnt(){
+  if(!_undoEnt)return;
+  const{c,ei}=_undoEnt;
+  clearTimeout(_undoTimer);_undoEnt=null;_undoTimer=null;
+  c.entregas[ei].done=false;
+  renderAtividades();renderClientesFull();
+  document.getElementById('toast-undo')?.remove();
+}
+async function delEnt(cid,ei){
+  const c=clientes.find(x=>x.id===cid);if(!c||!c.entregas[ei])return;
+  if(!confirm(`Remover "${c.entregas[ei].desc}"?`))return;
+  c.entregas.splice(ei,1);
+  renderAtividades();renderClientesFull();
+  try{await pushCl(c);}catch(e){}
+}
 
 // ── RITUAL ───────────────────────────────
 function tR(el){const id=el.dataset.id;ritual[id]=!ritual[id];renderRitualEl();gs({action:'ritual',ritual:JSON.stringify(ritual)}).catch(()=>{});}
