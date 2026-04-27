@@ -81,10 +81,6 @@
   .c-texto ul li { margin-bottom: 6px; }
   .destaque { background: rgba(184,151,106,0.07); border-left: 2px solid var(--gold); padding: 12px 16px; margin-top: 12px; font-style: italic; font-size: 13.5px; }
 
-  /* NOTA ADVOGADO */
-  .nota-adv { background: rgba(100,150,184,0.07); border-left: 3px solid var(--adv); padding: 12px 18px; margin-top: 12px; font-size: 13px; color: var(--ink-soft); line-height: 1.7; }
-  .nota-adv strong { color: var(--adv); font-weight: 500; display: block; margin-bottom: 4px; }
-
   /* ASSINATURAS */
   .assinaturas { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 56px; padding-top: 40px; border-top: 1px solid rgba(184,151,106,0.15); }
   .ass-linha { border-top: 1px solid rgba(61,56,48,0.25); margin: 48px 0 10px; }
@@ -181,23 +177,9 @@ function mostrar(id, btn) {
 </div>
 
 <div class="header">
-  <span class="header-tag">Zyllah Digital · Documentos Jurídicos · Revisão obrigatória por advogado</span>
+  <span class="header-tag">Zyllah Digital · Documentos Jurídicos</span>
   <h1 class="header-title">Pacote Jurídico<br><em>Completo</em></h1>
   <p class="header-sub">Contrato Base + 3 Anexos de Escopo (Essencial, Presença Completa, Autoridade) + Adendo Piloto. Arquitetura: o Contrato Base governa todos os planos. O Anexo I define escopo e preço do plano específico contratado. O Adendo Piloto substitui as cláusulas de remuneração e prazo quando aplicável.</p>
-  <div class="header-aviso">
-    <p><strong>Instrução para o advogado — revisão solicitada:</strong></p>
-    <p style="margin-top:10px;">Estes documentos incorporam as cláusulas sugeridas no Mapa de Riscos Contratuais v2.0 (12 categorias, 25 cenários). Notas específicas por cláusula estão destacadas em azul ao longo do documento. Solicita-se validação dos seguintes pontos prioritários:</p>
-    <p style="margin-top:10px;"><strong>1. Cláusula 3 (Remuneração):</strong> Verificar se taxa de implantação não reembolsável é compatível com CDC em contratos PF (art. 54, §4º). Avaliar destaque obrigatório.</p>
-    <p style="margin-top:8px;"><strong>2. Cláusula 9 (Multa rescisória):</strong> Confirmar se a fórmula "maior valor entre 1 mensalidade ou 20% das vincendas" é defensável frente ao CDC (art. 51, IV) para consumidor PF. Avaliar se percentual deve ser diferenciado PF/PJ.</p>
-    <p style="margin-top:8px;"><strong>3. Cláusula 12 (Limitação de responsabilidade):</strong> Avaliar se o teto de 3 mensalidades é suficientemente defensável em relação de consumo. Sugerir N adequado.</p>
-    <p style="margin-top:8px;"><strong>4. Cláusula 13 (LGPD):</strong> Dados de saúde são categoria sensível (art. 11). Verificar se: (a) política de privacidade registrada na ANPD é necessária; (b) tratamento pelo bot de atendimento requer consentimento específico; (c) é necessário designar DPO.</p>
-    <p style="margin-top:8px;"><strong>5. Cláusula 15 (Exclusividade):</strong> Verificar se cláusula de exclusividade geográfica por especialidade (raio de 5 km em Nova Friburgo/RJ) configura restrição à concorrência relevante para análise pelo CADE. Considerar se a redação atual é suficiente ou se requer declaração antitruste explícita.</p>
-    <p style="margin-top:8px;"><strong>6. Cláusula 18 (Foro):</strong> CDC pode garantir ao consumidor PF o direito de ajuizar em seu domicílio (art. 101, I). Propor redação que diferencie PF/PJ ou que incorpore cláusula alternativa de foro.</p>
-    <p style="margin-top:8px;"><strong>7. Cláusula 19 (SLA / crédito por atraso):</strong> Verificar se crédito de 1/30 por dia é adequado como cláusula penal moratória (art. 408, CC) e se o teto de 30% da mensalidade é defensável frente ao CDC.</p>
-    <p style="margin-top:8px;"><strong>8. Assinatura eletrônica:</strong> O contrato será assinado via PandaDoc. Confirmar se a assinatura eletrônica qualificada ou avançada nos termos da Lei 14.063/2020 é suficiente para a validade do instrumento, incluindo a autorização de imagem da Cláusula 8.</p>
-    <p style="margin-top:8px;"><strong>9. Zyllah Flow (Plano Presença Completa):</strong> O sistema de atendimento automatizado descrito é desenvolvimento interno. Verificar se a operação de bot de primeiro contato para serviços de saúde requer notificação ao CFM ou ao conselho profissional do Contratante (vide Resolução CFM 2.314/2022 sobre telemedicina).</p>
-    <p style="margin-top:8px;"><strong>Contexto operacional:</strong> Contratada opera como Microempreendedor Individual (MEI). Serviços prestados em Nova Friburgo/RJ e remotamente. Clientes são profissionais de saúde (médicos, dentistas, psicólogos), predominantemente pessoa física com CNPJ.</p>
-  </div>
 </div>
 
 <div class="corpo">
@@ -293,13 +275,13 @@ function mostrar(id, btn) {
           <div class="c-texto">
             Os valores, taxa de implantação e demais condições financeiras específicas do plano contratado estão definidos no <strong>Anexo I</strong>. As condições gerais de pagamento são:
             <ul>
-              <li><strong>Taxa de implantação:</strong> devida na assinatura deste contrato, <strong>não reembolsável</strong> em nenhuma hipótese, inclusive rescisão antecipada, pois remunera o trabalho de onboarding, brand book e setup inicial, já realizados no momento do pagamento. Para Contratantes que já possuam estrutura digital preexistente (site, redes sociais, identidade visual ou sistema de atendimento), a implantação compreende trabalho de auditoria, diagnóstico, integração e adequação dessa estrutura ao padrão de entrega contratado — escopo de complexidade equivalente à criação original, igualmente remunerado pela taxa de implantação.</li>
+              <li><strong>Taxa de implantação:</strong> devida na assinatura deste contrato, <strong>não reembolsável</strong>, pois remunera o trabalho de onboarding, brand book e setup inicial, integralmente realizados no momento do pagamento. Para Contratantes que já possuam estrutura digital preexistente (site, redes sociais, identidade visual ou sistema de atendimento), a implantação compreende trabalho de auditoria, diagnóstico, integração e adequação dessa estrutura ao padrão de entrega contratado — escopo de complexidade equivalente à criação original, igualmente remunerado pela taxa de implantação. Para Contratante <strong>pessoa jurídica</strong>, a taxa é não reembolsável sem ressalvas. Para Contratante <strong>pessoa física (consumidor)</strong>, a não reembolsabilidade não se aplica nas hipóteses legais de vício de consentimento ou nulidade do contrato, podendo, ainda, haver reembolso proporcional em caso de rescisão antecipada por justa causa do Contratante reconhecida pela Contratada.</li>
               <li><strong>Mensalidade:</strong> pagamento via PIX, transferência bancária ou boleto; data de vencimento definida no Anexo I.</li>
               <li><strong>Atraso:</strong> multa de 2% sobre o valor em atraso + juros de 1% ao mês, contados do vencimento.</li>
               <li><strong>Protocolo de inadimplência:</strong> (a) <strong>Dia 5 após vencimento:</strong> aviso formal por escrito; (b) <strong>Dia 8:</strong> suspensão das publicações nas redes sociais do Contratante; (c) <strong>Dia 15:</strong> suspensão total dos serviços — sem responsabilidade da Contratada por prejuízos decorrentes; (d) <strong>Dia 30:</strong> rescisão automática do contrato com aplicação da multa rescisória da Cláusula 9, sem necessidade de notificação adicional. A suspensão dos serviços não suspende a obrigação de pagamento das mensalidades vincendas.</li>
               <li><strong>Reajuste anual:</strong> no aniversário de cada contrato, pelo <strong>IPCA do IBGE</strong> acumulado nos 12 (doze) meses anteriores ao aniversário do contrato; o mecanismo de reajuste é fixado na assinatura e não pode ser alterado unilateralmente. Em caso de extinção oficial do IPCA, as partes acordarão índice substituto por escrito antes de qualquer aplicação. O reajuste será comunicado ao Contratante com antecedência mínima de 30 (trinta) dias.</li>
             </ul>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se a cobrança de taxa de implantação não reembolsável é compatível com o CDC em contratos firmados com consumidor pessoa física. Avaliar se a redação atual é suficiente ou se há necessidade de destaque conforme art. 54, §4º, CDC.</div>
+            <div class="destaque" style="margin-top:14px;"><strong>Destaque obrigatório — Taxa de implantação (art. 54, §4º, CDC):</strong> a taxa de implantação descrita no Anexo I remunera o trabalho de onboarding, brand book e setup inicial. O Contratante <strong>pessoa física (consumidor) declara ciência expressa</strong> dessa taxa e de seu caráter não reembolsável nas hipóteses indicadas, ao assinar o presente contrato.</div>
           </div>
         </div>
 
@@ -371,10 +353,15 @@ function mostrar(id, btn) {
               <li><strong>Transferência ao Contratante:</strong> após quitação integral de cada entrega, são transferidos ao Contratante a propriedade dos materiais produzidos especificamente para ele — logotipo, brand book personalizado, fotografias, textos de sua autoria ou de sua especialidade, layouts exclusivos e código-fonte de site desenvolvido no âmbito deste contrato. A transferência é condicionada à quitação; enquanto houver valores em aberto, a Contratada retém os arquivos editáveis e não é obrigada a fornecê-los;</li>
               <li><strong>Patrimônio exclusivo da Contratada:</strong> a metodologia de trabalho, processos internos, templates base de design, sistemas de automação, banco de conteúdo genérico, prompts e qualquer ferramenta de produção são propriedade exclusiva da Contratada e <strong>não integram o escopo de transferência ao Contratante em nenhuma hipótese</strong>, mesmo após quitação integral;</li>
               <li><strong>Portfólio:</strong> o Contratante autoriza expressamente a Contratada a utilizar os materiais produzidos — incluindo capturas de tela de perfis gerenciados, antes-e-depois de identidade visual e métricas gerais (sem identificação de dados sensíveis de pacientes) — como portfólio e material de divulgação da Contratada, pelo período de 3 (três) anos após o encerramento deste contrato. Esta autorização pode ser limitada mediante notificação escrita, com efeito para materiais não ainda publicados pela Contratada;</li>
-              <li><strong>Autorização de uso de imagem:</strong> o Contratante autoriza expressamente a Contratada a reproduzir sua imagem — fotografias, vídeos e capturas de tela em que seja identificável — nos materiais produzidos no âmbito deste contrato e nas peças de portfólio e divulgação da Contratada, pelo período de 3 (três) anos após o encerramento do contrato. Esta autorização abrange exclusivamente os materiais produzidos pela Contratada no escopo deste instrumento e pode ser limitada, para materiais ainda não publicados, mediante notificação escrita;</li>
-              <li>O uso indevido de materiais cuja propriedade não foi transferida por falta de pagamento constitui violação de direitos autorais, sujeito às medidas legais cabíveis, incluindo medidas cautelares de retirada.</li>
+              <li><strong>Autorização de uso de imagem (art. 20 do Código Civil e Lei nº 9.610/1998):</strong> o Contratante manifesta sua opção sobre o uso de sua imagem — fotografias, vídeos e capturas de tela em que seja identificável — nos materiais produzidos no âmbito deste contrato e nas peças de portfólio e divulgação da Contratada, pelo período de 3 (três) anos após o encerramento do contrato, mediante assinalação no campo abaixo. A opção pode ser revista, para materiais ainda não publicados, mediante notificação escrita.
+                <div class="destaque" style="margin-top:10px;font-style:normal;">
+                  <strong>Manifestação de vontade do Contratante (assinalar uma das opções):</strong><br>
+                  ☐ &nbsp;<strong>Autorizo</strong> o uso de minha imagem para portfólio e divulgação da Contratada, nos termos da Lei nº 9.610/1998 e do art. 20 do Código Civil.<br>
+                  ☐ &nbsp;<strong>Não autorizo</strong> o uso de minha imagem para portfólio e divulgação. As entregas próprias do contrato continuarão sendo executadas normalmente.
+                </div>
+              </li>
+              <li>O uso indevido de materiais cuja propriedade não foi transferida por falta de pagamento constitui violação de direitos autorais (Lei nº 9.610/1998), sujeito às medidas legais cabíveis, incluindo medidas cautelares de retirada.</li>
             </ul>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se a cláusula de portfólio e a autorização de uso de imagem devem conter menção expressa à Lei de Direitos Autorais (9.610/1998). Para contratos assinados digitalmente, avaliar se a autorização de imagem integrada é suficiente ou se é preferível documento separado.</div>
           </div>
         </div>
 
@@ -385,13 +372,17 @@ function mostrar(id, btn) {
           <div class="c-texto">
             A rescisão imotivada pelo Contratante antes do término do prazo mínimo estipulado no Anexo I implica:
             <ul>
-              <li>Perda da <strong>taxa de implantação</strong> já paga, que remunera o trabalho de setup já realizado;</li>
-              <li>Pagamento de <strong>multa compensatória equivalente ao maior valor entre: (a) 1 (uma) mensalidade integral do plano contratado</strong>, conforme Anexo I vigente; <strong>ou (b) 20% (vinte por cento) das mensalidades vincendas até o término do prazo mínimo</strong> — calculado sobre o valor integral sem deduções de descontos eventualmente concedidos;</li>
+              <li>Perda da <strong>taxa de implantação</strong> já paga, observados os termos da Cláusula 3 quanto a Contratante pessoa física;</li>
+              <li>Pagamento de <strong>multa compensatória</strong>, calculada conforme a natureza do Contratante:
+                <ul style="margin-top:6px;">
+                  <li><strong>Contratante pessoa física (consumidor):</strong> maior valor entre (a) 1 (uma) mensalidade integral vigente, ou (b) 20% (vinte por cento) das mensalidades vincendas até o término do prazo mínimo, <strong>limitado ao teto absoluto de 3 (três) mensalidades integrais</strong> — limite fixado em compatibilização com o art. 51, IV, do CDC, afastando alegação de penalidade excessiva;</li>
+                  <li><strong>Contratante pessoa jurídica:</strong> maior valor entre (a) 1 (uma) mensalidade integral vigente, ou (b) 30% (trinta por cento) das mensalidades vincendas até o término do prazo mínimo, sem teto adicional, salvo se outro limite tiver sido negociado e registrado expressamente no Anexo I.</li>
+                </ul>
+              </li>
               <li>A multa é devida independentemente do motivo alegado pelo Contratante e será exigível em até <strong>15 (quinze) dias corridos</strong> após a notificação de rescisão.</li>
             </ul>
             <div class="destaque">Rescisão por decurso do prazo mínimo: findo o prazo mínimo, qualquer das partes pode não renovar o contrato, mediante aviso prévio de 30 dias conforme Cláusula 4, sem multa.</div>
-            <div class="destaque" style="margin-top:10px;"><strong>Plataformas de terceiros contratadas em nome da Contratada:</strong> quando o plano contratado incluir serviços operados por meio de plataforma de terceiros contratada diretamente pela Contratada em seu próprio nome (ex.: plataforma de automação de atendimento do Plano Autoridade), os custos de rescisão específicos dessa plataforma — caso existam, conforme condições de rescisão vigentes entre a Contratada e a plataforma parceira — estão detalhados no Anexo I do plano correspondente e são devidos em adição à multa acima. Para o Plano Presença Completa, o bot de atendimento é tecnologia própria da Contratada e não gera custo de rescisão de plataforma terceira.</div>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> A multa rescisória foi ajustada para o maior valor entre 1 mensalidade integral e 20% das mensalidades vincendas até o término do prazo mínimo — critério de proporcionalidade que afasta alegação de abusividade (art. 51, IV, CDC) e ao mesmo tempo protege a Contratada em rescisões precoces de contratos longos. Para contratos PJ o percentual sobre vincendas poderia ser elevado. Para o Plano Autoridade, o ressarcimento de plataforma terceira (Cloudia) está detalhado no Anexo I-C e é cumulativo à multa — verificar se a cumulação é adequada ao CDC quando o contratante for PF.</div>
+            <div class="destaque" style="margin-top:10px;"><strong>Plataformas de terceiros contratadas em nome da Contratada:</strong> quando o plano contratado incluir serviços operados por meio de plataforma de terceiros contratada diretamente pela Contratada em seu próprio nome (ex.: plataforma de automação de atendimento do Plano Autoridade), os custos de rescisão específicos dessa plataforma — caso existam, conforme condições de rescisão vigentes entre a Contratada e a plataforma parceira — estão detalhados no Anexo I do plano correspondente e são devidos em adição à multa acima, desde que comprovados por documento e proporcionais ao custo real de rescisão. <span style="color:#2563eb;">*incerteza</span> quanto à cumulação integral desse ressarcimento com a multa para Contratante pessoa física: na hipótese de o cliente piloto ou consumidor PF aderir ao Plano Autoridade, a Contratada poderá optar por reduzir o ressarcimento ao custo efetivamente comprovado, sem cumulação adicional. Para o Plano Presença Completa, o Zyllah Flow é tecnologia própria da Contratada e não gera custo de rescisão de plataforma terceira.</div>
           </div>
         </div>
 
@@ -421,10 +412,9 @@ function mostrar(id, btn) {
               <li>A Contratada aplica filtros de conformidade com as normas dos conselhos profissionais regulamentadores em todo conteúdo produzido, em especial as vedações do CFM (Resolução 2.336/2023 e precedentes), CRO, CFP, CRN e COFFITO relativas a publicidade de serviços de saúde;</li>
               <li>A responsabilidade final pelo conteúdo publicado é do Contratante, que aprova cada publicação antes de sua veiculação conforme Cláusula 5. A aprovação, expressa ou tácita, constitui aceitação do Contratante sobre a conformidade do material;</li>
               <li>A Contratada <strong>não se responsabiliza por eventuais processos administrativos, éticos ou judiciais</strong> decorrentes de conteúdo aprovado pelo Contratante, nem por alterações feitas diretamente pelo Contratante nas plataformas após publicação;</li>
-              <li>O sistema de automação de atendimento (quando incluso no plano) é configurado exclusivamente para <strong>agendamento, informação sobre serviços e triagem de intenção de contato</strong>. Não é configurado para fornecer orientação clínica, diagnóstico, prescrição ou qualquer atividade privativa de profissional de saúde habilitado;</li>
-              <li>O Contratante é responsável por garantir que o sistema de atendimento não seja utilizado como substituto do atendimento clínico e por informar adequadamente seus pacientes sobre a natureza automatizada do atendimento inicial.</li>
+              <li><strong>Sistema de atendimento automatizado (Zyllah Flow):</strong> quando incluso no plano contratado, o bot é configurado exclusivamente para <strong>agendamento, adiamento, cancelamento, confirmação de horário, informação sobre serviços e triagem de intenção de contato</strong>. <strong>Não fornece</strong> orientação clínica, diagnóstico, prescrição, interpretação de sintomas, orientação sobre medicamentos nem qualquer atividade privativa de profissional de saúde habilitado. A Contratada inclui, nas interações iniciais do bot, disclaimer explícito informando ao paciente que (i) o atendimento de primeiro contato é automatizado, (ii) não substitui consulta profissional e (iii) em casos de urgência o paciente deve buscar atendimento presencial;</li>
+              <li>O Contratante declara ciência e compromete-se a: (a) <strong>informar seus pacientes</strong>, por canal próprio (site, recepção, materiais de orientação), sobre a natureza automatizada do atendimento inicial; (b) não utilizar o bot como substituto do atendimento clínico; (c) responder pela adequação do uso do sistema ao seu próprio conselho profissional regulamentador. <span style="color:#2563eb;">*incerteza</span> quanto à eventual obrigação de notificação ao CFM ou ao conselho de classe do Contratante sobre operação de bot de primeiro contato em saúde — a Contratada acompanha a evolução normativa (Resolução CFM 2.314/2022 e atos posteriores) e adequará a operação caso surja exigência regulatória superveniente.</li>
             </ul>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se a operação de bot de atendimento para serviços de saúde requer alguma notificação à ANVISA, ao CFM ou ao respectivo conselho profissional do Contratante. A legislação sobre IA em saúde e telemedicina está em evolução no Brasil (vide Resolução CFM 2.314/2022 sobre telemedicina).</div>
           </div>
         </div>
 
@@ -436,9 +426,9 @@ function mostrar(id, btn) {
             <ul>
               <li>As redes sociais, plataformas de anúncios e ferramentas digitais utilizadas na execução dos serviços são de propriedade e controle exclusivo de terceiros. A Contratada não se responsabiliza por suspensão, exclusão, restrição ou alteração de contas, perfis ou campanhas decorrente de políticas próprias dessas plataformas, ainda que o conteúdo publicado esteja em conformidade com as normas dos conselhos profissionais regulamentadores;</li>
               <li>A Contratada reserva-se o direito de utilizar as ferramentas e plataformas que julgar tecnicamente mais adequadas para a entrega dos serviços, sem obrigação de identificar as ferramentas específicas ao Contratante. Em caso de reajuste de custo por parte de plataformas terceirizadas essenciais à entrega do escopo, a Contratada poderá repassar o aumento proporcional ao Contratante mediante notificação prévia de <strong>30 (trinta) dias</strong>;</li>
-              <li><strong>Limitação de responsabilidade:</strong> a responsabilidade total da Contratada, em qualquer hipótese — dano direto, indireto, perda de oportunidade — fica limitada à soma das <strong>3 (três) últimas mensalidades efetivamente pagas</strong> pelo Contratante anteriores ao evento danoso. A Contratada não responde por lucros cessantes, perda de pacientes ou dano reputacional atribuído a terceiros ou plataformas externas.</li>
+              <li><strong>Limitação de responsabilidade:</strong> ressalvadas as exceções abaixo, a responsabilidade total da Contratada, em qualquer hipótese — dano direto, indireto, perda de oportunidade — fica limitada à soma das <strong>3 (três) últimas mensalidades efetivamente pagas</strong> pelo Contratante anteriores ao evento danoso. A Contratada não responde por lucros cessantes, perda de pacientes ou dano reputacional atribuído a terceiros ou plataformas externas.</li>
+              <li><strong>Exceções à limitação:</strong> a limitação prevista acima não se aplica a (a) danos decorrentes de dolo ou conduta intencionalmente lesiva da Contratada; (b) violação direta de obrigações da Contratada na qualidade de Operadora prevista na LGPD (Lei nº 13.709/2018) que enseje responsabilidade objetiva nos termos da lei; (c) hipóteses em que norma de ordem pública vedar a limitação.</li>
             </ul>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> Cláusulas de limitação de responsabilidade são válidas entre partes de relação civil, mas podem ser questionadas em relações de consumo (CDC, art. 51, I). Avaliar se a limitação ao valor da mensalidade é suficientemente defensável ou se deve ser ampliada para N mensalidades (ex: últimas 3).</div>
           </div>
         </div>
 
@@ -448,13 +438,14 @@ function mostrar(id, btn) {
           <div class="c-titulo">Tratamento de dados pessoais — DPA integrado</div>
           <div class="c-texto">
             <ul>
-              <li>Para fins da Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018), o <strong>Contratante é o Controlador</strong> dos dados pessoais de seus pacientes, clientes e colaboradores, e a <strong>Contratada atua como Operadora</strong>, processando dados estritamente necessários à execução dos serviços contratados;</li>
-              <li>A Contratada <strong>não tratará dados de pacientes para finalidades próprias</strong>, não os compartilhará com terceiros não autorizados e implementará medidas técnicas e organizacionais adequadas à proteção desses dados, incluindo controle de acesso, criptografia em trânsito e restrição de uso aos colaboradores estritamente necessários;</li>
+              <li>Para fins da Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018), o <strong>Contratante é o Controlador</strong> dos dados pessoais de seus pacientes, clientes e colaboradores, e a <strong>Contratada atua como Operadora</strong>, processando dados estritamente necessários à execução dos serviços contratados, conforme DPA (Data Processing Agreement) integrado a este instrumento e detalhado no Anexo I do plano correspondente;</li>
+              <li>A Contratada <strong>não tratará dados de pacientes para finalidades próprias</strong>, não os compartilhará com terceiros não autorizados e implementará medidas técnicas e organizacionais adequadas à proteção desses dados, incluindo controle de acesso, criptografia em trânsito e restrição de uso aos colaboradores e prestadores estritamente necessários à operação;</li>
               <li>O <strong>Contratante é responsável</strong> pela coleta legal dos dados de seus pacientes, pela existência de bases legais de tratamento (consentimento, legítimo interesse ou obrigação legal) e pelo cumprimento dos direitos dos titulares (acesso, correção, exclusão, portabilidade);</li>
-              <li>Em caso de incidente de segurança envolvendo dados pessoais cujo tratamento seja de responsabilidade da Contratada, esta notificará o Contratante em até <strong>72 (setenta e duas) horas</strong> do conhecimento do incidente, conforme art. 48 da LGPD;</li>
-              <li>Ao término do contrato, a Contratada eliminará os dados pessoais de pacientes do Contratante que estejam em seu poder, salvo obrigação legal de retenção, notificando o Contratante sobre o prazo e forma de eliminação.</li>
+              <li><strong>Dados sensíveis de saúde (art. 11 da LGPD):</strong> dados relacionados à saúde dos pacientes do Contratante são categoria sensível. Quando o tratamento envolver tais dados — notadamente pelo sistema de atendimento automatizado — a base legal primária será o <strong>consentimento específico do titular</strong> ou outra hipótese do art. 11 expressamente indicada no Anexo I. O Contratante obterá e manterá o registro do consentimento dos titulares e fornecerá cópia à Contratada quando solicitado;</li>
+              <li><strong>Encarregado pelo Tratamento de Dados (Encarregado/DPO):</strong> a Contratada indicará, no DPA do plano correspondente, o canal de contato do Encarregado quando aplicável. <span style="color:#2563eb;">*incerteza</span> quanto à obrigatoriedade formal de designação de Encarregado para a Contratada considerando seu porte (MEI/EPP) — a Contratada manterá canal funcional de atendimento ao titular pelo e-mail <strong>juridico@zyllah.com.br</strong>, suficiente para o cumprimento do art. 41 da LGPD enquanto a designação formal não for exigida;</li>
+              <li>Em caso de <strong>incidente de segurança</strong> envolvendo dados pessoais cujo tratamento seja de responsabilidade da Contratada, esta notificará o Contratante em até <strong>72 (setenta e duas) horas</strong> do conhecimento do incidente, conforme art. 48 da LGPD, e cooperará com o Contratante no cumprimento das obrigações legais aplicáveis;</li>
+              <li>Ao término do contrato, a Contratada eliminará os dados pessoais de pacientes do Contratante que estejam em seu poder, salvo obrigação legal de retenção, notificando o Contratante sobre o prazo e a forma de eliminação.</li>
             </ul>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> Dados de saúde são categoria sensível pela LGPD (art. 11). Verificar se: (a) a Contratada precisa de política de privacidade própria registrada na ANPD; (b) o tratamento de dados de saúde pelo sistema de automação de atendimento exige base legal reforçada (consentimento específico, art. 11, I); (c) é necessário designar um DPO (Encarregado de Dados) considerando o volume e sensibilidade dos dados tratados.</div>
           </div>
         </div>
 
@@ -467,9 +458,8 @@ function mostrar(id, btn) {
               <li>As partes comprometem-se a manter em <strong>absoluto sigilo</strong> todas as informações confidenciais trocadas no curso deste contrato — incluindo, sem limitação, dados financeiros, estratégias comerciais, base de pacientes, honorários praticados, conflitos internos, processos de trabalho e metodologias proprietárias. São consideradas confidenciais todas as informações não disponíveis publicamente, independentemente de estarem marcadas como "confidencial";</li>
               <li>O <strong>Contratante reconhece</strong> que os processos, metodologias, templates, sistemas de automação e demais instrumentos de trabalho utilizados pela Contratada na execução dos serviços são propriedade exclusiva da Contratada e constituem segredo de negócio protegido pela Lei 9.279/1996. O Contratante compromete-se a não reproduzir, repassar, ensinar ou licenciar esses instrumentos a terceiros;</li>
               <li>A obrigação de sigilo <strong>persiste por 2 (dois) anos</strong> após o término ou rescisão deste contrato, independentemente do motivo do encerramento;</li>
-              <li>O descumprimento desta cláusula sujeita a parte infratora ao pagamento de indenização por perdas e danos, sem prejuízo de medidas cautelares de urgência.</li>
+              <li>O descumprimento desta cláusula sujeita a parte infratora ao pagamento de <strong>multa convencional não compensatória</strong>, no valor equivalente a <strong>3 (três) mensalidades integrais vigentes</strong> do plano contratado — sem prejuízo da indenização por perdas e danos efetivamente apuradas e de medidas cautelares de urgência —, nos termos dos arts. 408 e 416, parágrafo único, do Código Civil.</li>
             </ul>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se a cláusula de proteção de metodologia e segredo de negócio está adequada à Lei de Propriedade Industrial (9.279/1996) e se "não reproduzir a metodologia" é suficientemente determinado para ser exequível judicialmente. Avaliar necessidade de especificar penalidade líquida (multa por descumprimento) para facilitar execução.</div>
           </div>
         </div>
 
@@ -480,9 +470,9 @@ function mostrar(id, btn) {
           <div class="c-texto">
             <ul>
               <li>O presente contrato <strong>não confere ao Contratante qualquer direito de exclusividade</strong> sobre os serviços da Contratada. A Contratada é livre para prestar serviços a outros profissionais de saúde, independentemente de especialidade, localidade ou grau de concorrência com o Contratante;</li>
-              <li>Exclusividade <strong>geográfica</strong> (raio de <strong>5 km</strong> a partir do endereço do consultório registrado no contrato) e/ou <strong>de especialidade</strong> (mesma área de atuação, no mesmo município) pode ser contratada como <strong>add-on</strong> mediante aditivo específico, sujeito a acréscimo de <strong>30% (trinta por cento)</strong> sobre o valor mensal do plano e prazo mínimo de 12 (doze) meses para o add-on de exclusividade. A exclusividade cessa automaticamente em caso de rescisão, inadimplência ou não renovação do contrato.</li>
+              <li>Exclusividade <strong>geográfica</strong> (delimitada objetivamente por <strong>município</strong> ou, alternativamente, por <strong>conjunto de CEPs</strong> indicados no aditivo, dispensado o critério de raio para evitar imprecisão) e/ou <strong>de especialidade</strong> (mesma área de atuação no mesmo município) pode ser contratada como <strong>add-on</strong> mediante aditivo específico, sujeito a acréscimo de <strong>30% (trinta por cento)</strong> sobre o valor mensal do plano e prazo mínimo de 12 (doze) meses para o add-on de exclusividade. A exclusividade cessa automaticamente em caso de rescisão, inadimplência ou não renovação do contrato;</li>
+              <li><strong>Bilateralidade e declaração antitruste:</strong> o add-on, quando contratado, é redigido de forma bilateral — a Contratada limita-se a não prestar serviço concorrente a outro profissional da mesma especialidade dentro da delimitação geográfica e prazo pactuados. As partes declaram que a restrição é <strong>limitada, proporcional e justificada</strong> pela especialização do trabalho e pelo investimento de implantação dedicado, com prazo máximo de 24 (vinte e quatro) meses e delimitação geográfica objetiva, em consonância com o art. 36 da Lei nº 12.529/2011, sem efeitos relevantes para o mercado nacional ou regional.</li>
             </ul>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se cláusula de exclusividade geográfica por especialidade configura restrição à concorrência relevante para fins de análise pelo CADE, considerando o porte da empresa e o mercado local delimitado (Nova Friburgo, RJ).</div>
           </div>
         </div>
 
@@ -523,10 +513,10 @@ function mostrar(id, btn) {
           <div class="c-texto">
             <ul>
               <li>As partes comprometem-se a buscar solução amigável para qualquer controvérsia decorrente deste contrato, por meio de <strong>negociação direta por até 15 (quinze) dias corridos</strong> após a notificação da parte reclamante;</li>
-              <li>Não havendo acordo na negociação direta, as partes poderão recorrer à <strong>mediação extrajudicial</strong>, preferencialmente perante câmara de mediação de Nova Friburgo ou câmara reconhecida no Estado do Rio de Janeiro;</li>
-              <li>Esgotadas as vias alternativas, fica eleito o <strong>foro da Comarca de Nova Friburgo, Estado do Rio de Janeiro</strong>, para dirimir quaisquer litígios, com renúncia a qualquer outro foro, por mais privilegiado que seja.</li>
+              <li>Não havendo acordo na negociação direta, as partes poderão recorrer à <strong>mediação extrajudicial</strong>, preferencialmente perante câmara de mediação de Nova Friburgo ou câmara reconhecida no Estado do Rio de Janeiro. A mediação prévia não é obrigatória nas hipóteses de medidas de urgência, cautelares ou tutelas de evidência;</li>
+              <li><strong>Foro — Contratante pessoa jurídica:</strong> esgotadas as vias alternativas, fica eleito o <strong>foro da Comarca de Nova Friburgo, Estado do Rio de Janeiro</strong>, para dirimir quaisquer litígios, com renúncia a qualquer outro foro, por mais privilegiado que seja;</li>
+              <li><strong>Foro — Contratante pessoa física (consumidor):</strong> fica assegurado ao Contratante consumidor o direito de propor ação no foro de seu domicílio, nos termos do art. 101, I, do Código de Defesa do Consumidor, prevalecendo essa garantia sobre a eleição prevista no item anterior.</li>
             </ul>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> Em contratos firmados com consumidores PF, o CDC pode garantir ao consumidor o direito de ajuizar no foro de seu domicílio (art. 101, I, CDC), sobrepondo o foro eleito. Verificar a redação que melhor protege a Contratada considerando esse risco, possivelmente diferenciando contratos com PJ (onde o foro eleito é plenamente válido) dos contratos com PF.</div>
           </div>
         </div>
 
@@ -535,8 +525,7 @@ function mostrar(id, btn) {
           <div class="c-num">CLÁUSULA 19 — SLA DA CONTRATADA</div>
           <div class="c-titulo">Crédito por atraso nas entregas mensais</div>
           <div class="c-texto">
-            Em caso de atraso superior a 5 (cinco) dias úteis na entrega de qualquer item previsto no Anexo I — sem causa comprovada de força maior (Cláusula 16) e sem comunicação prévia ao Contratante com justificativa dentro desse prazo — a Contratada concederá crédito equivalente a <strong>1/30 (um trigésimo) do valor da mensalidade por dia de atraso</strong> que exceder esse prazo de tolerância. O crédito é aplicado automaticamente na fatura imediatamente seguinte à apuração do atraso. O crédito mensal é limitado a <strong>30% (trinta por cento) do valor da mensalidade vigente</strong> e não é acumulável entre períodos de faturamento distintos. Esta cláusula é inaplicável: (a) durante o período de implantação (primeiros 10 dias úteis do contrato ou período de estabilização explicitamente comunicado); (b) em atrasos decorrentes de descumprimento de prazo pelo Contratante (aprovação, fornecimento de materiais, disponibilidade para sessão); (c) em casos de força maior conforme Cláusula 16.
-            <div class="nota-adv"><strong>Nota ao advogado</strong> Verificar se o crédito de 1/30 por dia é adequado como cláusula penal moratória nos termos do art. 408 do Código Civil, e se o limite de 30% é defensável frente ao CDC em contratos com PF.</div>
+            Em caso de atraso superior a 5 (cinco) dias úteis na entrega de qualquer item previsto no Anexo I — sem causa comprovada de força maior (Cláusula 16) e sem comunicação prévia ao Contratante com justificativa dentro desse prazo — a Contratada concederá, a título de <strong>cláusula penal moratória (arts. 408 e 412 do Código Civil)</strong>, crédito equivalente a <strong>1/30 (um trigésimo) do valor da mensalidade por dia de atraso</strong> que exceder esse prazo de tolerância. O crédito é aplicado automaticamente na fatura imediatamente seguinte à apuração do atraso. O crédito mensal é limitado a <strong>30% (trinta por cento) do valor da mensalidade vigente</strong> e não é acumulável entre períodos de faturamento distintos. Antes da incidência do crédito, o Contratante deverá <strong>notificar a Contratada por escrito</strong> e conceder prazo de <strong>5 (cinco) dias úteis para correção</strong>, dispensada essa notificação prévia em casos de atraso comprovadamente imputável a terceiros ou força maior. Esta cláusula é inaplicável: (a) durante o período de implantação (primeiros 10 dias úteis do contrato ou período de estabilização explicitamente comunicado); (b) em atrasos decorrentes de descumprimento de prazo pelo Contratante (aprovação, fornecimento de materiais, disponibilidade para sessão); (c) em casos de força maior conforme Cláusula 16. O crédito tem natureza compensatória da mora e não substitui o direito de rescisão por justa causa, quando aplicável.
           </div>
         </div>
 
@@ -546,11 +535,11 @@ function mostrar(id, btn) {
           <div class="c-titulo">Validade de assinatura digital nos termos da Lei 14.063/2020</div>
           <div class="c-texto">
             <ul>
-              <li>As partes concordam expressamente que este contrato e seus anexos podem ser assinados por meios eletrônicos — incluindo plataformas como PandaDoc, DocuSign, ClickSign ou equivalentes —, nos termos da <strong>Lei 14.063, de 23 de setembro de 2020</strong>, e que tais assinaturas têm a mesma validade jurídica da assinatura física com reconhecimento de firma;</li>
-              <li>O e-mail e o número de WhatsApp declarados no preâmbulo deste contrato são aceitos como canais de comunicação com efeito jurídico pleno para notificações, aprovações, solicitações e manifestações de vontade, nos termos do art. 6º da Lei 14.063/2020 e art. 107 do Código Civil;</li>
+              <li>As partes concordam expressamente que este contrato e seus anexos podem ser assinados por meios eletrônicos — incluindo plataformas como PandaDoc, DocuSign, ClickSign ou equivalentes —, nos termos da <strong>Lei nº 14.063, de 23 de setembro de 2020</strong>, e que tais assinaturas têm a mesma validade jurídica da assinatura física com reconhecimento de firma;</li>
+              <li><strong>Modalidade de assinatura adotada:</strong> as partes adotam, para todos os instrumentos integrantes deste pacote contratual (Contrato Base, Anexos I-A/I-B/I-C e Adendo Piloto, inclusive a manifestação de vontade quanto ao uso de imagem da Cláusula 8), a <strong>assinatura eletrônica avançada</strong> nos termos do art. 4º, II, da Lei nº 14.063/2020, suficiente para a natureza dos atos aqui praticados, com auditoria, autenticação por código único e trilha de eventos da plataforma de assinatura;</li>
+              <li>O e-mail e o número de WhatsApp declarados no preâmbulo deste contrato são aceitos como canais de comunicação com efeito jurídico pleno para notificações, aprovações, solicitações e manifestações de vontade, nos termos do art. 107 do Código Civil;</li>
               <li>Cada parte é responsável por manter seus dados de contato (e-mail e WhatsApp) atualizados. Notificações enviadas para os dados cadastrados neste instrumento produzem efeitos independentemente de confirmação de leitura, decorridos 2 (dois) dias úteis do envio.</li>
             </ul>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> Confirmar se assinatura avançada (Art. 4º, II, Lei 14.063/2020) é suficiente para os fins deste contrato, ou se a natureza do objeto (prestação de serviços com autorização de imagem e tratamento de dados sensíveis) recomenda assinatura qualificada (Art. 4º, III). Avaliar se é necessário reconhecimento de firma para o Adendo de autorização de imagem (Cláusula 8).</div>
           </div>
         </div>
 
@@ -594,8 +583,8 @@ function mostrar(id, btn) {
         </div>
 
         <div class="rodape-doc">
-          <p>Zyllah Digital · Contrato Base · <strong>Pendente revisão jurídica — não usar com clientes antes da validação</strong></p>
-          <p>20 cláusulas · Última atualização: 25/04/2026</p>
+          <p>Zyllah Digital · Contrato Base v2.5</p>
+          <p>20 cláusulas · Última atualização: 27/04/2026</p>
         </div>
       </div>
     </div>
@@ -611,7 +600,7 @@ function mostrar(id, btn) {
       <div class="doc-topo">
         <span class="doc-logo">ZYLLAH DIGITAL</span>
         <div class="doc-titulo">Anexo I-A — Escopo de Serviços e Condições Comerciais<br>Plano Essencial</div>
-        <div class="doc-subtitulo">Parte integrante do Contrato Base · Assinar junto · Prazo mínimo: 6 meses</div>
+        <div class="doc-subtitulo">Parte integrante do Contrato Base v2.5 · Assinar junto · Prazo mínimo: 6 meses</div>
       </div>
       <div class="doc-corpo">
         <p style="font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:28px;">Este Anexo I-A integra o Contrato de Prestação de Serviços celebrado entre as partes identificadas no Contrato Base. Em caso de conflito de interpretação, o Contrato Base prevalece nas cláusulas gerais e este Anexo prevalece nas especificações de escopo e valores.</p>
@@ -702,8 +691,8 @@ function mostrar(id, btn) {
           </div>
         </div>
         <div class="rodape-doc">
-          <p>Zyllah Digital · Anexo I-A · Plano Essencial</p>
-          <p>Parte integrante e indissociável do Contrato Base</p>
+          <p>Zyllah Digital · Anexo I-A · Plano Essencial v2.5</p>
+          <p>Parte integrante e indissociável do Contrato Base v2.5</p>
         </div>
       </div>
     </div>
@@ -719,7 +708,7 @@ function mostrar(id, btn) {
       <div class="doc-topo">
         <span class="doc-logo">ZYLLAH DIGITAL</span>
         <div class="doc-titulo">Anexo I-B — Escopo de Serviços e Condições Comerciais<br>Plano Presença Completa</div>
-        <div class="doc-subtitulo">Parte integrante do Contrato Base · Plano Recomendado · Prazo mínimo: 6 meses</div>
+        <div class="doc-subtitulo">Parte integrante do Contrato Base v2.5 · Plano Recomendado · Prazo mínimo: 6 meses</div>
       </div>
       <div class="doc-corpo">
         <p style="font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:28px;">Este Anexo I-B integra o Contrato de Prestação de Serviços celebrado entre as partes identificadas no Contrato Base. Em caso de conflito de interpretação, o Contrato Base prevalece nas cláusulas gerais e este Anexo prevalece nas especificações de escopo e valores. As disposições específicas sobre o sistema de atendimento Zyllah Flow e proteção de dados (DPA) previstas neste Anexo complementam e se integram às cláusulas 11, 12 e 13 do Contrato Base.</p>
@@ -809,8 +798,8 @@ function mostrar(id, btn) {
           </div>
         </div>
         <div class="rodape-doc">
-          <p>Zyllah Digital · Anexo I-B · Plano Presença Completa</p>
-          <p>Parte integrante e indissociável do Contrato Base</p>
+          <p>Zyllah Digital · Anexo I-B · Plano Presença Completa v2.5</p>
+          <p>Parte integrante e indissociável do Contrato Base v2.5</p>
         </div>
       </div>
     </div>
@@ -826,7 +815,7 @@ function mostrar(id, btn) {
       <div class="doc-topo">
         <span class="doc-logo">ZYLLAH DIGITAL</span>
         <div class="doc-titulo">Anexo I-C — Escopo de Serviços e Condições Comerciais<br>Plano Autoridade</div>
-        <div class="doc-subtitulo">Parte integrante do Contrato Base · Inclui automação avançada e Ads · Prazo mínimo: 12 meses</div>
+        <div class="doc-subtitulo">Parte integrante do Contrato Base v2.5 · Inclui automação avançada e Ads · Prazo mínimo: 12 meses</div>
       </div>
       <div class="doc-corpo">
         <p style="font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:28px;">Este Anexo I-C integra o Contrato de Prestação de Serviços celebrado entre as partes identificadas no Contrato Base. Em caso de conflito de interpretação, o Contrato Base prevalece nas cláusulas gerais e este Anexo prevalece nas especificações de escopo e valores. As disposições específicas sobre automação de atendimento e proteção de dados (DPA) previstas neste Anexo complementam e se integram às cláusulas 11, 12 e 13 do Contrato Base.</p>
@@ -903,7 +892,7 @@ function mostrar(id, btn) {
                 <li><strong>(f)</strong> Em caso de suspensão de conta de anúncios pelas plataformas (Google ou Meta) por violação de políticas — mesmo que os criativos estejam em conformidade com o CFM — aplica-se a limitação de responsabilidade da Cláusula 12 do Contrato Base.</li>
               </ul>
             </div>
-            <div class="nota-adv"><strong>Nota ao advogado</strong> A automação de atendimento em saúde com acesso a dados de pacientes pode enquadrar a Contratada como operadora de dados sensíveis (art. 11, LGPD). Verificar se é necessário: (a) contrato de processamento de dados (DPA) separado mais detalhado; (b) registro de operações de tratamento (art. 37, LGPD); (c) notificação ao CFM ou conselho do Contratante sobre automação de primeiro contato com pacientes.</div>
+            <div class="destaque" style="margin-top:14px;"><strong>DPA reforçado — dados sensíveis (art. 11 da LGPD):</strong> em razão do acesso a dados de contato e de saúde de pacientes para operação da automação avançada, a Contratada atua como Operadora de dados sensíveis. As partes integram, como Anexo deste Anexo I-C, o registro mínimo de operações de tratamento (art. 37 da LGPD), contemplando: finalidades, base legal, categorias de titulares, categorias de dados, prazo de retenção, transferências internacionais (API Anthropic) e medidas de segurança adotadas. <span style="color:#2563eb;">*incerteza</span> quanto à eventual obrigação de comunicação ao CFM ou ao conselho profissional do Contratante sobre operação de bot de primeiro contato com pacientes — tratada de forma compartilhada conforme evolução normativa, com adequações pela Contratada caso surja exigência regulatória superveniente.</div>
           </div>
         </div>
 
@@ -924,8 +913,8 @@ function mostrar(id, btn) {
           </div>
         </div>
         <div class="rodape-doc">
-          <p>Zyllah Digital · Anexo I-C · Plano Autoridade</p>
-          <p>Parte integrante e indissociável do Contrato Base</p>
+          <p>Zyllah Digital · Anexo I-C · Plano Autoridade v2.5</p>
+          <p>Parte integrante e indissociável do Contrato Base v2.5</p>
         </div>
       </div>
     </div>
@@ -941,11 +930,11 @@ function mostrar(id, btn) {
       <div class="doc-topo">
         <span class="doc-logo">ZYLLAH DIGITAL</span>
         <div class="doc-titulo">Adendo de Projeto Piloto<br>Substituição de Remuneração e Prazo</div>
-        <div class="doc-subtitulo">Assinar junto com o Contrato Base + Anexo I correspondente · Máximo 3 clientes · Uso único por cliente</div>
+        <div class="doc-subtitulo">Assinar junto com o Contrato Base v2.5 + Anexo I correspondente · Máximo 3 clientes · Uso único por cliente</div>
       </div>
       <div class="doc-corpo">
 
-        <p style="font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:28px;">Este Adendo integra e complementa o Contrato de Prestação de Serviços celebrado entre as partes identificadas no Contrato Base. Suas disposições <strong>substituem</strong> as Cláusulas 3 (Remuneração) e 4 (Prazo) do Contrato Base exclusivamente para este cliente piloto. Todas as demais cláusulas do Contrato Base e do Anexo I do plano contratado permanecem integralmente vigentes.</p>
+        <p style="font-size:13px;color:var(--ink-soft);line-height:1.8;margin-bottom:28px;">Este Adendo integra e complementa o Contrato de Prestação de Serviços celebrado entre as partes identificadas no Contrato Base v2.5. Suas disposições <strong>substituem</strong> as Cláusulas 3 (Remuneração) e 4 (Prazo) do Contrato Base exclusivamente para este cliente piloto. Todas as demais cláusulas do Contrato Base e do Anexo I do plano contratado permanecem integralmente vigentes.</p>
 
         <div class="c-num" style="margin-bottom:8px;">IDENTIFICAÇÃO</div>
         <div class="partes" style="margin-bottom:32px;">
@@ -979,9 +968,8 @@ function mostrar(id, btn) {
                 <li><strong>Briefing:</strong> preenchimento completo do Briefing de Identidade em até <strong>5 (cinco) dias úteis</strong> após a assinatura deste adendo.</li>
               </ul>
               <div class="destaque">
-                <strong>Consequência do descumprimento:</strong> o não cumprimento de qualquer contrapartida, após notificação escrita com prazo de cura de <strong>10 (dez) dias corridos</strong>, implica a <strong>conversão retroativa dos valores pagos no piloto para o valor integral do plano</strong>, com cobrança da diferença acumulada desde o início do piloto, acrescida de juros de 1% ao mês e correção monetária pelo IPCA — exigível em até 15 (quinze) dias corridos da notificação.
+                <strong>Consequência do descumprimento — natureza condicional, não penal:</strong> o não cumprimento de qualquer contrapartida, após notificação escrita com prazo de cura de <strong>10 (dez) dias corridos</strong>, implica a <strong>perda do benefício piloto e a conversão retroativa dos valores pagos para o valor integral do plano</strong>, com cobrança da diferença acumulada desde o início do piloto, acrescida de juros de 1% ao mês e correção monetária pelo IPCA — exigível em até 15 (quinze) dias corridos da notificação. As partes declaram, para os fins do art. 51, IV, do CDC, que essa cobrança não tem natureza de cláusula penal autônoma, mas sim de <strong>recomposição proporcional do desconto efetivamente concedido</strong> em razão do descumprimento da contrapartida que o justificava.
               </div>
-              <div class="nota-adv" style="margin-top:12px;"><strong>Nota ao advogado</strong> O piloto foi estruturado como contrato oneroso com desconto de 50% e isenção de implantação, condicionados ao cumprimento de contrapartidas. A conversão retroativa ao valor integral é preferível à multa autônoma por ser proporcional ao benefício efetivamente concedido, afastando alegação de penalidade abusiva (art. 51, IV, CDC). Verificar se a exigibilidade retroativa é executável diretamente ou se requer cláusula penal expressa para facilitar execução judicial.</div>
             </div>
           </div>
         </div>
@@ -996,9 +984,16 @@ function mostrar(id, btn) {
                 <li>O presente adendo tem vigência de <strong>3 (três) meses</strong> contados da data de início dos serviços;</li>
                 <li>Ao término do piloto, o contrato pode ser: (a) <strong>renovado nas condições comerciais integrais</strong> do plano contratado vigentes à época, mediante novo contrato; (b) <strong>encerrado sem ônus</strong> para nenhuma das partes, desde que todas as contrapartidas da Cláusula 3-P tenham sido cumpridas integralmente. O encerramento deve ser comunicado por escrito com <strong>15 (quinze) dias de antecedência</strong> do término;</li>
                 <li>A renovação pós-piloto não é automática e depende de manifestação expressa de ambas as partes;</li>
-                <li>Em caso de <strong>rescisão antecipada pelo Contratante</strong> antes do término dos 3 meses do piloto, e não havendo descumprimento de contrapartida pela Contratada, o Contratante pagará à Contratada o equivalente ao <strong>valor integral de 1 (uma) mensalidade</strong> do plano contratado (valor sem desconto piloto), como compensação pelo trabalho de implantação e pelos meses de serviço prestados. O valor já pago no período (50% da mensalidade) será deduzido do total devido.</li>
+                <li>Em caso de <strong>rescisão antecipada pelo Contratante</strong> antes do término dos 3 meses do piloto, e não havendo descumprimento de contrapartida pela Contratada, o Contratante pagará à Contratada, a título de compensação pelo trabalho de implantação e pelos meses de serviço prestados, valor equivalente a <strong>1 (uma) mensalidade integral do plano contratado</strong>, deduzidos os valores já pagos no período (50% da mensalidade já adimplida). Para evitar dúvidas, os valores líquidos devidos por plano, considerando os valores comerciais vigentes na data desta versão, são:
+                  <ul style="margin-top:6px;">
+                    <li><strong>Plano Essencial:</strong> R$ 1.800,00 (mensalidade integral) − R$ 900,00 (parcela paga no piloto) = <strong>R$ 900,00 por mensalidade já vencida no piloto</strong>;</li>
+                    <li><strong>Plano Presença Completa:</strong> R$ 2.800,00 − R$ 1.400,00 = <strong>R$ 1.400,00 por mensalidade já vencida no piloto</strong>;</li>
+                    <li><strong>Plano Autoridade:</strong> R$ 4.500,00 − R$ 2.250,00 = <strong>R$ 2.250,00 por mensalidade já vencida no piloto</strong>.</li>
+                  </ul>
+                  Caso os valores comerciais tenham sido reajustados na forma da Cláusula 3 do Contrato Base, prevalecem os valores reajustados vigentes à data da rescisão.
+                </li>
+                <li><strong>Isenção da taxa de implantação:</strong> a isenção concedida ao cliente piloto está formalizada exclusivamente neste Adendo e não é refletida como desconto no Anexo I do plano contratado, que mantém a taxa de implantação como referência comercial integral aplicável aos demais Contratantes.</li>
               </ul>
-              <div class="nota-adv"><strong>Nota ao advogado</strong> O piloto está estruturado como contrato oneroso com desconto de 50% sobre a mensalidade e isenção de implantação. A rescisão antecipada gera cobrança da diferença entre o valor pago (50%) e o valor integral de 1 mensalidade — verificar se essa previsão é suficientemente clara para execução ou se é preferível indicar o valor em reais no próprio adendo, calculado por plano. Confirmar também se a isenção da taxa de implantação deve ser refletida como desconto explícito no Anexo I ou apenas no Adendo.</div>
             </div>
           </div>
         </div>
@@ -1009,14 +1004,14 @@ function mostrar(id, btn) {
             <ul>
               <li>Este adendo é <strong>de uso exclusivo para os 3 (três) primeiros clientes piloto</strong> da Zyllah Digital e não pode ser reutilizado para clientes subsequentes;</li>
               <li>A concessão das condições de piloto não implica precedente ou obrigação de oferecer as mesmas condições a outros contratantes;</li>
-              <li>Todas as demais cláusulas do Contrato Base e do Anexo I do plano contratado permanecem integralmente vigentes, incluindo, sem limitação: aprovação de materiais (Cláusula 5), obrigações do Contratante (Cláusula 6), acesso a plataformas (Cláusula 7), propriedade intelectual (Cláusula 8), rescisão por justa causa da Contratada (Cláusula 10), conformidade CFM (Cláusula 11), LGPD (Cláusula 13), confidencialidade (Cláusula 14) e foro (Cláusula 18).</li>
+              <li>Todas as demais cláusulas do Contrato Base v2.5 e do Anexo I do plano contratado permanecem integralmente vigentes, incluindo, sem limitação: aprovação de materiais (Cláusula 5), obrigações do Contratante (Cláusula 6), acesso a plataformas (Cláusula 7), propriedade intelectual (Cláusula 8), rescisão por justa causa da Contratada (Cláusula 10), conformidade CFM (Cláusula 11), LGPD (Cláusula 13), confidencialidade (Cláusula 14) e foro (Cláusula 18).</li>
             </ul>
           </div>
         </div>
 
         <div class="divider"></div>
         <p class="local-data">Nova Friburgo — RJ, _____ de _________________ de 2026.</p>
-        <p style="font-size:13px;color:var(--ink-soft);text-align:center;margin-bottom:32px;">Este adendo é assinado junto com o <strong>Contrato Base</strong> e o <strong>Anexo I — [Plano contratado]</strong>, todos datados da mesma data.</p>
+        <p style="font-size:13px;color:var(--ink-soft);text-align:center;margin-bottom:32px;">Este adendo é assinado junto com o <strong>Contrato Base v2.5</strong> e o <strong>Anexo I — [Plano contratado]</strong>, todos datados da mesma data.</p>
 
         <div class="assinaturas">
           <div>
@@ -1057,8 +1052,8 @@ function mostrar(id, btn) {
 </div><!-- /corpo -->
 
 <div style="background:var(--ink);padding:32px 80px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-top:60px;">
-  <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);">Zyllah Digital · <span style="color:var(--gold);">Pacote Jurídico</span> · Uso interno</p>
-  <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);">5 documentos · 19 cláusulas base · 12 categorias de risco cobertas · Revisão jurídica obrigatória</p>
+  <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);">Zyllah Digital · <span style="color:var(--gold);">Pacote Jurídico v2.5</span> · Uso interno</p>
+  <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);">5 documentos · 20 cláusulas base · 12 categorias de risco cobertas</p>
 </div>
 
 </body>
