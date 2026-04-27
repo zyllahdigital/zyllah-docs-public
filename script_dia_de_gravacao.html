@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah · Script Dia de Gravação</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#B8976A;--gold-lt:#D4B896;
+  --ink:#1A1714;--ink-soft:#3D3830;
+  --cream:#FAF7F2;
+  --cam:#7C3AED;--cam-bg:rgba(124,58,237,.1);--cam-border:rgba(124,58,237,.3);
+  --voz:#059669;--voz-bg:rgba(5,150,105,.1);--voz-border:rgba(5,150,105,.3);
+  --nota:#DC2626;--nota-bg:rgba(220,38,38,.07);--nota-border:rgba(220,38,38,.3);
+  --dica:#B8976A;--dica-bg:rgba(184,151,106,.08);--dica-border:rgba(184,151,106,.35);
+  --border:rgba(184,151,106,.18);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;font-weight:300;background:var(--ink);color:var(--cream);font-size:15px;line-height:1.6;}
+
+/* TOPO */
+.topo{background:var(--ink);padding:40px 56px 32px;border-bottom:1px solid var(--border);}
+.topo-tag{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.topo-h{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;line-height:1.05;margin-bottom:10px;}
+.topo-h em{font-style:italic;color:var(--gold-lt);}
+.topo-sub{font-size:13px;color:rgba(255,255,255,.4);max-width:640px;line-height:1.75;}
+.legenda{display:flex;gap:16px;flex-wrap:wrap;margin-top:20px;}
+.leg{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;}
+.leg-dot{width:10px;height:10px;border-radius:50%;}
+.leg-dot.cam{background:var(--cam);}
+.leg-dot.voz{background:var(--voz);}
+.leg-dot.nota{background:var(--nota);}
+
+/* NAV */
+.nav{background:rgba(26,23,20,.98);padding:0 56px;border-bottom:1px solid var(--border);display:flex;gap:0;position:sticky;top:0;z-index:100;overflow-x:auto;}
+.nav-btn{font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:14px 18px;color:rgba(255,255,255,.3);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none;font-family:'Jost',sans-serif;}
+.nav-btn:hover,.nav-btn.ativo{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* SEÇÕES */
+.sec{display:none;padding:40px 56px 80px;}
+.sec.ativa{display:block;}
+
+/* FIGURINO HEADER */
+.fig-header{background:rgba(184,151,106,.07);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin-bottom:28px;}
+.fig-label{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.fig-nome{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--cream);margin-bottom:6px;}
+.fig-desc{font-size:13px;color:rgba(255,255,255,.4);}
+.fig-instrucao{font-size:12px;color:rgba(184,151,106,.7);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
+
+/* VIDEO BLOCO */
+.v-bloco{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;margin-bottom:20px;overflow:hidden;}
+.v-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.v-num{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold-lt);min-width:44px;}
+.v-info{flex:1;}
+.v-tipo{font-size:9px;letter-spacing:.4em;text-transform:uppercase;margin-bottom:3px;}
+.v-tipo.camera{color:var(--cam);}
+.v-tipo.voz{color:var(--voz);}
+.v-titulo{font-size:15px;font-weight:500;color:var(--cream);}
+.v-meta{font-size:11px;color:rgba(255,255,255,.3);margin-top:2px;}
+.v-check{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,255,255,.3);}
+.checkbox{width:20px;height:20px;border:1px solid rgba(255,255,255,.2);border-radius:4px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.checkbox.feito{background:var(--voz);border-color:var(--voz);}
+.checkbox.feito::after{content:'✓';color:white;font-size:12px;font-weight:500;}
+
+.v-body{padding:20px;}
+
+/* CENA */
+.cena{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.05);}
+.cena:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.cena-id{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:8px;}
+
+/* FALA */
+.fala{border-radius:6px;padding:16px 20px;margin-bottom:8px;line-height:1.9;font-size:16px;}
+.fala.cam{background:var(--cam-bg);border-left:3px solid var(--cam);color:var(--cream);}
+.fala.cam::before{content:'🎥 ';font-size:14px;}
+.fala.voz{background:var(--voz-bg);border-left:3px solid var(--voz);color:var(--cream);}
+.fala.voz::before{content:'🎙 ';font-size:14px;}
+.fala-label{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:6px;}
+
+/* NOTA / DICA */
+.nota{background:var(--nota-bg);border-left:3px solid var(--nota);border-radius:0 4px 4px 0;padding:10px 14px;font-size:12px;color:rgba(255,255,255,.6);margin-bottom:8px;line-height:1.65;}
+.nota::before{content:'⚠ ';color:var(--nota);}
+.dica{background:var(--dica-bg);border-left:3px solid var(--dica-border);border-radius:0 4px 4px 0;padding:10px 14px;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:8px;line-height:1.65;}
+.dica::before{content:'💡 ';}
+
+/* TELA (instrução do que mostrar na tela, não é fala) */
+.tela-instr{background:rgba(58,112,160,.08);border-left:3px solid rgba(58,112,160,.4);border-radius:0 4px 4px 0;padding:10px 14px;font-size:12px;color:rgba(100,168,216,.7);margin-bottom:8px;line-height:1.65;}
+.tela-instr::before{content:'🖥 ';}
+
+/* DIVISOR */
+.div-fig{height:1px;background:var(--border);margin:36px 0;}
+
+/* CURTO ESPECÍFICO */
+.curto-tag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:4px;}
+.curto-fala{background:var(--cam-bg);border-left:3px solid var(--cam);border-radius:0 6px 6px 0;padding:18px 22px;font-size:17px;line-height:1.85;color:var(--cream);margin-bottom:8px;}
+.curto-fala::before{content:'🎥 ';font-size:14px;}
+
+.curto-instr{font-size:11px;color:rgba(255,255,255,.3);font-style:italic;margin-bottom:4px;}
+
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <div class="topo-tag">Zyllah Digital · Dia de Gravação · Script Completo</div>
+  <h1 class="topo-h">Todas as <em>falas</em><br>por figurino</h1>
+  <p class="topo-sub">Abra nesta página. Leia a fala. Grave. Marque como feito. Sem precisar abrir mais nada.</p>
+  <div class="legenda">
+    <div class="leg"><div class="leg-dot cam"></div><span style="color:rgba(255,255,255,.4)">Câmera — você fala olhando pra lente</span></div>
+    <div class="leg"><div class="leg-dot voz"></div><span style="color:rgba(255,255,255,.4)">Voz-over — fala sem aparecer</span></div>
+    <div class="leg"><div class="leg-dot nota"></div><span style="color:rgba(255,255,255,.4)">Nota de direção — não ler em voz alta</span></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn ativo" onclick="trocar('fig-a',this)">Figurino A</button>
+  <button class="nav-btn" onclick="trocar('fig-b',this)">Figurino B</button>
+  <button class="nav-btn" onclick="trocar('fig-c',this)">Figurino C</button>
+  <button class="nav-btn" onclick="trocar('locucoes',this)">Locuções (sem câmera)</button>
+  <button class="nav-btn" onclick="trocar('bastidor',this)">Bastidor passivo</button>
+</nav>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- FIGURINO A                                  -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="sec ativa" id="fig-a">
+
+  <div class="fig-header">
+    <div class="fig-label">Figurino A · Dia 1</div>
+    <div class="fig-nome">Roupa escura/sóbria — autoridade</div>
+    <div class="fig-desc">Grave tudo que está nesta aba antes de trocar de roupa.<br>Ordem: V2 → V4 → FAQ C01 a C05</div>
+    <div class="fig-instrucao">⚠ Não troque de figurino até gravar o último item desta aba. Câmera, tripé e luz ficam no mesmo lugar.</div>
+  </div>
+
+  <!-- V2 -->
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num">V2</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera frontal · Você aparece · 3'30"–4'</div>
+        <div class="v-titulo">Médico não precisa virar criador de conteúdo</div>
+        <div class="v-meta">Figurino A · YouTube principal + Reel longo</div>
+      </div>
+      <div class="v-check">
+        <div class="checkbox" onclick="this.classList.toggle('feito')"></div>
+        Gravado
+      </div>
+    </div>
+    <div class="v-body">
+
+      <div class="cena">
+        <div class="cena-id">Cena 1 · 0:00–0:20 · Corte direto, sem introdução</div>
+        <div class="dica">Câmera já ligada. Sem "olá", sem vinheta. Começa na frase.</div>
+        <div class="fala cam">Médico não precisa virar criador de conteúdo. Nunca precisou. O problema é que alguém convenceu você de que sim — e você tentou, se esgotou, e agora sente que o problema é falta de disciplina sua. Não é.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 2 · 0:20–1:00 · Ritmo narrativo, fale devagar</div>
+        <div class="dica">Desacelere aqui. O médico está se reconhecendo em cada frase. Deixe o silêncio trabalhar entre os itens do ciclo.</div>
+        <div class="fala cam">Existe um ciclo que eu vejo se repetir. O médico decide que vai levar o digital a sério. Posta durante duas, três semanas. Com cuidado, com conteúdo bom. Aí vem uma semana pesada no consultório. Um plantão. Uma emergência. O Instagram fica parado por quarenta, sessenta dias. Quando volta, sente que precisa se justificar. Escreve um post de "voltei". Posta mais uma semana. E o ciclo recomeça. Isso não é falta de comprometimento. É um modelo que não foi feito para quem trabalha com saúde.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 3 · 1:00–1:45 · Argumento central</div>
+        <div class="nota">Nunca sugerir que o médico não precisa de presença digital. O argumento é que o modelo errado é o problema.</div>
+        <div class="fala cam">O modelo que a maioria ensina para médicos foi copiado do influenciador digital. Poste todo dia. Apareça nos stories. Faça reels. Construa audiência. Esse modelo funciona para quem tem presença digital como profissão. Para médico, ele é um parasita do tempo clínico. Cada hora que o médico passa pensando em pauta é uma hora que não está atendendo, estudando ou descansando. E o burnout de conteúdo é real — eu vejo isso acontecer toda vez.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 4 · 1:45–2:40 · Virada — tom mais tranquilo, mais próximo</div>
+        <div class="dica">Esta é a virada. É aqui que o médico começa a imaginar que é possível para ele. Tom mais baixo, mais próximo.</div>
+        <div class="fala cam">O que funciona é diferente. Conteúdo planejado em blocos, com temas definidos com antecedência. O médico dedica uma tarde por mês — uma tarde — e a partir disso o calendário do mês inteiro está pronto. Não precisa aparecer toda hora. Existem formatos que constroem autoridade sem rosto — texto animado, voz over, um procedimento sendo feito com as mãos, uma pergunta frequente respondida em trinta segundos. A vergonha da câmera diminui na segunda gravação. E na quinta, ela sumiu. Mas você não precisa chegar na quinta no primeiro mês.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 5 · 2:40–3:30 · CTA</div>
+        <div class="dica">CTA: "Se isso faz sentido para você, inscreva-se — o próximo vídeo é sobre o que a maioria não te conta sobre o CFM." Sem pedir like ou compartilhamento na primeira frase.</div>
+        <div class="fala cam">A pergunta não é "como eu apareço mais nas redes". A pergunta é: o que precisa estar no digital para que, quando alguém pesquisar o seu nome, encontre algo à altura do trabalho que você entrega? A resposta para essa pergunta é bem mais simples do que parece — e não exige que você vire criador de conteúdo. No próximo vídeo eu falo sobre o CFM: o que ele proíbe, o que ele permite, e por que a maioria das agências erra aqui de um jeito que pode custar caro para o médico.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- V4 -->
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num">V4</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera frontal · Você aparece · 3'30"–4'</div>
+        <div class="v-titulo">A diferença entre presença que filtra e presença que acumula</div>
+        <div class="v-meta">Figurino A · YouTube + LinkedIn</div>
+      </div>
+      <div class="v-check">
+        <div class="checkbox" onclick="this.classList.toggle('feito')"></div>
+        Gravado
+      </div>
+    </div>
+    <div class="v-body">
+
+      <div class="cena">
+        <div class="cena-id">Cena 1 · 0:00–0:25 · Abertura provocadora</div>
+        <div class="dica">Pode ser padrão composto de vários casos. O importante é a verossimilhança.</div>
+        <div class="fala cam">Tem um médico que conheço — não vou dizer o nome — com quase vinte mil seguidores no Instagram. Conteúdo consistente, identidade visual bonita, engajamento razoável. E uma agenda com muitos buracos para a especialidade que ele quer trabalhar. Seguidores não são pacientes. E esse é o ponto que quase ninguém fala com clareza suficiente.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 2 · 0:25–1:15 · Análise do mecanismo</div>
+        <div class="fala cam">O motivo é simples quando você entende o mecanismo. Quando um médico produz conteúdo educativo genérico — dicas de saúde, curiosidades médicas, mitos e verdades — ele atrai a internet. Pessoas de todo o Brasil, de toda especialidade, com todos os tipos de problema. A maioria nunca vai se tornar paciente dele. Não porque o conteúdo é ruim. Porque o conteúdo não faz filtragem. Ele não comunica para quem é, onde atende, qual problema específico resolve, e por que ele é a escolha certa para aquele perfil de paciente.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 3 · 1:15–2:10 · Solução — virada do vídeo</div>
+        <div class="dica">Use o exemplo de especificidade — "cardiologista preventivo que atende executivos" vs "médico". É concreto e memorizável.</div>
+        <div class="fala cam">Presença que filtra é diferente. Ela comunica especialidade com precisão — não "médico", mas "cardiologista preventivo que atende executivos em Nova Friburgo". Ela mostra o tipo de paciente que o médico quer atender. Ela tem um site que aparece quando alguém pesquisa aquela especialidade naquela cidade. Ela tem um LinkedIn que fala com hospitais e operadoras, não só com pacientes. O resultado é uma audiência menor — mas de gente que pesquisa aquele médico com intenção real de marcar consulta.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 4 · 2:10–2:55 · A métrica certa</div>
+        <div class="fala cam">A métrica que importa para médico não é número de seguidores. É quantas pessoas que chegaram pelo digital viraram consulta. É quantos pacientes disseram "te encontrei no Google". É quantas indicações vieram de colegas que te viram no LinkedIn. Esses são os números que fazem sentido para um consultório. E esses números crescem quando a presença é construída para filtrar — não para acumular.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 5 · 2:55–3:40 · CTA</div>
+        <div class="fala cam">Se você está construindo presença digital agora, a pergunta que eu deixo é: para quem exatamente você está falando? Quanto mais específica a resposta, mais eficiente vai ser cada post que você publicar. No último vídeo desta série eu falo sobre por que a maioria das agências entrega o mesmo para todo mundo — e o que isso significa para você.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FAQ CURTOS A -->
+  <div class="div-fig"></div>
+  <div class="fig-header" style="background:rgba(124,58,237,.06);border-color:rgba(124,58,237,.2);">
+    <div class="fig-label" style="color:var(--cam)">FAQ Curtos C01–C05 · Figurino A · Mesma câmera</div>
+    <div class="fig-nome">5 reels de 30–60 segundos</div>
+    <div class="fig-desc">Câmera ainda ligada. Mesmo enquadramento. Grave um, respire, grave o próximo. Sem re-ler o anterior.</div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C01</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 45s</div>
+        <div class="v-titulo">Por que médico com 20 mil seguidores tem agenda vazia</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-instr">Olha direto pra lente. Começa direto na pergunta — sem apresentação.</div>
+      <div class="curto-fala">Tem um padrão que eu vejo se repetir. O médico tem um perfil bonito, posts consistentes, bom engajamento. E mesmo assim a agenda tem buracos para a especialidade que ele quer trabalhar. O problema não é o volume. É que o conteúdo atrai a internet — não o paciente certo. Seguidores não são pacientes. Curtidas não são consultas.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C02</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 30s</div>
+        <div class="v-titulo">Quantos posts por semana o médico realmente precisa publicar</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-instr">Tom: direto, quase irônico no início. Desacelere na última frase.</div>
+      <div class="curto-fala">Nenhum número específico. Sério. O que importa não é frequência — é consistência. Um post por semana, toda semana, durante doze meses, vale mais do que cinco posts por semana durante três meses seguidos de abandono. O paciente que vai marcar consulta com você não vai contar quantos posts você publicou esse mês. Ele vai olhar se o perfil parece ativo e cuidado.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C03</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">Por que você não consegue manter o Instagram ativo</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-instr">Começa com "O problema não é você." — pausa de 1 segundo antes de continuar.</div>
+      <div class="curto-fala">O problema não é você. É o modelo que te venderam. Te disseram que basta criar conteúdo todo dia, aparecer nos stories, fazer reels. Esse modelo foi feito para quem vive de criar conteúdo. Para médico, ele é um parasita do tempo clínico. Cada hora no Instagram é uma hora que não foi no consultório, na família, no estudo. O que funciona para médico é diferente: bloco de gravação uma vez por mês, conteúdo aprovado, calendário no piloto automático. Disciplina não muda o modelo errado.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C04</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 45s</div>
+        <div class="v-titulo">O que o CFM proíbe que você provavelmente faz</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-instr">Liste cada item com uma pausa entre eles. O espectador precisa processar cada um.</div>
+      <div class="curto-fala">Antes e depois de procedimento: proibido. Preço de consulta como argumento de atração: proibido. Depoimento de paciente com nome e foto, mesmo com autorização: proibido. Esse último surpreende muita gente — porque o paciente autorizou. Mas a resolução 2.336 de 2023 do CFM é clara. Não é a intenção que conta — é a publicação. E quando o conselho bate na porta, é o seu CRM que está em jogo. Não o CNPJ da agência.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C05</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">Por que agência genérica é mais barata — e o que isso custa</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-instr">Tom: sem julgamento. O argumento é estrutural, não pessoal.</div>
+      <div class="curto-fala">A agência genérica tem uma biblioteca de templates. O mesmo carrossel que ela faz para dentista, ela faz para cardiologista, para nutricionista, para fisioterapeuta. É eficiente para ela. O preço reflete isso. O problema é que um cardiologista com vinte anos de mercado e um médico recém-formado não podem ter a mesma presença digital. Mas nesse modelo, têm. E o paciente que pesquisa online não tem como saber a diferença. Ele vai escolher por conveniência. Não pela qualidade clínica — que é o único critério que deveria importar.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- FIGURINO B                                  -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="sec" id="fig-b">
+
+  <div class="fig-header">
+    <div class="fig-label">Figurino B · Dia 1 (após troca)</div>
+    <div class="fig-nome">Camisa social ou polo — consultivo</div>
+    <div class="fig-desc">Grave tudo que está nesta aba antes de trocar de novo.<br>Ordem: V5 câmera (cenas 2, 3, 5) → FAQ C06 a C10</div>
+    <div class="fig-instrucao">⚠ V5 tem cenas de câmera e cenas de tela. Aqui você grava SOMENTE as câmera. As telas do V5 ficam para o Dia 2 (aba Locuções).</div>
+  </div>
+
+  <!-- V5 partes câmera -->
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num">V5</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · Gravar cenas 2, 3 e 5 apenas</div>
+        <div class="v-titulo">Por que agências entregam o mesmo para todo mundo</div>
+        <div class="v-meta">Figurino B · YouTube · Último da série — tom mais sóbrio</div>
+      </div>
+      <div class="v-check">
+        <div class="checkbox" onclick="this.classList.toggle('feito')"></div>
+        Gravado
+      </div>
+    </div>
+    <div class="v-body">
+
+      <div class="nota">As cenas 1 e 4 são de TELA (gravação de tela com voz-over). Pule para a Cena 2.</div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 2 · 0:40–1:40 · Explicação · CÂMERA</div>
+        <div class="nota">Tom: sem julgamento moral. É um modelo de negócio — o argumento é que não serve para o especialista.</div>
+        <div class="fala cam">A agência genérica tem um modelo simples: uma biblioteca de templates. Carrossel educativo, quote de motivação, foto do médico com fundo limpo, chamada para agendamento. Esse pacote serve para dentista, médico, nutricionista, fisioterapeuta — qualquer profissional de saúde. É eficiente para a agência. É barato de produzir. Cabe no preço de seiscentos, oitocentos reais por mês. O problema não é o preço. O problema é que um cardiologista de cinquenta anos com vinte anos de mercado e um nutricionista recém-formado não podem ter a mesma presença digital. Mas na agência genérica, têm.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 3 · 1:40–2:30 · Consequências · CÂMERA</div>
+        <div class="fala cam">O que o especialista perde é diferenciação. Quando o digital não reflete quem ele é — a especialidade que construiu, o tipo de paciente que atende, o nível do seu trabalho — ele compete em preço com médicos muito menos experientes. Porque digitalmente ele parece igual. E o paciente que pesquisa online não tem como saber a diferença. Ele vai escolher por localização, por conveniência, às vezes por preço. Não pela qualidade clínica — que é o único critério que deveria importar.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 5 · 3:30–4:20 · CTA final da série · CÂMERA</div>
+        <div class="dica">Antes de gravar esta cena: pare por 2 minutos. Não fale nada. Respire. É o encerramento de tudo que você construiu nesses 5 vídeos. O peso certo já aparece.</div>
+        <div class="nota">Esta é a única CTA de conversão direta da série toda. Pode ter o link para contato — mas sem agressividade.</div>
+        <div class="fala cam">Isso é o que a Zyllah Digital faz. Presença digital para especialistas de saúde que já são referência no que fazem — mas ainda não são encontrados por quem precisa deles. Se você chegou até aqui, já sabe o que o Google encontra quando pesquisam seu nome. Já sabe o que o CFM permite e o que proíbe. Já sabe a diferença entre seguidores e pacientes certos. O próximo passo é uma conversa. O link está na descrição.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FAQ CURTOS B -->
+  <div class="div-fig"></div>
+  <div class="fig-header" style="background:rgba(124,58,237,.06);border-color:rgba(124,58,237,.2);">
+    <div class="fig-label" style="color:var(--cam)">FAQ Curtos C06–C10 · Figurino B · Mesma câmera</div>
+    <div class="fig-nome">5 reels de 30–60 segundos</div>
+    <div class="fig-desc">Câmera ainda ligada. Mesma posição. Grave em sequência.</div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C06</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 45s</div>
+        <div class="v-titulo">O que é um brand book e por que médico precisa</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Brand book é o documento que define quem você é no digital. Não é um logo bonito. É a decisão de que foto vai representar você, que palavras descrevem o seu trabalho, que cores aparecem em cada peça, que tom você usa quando fala com o paciente. Sem isso, cada post parece de uma pessoa diferente. Com isso, qualquer um que veja uma publicação sua sabe imediatamente que é sua — antes de ver o nome. Para médico especialista, isso não é estética. É autoridade.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C07</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">LinkedIn vale a pena para profissional de saúde?</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-instr">Começa com "Depende do que você quer." — pausa.</div>
+      <div class="curto-fala">Depende do que você quer. Se você quer atrair pacientes da cidade: Instagram e Google são mais diretos. Se você quer referências de colegas, conexão com hospitais, operadoras, outros especialistas, e ser reconhecido como autoridade no seu campo: LinkedIn é o único lugar onde isso acontece de verdade. O médico que quer construir carreira além do consultório individual precisa do LinkedIn. O que não faz sentido é estar no LinkedIn com o último post de dois anos atrás.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C08</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 45s</div>
+        <div class="v-titulo">Por que site ainda é mais importante que Instagram</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Instagram some se a plataforma cair, se a conta for suspensa, se o algoritmo mudar. Site é seu. Hospedado no seu domínio. Aparece no Google quando pesquisam seu nome. Funciona às três da manhã quando o paciente está decidindo se vai ou não te ligar amanhã. O Instagram é a vitrine. O site é o consultório. Você não abre um consultório sem endereço fixo.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C09</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">Quanto tempo demora para presença digital dar resultado?</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-instr">Fale os prazos com clareza — são concretos e memorizáveis.</div>
+      <div class="curto-fala">Depende do que você chama de resultado. Primeiros seguidores orgânicos: trinta a sessenta dias. Primeiros pacientes via digital: três a seis meses. Presença digital como fonte consistente de indicações: a partir de doze meses. Quem te prometer resultado mais rápido está vendendo anúncio, não presença. Anúncio para quando você para de pagar. Presença digital bem construída continua trabalhando quando você está no consultório, em casa, dormindo.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C10</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 45s</div>
+        <div class="v-titulo">O que é presença digital de alto padrão para especialista</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Não é ter o maior número de seguidores. É que quando alguém pesquisar seu nome — seja um paciente, um colega ou um hospital — o que aparecer esteja à altura do profissional que você é. Foto que transmite autoridade. Bio que diz exatamente o que você faz e para quem. Site que carrega no celular. LinkedIn atualizado. Feed com identidade reconhecível. Não precisa ser muito. Precisa ser coerente.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- FIGURINO C                                  -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="sec" id="fig-c">
+
+  <div class="fig-header">
+    <div class="fig-label">Figurino C · Dia 2</div>
+    <div class="fig-nome">Casual premium / humanizador</div>
+    <div class="fig-desc">Dia 2 inteiro com este figurino.<br>Ordem: E01–E05 (atendimento) → C11–C15 (FAQ conselhos) → G01–G03 (institucional)</div>
+    <div class="fig-instrucao">Este figurino aparece como "outro dia" — cria ilusão de dias distintos de gravação.</div>
+  </div>
+
+  <!-- BLOCO E: ATENDIMENTO AUTOMATIZADO -->
+  <div class="fig-header" style="background:rgba(5,150,105,.06);border-color:rgba(5,150,105,.2);margin-bottom:20px;">
+    <div class="fig-label" style="color:var(--voz)">Bloco E · Atendimento para consultório — sem citar ferramenta específica</div>
+    <div class="fig-nome">5 vídeos de 45–90 segundos</div>
+    <div class="fig-desc">Conteúdo educativo puro. Arquivável mesmo se romper qualquer parceria.</div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">E01</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">Por que médico perde paciente sem responder em 5 minutos</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Quando um paciente manda mensagem buscando consulta, a probabilidade de confirmação cai pela metade se a resposta demorar mais de cinco minutos. O paciente manda para você, não recebe resposta imediata, manda para o consultório do lado. O consultório do lado responde. Ele agenda lá. Você nem ficou sabendo que perdeu esse paciente. Isso acontece todos os dias — em todo consultório que não tem atendimento estruturado.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">E02</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 90s</div>
+        <div class="v-titulo">O que é atendimento 24h para consultório — e o que não é</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Atendimento 24h não significa que alguém vai ficar acordado esperando mensagem. Significa que quando o paciente manda mensagem às onze da noite querendo agendar, ele recebe uma resposta imediata — com as informações do consultório, disponibilidade, confirmação de recebimento. E no dia seguinte, você já sabe que aquele paciente está esperando confirmação. Sem atendimento estruturado fora do horário, esse paciente provavelmente foi para outro lugar antes de você amanhecer.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">E03</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 90s</div>
+        <div class="v-titulo">Como funciona triagem automática de pacientes no WhatsApp</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">A lógica é simples: o paciente manda mensagem, o sistema identifica a intenção — agendar, cancelar, tirar dúvida — e responde de acordo. Para agendamento: confirma disponibilidade e já coloca na agenda. Para dúvida sobre o consultório: responde com as informações do consultório. Para o que está fora do escopo — sintoma, diagnóstico, urgência médica real — redireciona para canal humano. O que nunca acontece: o sistema não avalia sintoma, não substitui o médico, não promete diagnóstico. Ele cuida da logística. O médico cuida da medicina.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">E04</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 90s</div>
+        <div class="v-titulo">IA no atendimento: o que faz, o que não faz</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">IA no atendimento do consultório serve para uma coisa: garantir que nenhum contato de paciente fique sem resposta. Isso é logística, não medicina. O que ela faz: responde pergunta sobre horário, confirma agendamento, manda lembrete de consulta, reengaja paciente inativo. O que ela não faz: avalia sintoma, dá orientação clínica, substitui consulta. O médico continua sendo o único que examina, diagnostica e trata. A IA cuida do que era da recepcionista às três da manhã — para que o médico possa estar totalmente presente na consulta às dez da manhã.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">E05</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 45s</div>
+        <div class="v-titulo">Por que responder em menos de 1 minuto é impossível humanamente</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Uma secretária tem pausas para almoço, final de semana, horário de término. Um médico está no meio de uma consulta, em plantão, em cirurgia. Nenhum ser humano consegue garantir resposta em menos de um minuto, o dia inteiro, todos os dias. Mas o comportamento do paciente não espera. Se ninguém responde, ele procura outra opção. Não é falta de cuidado do médico. É física: nenhuma pessoa consegue estar disponível vinte e quatro horas.</div>
+    </div>
+  </div>
+
+  <!-- BLOCO C11-C15: FAQ CONSELHOS -->
+  <div class="div-fig"></div>
+  <div class="fig-header" style="background:rgba(124,58,237,.06);border-color:rgba(124,58,237,.2);margin-bottom:20px;">
+    <div class="fig-label" style="color:var(--cam)">FAQ C11–C15 · Conselhos CFM/CFO/CFP · Figurino C</div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C11</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">CFO é diferente do CFM? O que dentista pode publicar</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Sim, são conselhos diferentes e cada um tem sua resolução. Mas o princípio é parecido: antes e depois de procedimento estético é proibido. Preço em destaque como argumento é proibido. Depoimento identificado de paciente é proibido. O que muda é que o CFO tende a ser ainda mais restritivo com imagens de procedimentos em andamento. Dentista que contrata agência genérica que não conhece o CFO está correndo risco real de infração — pagando para se expor.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C12</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">Psicólogo pode usar depoimento de paciente? A verdade</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-instr">Tom firme, não julgamental. Estão informando, não atacando.</div>
+      <div class="curto-fala">Não. E aqui não tem meio-termo. A Nota Técnica do CFP é explícita: nenhum depoimento de cliente ou paciente, em nenhum formato, mesmo sem identificação, mesmo com autorização assinada. O sigilo profissional do psicólogo não é uma escolha — é um dever ético. O que pode: conteúdo educativo sobre tipos de demanda, sem nunca individualizar uma pessoa real.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C13</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">Como responder avaliação negativa de paciente online</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Sempre responder — nunca ignorar. Tom: calmo, profissional, sem atacar. Estrutura: reconhecer que a experiência foi diferente do esperado, reafirmar o compromisso com qualidade, oferecer canal privado para resolver. Nunca revelar detalhes do caso. Uma resposta bem elaborada converte mais do que a ausência de avaliações negativas. Prospects leem as críticas — e leem ainda mais as respostas.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C14</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 45s</div>
+        <div class="v-titulo">O que fazer quando o Instagram da clínica é hackeado</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Primeiro: ativar a autenticação de dois fatores em todas as contas agora — antes de precisar. Se já aconteceu: acionar o suporte da plataforma com documentação de identidade, comunicar via outro canal que o perfil foi comprometido, e nunca criar uma conta nova enquanto a recuperação está em andamento. A plataforma penaliza conta duplicada e você perde o que restou do original.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">C15</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">Por que não enviar proposta de marketing antes da reunião</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Porque proposta sem diagnóstico é um documento sem contexto. E é a forma mais rápida de ser comparado por preço com qualquer outro que mandou uma proposta sem te conhecer. O que você contrata em marketing não é um pacote genérico — é uma solução para o seu problema específico. E o problema só aparece na conversa. Se alguém te manda proposta sem nem perguntar o que você precisa: fuja.</div>
+    </div>
+  </div>
+
+  <!-- BLOCO G: INSTITUCIONAL -->
+  <div class="div-fig"></div>
+  <div class="fig-header" style="background:rgba(184,151,106,.08);border-color:rgba(184,151,106,.3);margin-bottom:20px;">
+    <div class="fig-label" style="color:var(--gold)">Bloco G · Institucional · Figurino C · Gravar por último</div>
+    <div class="fig-nome">3 vídeos âncora — vão para destaques permanentes e About do canal</div>
+    <div class="fig-desc">Grave por último, quando já estiver aquecido. São os vídeos que alguém vai ver quando quiser entender o que é a Zyllah.</div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">G01</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">O que é a Zyllah Digital — em 60 segundos</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-instr">Tom: apresentação direta. Sem empolgação forçada. Como você se apresenta a um colega sério.</div>
+      <div class="curto-fala">A Zyllah Digital é uma agência de presença digital exclusivamente para especialistas de saúde. Médicos, dentistas, psicólogos. Não atendemos outros setores. O motivo é simples: cada conselho profissional tem suas regras — CFM, CFO, CFP — e a maioria das agências não as conhece com profundidade suficiente para não colocar o cliente em risco. Aqui, a resolução do conselho é o ponto de partida de qualquer peça. Não o afterthought.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">G02</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 90s</div>
+        <div class="v-titulo">Por que presença digital para especialista de saúde é diferente</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-fala">Presença digital para restaurante é diferente de presença digital para advogado. E ambas são diferentes de presença digital para médico. O médico tem um conselho que regula o que pode e não pode publicar. O paciente dele é diferente do cliente de uma loja. A confiança que ele precisa construir é diferente. E o resultado que ele precisa — agenda cheia com o perfil certo de paciente — é diferente de curtida ou alcance. Quando você trata presença médica como qualquer outro setor, o resultado vai parecer com qualquer outro setor.</div>
+    </div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num" style="font-size:18px;">G03</div>
+      <div class="v-info">
+        <div class="v-tipo camera">Câmera · 60s</div>
+        <div class="v-titulo">Para quem a Zyllah é — e para quem não é</div>
+      </div>
+      <div class="v-check"><div class="checkbox" onclick="this.classList.toggle('feito')"></div>Gravado</div>
+    </div>
+    <div class="v-body">
+      <div class="curto-instr">O trecho "não somos a escolha certa" deve soar tranquilo, não defensivo. É filtro — não rejeição.</div>
+      <div class="curto-fala">A Zyllah é para o especialista de saúde que já tem uma carreira sólida, sabe o que entrega clinicamente, mas ainda não está sendo encontrado por quem precisa dele. Que quer que a presença digital seja à altura do trabalho que faz — sem ter que virar influenciador, sem abrir mão do tempo clínico, sem depender de alguém que não entende as regras do setor. Para quem quer o pacote mais barato do mercado: não somos a escolha certa. Para quem quer fazer certo uma vez: estamos aqui.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- LOCUÇÕES — SEM CÂMERA                       -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="sec" id="locucoes">
+
+  <div class="fig-header">
+    <div class="fig-label">Locuções · Dia 2 — sem câmera, sem figurino específico</div>
+    <div class="fig-nome">V1 e V3 completos + V5 cenas de tela</div>
+    <div class="fig-desc">Você não aparece. Fale no microfone enquanto grava a tela.<br>Prepare as telas antes de sentar: ver checklist de prep no mapa_gravacao_3dias.md</div>
+    <div class="fig-instrucao">Fale devagar — mais devagar do que parece natural. O espectador está lendo a tela ao mesmo tempo que ouve.</div>
+  </div>
+
+  <!-- V1 -->
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num">V1</div>
+      <div class="v-info">
+        <div class="v-tipo voz">Voz-over + tela gravada · Sem câmera · 3'–3'30"</div>
+        <div class="v-titulo">O que o Google encontra quando pesquisam seu nome</div>
+        <div class="v-meta">Gravar tela no OBS ou Loom. Voz separada no microfone.</div>
+      </div>
+      <div class="v-check">
+        <div class="checkbox" onclick="this.classList.toggle('feito')"></div>
+        Gravado
+      </div>
+    </div>
+    <div class="v-body">
+
+      <div class="cena">
+        <div class="cena-id">Cena 1 · 0:00–0:15 · Tela preta com texto animado</div>
+        <div class="tela-instr">Tela preta. Texto aparece palavra por palavra: "Pesquise o seu nome agora." Pausa 3s. "O que um paciente novo encontra?"</div>
+        <div class="fala voz">— Silêncio total nesta cena. Só trilha ambiente baixíssima. Não fale nada.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 2 · 0:15–0:50 · Gravação de tela — navegador ao vivo</div>
+        <div class="tela-instr">Abra o navegador. Digite no Google: "Dr. [nome fictício] cardiologista". Mostre resultados: página CRM sem foto, LinkedIn desatualizado, Instagram com última postagem de 7 meses. Role lentamente.</div>
+        <div class="nota">Use perfis fictícios ou criados para demonstração. Nunca exponha um médico real.</div>
+        <div class="fala voz">Isso é o que aparece. Uma página do CRM sem foto. Um LinkedIn que parece abandonado. Um Instagram com a última postagem de sete meses atrás. E um site — quando existe — que não abre direito no celular. É isso que o paciente encontra antes de decidir se vai ou não marcar a consulta.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 3 · 0:50–1:20 · Tela com comparação</div>
+        <div class="tela-instr">Tela dividida: lado esquerdo = perfil desatualizado. Lado direito = mesma especialidade com foto profissional, bio clara, posts recentes. Pode ser simulação.</div>
+        <div class="fala voz">O paciente não decide na consulta. Ele decide antes. Às vezes dias antes. Ele pesquisa o seu nome, olha o que encontra, e naquele momento — em silêncio, sem você saber — ele já formou uma opinião. Sobre quem você é. Sobre o nível do seu trabalho. Sobre se você merece a confiança dele.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 4 · 1:20–2:00 · Lista animada — três sinais</div>
+        <div class="tela-instr">Mostre três exemplos um de cada vez: (1) foto de perfil ruim, (2) bio genérica "Médico | CRM 12345", (3) feed inconsistente sem identidade.</div>
+        <div class="dica">Role devagar. O espectador precisa de tempo para reconhecer o próprio perfil no que está vendo.</div>
+        <div class="fala voz">Existem três sinais que comunicam, involuntariamente, que o profissional não cuida da própria imagem. Primeiro: foto de perfil que não transmite autoridade. Segundo: bio que lista informações mas não diz nada sobre quem você é de verdade. Terceiro: feed inconsistente — posts que parecem de pessoas diferentes, sem identidade, sem linha. Cada um desses sinais faz o paciente hesitar. Os três juntos fazem ele procurar outro nome.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 5 · 2:00–2:25 · Exemplos positivos</div>
+        <div class="tela-instr">Perfil com identidade visual consistente — foto profissional, bio precisa, posts com paleta definida. Use mockup ou perfil com autorização. Role o feed lentamente.</div>
+        <div class="fala voz">Quando a presença digital está alinhada com quem o profissional é, acontece algo diferente. O paciente não precisa de convencimento. Ele já chegou convencido. A consulta começa com outro nível de confiança — e termina com outro nível de resultado para os dois.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 5-A · 2:25–2:55 · Case — relatório em tela</div>
+        <div class="tela-instr">Mostre o relatório de presença digital em scroll lento. Não precisa ser legível em detalhe — a densidade visual já comunica. Não revelar setor, prazo ou custo.</div>
+        <div class="nota">Nunca mencionar prazo de execução, número de dias nem custo. O que comunica valor é a profundidade e a organização.</div>
+        <div class="fala voz">Antes de trabalhar com especialistas de saúde, eu precisava saber se o método funcionava de verdade. Então apliquei em um negócio local — do zero. O que você está vendo é o relatório desse trabalho. Cada canal com uma função. Cada decisão explicada. Cada entregável registrado. Não mostro isso para impressionar. Mostro porque você merece saber que o que vai receber não foi montado na improviso — foi construído com método.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 6 · 2:55–3:30 · Encerramento</div>
+        <div class="tela-instr">Texto: "Pesquise o seu nome agora." Pausa. "O que você encontrou?" Logo Zyllah no rodapé.</div>
+        <div class="fala voz">Faça o teste agora. Abra o Google, pesquise o seu nome, e olhe com os olhos do seu próximo paciente. Se o que você viu te incomodou — é porque a percepção e a realidade estão desalinhadas. No próximo vídeo, eu explico por que o problema não é quantidade de posts. É algo bem diferente.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- V3 -->
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num">V3</div>
+      <div class="v-info">
+        <div class="v-tipo voz">Voz-over + tela gravada · Sem câmera · 3'–3'30"</div>
+        <div class="v-titulo">O que o CFM proíbe que a maioria faz sem saber</div>
+        <div class="v-meta">Prep: criar mockups de posts proibidos e permitidos antes de gravar</div>
+      </div>
+      <div class="v-check">
+        <div class="checkbox" onclick="this.classList.toggle('feito')"></div>
+        Gravado
+      </div>
+    </div>
+    <div class="v-body">
+
+      <div class="cena">
+        <div class="cena-id">Cena 1 · 0:00–0:20 · Tela preta com texto · Disclaimer obrigatório</div>
+        <div class="tela-instr">Texto: "O CFM pode aplicar sanção por post no Instagram." Pausa. "Você sabe o que é permitido?" + Disclaimer em tela: "Todos os perfis e exemplos mostrados neste vídeo são fictícios e criados exclusivamente para fins educativos."</div>
+        <div class="fala voz">O Conselho Federal de Medicina tem uma resolução específica sobre publicidade médica. A Resolução 2.336 de 2023. E ela define, com precisão, o que médico pode e não pode publicar nas redes sociais. A maioria não leu. E algumas estão errando de um jeito que pode custar caro.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 2 · 0:20–1:10 · Posts fictícios proibidos</div>
+        <div class="tela-instr">Posts fictícios: (1) antes/depois estético, (2) preço em destaque, (3) depoimento com nome e foto fictícios, (4) "resultados garantidos". Cada post com ícone ⚠ vermelho aparecendo sobre ele.</div>
+        <div class="dica">Criar esses posts antes de gravar — use mockups em Canva. Nunca use screenshots de perfis reais.</div>
+        <div class="fala voz">Antes e depois de procedimento: proibido. A resolução é explícita — imagens comparativas que sugerem resultado são vedadas. Preço de procedimento ou consulta em destaque como argumento de atração: proibido. Depoimento de paciente com identificação — nome, foto, perfil: proibido, mesmo que o paciente autorize. Promessa de resultado — "você vai sair diferente", "resultado garantido": proibido. Tudo isso está na resolução. E tudo isso eu vejo no feed de médicos toda semana.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 3 · 1:10–2:00 · Posts fictícios permitidos</div>
+        <div class="tela-instr">Posts corretos: conteúdo educativo sobre condição de saúde, especialidade e área de atuação, localização e horário, conquistas profissionais, anúncio informativo Google.</div>
+        <div class="fala voz">Mas o espaço do que é permitido é maior do que a maioria imagina. Conteúdo educativo sobre saúde: permitido. Informar especialidade, área de atuação, onde atende: permitido. Mostrar conquistas profissionais — uma especialização, um título, uma publicação: permitido. Anúncio informativo de pesquisa local no Google: permitido. Você pode construir uma presença sólida, relevante e que atrai o paciente certo — sem cruzar nenhuma dessas linhas.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 4 · 2:00–2:45 · Por que agências erram</div>
+        <div class="tela-instr">Texto animado: "A agência não é médica." / "Ela não responde ao CFM." / "Você sim."</div>
+        <div class="nota">Nunca mencionar concorrentes pelo nome. O argumento é estrutural.</div>
+        <div class="fala voz">A agência genérica aplica o mesmo template de antes e depois que usa para clínica de estética, academia e restaurante. Para ela, é conteúdo. Para você, é infração. E quando o CFM bate na porta, é o seu CRM que está em jogo — não o CNPJ da agência. Por isso, quem produz conteúdo para médico precisa conhecer a resolução antes de publicar a primeira arte.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 5 · 2:45–3:20 · CTA</div>
+        <div class="dica">Colocar link da Res. CFM 2.336/2023 na descrição do vídeo — aumenta credibilidade e tempo de permanência.</div>
+        <div class="fala voz">Se você tem dúvida sobre algum post que já publicou, vale reler a resolução — o link está na descrição. E se você ainda não tem alguém gerenciando sua presença com isso em mente, esse é o primeiro critério que eu usaria para escolher. No próximo vídeo, eu falo sobre a diferença entre presença que acumula seguidores e presença que atrai o paciente certo — e por que essa diferença muda tudo.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- V5 cenas de tela -->
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-num">V5</div>
+      <div class="v-info">
+        <div class="v-tipo voz">Voz-over + tela · Cenas 1 e 4 apenas · Câmera já gravada no Figurino B</div>
+        <div class="v-titulo">Cenas de tela do V5 — feeds fictícios lado a lado</div>
+        <div class="v-meta">Prep: montar dois feeds fictícios no Canva antes</div>
+      </div>
+      <div class="v-check">
+        <div class="checkbox" onclick="this.classList.toggle('feito')"></div>
+        Gravado
+      </div>
+    </div>
+    <div class="v-body">
+
+      <div class="cena">
+        <div class="cena-id">Cena 1 · 0:00–0:40 · TELA — dois feeds lado a lado</div>
+        <div class="tela-instr">Dois feeds fictícios: "Dr. Carlos, cardiologista" e "Dra. Ana, dermatologista". Mesmas cores genéricas, mesmos tipos de post. Difícil distinguir sem os nomes.</div>
+        <div class="fala voz">Estes são dois feeds de médicos diferentes. Especialidades diferentes. Cidades diferentes. Pacientes diferentes. E no entanto — se você tirar os nomes — você não consegue distinguir um do outro. Mesma paleta. Mesmo estilo de post. Mesmo tipo de conteúdo. Isso não é coincidência. É o resultado de um modelo de produção em escala.</div>
+      </div>
+
+      <div class="cena">
+        <div class="cena-id">Cena 4 · 2:30–3:30 · TELA — contraste entre feeds</div>
+        <div class="tela-instr">Feed genérico vs. feed bem posicionado (identidade coesa, conteúdo específico). A diferença deve ser visível.</div>
+        <div class="fala voz">O que é diferente é começar pela pergunta certa: quem é esse médico, para quem ele atende, o que ele quer comunicar, e quem ele quer atrair? A identidade visual, o tom de voz, a estratégia de conteúdo — tudo isso é construído a partir dessas respostas. O resultado é uma presença que ninguém poderia confundir com outra. Porque foi feita para uma pessoa específica.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- BASTIDOR PASSIVO                            -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="sec" id="bastidor">
+
+  <div class="fig-header">
+    <div class="fig-label">Bastidor passivo · Celular secundário</div>
+    <div class="fig-nome">Ligar e esquecer — filma o dia de gravação</div>
+    <div class="fig-desc">Não edita agora. Material bruto para compilar depois em Reel "Um dia na Zyllah" e destaques de bastidor.</div>
+    <div class="fig-instrucao">⚠ Carregar o celular secundário antes de começar. Ter bateria extra ou carregador por perto. Espaço de armazenamento livre.</div>
+  </div>
+
+  <div class="v-bloco">
+    <div class="v-header">
+      <div class="v-info">
+        <div class="v-tipo" style="color:var(--gold)">Bastidor passivo · Os 3 dias</div>
+        <div class="v-titulo">Checklist do que capturar</div>
+      </div>
+    </div>
+    <div class="v-body">
+      <div class="cena">
+        <div class="cena-id">DIA 1</div>
+        <div class="dica">Posicionar celular secundário antes de começar o setup. Não precisa de ângulo perfeito — câmera fixa em tripé ou apoiado na mesa.</div>
+        <div class="fala voz" style="font-size:14px;background:rgba(184,151,106,.06);border-left-color:var(--gold);">
+          ☐ Câmera ligada enquanto monta o setup (tripé, luz, microfone)<br>
+          ☐ Câmera ligada na troca de figurino A→B<br>
+          ☐ Câmera ligada enquanto bebe água / pausa entre vídeos<br>
+          ☐ Câmera ligada em 1 take errado e a reação depois<br>
+          ☐ Câmera ligada na tela do roteiro enquanto você lê
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-id">DIA 2</div>
+        <div class="fala voz" style="font-size:14px;background:rgba(184,151,106,.06);border-left-color:var(--gold);">
+          ☐ Câmera ligada enquanto abre o hub operacional no desktop<br>
+          ☐ Câmera ligada enquanto configura a tela para gravar V1/V3<br>
+          ☐ Câmera ligada em uma mão anotando / caderno aberto
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-id">O que NÃO capturar</div>
+        <div class="nota">Não capturar: telas com dados reais de clientes, planilha com valores, conversas de WhatsApp, qualquer informação confidencial.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function trocar(id, btn) {
+  document.querySelectorAll('.sec').forEach(s => s.classList.remove('ativa'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativo'));
+  document.getElementById(id).classList.add('ativa');
+  btn.classList.add('ativo');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+
+</body>
+</html>
