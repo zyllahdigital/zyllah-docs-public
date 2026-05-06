@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah Digital · Calendário Editorial · 08–21 abr 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #B8976A;
+    --gold-light: #D4B896;
+    --gold-pale: #F0EBE1;
+    --ink: #1A1714;
+    --ink-soft: #3D3830;
+    --cream: #FAF7F2;
+    --cream-mid: #F0EBE1;
+  }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--ink);
+    padding: 64px 80px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(184,151,106,0.12);
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 40%;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 1px solid rgba(184,151,106,0.08);
+  }
+  .header-tag {
+    font-size: 11px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: block;
+  }
+  .header-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 5vw, 68px);
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 1.05;
+    margin-bottom: 24px;
+  }
+  .header-title em { font-style: italic; color: var(--gold); }
+  .header-meta {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .header-meta-item {
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+  }
+  .header-meta-item strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--gold);
+    letter-spacing: 0;
+    text-transform: none;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* LEGENDA */
+  .legenda {
+    background: var(--ink-soft);
+    padding: 28px 80px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .legenda-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+  .legenda-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* SEMANA */
+  .semana {
+    padding: 72px 80px 0;
+  }
+  .semana-label {
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .semana-titulo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--ink);
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(26,23,20,0.1);
+  }
+
+  /* POST CARD */
+  .posts {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .post {
+    background: white;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    min-height: 0;
+    transition: box-shadow 0.2s;
+  }
+  .post:hover { box-shadow: 0 8px 40px rgba(26,23,20,0.08); }
+
+  .post-lateral {
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 3px solid var(--lateral-color, var(--gold));
+    background: var(--lateral-bg, white);
+  }
+  .post-data {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .post-diames {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(26,23,20,0.4);
+  }
+  .post-canal-badge {
+    margin-top: 20px;
+  }
+  .canal-nome {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--lateral-color, var(--gold));
+    display: block;
+    margin-bottom: 4px;
+  }
+  .tipo-nome {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(26,23,20,0.35);
+    display: block;
+  }
+
+  .post-corpo {
+    padding: 36px 48px 36px 40px;
+  }
+  .post-manchete {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.25;
+    margin-bottom: 20px;
+    font-style: italic;
+  }
+
+  .post-secao-label {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(26,23,20,0.35);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .post-texto {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    margin-bottom: 24px;
+    white-space: pre-line;
+  }
+
+  .post-bloco {
+    margin-bottom: 24px;
+  }
+
+  .post-visual {
+    background: var(--cream-mid);
+    border-left: 2px solid rgba(184,151,106,0.3);
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .post-visual strong {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .tag {
+    font-size: 11px;
+    color: rgba(26,23,20,0.45);
+    background: var(--cream-mid);
+    padding: 4px 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .post-obs {
+    background: rgba(184,151,106,0.08);
+    border-left: 2px solid var(--gold);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    line-height: 1.65;
+  }
+  .post-obs strong {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  /* CORES POR CANAL */
+  .canal-li   { --lateral-color: #0A66C2; --lateral-bg: #f4f8fd; }
+  .canal-ig   { --lateral-color: #C13584; --lateral-bg: #fdf4f9; }
+  .canal-li-pag { --lateral-color: #004B94; --lateral-bg: #eef4fb; }
+  .canal-opt  { --lateral-color: #6B7280; --lateral-bg: #f9f9f9; }
+
+  /* SEPARADOR DE SEMANA */
+  .sep {
+    height: 48px;
+  }
+
+  /* FOOTER */
+  .footer-doc {
+    background: var(--ink);
+    padding: 40px 80px;
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-doc p {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+  }
+  .footer-doc span {
+    color: var(--gold);
+  }
+
+  /* NOTA GA */
+  .nota-tecnica {
+    background: var(--ink);
+    margin: 72px 80px 0;
+    padding: 32px 40px;
+    border-left: 3px solid var(--gold);
+  }
+  .nota-tecnica h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .nota-tecnica p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.75;
+    margin-bottom: 10px;
+  }
+  .nota-tecnica p:last-child { margin-bottom: 0; }
+  .nota-tecnica code {
+    background: rgba(255,255,255,0.08);
+    color: var(--gold);
+    padding: 2px 6px;
+    font-size: 13px;
+    font-family: monospace;
+  }
+
+  @media (max-width: 768px) {
+    .header { padding: 48px 32px 40px; }
+    .legenda { padding: 20px 32px; }
+    .semana { padding: 48px 32px 0; }
+    .post { grid-template-columns: 1fr; }
+    .post-lateral {
+      flex-direction: row;
+      align-items: center;
+      border-right: none;
+      border-bottom: 3px solid var(--lateral-color, var(--gold));
+      padding: 20px 24px;
+    }
+    .post-canal-badge { margin-top: 0; text-align: right; }
+    .post-corpo { padding: 24px; }
+    .nota-tecnica { margin: 48px 32px 0; }
+    .footer-doc { padding: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <span class="header-tag">Zyllah Digital · Uso interno</span>
+  <h1 class="header-title">Calendário <em>Editorial</em><br>08 – 21 de abril</h1>
+  <div class="header-meta">
+    <div class="header-meta-item">
+      Posts planejados
+      <strong>10</strong>
+    </div>
+    <div class="header-meta-item">
+      Semanas
+      <strong>2</strong>
+    </div>
+    <div class="header-meta-item">
+      Canais
+      <strong>IG · LI · LI Página</strong>
+    </div>
+    <div class="header-meta-item">
+      Tema do período
+      <strong>Método + Mercado</strong>
+    </div>
+  </div>
+</div>
+
+<!-- LEGENDA -->
+<div class="legenda">
+  <div class="legenda-item">
+    <div class="legenda-dot" style="background:#0A66C2"></div>
+    LinkedIn Pessoal
+  </div>
+  <div class="legenda-item">
+    <div class="legenda-dot" style="background:#C13584"></div>
+    Instagram
+  </div>
+  <div class="legenda-item">
+    <div class="legenda-dot" style="background:#004B94"></div>
+    LinkedIn Página Zyllah
+  </div>
+  <div class="legenda-item">
+    <div class="legenda-dot" style="background:#6B7280"></div>
+    Opcional / condicionado à gravação
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SEMANA 1 -->
+<!-- ═══════════════════════════════════════ -->
+<div class="semana">
+  <span class="semana-label">Semana 1</span>
+  <h2 class="semana-titulo">08 — 14 de abril · A dor que o médico reconhece</h2>
+
+  <div class="posts">
+
+    <!-- POST 1 — 08/04 LinkedIn -->
+    <div class="post canal-li">
+      <div class="post-lateral">
+        <div>
+          <div class="post-data">08</div>
+          <div class="post-diames">Qua · abr</div>
+        </div>
+        <div class="post-canal-badge">
+          <span class="canal-nome">LinkedIn</span>
+          <span class="tipo-nome">Manifesto</span>
+        </div>
+      </div>
+      <div class="post-corpo">
+        <div class="post-manchete">"O que sua clínica comunica quando você não está presente para falar por ela?"</div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Texto completo</span>
+          <div class="post-texto">Às 23h, uma paciente em potencial visita seu perfil.
+
+Não há recepcionista. Não há você.
+
+Há um feed, um site — ou a ausência deles. Uma primeira impressão que acontece sem que você saiba, sem que possa interferir.
+
+Essa impressão está à altura do que você realmente entrega?
+
+O digital não substitui sua competência. Mas pode ser o motivo pelo qual a próxima paciente nunca chega até você.</div>
+        </div>
+
+        <div class="post-visual">
+          <strong>Orientação visual</strong>
+          Post texto puro no LinkedIn — sem imagem. Fonte padrão da plataforma. Linha em branco entre cada parágrafo. Não usar emojis.
+        </div>
+
+        <div class="post-tags">
+          <span class="tag">#presençadigital</span>
+          <span class="tag">#medicinadeexcelencia</span>
+          <span class="tag">#marketingmedico</span>
+        </div>
+
+        <div class="post-obs">
+          <strong>Nota</strong>
+          Tom reflexivo — não acusatório. O médico precisa se sentir compreendido, não atacado. Terminar na pergunta aberta sem resposta no mesmo post.
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 2 — 09/04 Instagram Carrossel -->
+    <div class="post canal-ig">
+      <div class="post-lateral">
+        <div>
+          <div class="post-data">09</div>
+          <div class="post-diames">Qui · abr</div>
+        </div>
+        <div class="post-canal-badge">
+          <span class="canal-nome">Instagram</span>
+          <span class="tipo-nome">Carrossel · Serviço</span>
+        </div>
+      </div>
+      <div class="post-corpo">
+        <div class="post-manchete">Identidade Visual — o que comunica antes de qualquer palavra</div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Estrutura dos slides</span>
+          <div class="post-texto">Slide 1 (capa): "Antes de qualquer palavra ser lida, sua marca comunica algo."
+— fundo ink, Cormorant grande, sem CTA
+
+Slide 2: Cor, tipografia, proporção — cada escolha cria uma percepção. Trabalhamos cada detalhe para que essa percepção seja: excelência.
+
+Slide 3: Porque sua paciente não decide pela especialidade. Ela decide pela confiança que sente antes de entrar em contato.
+
+Slide 4: "A identidade visual não é estética. É a primeira consulta que acontece no digital."
+
+Slide 5 (fechamento): Logo Zyllah + "Pilar 01 do Sistema Zyllah Digital"</div>
+        </div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Legenda do post</span>
+          <div class="post-texto">Antes de qualquer palavra ser lida, sua marca comunica algo.
+
+Cor, tipografia, proporção — cada escolha cria uma percepção. Trabalhamos cada detalhe para que essa percepção seja excelência.
+
+Porque sua paciente não decide pela especialidade. Ela decide pela confiança que sente antes do primeiro contato.
+
+Arrasta para ver.</div>
+        </div>
+
+        <div class="post-visual">
+          <strong>Orientação visual</strong>
+          Fundo ink (#1A1714). Tipografia Cormorant Garamond para frases principais, Jost light para corpo. Acento gold nos números ou palavras-chave. Consistência com brand book.
+        </div>
+
+        <div class="post-tags">
+          <span class="tag">#brandingparamedicos</span>
+          <span class="tag">#identidadevisual</span>
+          <span class="tag">#clinicadesaltopadrao</span>
+          <span class="tag">#presençadigital</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 3 — 11/04 Instagram Reel -->
+    <div class="post canal-opt">
+      <div class="post-lateral">
+        <div>
+          <div class="post-data">11</div>
+          <div class="post-diames">Sáb · abr</div>
+        </div>
+        <div class="post-canal-badge">
+          <span class="canal-nome">Instagram</span>
+          <span class="tipo-nome">Reel · opcional</span>
+        </div>
+      </div>
+      <div class="post-corpo">
+        <div class="post-manchete">"Médico não precisa virar criador de conteúdo. Nunca precisou."</div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Se gravar (Short B3 do plano de produção)</span>
+          <div class="post-texto">15 segundos. Câmera frontal, plano médio, corte direto.
+
+Fala: "Médico não precisa virar criador de conteúdo. Nunca precisou. O problema é que alguém convenceu você de que sim — e você tentou, se esgotou, e agora sente que o problema é falta de disciplina sua. Não é."
+
+Legenda animada obrigatória. Logo Zyllah no canto inferior direito.</div>
+        </div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Se não der gravar — substituto</span>
+          <div class="post-texto">Gravar card E7 em tela cheia (F11) com OBS:
+"CURTIDAS não enchem AGENDA."
+— fundo ink, 8 segundos, legenda do post abaixo.</div>
+        </div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Legenda (para ambos os formatos)</span>
+          <div class="post-texto">O modelo de conteúdo que a maioria ensina para médicos foi copiado do influenciador digital.
+
+Para médico, ele é um parasita do tempo clínico.
+
+Existe outro caminho.</div>
+        </div>
+
+        <div class="post-tags">
+          <span class="tag">#marketingmedico</span>
+          <span class="tag">#medicodigital</span>
+          <span class="tag">#presençadigital</span>
+        </div>
+
+        <div class="post-obs">
+          <strong>Condicionado</strong>
+          Gravar apenas quando estiver recuperado. Não forçar. O card substituto entrega a mensagem com a mesma qualidade visual.
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 4 — 13/04 LinkedIn -->
+    <div class="post canal-li">
+      <div class="post-lateral">
+        <div>
+          <div class="post-data">13</div>
+          <div class="post-diames">Seg · abr</div>
+        </div>
+        <div class="post-canal-badge">
+          <span class="canal-nome">LinkedIn</span>
+          <span class="tipo-nome">Narrativa</span>
+        </div>
+      </div>
+      <div class="post-corpo">
+        <div class="post-manchete">O ciclo que todo médico conhece — mas nunca ninguém nomeou</div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Texto completo</span>
+          <div class="post-texto">Existe um padrão que eu vejo se repetir.
+
+O médico decide levar o digital a sério. Posta durante duas, três semanas. Com cuidado, com conteúdo bom.
+
+Aí vem uma semana pesada no consultório. Um plantão. Uma emergência.
+
+O Instagram fica parado por quarenta, sessenta dias.
+
+Quando volta, sente que precisa se justificar. Escreve um post de "voltei". Posta mais uma semana. E o ciclo recomeça.
+
+Isso não é falta de comprometimento.
+
+É um modelo que não foi feito para quem trabalha com saúde.</div>
+        </div>
+
+        <div class="post-visual">
+          <strong>Orientação</strong>
+          Post texto puro. Uma frase por parágrafo nos itens do ciclo. Deixar o médico se reconhecer em cada linha. Sem solução neste post — a solução vem quarta-feira.
+        </div>
+
+        <div class="post-tags">
+          <span class="tag">#medicodigital</span>
+          <span class="tag">#marketingmedico</span>
+          <span class="tag">#burnout</span>
+          <span class="tag">#presençadigital</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 5 — 14/04 Instagram -->
+    <div class="post canal-ig">
+      <div class="post-lateral">
+        <div>
+          <div class="post-data">14</div>
+          <div class="post-diames">Ter · abr</div>
+        </div>
+        <div class="post-canal-badge">
+          <span class="canal-nome">Instagram</span>
+          <span class="tipo-nome">Post estático · Manifesto</span>
+        </div>
+      </div>
+      <div class="post-corpo">
+        <div class="post-manchete">"Reputação construída por anos. Percepção digital construída em segundos."</div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Texto do visual</span>
+          <div class="post-texto">Reputação construída por anos.
+Percepção digital construída em segundos.</div>
+        </div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Legenda do post</span>
+          <div class="post-texto">Você levou anos para ser a referência que é.
+
+Uma paciente nova leva segundos para decidir se continua ou fecha a aba.
+
+O digital não substitui sua competência. Mas pode ser o motivo pelo qual ela nunca chega até você.</div>
+        </div>
+
+        <div class="post-visual">
+          <strong>Orientação visual</strong>
+          Fundo ink. Frase principal em Cormorant Garamond itálico, tamanho grande. Segunda linha menor, sem itálico. Composição centralizada. Logo Zyllah no rodapé. Sem elementos decorativos além da tipografia.
+        </div>
+
+        <div class="post-tags">
+          <span class="tag">#presençadigital</span>
+          <span class="tag">#brandingmedico</span>
+          <span class="tag">#medicinadeexcelencia</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /posts semana 1 -->
+</div><!-- /semana 1 -->
+
+<div class="sep"></div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- SEMANA 2 -->
+<!-- ═══════════════════════════════════════ -->
+<div class="semana">
+  <span class="semana-label">Semana 2</span>
+  <h2 class="semana-titulo">15 — 21 de abril · O modelo certo + marketing com atendimento</h2>
+
+  <div class="posts">
+
+    <!-- POST 6 — 15/04 LinkedIn -->
+    <div class="post canal-li">
+      <div class="post-lateral">
+        <div>
+          <div class="post-data">15</div>
+          <div class="post-diames">Qua · abr</div>
+        </div>
+        <div class="post-canal-badge">
+          <span class="canal-nome">LinkedIn</span>
+          <span class="tipo-nome">Argumento · Virada</span>
+        </div>
+      </div>
+      <div class="post-corpo">
+        <div class="post-manchete">O modelo errado não é falha do médico. É falha do mercado.</div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Texto completo</span>
+          <div class="post-texto">O modelo que a maioria ensina para médicos foi copiado do influenciador digital.
+
+Poste todo dia. Apareça nos stories. Faça reels. Construa audiência.
+
+Esse modelo funciona para quem tem presença digital como profissão. Para médico, ele é um parasita do tempo clínico.
+
+O que funciona é diferente.
+
+Conteúdo planejado em blocos. Uma tarde por mês — uma tarde — e o calendário inteiro está pronto.
+
+A vergonha da câmera diminui na segunda gravação. Na quinta, ela sumiu.
+
+A pergunta não é "como eu apareço mais". A pergunta é: quando alguém pesquisar o seu nome, o que vai encontrar?</div>
+        </div>
+
+        <div class="post-visual">
+          <strong>Orientação</strong>
+          Continuação direta do post de segunda (13/04). Quem leu aquele se reconhece — este entrega a virada. Tom mais tranquilo, próximo. É aqui que o médico começa a imaginar que é possível para ele.
+        </div>
+
+        <div class="post-tags">
+          <span class="tag">#medicodigital</span>
+          <span class="tag">#marketingmedico</span>
+          <span class="tag">#presençadigital</span>
+          <span class="tag">#medicoEmpreendedor</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 7 — 16/04 Instagram Carrossel -->
+    <div class="post canal-ig">
+      <div class="post-lateral">
+        <div>
+          <div class="post-data">16</div>
+          <div class="post-diames">Qui · abr</div>
+        </div>
+        <div class="post-canal-badge">
+          <span class="canal-nome">Instagram</span>
+          <span class="tipo-nome">Carrossel · Educativo</span>
+        </div>
+      </div>
+      <div class="post-corpo">
+        <div class="post-manchete">3 sinais de que seu digital está afastando pacientes do perfil certo</div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Estrutura dos slides</span>
+          <div class="post-texto">Slide 1 (capa): "3 sinais de que seu digital está afastando pacientes do perfil certo."
+— fundo ink, número grande em gold
+
+Slide 2 — Sinal 01:
+"Seu feed parece genérico — poderia ser de qualquer clínica."
+Texto de apoio: quando a identidade visual não tem personalidade, o paciente não consegue diferenciar você de ninguém.
+
+Slide 3 — Sinal 02:
+"Você recebe consultas de pacientes que chegam pelo preço, não pelo valor."
+Texto de apoio: presença mal posicionada atrai o público errado. O digital reflete o que você comunica — não quem você é.
+
+Slide 4 — Sinal 03:
+"Sua bio não deixa claro para quem você trabalha."
+Texto de apoio: especialidade não é posicionamento. "Cardiologista" não diz nada. "Cardiologista preventivo para quem quer evitar o infarto antes dos 50" diz tudo.
+
+Slide 5 (fechamento):
+"Nenhum desses problemas é sobre falta de conteúdo. São sobre falta de posicionamento."
+Logo Zyllah.</div>
+        </div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Legenda do post</span>
+          <div class="post-texto">Nenhum desses sinais é sobre postar mais.
+
+São sobre comunicar certo — para quem realmente valoriza o que você entrega.
+
+Salve este post e revise um por um.</div>
+        </div>
+
+        <div class="post-visual">
+          <strong>Orientação visual</strong>
+          Slides numerados — número em gold grande, sinal em Cormorant. Fundo alternando entre ink e cream para ritmo. Último slide fundo ink com frase de fechamento centralizada.
+        </div>
+
+        <div class="post-tags">
+          <span class="tag">#presençadigital</span>
+          <span class="tag">#marketingparamedicos</span>
+          <span class="tag">#posicionamento</span>
+          <span class="tag">#clinicamedica</span>
+        </div>
+
+        <div class="post-obs">
+          <strong>Objetivo</strong>
+          Alto potencial de salvamento — conteúdo de checklist sempre salva bem. Não colocar CTA de contato neste post.
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 8 — 17/04 LinkedIn Página -->
+    <div class="post canal-li-pag">
+      <div class="post-lateral">
+        <div>
+          <div class="post-data">17</div>
+          <div class="post-diames">Sex · abr</div>
+        </div>
+        <div class="post-canal-badge">
+          <span class="canal-nome">LI · Página Zyllah</span>
+          <span class="tipo-nome">Institucional</span>
+        </div>
+      </div>
+      <div class="post-corpo">
+        <div class="post-manchete">Construímos a presença. E garantimos que ela funciona quando o paciente chega.</div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Texto completo</span>
+          <div class="post-texto">Presença digital para especialistas de saúde não termina no post publicado.
+
+Ela precisa funcionar quando o paciente pesquisa o seu nome às 22h e não encontra nada. Quando manda mensagem e espera horas para ser respondido. Quando chega ao perfil e não entende quem você é nem para quem você atende.
+
+Na Zyllah, trabalhamos os dois lados: a presença que posiciona e a estrutura que converte.
+
+Porque construir visibilidade sem preparar o atendimento é desperdiçar o investimento inteiro.</div>
+        </div>
+
+        <div class="post-visual">
+          <strong>Orientação</strong>
+          Post com imagem na página da empresa — usar logo Zyllah horizontal sobre fundo ink ou imagem de consultório com overlay escuro. Texto no próprio post, não só na imagem.
+        </div>
+
+        <div class="post-tags">
+          <span class="tag">#zyllahdigital</span>
+          <span class="tag">#marketingmedico</span>
+          <span class="tag">#presençadigital</span>
+          <span class="tag">#saude</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 9 — 18/04 Instagram -->
+    <div class="post canal-ig">
+      <div class="post-lateral">
+        <div>
+          <div class="post-data">18</div>
+          <div class="post-diames">Sáb · abr</div>
+        </div>
+        <div class="post-canal-badge">
+          <span class="canal-nome">Instagram</span>
+          <span class="tipo-nome">Reel ou Card · Bastidor</span>
+        </div>
+      </div>
+      <div class="post-corpo">
+        <div class="post-manchete">"Em 20 anos de audiovisual aprendi: consistência bate talento quando o talento é inconsistente."</div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Se gravar (Short C5 do plano de produção)</span>
+          <div class="post-texto">15 segundos. Câmera frontal.
+
+Fala: "Em 20 anos de audiovisual aprendi: consistência bate talento quando o talento é inconsistente."
+
+Pausa de 2 segundos antes de falar. Tom sóbrio, sem pressa.</div>
+        </div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Se não der gravar</span>
+          <div class="post-texto">Gravar card E2 em tela cheia (F11):
+"Consistência sem estratégia é RUÍDO. Estratégia sem consistência é INVISÍVEL."
+— fundo ink, 12 segundos.</div>
+        </div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Legenda (para ambos)</span>
+          <div class="post-texto">Vinte anos de audiovisual me ensinaram que o problema raramente é falta de talento.
+
+É falta de sistema.
+
+Isso vale para conteúdo médico tanto quanto vale para produção.</div>
+        </div>
+
+        <div class="post-tags">
+          <span class="tag">#audiovisual</span>
+          <span class="tag">#presençadigital</span>
+          <span class="tag">#marketingmedico</span>
+          <span class="tag">#zyllahdigital</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST 10 — 21/04 LinkedIn -->
+    <div class="post canal-li">
+      <div class="post-lateral">
+        <div>
+          <div class="post-data">21</div>
+          <div class="post-diames">Ter · abr</div>
+        </div>
+        <div class="post-canal-badge">
+          <span class="canal-nome">LinkedIn</span>
+          <span class="tipo-nome">Argumento · Atendimento</span>
+        </div>
+      </div>
+      <div class="post-corpo">
+        <div class="post-manchete">Você investiu em presença. E perdeu o paciente no WhatsApp.</div>
+
+        <div class="post-bloco">
+          <span class="post-secao-label">Texto completo</span>
+          <div class="post-texto">O paciente pesquisou o seu nome. Encontrou.
+
+Visitou o perfil. Gostou.
+
+Mandou mensagem às 22h.
+
+Recebeu resposta às 9h do dia seguinte.
+
+Nesse intervalo, ele pesquisou mais dois concorrentes, encontrou um que tinha mensagem automática de acolhimento, e agendou lá.
+
+O problema não foi o marketing. O marketing funcionou.
+
+O problema foi o que aconteceu depois.
+
+Presença digital não termina quando o paciente te encontra. Ela começa aí.</div>
+        </div>
+
+        <div class="post-visual">
+          <strong>Orientação</strong>
+          Post texto puro. Ritmo narrativo — uma frase por parágrafo nos primeiros blocos. A sequência deve ter o ritmo de uma história sendo contada. A virada ("O problema não foi o marketing") vem depois de deixar o cenário claro.
+        </div>
+
+        <div class="post-tags">
+          <span class="tag">#marketingmedico</span>
+          <span class="tag">#atendimentodigital</span>
+          <span class="tag">#presençadigital</span>
+          <span class="tag">#clinicamedica</span>
+        </div>
+
+        <div class="post-obs">
+          <strong>Posicionamento</strong>
+          Este post abre a narrativa de atendimento automático sem mencionar a solução. A solução (automação) fica para posts futuros ou para quando um prospect perguntar nos comentários.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /posts semana 2 -->
+</div><!-- /semana 2 -->
+
+<!-- NOTA TÉCNICA GA4 + CANONICAL -->
+<div class="nota-tecnica">
+  <h3>Correções técnicas aplicadas — index.html · 07 abr 2026</h3>
+  <p><strong style="color:var(--gold-light)">GA4:</strong> Removida condicional de cookie que impedia o rastreamento da maioria dos visitantes. O GA4 agora carrega sempre com <code>anonymize_ip: true</code>, <code>allow_google_signals: false</code> e <code>allow_ad_personalization_signals: false</code>. Base legal: legítimo interesse (LGPD art. 10). Nenhum dado pessoal identificável é coletado. Banner de cookie mantido para transparência — agora informativo, não bloqueante.</p>
+  <p><strong style="color:var(--gold-light)">Canonical:</strong> Tag <code>&lt;link rel="canonical" href="https://zyllah.com.br/"&gt;</code> já estava correta no arquivo. Para consolidar definitivamente as quatro versões indexadas pelo Google (www, sem www, http, https), configurar no DNS/registrador: CNAME do <code>www</code> apontando para <code>zyllah.com.br</code>. O GitHub Pages já serve pela versão sem www pelo arquivo CNAME.</p>
+  <p><strong style="color:var(--gold-light)">Próximo passo:</strong> Subir o <code>index.html</code> corrigido no repositório GitHub e aguardar 2–4 semanas para o Google consolidar as URLs no Search Console.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-doc">
+  <p>Zyllah Digital · <span>Calendário Editorial · 08–21 abr 2026</span> · Uso interno</p>
+  <p>Gerado em <span>07 de abril de 2026</span></p>
+</div>
+
+</body>
+</html>

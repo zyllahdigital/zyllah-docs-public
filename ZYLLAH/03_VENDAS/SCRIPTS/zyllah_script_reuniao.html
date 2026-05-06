@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah — Script de Reunião</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #B8976A; --gold-light: #D4B896;
+    --ink: #1A1714; --ink-soft: #3D3830;
+    --cream: #FAF7F2; --cream-mid: #F0EBE1; --cream-dark: #E5DDD0;
+    --red: #8B3A3A;
+  }
+  body { font-family: 'Jost', sans-serif; font-weight: 300; background: var(--cream); color: var(--ink); font-size: 15px; line-height: 1.85; }
+  #senha-tela { position: fixed; inset: 0; z-index: 99999; background: #1A1714; display: flex; align-items: center; justify-content: center; }
+  .senha-box { width: 100%; max-width: 400px; padding: 48px; display: flex; flex-direction: column; gap: 20px; }
+  .senha-logo { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(184,151,106,0.5); letter-spacing: 0.3em; }
+  .senha-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: white; line-height: 1.1; }
+  .senha-titulo em { font-style: italic; color: #D4B896; }
+  .senha-input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(184,151,106,0.35); padding: 14px 0; font-family: 'Jost', sans-serif; font-size: 18px; color: white; outline: none; letter-spacing: 0.1em; transition: border-color 0.2s; }
+  .senha-input:focus { border-bottom-color: #B8976A; }
+  .senha-input::placeholder { color: rgba(255,255,255,0.55); font-size: 14px; letter-spacing: 0.2em; }
+  .senha-btn { background: #B8976A; color: #1A1714; border: none; padding: 14px 32px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; align-self: flex-start; }
+  .senha-btn:hover { background: #D4B896; }
+  .senha-erro { font-size: 13px; color: rgba(210,100,100,0.9); letter-spacing: 0.08em; min-height: 18px; }
+  .header { background: var(--ink); padding: 56px 80px; }
+  .header-tag { font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+  .header-title { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 300; color: white; line-height: 1.05; margin-bottom: 12px; }
+  .header-title em { font-style: italic; color: var(--gold-light); }
+  .header-aviso { font-size: 13px; color: rgba(255,255,255,0.35); margin-top: 20px; border-left: 2px solid rgba(184,151,106,0.3); padding-left: 16px; line-height: 1.7; max-width: 600px; }
+  .corpo { max-width: 900px; margin: 0 auto; padding: 64px 60px 120px; }
+  .secao { margin-bottom: 72px; }
+  .secao-header { display: flex; align-items: baseline; gap: 20px; margin-bottom: 36px; padding-bottom: 16px; border-bottom: 1px solid rgba(184,151,106,0.2); }
+  .secao-num { font-size: 11px; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; }
+  .secao-titulo { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: var(--ink); }
+  .entregavel { margin-bottom: 40px; background: white; border: 1px solid rgba(184,151,106,0.1); }
+  .ent-cabecalho { padding: 24px 28px 20px; border-bottom: 1px solid rgba(184,151,106,0.08); display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .ent-nome { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; color: var(--ink); }
+  .ent-plano { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+  .ent-corpo { padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; }
+  .bloco-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .bloco-texto { font-size: 14px; color: var(--ink-soft); line-height: 1.85; }
+  .bloco-texto strong { color: var(--ink); font-weight: 500; }
+  .fala { background: rgba(184,151,106,0.06); border-left: 3px solid var(--gold); padding: 16px 20px; font-size: 14px; color: var(--ink); line-height: 1.85; font-style: italic; }
+  .fala::before { content: '» '; color: var(--gold); font-style: normal; font-weight: 500; }
+  .pergunta { background: rgba(26,23,20,0.03); border-left: 3px solid rgba(61,56,48,0.2); padding: 14px 20px; margin-bottom: 8px; }
+  .pergunta-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 6px; }
+  .pergunta-texto { font-size: 14px; color: var(--ink-soft); font-style: italic; }
+  .resposta { font-size: 14px; color: var(--ink-soft); line-height: 1.85; padding-left: 20px; border-left: 3px solid var(--gold-light); margin-bottom: 16px; }
+  .alerta { background: rgba(139,58,58,0.05); border-left: 3px solid rgba(139,58,58,0.4); padding: 14px 20px; font-size: 13px; color: var(--red); line-height: 1.75; }
+  .alerta::before { content: 'ATENÇÃO — '; font-weight: 500; }
+  .divider { height: 1px; background: rgba(184,151,106,0.12); margin: 24px 0; }
+  .fluxo-step { display: flex; gap: 24px; padding: 20px 0; border-bottom: 1px solid rgba(184,151,106,0.1); }
+  .fluxo-step:last-child { border-bottom: none; }
+  .fluxo-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-style: italic; color: var(--gold); opacity: 0.5; flex-shrink: 0; width: 36px; line-height: 1.1; }
+  .fluxo-conteudo { flex: 1; }
+  .fluxo-titulo { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+  .fluxo-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.75; }
+  .fluxo-fala { font-style: italic; color: var(--ink); margin-top: 8px; font-size: 13px; border-left: 2px solid rgba(184,151,106,0.4); padding-left: 12px; }
+  @media (max-width: 700px) { .header { padding: 48px 28px; } .corpo { padding: 48px 24px 80px; } }
+</style>
+<script>
+(function() {
+  var SENHA = 'Zyl@Script26';
+  var KEY = 'zyl_script26';
+  if (sessionStorage.getItem(KEY) === '1') return;
+  var tela = document.getElementById('senha-tela');
+  if (tela) tela.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  window.verificarSenha = function() {
+    var inp = document.getElementById('senha-input');
+    var err = document.getElementById('senha-erro');
+    if (inp.value === SENHA) {
+      sessionStorage.setItem(KEY, '1');
+      tela.style.transition = 'opacity 0.3s';
+      tela.style.opacity = '0';
+      setTimeout(function() { tela.style.display = 'none'; document.body.style.overflow = ''; }, 300);
+    } else {
+      err.textContent = 'Senha incorreta.';
+      inp.value = ''; inp.focus();
+      setTimeout(function() { err.textContent = ''; }, 2000);
+    }
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    var inp = document.getElementById('senha-input');
+    if (inp) { inp.focus(); inp.addEventListener('keydown', function(e) { if (e.key==='Enter') verificarSenha(); }); }
+  });
+})();
+</script>
+</head>
+<body>
+
+<div id="senha-tela" style="display:none;">
+  <div class="senha-box">
+    <div class="senha-logo">Zyllah Digital</div>
+    <div class="senha-titulo">Uso<br><em>interno</em></div>
+    <input id="senha-input" type="password" class="senha-input" placeholder="senha" autocomplete="off">
+    <div id="senha-erro" class="senha-erro"></div>
+    <button class="senha-btn" onclick="verificarSenha()">Entrar →</button>
+  </div>
+</div>
+
+<div class="header">
+  <span class="header-tag">Zyllah Digital · Uso Exclusivo Interno</span>
+  <h1 class="header-title">Script de<br><em>Reunião</em></h1>
+  <div class="header-aviso">Este documento não é para ser mostrado ao cliente. Contém o que cada entregável é de verdade, como explicar em linguagem de benefício e como responder as perguntas mais comuns. Consultar no celular durante a conversa.</div>
+</div>
+
+<div class="corpo">
+
+  <!-- SEÇÃO 0 — FLUXO DA REUNIÃO -->
+  <div class="secao">
+    <div class="secao-header">
+      <span class="secao-num">00</span>
+      <span class="secao-titulo">Fluxo da reunião — passo a passo</span>
+    </div>
+    <div class="fluxo-step">
+      <div class="fluxo-num">1</div>
+      <div class="fluxo-conteudo">
+        <div class="fluxo-titulo">Abertura — 3 min. Não venda ainda.</div>
+        <div class="fluxo-desc">Objetivo: entender a situação atual antes de mostrar qualquer coisa. Quem pergunta, conduz.</div>
+        <div class="fluxo-fala">"Antes de eu te mostrar qualquer coisa, me conta: hoje, quando alguém pesquisa seu nome no Google ou no Instagram, o que ele encontra?"</div>
+      </div>
+    </div>
+    <div class="fluxo-step">
+      <div class="fluxo-num">2</div>
+      <div class="fluxo-conteudo">
+        <div class="fluxo-titulo">Diagnóstico rápido — 10 min</div>
+        <div class="fluxo-desc">Perguntas que revelam a dor sem forçar. Anote as respostas — vai usar para personalizar a proposta depois.</div>
+        <div class="fluxo-fala">"Sua agenda está cheia hoje? De onde vêm a maioria dos pacientes novos — indicação, plano ou digital?" / "Você já teve paciente que te achou pelo Instagram ou Google?" / "Quando você posta, o que acontece?"</div>
+      </div>
+    </div>
+    <div class="fluxo-step">
+      <div class="fluxo-num">3</div>
+      <div class="fluxo-conteudo">
+        <div class="fluxo-titulo">Apresentação — 15 min</div>
+        <div class="fluxo-desc">Mostra os slides. Não explique cada item — deixa o visual falar. Comente só o que ele perguntar.</div>
+        <div class="fluxo-fala">Slides 1→3 sem parar. Nos slides de plano, aponta o Recomendado: "A maioria dos profissionais que começa comigo vai por esse aqui."</div>
+      </div>
+    </div>
+    <div class="fluxo-step">
+      <div class="fluxo-num">4</div>
+      <div class="fluxo-conteudo">
+        <div class="fluxo-titulo">Ancoragem — 2 min. Antes de falar o preço, faz a conta junto.</div>
+        <div class="fluxo-fala">"Uma consulta particular sua custa em média quanto? R$ 300? Se o digital contribuir para trazer pacientes novos que hoje não chegam até você — e isso acontece com consistência — o potencial de crescimento de autoridade e visibilidade justifica o investimento com folga. O plano custa R$ 2.800."</div>
+      </div>
+    </div>
+    <div class="fluxo-step">
+      <div class="fluxo-num">5</div>
+      <div class="fluxo-conteudo">
+        <div class="fluxo-titulo">Silêncio — regra de ouro</div>
+        <div class="fluxo-desc">Depois de apresentar o investimento, <strong>não fale</strong>. Quem fala primeiro, perde. Deixa ele processar.</div>
+      </div>
+    </div>
+    <div class="fluxo-step">
+      <div class="fluxo-num">6</div>
+      <div class="fluxo-conteudo">
+        <div class="fluxo-titulo">Fechamento — próximo passo pequeno, não assinatura</div>
+        <div class="fluxo-fala">"O que faz sentido agora é eu montar uma proposta personalizada para você. Leva 24h. Aí você lê com calma e decide. Tudo bem assim?"</div>
+        <div class="fluxo-desc" style="margin-top:12px;">Após confirmar o próximo passo — plante a semente do Zyllah Confiança em 30 segundos (benefício extra-contratual da Zyllah, não obrigação formal):</div>
+        <div class="fluxo-fala">"E só um detalhe: quando você estiver satisfeito com o resultado — o que vai acontecer — existe um benefício para quem indica um colega. Te conto mais quando chegar lá."</div>
+        <div class="fluxo-desc" style="margin-top:8px; font-size:12px; color:#8B3A3A;">Não explique o programa agora. Plante a curiosidade e siga. O programa completo é apresentado na reunião do primeiro mês. Atenção: este é um benefício extra-contratual da Zyllah — não consta no contrato como obrigação.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 1 — ESSENCIAL -->
+  <div class="secao">
+    <div class="secao-header">
+      <span class="secao-num">01</span>
+      <span class="secao-titulo">Plano Essencial — entregáveis</span>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Identidade visual — Brand Book</div>
+        <div class="ent-plano">Todos os planos</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é de verdade</div>
+        <div class="bloco-texto">Documento de 20–30 páginas: paleta de cores (códigos exatos), tipografia (fontes e tamanhos), logotipo (variações e regras de uso), tom de voz (como o profissional se comunica por escrito), exemplos de aplicação em posts, cartão e site. Inclui criação do logo se não existir. Entregue em PDF.</div>
+        <div class="bloco-label">Como falar para o cliente</div>
+        <div class="fala">Antes de publicar qualquer coisa, a gente precisa decidir quem você é visualmente. O Brand Book é essa decisão — tomada uma vez, seguida para sempre. Define cor, fonte, tom de voz, como seu logo aparece, o que pode e o que não pode. Qualquer pessoa que trabalhar com você no futuro segue esse manual. O resultado continua sendo você — não uma versão genérica de médico especialista.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Eu não tenho logo. Vocês criam também?"</div></div>
+        <div class="resposta">Sim, faz parte. O Brand Book inclui criação da identidade do zero — logo, cores, tipografia. Se você já tiver algo, a gente parte do que existe e refina. O objetivo é chegar num sistema visual que você usa por anos, não algo que precise trocar todo ano.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Quanto tempo leva para fazer?"</div></div>
+        <div class="resposta">Enviamos o Brand Book em até 15 dias após o briefing. Você aprova, pede ajustes se precisar, e a gente finaliza. Só depois que a identidade estiver aprovada começamos a produção de conteúdo — porque tudo precisa seguir o mesmo padrão visual.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"E se eu não gostar?"</div></div>
+        <div class="resposta">O processo começa com um briefing aprofundado — perguntamos sobre referências, o que você admira, o que não quer ver. Com essas informações, a primeira proposta já está próxima do que você imagina. Oferecemos duas rodadas de revisão incluídas. Na prática, o problema mais comum é o cliente ficar indeciso entre duas opções boas — não rejeição total.</div>
+        <div class="alerta">Não mencionar ferramentas (Canva, Figma). O cliente pode achar que é simples demais de fazer.</div>
+      </div>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Gestão de Instagram — 3x por semana</div>
+        <div class="ent-plano">Essencial</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é de verdade</div>
+        <div class="bloco-texto">12 posts/mês no feed: carrossel educativo, quote de posicionamento e bastidor do consultório. Calendário editorial enviado no início do mês para aprovação. Criação das artes com identidade visual, copywriting, hashtags e publicação no horário de pico. Sem gestão de DMs — isso é responsabilidade do cliente ou da equipe dele.</div>
+        <div class="bloco-label">Como falar para o cliente</div>
+        <div class="fala">Seu Instagram vai ter movimento toda semana — conteúdo que educa, que mostra quem você é e que lembra o paciente de que você existe. Você recebe o calendário do mês antes de começar, aprova cada post, e só publica o que você autorizou. Não precisa pensar no que postar, escrever texto nem saber fazer arte. Você aparece com consistência sem precisar aparecer o tempo todo.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Vocês respondem as mensagens dos pacientes no direct?"</div></div>
+        <div class="resposta">Não é parte deste plano. A gestão de comentários e DMs fica com você ou sua equipe. No Plano Presença Completa a gente configura um atendimento automático para mensagens fora do horário — mas a conversa clínica continua sendo sua.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Três vezes por semana é suficiente? Vi médico postando todo dia."</div></div>
+        <div class="resposta">Consistência é mais importante que volume. Médico que posta todo dia por 30 dias e some por 60 causa pior impressão do que quem posta três vezes por semana sem parar. O algoritmo premia consistência — não frequência extrema. E 3x por semana com qualidade é sustentável a longo prazo, que é o que importa para construir autoridade.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Posso pedir posts sobre temas específicos?"</div></div>
+        <div class="resposta">Sim. O calendário é montado com base nos temas que você indica no briefing mensal — procedimentos que você quer destacar, datas relevantes, conquistas da clínica. Você molda o conteúdo, a gente executa. A única restrição é o que o CFM proíbe na publicidade médica — e nisso a gente te orienta para não cometer infração sem querer.</div>
+        <div class="alerta">Nunca prometer "mais seguidores" ou "mais pacientes" como número. A promessa é consistência e autoridade. O resultado em pacientes varia por especialidade e mercado.</div>
+      </div>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Sessão fotográfica</div>
+        <div class="ent-plano">Essencial: trimestral · Presença Completa e Autoridade: mensal</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é de verdade</div>
+        <div class="bloco-texto">2 horas de produção no consultório. Fotos do profissional (retratos, working shots), do ambiente e detalhes. Entrega de 20–30 fotos editadas em até 7 dias. Produção com smartphone de alta resolução, gimbal para estabilização e iluminação profissional — setup compacto que entrega resultado equivalente a câmera para uso em redes e site. No Essencial: trimestral. No Presença Completa e Autoridade: mensal.</div>
+        <div class="bloco-label">Como falar para o cliente</div>
+        <div class="fala">Todo mês a gente vai ao seu consultório e produz as fotos que alimentam tudo — Instagram, site, LinkedIn. Você não precisa tirar foto no celular nem se preocupar com equipamento. O banco de imagens vai crescendo e o visual continua consistente. Depois de seis meses você tem um acervo visual da sua clínica que não existe em lugar nenhum — e que comunica excelência antes de qualquer palavra.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Eu tenho que aparecer nas fotos? Sou tímido."</div></div>
+        <div class="resposta">Não precisa nas primeiras. Começo com o ambiente, os detalhes, os equipamentos — a clínica fala por si mesma. Quando você estiver confortável, vou introduzindo fotos suas — primeiro mais discretas, depois mais presença. É um processo gradual e sem pressão.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"E se eu não gostar das fotos?"</div></div>
+        <div class="resposta">Entrego uma seleção prévia para você escolher quais quer que eu edite em alta resolução. Você tem controle sobre o que entra no banco. O que não aprovar, não usamos.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"E para clientes remotos? Não moro em Nova Friburgo."</div></div>
+        <div class="resposta">Para clientes fora da cidade, enviamos um guia completo de como gravar e fotografar com o próprio celular — enquadramento, iluminação, o que vestir. O resultado com celular bom e boa luz é excelente para redes sociais. Quando possível, organizamos uma visita presencial trimestral para a produção de maior qualidade.</div>
+      </div>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Relatório mensal</div>
+        <div class="ent-plano">Essencial: simplificado · Autoridade: painel ao vivo</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é de verdade</div>
+        <div class="bloco-texto">Essencial: PDF enviado até o dia 5 do mês seguinte — alcance total, posts com melhor desempenho, crescimento de seguidores, cliques no link da bio. Presença Completa: relatório completo com Instagram + LinkedIn + site. Autoridade: painel ao vivo no Notion com dados consolidados de todas as plataformas, atualizado automaticamente — Instagram, LinkedIn, site, WhatsApp e anúncios.</div>
+        <div class="bloco-label">Como falar para o cliente</div>
+        <div class="fala">Todo mês você recebe um resumo claro: o que funcionou, o que cresceu, o que ajustar. Não é planilha — é uma página que você lê em 3 minutos e já sabe como está o desempenho. Você nunca fica no escuro sobre o que está acontecendo com a sua presença digital.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Como eu sei se está funcionando? Quais métricas importam?"</div></div>
+        <div class="resposta">No início, o que importa é alcance e consistência — quantas pessoas estão vendo e se o volume está crescendo. Depois de 3 meses, começa a aparecer o que realmente interessa: perfil de quem interage, cliques no WhatsApp, visitas ao site. O resultado em novos pacientes é rastreável quando o cliente faz uma pergunta simples na triagem: "Como você ficou sabendo de nós?" — esse dado fechado pelo próprio consultório é o mais honesto.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 2 — PRESENÇA COMPLETA -->
+  <div class="secao">
+    <div class="secao-header">
+      <span class="secao-num">02</span>
+      <span class="secao-titulo">Plano Presença Completa — entregáveis adicionais</span>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Site institucional de uma página</div>
+        <div class="ent-plano">Presença Completa · Autoridade</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é de verdade</div>
+        <div class="bloco-texto">Landing page responsiva com: foto profissional, especialidade e diferenciais, link para WhatsApp, lista de serviços, depoimentos e botão de agendamento. Otimizada para Google (SEO local) — nome do profissional, especialidade e cidade indexados. Hospedagem gratuita. Domínio do cliente por conta dele (~R$ 40/ano).</div>
+        <div class="bloco-label">Como falar para o cliente</div>
+        <div class="fala">Quando o paciente pesquisar seu nome no Google, vai encontrar uma página que representa quem você é — não um perfil do CRM desatualizado ou um link quebrado. É a primeira impressão digital. Profissional, rápida, pronta para converter visita em contato. E diferente das redes sociais, o site é seu — não muda de algoritmo, não desaparece se a plataforma mudar as regras.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"É só uma página? Não tem blog, área de pacientes, agendamento online?"</div></div>
+        <div class="resposta">Propositalmente sim. Site grande vazio é pior que site pequeno completo. O objetivo é ter presença sólida e funcional agora. Se no futuro precisar de mais, a gente evolui. O que importa hoje é o Google te encontrar e o paciente saber quem você é.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Não bastaria o Instagram em vez de site?"</div></div>
+        <div class="resposta">Instagram e site têm funções diferentes. O Instagram constrói relacionamento e autoridade com quem já te segue. O site captura quem pesquisa no Google — e quem pesquisa no Google já está com intenção de agendar. São públicos diferentes no mesmo momento de decisão. Sem site, você não aparece para quem está procurando ativamente.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Quanto tempo leva para aparecer no Google?"</div></div>
+        <div class="resposta">Para o seu nome aparecer: semanas. Para aparecer em buscas como "dermatologista Nova Friburgo": 3 a 6 meses de consistência. O Google Meu Negócio, que configuramos junto, acelera o processo para buscas locais.</div>
+      </div>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Vídeos curtos</div>
+        <div class="ent-plano">Presença Completa: 2/mês · Autoridade: 1/semana</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é de verdade</div>
+        <div class="bloco-texto">Reels de 30–60s. Roteiro escrito pela Zyllah, gravação pelo profissional no consultório com celular — orientação completa de enquadramento, iluminação e postura enviada antes. Edição completa: cortes, legenda animada, trilha, arte de encerramento com identidade visual. Publicação no Instagram e/ou YouTube Shorts. Para clientes locais, possibilidade de produção presencial com câmera profissional.</div>
+        <div class="bloco-label">Como falar para o cliente</div>
+        <div class="fala">Você não precisa saber editar, aparecer toda hora nem virar criador de conteúdo. A gente escreve o roteiro, você grava 2 minutos no consultório e manda pelo WhatsApp. A gente edita, coloca legenda, monta tudo e publica. O vídeo curto é o formato com maior alcance orgânico hoje — e um médico que explica com clareza ganha muito mais confiança do que um que só posta foto de diploma.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"No celular vai ter qualidade boa?"</div></div>
+        <div class="resposta">Sim. Smartphone atual com gimbal para estabilização e iluminação de anel entrega qualidade excelente para redes — é o setup que a maioria dos médicos com grande audiência usa. O que faz diferença é o roteiro, a edição e a consistência. Enviamos um guia de setup simples antes de cada sessão: luz posicionada, fundo limpo, microfone de lapela se quiser melhorar o áudio. O resultado surpreende.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Preciso aparecer falando? Tenho vergonha de câmera."</div></div>
+        <div class="resposta">Não necessariamente. Existem formatos de vídeo que não exigem câmera no rosto — texto animado sobre imagem do consultório, voz over com bastidores, hands demonstrando procedimento. Quando o cliente estiver confortável, introduzimos câmera no rosto gradualmente. O mais importante é começar — a vergonha diminui com a segunda gravação.</div>
+        <div class="alerta">Se o cliente for resistente a aparecer em vídeo, não force. Comece com carrossel e foto. Vídeo pode ser introduzido no mês 2 ou 3 quando a confiança estiver construída.</div>
+      </div>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Gestão de LinkedIn</div>
+        <div class="ent-plano">Presença Completa · Autoridade</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é de verdade</div>
+        <div class="bloco-texto">Otimização completa do perfil: foto profissional, banner com identidade visual, headline estratégica, resumo com posicionamento. 4–6 posts/mês: artigos curtos, conquistas clínicas, reflexões profissionais, participações em eventos. No Autoridade: estratégia B2B ativa — posicionamento para hospitais, operadoras e imprensa médica.</div>
+        <div class="bloco-label">Como falar para o cliente</div>
+        <div class="fala">O Instagram fala com paciente. O LinkedIn fala com colega, hospital, convênio e jornalista. São audiências completamente diferentes — e o LinkedIn é onde as decisões de alto impacto acontecem. Não é onde o paciente te encontra. É onde o diretor clínico decide te convidar para uma palestra. Onde o jornalista de saúde te encontra para ser fonte numa matéria. Onde o colega de outra cidade te indica para um caso complexo. Onde a operadora percebe que você é referência e considera um credenciamento diferenciado.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Meus pacientes não usam LinkedIn. Por que preciso estar lá?"</div></div>
+        <div class="resposta">Porque seus pacientes não são os únicos que decidem sua carreira. Os jornalistas que escrevem sobre saúde usam LinkedIn para encontrar fontes especializadas. Os diretores de hospitais onde você quer ter privilégios cirúrgicos usam. Os colegas que te indicam os casos mais complexos e lucrativos usam. As operadoras que credenciam especialistas de referência usam. O LinkedIn não traz consulta — abre portas que o Instagram não consegue abrir.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"O que é o LinkedIn B2B do plano Autoridade?"</div></div>
+        <div class="resposta">No plano Presença Completa Completa, o LinkedIn foca na sua reputação como especialista — conteúdo clínico, conquistas, visibilidade entre pares. No Autoridade, adicionamos uma camada estratégica: mapeamos hospitais, operadoras e veículos de imprensa de saúde relevantes, construímos uma estratégia de posicionamento específica para esse público e monitoramos oportunidades de visibilidade B2B. É a diferença entre ter um LinkedIn bem cuidado e usar o LinkedIn ativamente como ferramenta de negócios.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Quanto tempo para ter resultado no LinkedIn?"</div></div>
+        <div class="resposta">Resultado de reputação — ser percebido como referência pelos pares — começa a aparecer em 3 a 4 meses de consistência. Oportunidades concretas como convites para palestras ou contatos de imprensa costumam aparecer entre 6 e 12 meses. É construção de longo prazo, mas com efeito composto — cada post bem recebido amplia o alcance do próximo.</div>
+      </div>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Atendimento automático via WhatsApp</div>
+        <div class="ent-plano">Presença Completa: básico · Autoridade: completo com qualificação e follow-up</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é — versão básica (Presença Completa)</div>
+        <div class="bloco-texto">Zyllah Flow — sistema de atendimento 24/7: configuração com mensagem de saudação, mensagem fora do horário e menu de respostas rápidas (especialidade, endereço, como agendar). Custo variável de API (~R$ 20–200/mês conforme volume, pago pelo cliente à Anthropic).</div>
+        <div class="bloco-label">O que é — versão completa (Autoridade)</div>
+        <div class="bloco-texto">Automação com fluxo conversacional: qualificação do paciente (plano de saúde, urgência, tipo de consulta), sugestão de horários disponíveis via integração com agenda, follow-up automático 48h depois para quem não agendou. Relatório semanal de conversões.</div>
+        <div class="bloco-label">Como falar — versão básica</div>
+        <div class="fala">Quando o paciente manda mensagem às 23h, hoje ele fica sem resposta e talvez procure outro médico. Com o que a gente configura, ele recebe uma resposta automática com as informações do consultório e como agendar. De manhã você já tem o contato organizado.</div>
+        <div class="bloco-label">Como falar — versão completa</div>
+        <div class="fala">No plano completo, o WhatsApp funciona como uma recepcionista disponível 24 horas. Pergunta o motivo da consulta, verifica se é urgência ou rotina, sugere horários e confirma o agendamento. Dois dias depois manda um lembrete automático para quem não confirmou. Você recebe um resumo semanal de quantos contatos viraram consulta.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"E se o paciente tiver uma urgência? O automático vai responder errado?"</div></div>
+        <div class="resposta">O fluxo identifica urgências e direciona para o número direto ou pronto-atendimento mais próximo. Nunca substitui orientação médica — só organiza a fila de agendamento. A triagem clínica continua sendo sua.</div>
+        <div class="alerta">NUNCA chamar de "robô" — usar sempre "atendimento automático". NUNCA prometer triagem clínica — isso é responsabilidade do profissional de saúde e pode gerar responsabilidade legal.</div>
+      </div>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Reunião de estratégia</div>
+        <div class="ent-plano">Presença Completa: mensal 45min · Autoridade: quinzenal</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é de verdade</div>
+        <div class="bloco-texto">45 minutos por videoconferência ou presencial. Pauta fixa: resultados do mês anterior, temas e oportunidades do próximo mês, ajustes de estratégia. Resumo por escrito enviado em até 24h. Presença Completa: mensal. Autoridade: quinzenal.</div>
+        <div class="bloco-label">Como falar para o cliente</div>
+        <div class="fala">Uma vez por mês a gente senta junto e alinha tudo: o que funcionou, o que muda, o que vem pela frente. Você nunca fica no escuro. Se tiver algo na sua agenda — congresso, nova parceria, novo procedimento que quer destacar — a gente encaixa no conteúdo do mês seguinte. É onde a estratégia é ajustada com base no que a sua clínica precisa naquele momento.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"E se eu não puder naquele horário?"</div></div>
+        <div class="resposta">A reunião é agendada no começo de cada mês com antecedência. Se precisar remarcar, basta avisar com 48h. O resumo escrito que enviamos após cada reunião garante que tudo o que foi decidido fica documentado — você consulta quando quiser.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 3 — AUTORIDADE -->
+  <div class="secao">
+    <div class="secao-header">
+      <span class="secao-num">03</span>
+      <span class="secao-titulo">Plano Autoridade — entregáveis adicionais</span>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Tráfego pago — Meta Ads + Google</div>
+        <div class="ent-plano">Autoridade</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é de verdade</div>
+        <div class="bloco-texto">Gestão de campanhas no Meta Ads (Instagram + Facebook) e Google Ads. Budget de mídia: até R$ 2.000/mês incluso na gestão — pago diretamente às plataformas pelo cliente; excedente acima de R$ 2.000 cobrado a 15% sobre o valor adicional. Criação de criativos, definição de público por especialidade e localização, testes A/B, relatório de custo por lead. Foco em captação local (raio de até 30km).</div>
+        <div class="bloco-label">Como falar para o cliente</div>
+        <div class="fala">O conteúdo orgânico alcança quem já te conhece — seguidores, pessoas que passam pelo seu perfil. O anúncio alcança quem ainda não sabe que você existe mas está procurando o que você faz agora. Uma pessoa que digita "dermatologista Nova Friburgo" no Google pode chegar até você antes de chegar ao concorrente. Orgânico constrói autoridade. Pago acelera captação. Os dois juntos é o que o plano Autoridade faz.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Quanto preciso gastar em anúncio por mês?"</div></div>
+        <div class="resposta">O plano Autoridade inclui a gestão de até R$ 2.000/mês em mídia — pago diretamente à plataforma, dentro da mensalidade. Com esse valor em cidade média conseguimos alcance suficiente para medir o que funciona. Depois de 60 dias a gente sabe onde colocar mais e onde cortar. Se precisar de investimento acima de R$ 2.000, cobramos 15% sobre o excedente. A gestão das campanhas já está incluída na mensalidade.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"O CFM permite anúncio pago para médico?"</div></div>
+        <div class="resposta">Sim, com restrições. O CFM permite anúncios que informam — especialidade, localização, contato, serviços. Proíbe promessas de resultado, comparação com colegas, preço como destaque e linguagem sensacionalista. Toda campanha que criamos para médicos já nasce dentro dessas diretrizes. É justamente nesse ponto que agências genéricas erram — e onde a Zyllah se diferencia.</div>
+        <div class="alerta">Budget de mídia de até R$ 2.000/mês está incluso na gestão do plano Autoridade — o cliente paga diretamente às plataformas (Meta/Google). Excedente acima de R$ 2.000: cobrado a 15% sobre o valor adicional. Deixar isso absolutamente claro antes de fechar — é a maior fonte de confusão e desgaste no pós-venda.</div>
+      </div>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho">
+        <div class="ent-nome">Painel de resultados em tempo real</div>
+        <div class="ent-plano">Autoridade</div>
+      </div>
+      <div class="ent-corpo">
+        <div class="bloco-label">O que é de verdade</div>
+        <div class="bloco-texto">Página no Notion com dados consolidados e atualizados automaticamente: alcance semanal no Instagram e LinkedIn, visitas ao site, conversas iniciadas no WhatsApp, leads gerados pelos anúncios, custo por lead. O cliente acessa pelo celular com um link — sem login complexo, sem precisar entrar em cada plataforma separadamente.</div>
+        <div class="bloco-label">Como falar para o cliente</div>
+        <div class="fala">Um link no seu celular. Você abre e vê em tempo real: quantas pessoas viram seu perfil essa semana, quantas clicaram para falar no WhatsApp, quanto custou cada contato novo. Tudo num lugar só, em linguagem simples — sem precisar entrar no Instagram, no Google Analytics e no Meta Ads separadamente para descobrir o que está acontecendo.</div>
+        <div class="pergunta"><div class="pergunta-label">Cliente pergunta</div><div class="pergunta-texto">"Isso substitui o relatório mensal?"</div></div>
+        <div class="resposta">Complementa. O painel é para acompanhar no dia a dia — você olha quando quiser. O relatório mensal e a reunião quinzenal são onde a gente interpreta os dados juntos e decide os ajustes. Dados sem análise são só números.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEÇÃO 4 — PREÇO -->
+  <div class="secao">
+    <div class="secao-header">
+      <span class="secao-num">04</span>
+      <span class="secao-titulo">Como falar de preço</span>
+    </div>
+
+    <div class="bloco-texto" style="margin-bottom:28px">Nunca defenda o preço. Ancore no retorno primeiro, apresente o valor depois. Quem defende preço sinaliza insegurança.</div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho"><div class="ent-nome">Ancoragem por plano</div></div>
+      <div class="ent-corpo">
+        <div class="bloco-label">Essencial — R$ 1.800/mês</div>
+        <div class="fala">R$ 1.800 dividido por 30 dias são R$ 60 por dia — menos que uma consulta particular. Se o digital trouxer dois pacientes novos por mês que não viriam pela sua agenda atual, já pagou. E vai trazer mais.</div>
+        <div class="divider"></div>
+        <div class="bloco-label">Presença Completa — R$ 2.800/mês</div>
+        <div class="fala">Pensa que você está contratando: fotógrafo mensal, gestor de redes, redator, especialista em WhatsApp e estrategista. Separados, esses profissionais custariam mais de R$ 6.000. Aqui está tudo integrado funcionando como um sistema.</div>
+        <div class="divider"></div>
+        <div class="bloco-label">Autoridade — R$ 4.500/mês</div>
+        <div class="fala">Esse plano é para quem quer ser a referência da especialidade na região. A pergunta não é se R$ 4.500 é caro — é: quanto vale ser o nome que aparece primeiro quando alguém pesquisa o que você faz? Quanto vale uma parceria com hospital que vem de um LinkedIn bem posicionado?</div>
+      </div>
+    </div>
+
+    <div class="entregavel">
+      <div class="ent-cabecalho"><div class="ent-nome">Quando ele disser que é caro</div></div>
+      <div class="ent-corpo">
+        <div class="fala">Entendo. Posso te perguntar: em relação a quê você está comparando? Ao custo de não ter presença? A outra proposta? Me ajuda a entender o que está pesando.</div>
+        <div class="bloco-texto" style="margin-top:16px">Deixa ele responder. Não desconte o plano cheio. Se a dificuldade for real, ofereça o piloto — não desconto. Desconto em plano cheio corrói o posicionamento e sinaliza que o preço é arbitrário.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

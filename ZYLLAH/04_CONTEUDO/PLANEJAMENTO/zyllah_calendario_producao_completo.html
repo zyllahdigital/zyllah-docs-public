@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah · Calendário de Produção & Distribuição</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#B8976A;--gold-lt:#D4B896;--gold-pale:#FBF5EB;
+  --ink:#1A1714;--ink-soft:#3D3830;--t3:rgba(26,23,20,.45);
+  --cream:#FAF7F2;--cream-mid:#F0EBE1;
+  --ok:#4a9060;--ok-bg:#E8F5EE;
+  --warn:#A07030;--warn-bg:#FFF3DC;
+  --info:#3A70A0;--info-bg:#E6F0FA;
+  --err:#B04040;--err-bg:#FAEAEA;
+  --violet:#5A3080;--violet-bg:#F0E8FA;
+  --border:rgba(184,151,106,.18);
+  --r:10px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;font-weight:300;background:var(--ink);color:var(--cream);line-height:1.65;font-size:14px;}
+
+/* TOPO */
+.topo{background:var(--ink);padding:48px 64px 40px;border-bottom:1px solid var(--border);}
+.topo-tag{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.topo-titulo{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;line-height:1.05;margin-bottom:16px;}
+.topo-titulo em{font-style:italic;color:var(--gold-lt);}
+.topo-sub{font-size:14px;color:rgba(255,255,255,.45);max-width:680px;line-height:1.75;}
+.topo-chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;}
+.chip{font-size:10px;letter-spacing:.2em;text-transform:uppercase;padding:5px 14px;border:1px solid var(--border);color:var(--gold);border-radius:20px;}
+.chip.ok{border-color:rgba(74,144,96,.4);color:#6aaf7a;}
+.chip.pronto{border-color:rgba(74,144,96,.4);color:#6aaf7a;background:rgba(74,144,96,.08);}
+.chip.gravar{border-color:rgba(184,151,106,.4);color:var(--gold);background:rgba(184,151,106,.06);}
+
+/* NAV */
+.nav{background:rgba(26,23,20,.98);padding:0 64px;border-bottom:1px solid var(--border);display:flex;gap:0;position:sticky;top:0;z-index:100;overflow-x:auto;}
+.nav-item{font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:14px 16px;color:rgba(255,255,255,.35);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none;font-family:'Jost',sans-serif;}
+.nav-item:hover,.nav-item.ativo{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* SEÇÕES */
+.sec{display:none;padding:48px 64px;}
+.sec.ativa{display:block;}
+
+/* SEÇÃO TÍTULOS */
+.sec-tit{font-size:10px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.sec-h{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;line-height:1.1;margin-bottom:24px;}
+.sec-h em{font-style:italic;color:var(--gold-lt);}
+
+/* CARDS GERAIS */
+.card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin-bottom:12px;}
+.card.destaque{border-color:rgba(184,151,106,.35);background:rgba(184,151,106,.06);}
+.card-titulo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--cream);margin-bottom:6px;}
+.card-meta{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.card-texto{font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;}
+
+/* SESSÃO DE GRAVAÇÃO */
+.setup-box{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px;}
+.setup-header{background:rgba(184,151,106,.08);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;}
+.setup-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--gold-lt);min-width:36px;}
+.setup-info{}
+.setup-tag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.setup-nome{font-size:15px;font-weight:500;color:var(--cream);}
+.setup-duracao{margin-left:auto;font-size:11px;color:rgba(255,255,255,.3);text-align:right;}
+.setup-body{padding:16px 20px;}
+
+.take{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.take:last-child{border-bottom:none;}
+.take-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0;margin-top:1px;}
+.take-num.camera{background:rgba(90,48,128,.2);color:#c890f8;border:1px solid rgba(90,48,128,.3);}
+.take-num.voz{background:rgba(74,144,96,.15);color:#6aaf7a;border:1px solid rgba(74,144,96,.25);}
+.take-num.tela{background:rgba(58,112,160,.15);color:#70a8d8;border:1px solid rgba(58,112,160,.25);}
+.take-num.bastidor{background:rgba(184,151,106,.12);color:var(--gold);border:1px solid var(--border);}
+.take-info{flex:1;}
+.take-titulo{font-size:13px;font-weight:500;color:var(--cream);margin-bottom:3px;}
+.take-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.55;}
+.take-badge{font-size:9px;padding:2px 8px;border-radius:10px;display:inline-block;margin-top:4px;}
+.tb-camera{background:rgba(90,48,128,.2);color:#c890f8;}
+.tb-voz{background:rgba(74,144,96,.15);color:#6aaf7a;}
+.tb-tela{background:rgba(58,112,160,.15);color:#70a8d8;}
+.tb-bastidor{background:rgba(184,151,106,.1);color:var(--gold);}
+.take-dur{font-size:11px;color:rgba(255,255,255,.2);flex-shrink:0;margin-top:5px;}
+
+/* PIRÂMIDE */
+.piramide{max-width:680px;margin:0 auto 40px;}
+.pir-level{padding:18px 24px;margin-bottom:3px;border-radius:6px;display:flex;align-items:flex-start;gap:16px;cursor:pointer;transition:opacity .15s;}
+.pir-level:hover{opacity:.85;}
+.pir-n{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold-lt);min-width:32px;text-align:center;line-height:1;}
+.pir-info{flex:1;}
+.pir-plat{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.pir-nome{font-size:15px;font-weight:500;color:var(--cream);margin-bottom:4px;}
+.pir-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6;}
+.pir-kpi{font-size:11px;color:rgba(255,255,255,.25);margin-top:6px;}
+
+.pir-lv1{background:linear-gradient(135deg,rgba(184,151,106,.18),rgba(184,151,106,.06));}
+.pir-lv2{background:rgba(225,48,108,.08);}
+.pir-lv3{background:rgba(0,119,181,.08);}
+.pir-lv4{background:rgba(74,144,96,.08);}
+.pir-lv5{background:rgba(255,0,0,.06);}
+
+.flecha{text-align:center;color:rgba(255,255,255,.15);font-size:18px;margin:4px 0;}
+
+/* PLAYLISTS */
+.pl-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.pl-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;}
+.pl-header{padding:16px 20px;border-bottom:1px solid var(--border);}
+.pl-tag{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.pl-nome{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--cream);margin-bottom:4px;}
+.pl-desc{font-size:11px;color:rgba(255,255,255,.35);line-height:1.5;}
+.pl-lista{padding:12px 20px;}
+.pl-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.5);}
+.pl-item:last-child{border-bottom:none;}
+.pl-ep{min-width:24px;font-weight:500;color:var(--gold);font-size:11px;}
+.pl-status{margin-left:auto;font-size:9px;padding:2px 6px;border-radius:8px;flex-shrink:0;}
+.pls-pronto{background:rgba(74,144,96,.15);color:#6aaf7a;}
+.pls-gravar{background:rgba(184,151,106,.12);color:var(--gold);}
+.pls-editar{background:rgba(58,112,160,.15);color:#70a8d8;}
+
+/* DESTAQUES */
+.dest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.dest-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;}
+.dest-icon{font-size:24px;margin-bottom:10px;}
+.dest-nome{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.dest-item{font-size:11px;color:rgba(255,255,255,.4);padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.dest-item:last-child{border-bottom:none;}
+.dest-item strong{color:rgba(255,255,255,.65);font-weight:400;}
+
+/* CALENDÁRIO */
+.cal-semana{margin-bottom:32px;}
+.cal-semana-titulo{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:12px;}
+.cal-semana-titulo::after{content:'';flex:1;height:1px;background:var(--border);}
+.cal-dias{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;}
+.cal-dia{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.cal-dia-label{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:6px 8px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);}
+.cal-dia-label.hoje{color:var(--gold);background:rgba(184,151,106,.06);}
+.cal-posts{padding:4px;}
+.cal-post{padding:5px 7px;border-radius:4px;font-size:10px;line-height:1.35;margin-bottom:3px;}
+.cal-post:last-child{margin-bottom:0;}
+.cp-ig{background:rgba(225,48,108,.12);border-left:2px solid rgba(225,48,108,.5);}
+.cp-li{background:rgba(0,119,181,.1);border-left:2px solid rgba(0,119,181,.4);}
+.cp-yt{background:rgba(255,0,0,.08);border-left:2px solid rgba(255,0,0,.3);}
+.cp-tt{background:rgba(105,201,208,.08);border-left:2px solid rgba(105,201,208,.3);}
+.cp-gravar{background:rgba(184,151,106,.08);border-left:2px solid var(--border);}
+.cp-tipo{font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:2px;}
+.cp-txt{color:rgba(255,255,255,.6);}
+.cp-status{font-size:8px;margin-top:2px;}
+.cps-pronto{color:#6aaf7a;}
+.cps-gravar{color:var(--gold);}
+.cps-editar{color:#70a8d8;}
+.cps-publicar{color:#c890f8;}
+
+.legenda-cores{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:24px;}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,.4);}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+
+/* BACKLOG */
+.backlog-lista{display:flex;flex-direction:column;gap:6px;}
+.bl-item{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;}
+.bl-plat{font-size:9px;letter-spacing:.2em;text-transform:uppercase;min-width:60px;flex-shrink:0;padding-top:2px;}
+.bl-ig{color:rgba(225,48,108,.7);}
+.bl-yt{color:rgba(255,0,0,.7);}
+.bl-li{color:rgba(0,119,181,.7);}
+.bl-tt{color:rgba(105,201,208,.7);}
+.bl-info{flex:1;}
+.bl-titulo{font-size:13px;color:var(--cream);margin-bottom:2px;}
+.bl-desc{font-size:11px;color:rgba(255,255,255,.35);}
+.bl-status{flex-shrink:0;font-size:9px;padding:3px 8px;border-radius:10px;align-self:center;}
+.bls-pronto{background:rgba(74,144,96,.15);color:#6aaf7a;}
+.bls-editar{background:rgba(58,112,160,.15);color:#70a8d8;}
+.bls-gravar{background:rgba(184,151,106,.12);color:var(--gold);}
+
+/* REGRAS */
+.regras{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.regra-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;}
+.regra-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:rgba(184,151,106,.2);margin-bottom:4px;}
+.regra-texto{font-size:12px;color:rgba(255,255,255,.5);line-height:1.6;}
+.regra-texto strong{color:rgba(255,255,255,.8);font-weight:400;}
+
+@media(max-width:768px){
+  .topo,.nav,.sec{padding-left:20px;padding-right:20px;}
+  .pl-grid,.dest-grid,.regras{grid-template-columns:1fr;}
+  .cal-dias{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="topo">
+  <div class="topo-tag">Zyllah Digital · Produção & Distribuição</div>
+  <h1 class="topo-titulo">Calendário <em>Completo</em><br>de Produção</h1>
+  <p class="topo-sub">Plano de gravação única para todos os roteiros · Pirâmide de distribuição por plataforma · Playlists e destaques temáticos · Atualizado em 25/04/2026</p>
+  <div class="topo-chips">
+    <span class="chip pronto">✓ 4 Reels editados</span>
+    <span class="chip pronto">✓ 7 Cards E1–E7 prontos</span>
+    <span class="chip pronto">✓ 5 cenas chroma prontas</span>
+    <span class="chip gravar">↻ 5 roteiros a gravar (câmera)</span>
+    <span class="chip gravar">↻ 2 roteiros só voz + tela</span>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-item ativo" onclick="irSec('sessao',this)">Sessão única</button>
+  <button class="nav-item" onclick="irSec('backlog',this)">Backlog pronto</button>
+  <button class="nav-item" onclick="irSec('piramide',this)">Pirâmide</button>
+  <button class="nav-item" onclick="irSec('playlists',this)">Playlists YT</button>
+  <button class="nav-item" onclick="irSec('destaques',this)">Destaques IG</button>
+  <button class="nav-item" onclick="irSec('calendario',this)">Calendário</button>
+  <button class="nav-item" onclick="irSec('regras',this)">Regras editoriais</button>
+</nav>
+
+<!-- ════ SESSÃO ÚNICA ════ -->
+<section class="sec ativa" id="sec-sessao">
+  <div class="sec-tit">Parte 1</div>
+  <h2 class="sec-h">Tudo em <em>uma gravação</em></h2>
+  <p style="color:rgba(255,255,255,.45);max-width:640px;margin-bottom:32px;font-size:13px;">Ordem otimizada para trocar de setup o mínimo possível. Câmera vem depois do chroma — não antes. Voz over e tela dispensam câmera e podem ser feitos em qualquer dia.</p>
+
+  <!-- SETUP A — TELA (fazer antes) -->
+  <div class="setup-box">
+    <div class="setup-header">
+      <div class="setup-num">A</div>
+      <div class="setup-info">
+        <div class="setup-tag">Antes de ligar a câmera · qualquer horário</div>
+        <div class="setup-nome">Gravações de tela + assets visuais</div>
+      </div>
+      <div class="setup-duracao">~45 min<br>sem câmera</div>
+    </div>
+    <div class="setup-body">
+      <div class="take">
+        <div class="take-num tela">A1</div>
+        <div class="take-info">
+          <div class="take-titulo">Google com perfis desatualizados (V1)</div>
+          <div class="take-desc">Gravar tela: busca por "Dr. [nome fictício] dermatologista" → mostrar LinkedIn vazio, CRM sem foto, Instagram parado. Usar os simulacros Gemini já gerados. Gravar 3–4 tomadas de buscas diferentes para ter opção na edição.</div>
+          <span class="take-badge tb-tela">tela · OBS Studio · 1920×1080</span>
+        </div>
+        <div class="take-dur">~12 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num tela">A2</div>
+        <div class="take-info">
+          <div class="take-titulo">Posts fictícios CFM (V3)</div>
+          <div class="take-desc">Abrir o asset_tela_erros_cfm.html no Chrome → gravar tela mostrando: post com antes/depois, preço em destaque, depoimento identificado (proibidos) e ao lado as versões corretas. Scroll lento para leitura.</div>
+          <span class="take-badge tb-tela">tela · asset já existe</span>
+        </div>
+        <div class="take-dur">~8 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num tela">A3</div>
+        <div class="take-info">
+          <div class="take-titulo">Feeds idênticos — dois médicos diferentes (V5)</div>
+          <div class="take-desc">Abrir o asset_tela_feeds_genericos.html → gravação mostrando dois feeds lado a lado que parecem o mesmo. Depois abrir feed bem posicionado para o contraste. Zoom in nos detalhes.</div>
+          <span class="take-badge tb-tela">tela · asset já existe</span>
+        </div>
+        <div class="take-dur">~8 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num tela">A4</div>
+        <div class="take-info">
+          <div class="take-titulo">Cards E1–E7 animados (Reels feed)</div>
+          <div class="take-desc">Abrir cada card HTML no Chrome em tela cheia (F11) → aguardar a animação completa → gravar em OBS ou screen record do Windows. Fazer os 7 em sequência: E1 a E7, ambas versões (16:9 e 9:16 onde precisar).</div>
+          <span class="take-badge tb-tela">7 cards · ~3 min cada</span>
+        </div>
+        <div class="take-dur">~20 min</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETUP B — CHROMA KEY (segundo) -->
+  <div class="setup-box">
+    <div class="setup-header">
+      <div class="setup-num">B</div>
+      <div class="setup-info">
+        <div class="setup-tag">Setup 1 de câmera · iluminação + fundo verde</div>
+        <div class="setup-nome">Série 2 — Manifesto (5 cenas chroma)</div>
+      </div>
+      <div class="setup-duracao">~30 min setup<br>~15 min gravação</div>
+    </div>
+    <div class="setup-body">
+      <p style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:14px;">Montar fundo verde (lençol ou cartolina), iluminar de forma uniforme. A câmera do A52S fica fixa. Cada cena tem um texto diferente — você lê e gesticula. O background HTML é inserido na edição pelo CapCut (chroma key).</p>
+      <div class="take">
+        <div class="take-num camera">B1</div>
+        <div class="take-info">
+          <div class="take-titulo">Cena 1 — "A saúde exige o máximo de cuidado."</div>
+          <div class="take-desc">Olhar para câmera, pausa 2s, começar a falar. Tom: peso clínico. Texto já está no HTML como overlay. Gravar 3 takes mínimo.</div>
+          <span class="take-badge tb-camera">câmera · fundo verde · croma_cena1.html</span>
+        </div>
+        <div class="take-dur">~5 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num camera">B2</div>
+        <div class="take-info">
+          <div class="take-titulo">Cena 2 — "Mas o mercado exige o máximo de impacto."</div>
+          <div class="take-desc">Continuação narrativa. Tom: virada dramática. Pausa antes de "impacto".</div>
+          <span class="take-badge tb-camera">câmera · fundo verde · croma_cena2.html</span>
+        </div>
+        <div class="take-dur">~5 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num camera">B3</div>
+        <div class="take-info">
+          <div class="take-titulo">Cena 3 — "Dados curam, mas a imagem conecta."</div>
+          <div class="take-desc">Tom: afirmação técnica com peso. Dois planos possíveis: falando diretamente + olhando levemente para o lado.</div>
+          <span class="take-badge tb-camera">câmera · fundo verde · croma_cena3.html</span>
+        </div>
+        <div class="take-dur">~5 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num camera">B4</div>
+        <div class="take-info">
+          <div class="take-titulo">Cena 4 — "Sua competência técnica é absoluta..."</div>
+          <div class="take-desc">Tom: elogio genuíno. Pausa longa depois da fala — deixa o "..." respirar.</div>
+          <span class="take-badge tb-camera">câmera · fundo verde · croma_cena4.html</span>
+        </div>
+        <div class="take-dur">~5 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num camera">B5</div>
+        <div class="take-info">
+          <div class="take-titulo">Cena 5 — "...sua autoridade digital precisa ser também."</div>
+          <div class="take-desc">Tom: convite direto. Fecha o manifesto. Manter olhar na câmera até depois do corte.</div>
+          <span class="take-badge tb-camera">câmera · fundo verde · croma_cena5.html</span>
+        </div>
+        <div class="take-dur">~5 min</div>
+      </div>
+      <div class="take" style="background:rgba(184,151,106,.04);border-radius:6px;padding:12px;">
+        <div class="take-num camera">B6</div>
+        <div class="take-info">
+          <div class="take-titulo">Compilado manifesto — corte das 5 cenas em sequência</div>
+          <div class="take-desc"><strong>Edição:</strong> 5 cenas montadas em sequência com os HTMLs como fundo (CapCut · chroma key). Total: ~30–40 segundos. Publicar como Reel standalone + intro de cada episódio da Série 2.</div>
+          <span class="take-badge tb-camera">edição · CapCut · não requer nova gravação</span>
+        </div>
+        <div class="take-dur">edição</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETUP C — CÂMERA STANDARD (terceiro) -->
+  <div class="setup-box">
+    <div class="setup-header">
+      <div class="setup-num">C</div>
+      <div class="setup-info">
+        <div class="setup-tag">Setup 2 de câmera · fundo limpo (parede neutra ou cortina)</div>
+        <div class="setup-nome">V2 + V4 + partes de V5 — câmera frontal</div>
+      </div>
+      <div class="setup-duracao">~20 min setup<br>~90 min gravação</div>
+    </div>
+    <div class="setup-body">
+      <p style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:14px;">Trocar fundo verde por fundo neutro. Iluminação pode ficar igual. Câmera fixa, A52S no tripé, eye level. Cada vídeo tem roteiro completo já escrito — gravar por seções, não precisa ir do começo ao fim sem cortar.</p>
+
+      <div class="take">
+        <div class="take-num camera">C1</div>
+        <div class="take-info">
+          <div class="take-titulo">V2 — "Por que médico não precisa virar criador" · câmera inteira</div>
+          <div class="take-desc">Cenas 1–5 do V2. Gravar em blocos por seção (não tente fazer o vídeo inteiro de uma vez). Aprox: Abertura (1 take) · ciclo de abandono (2 takes) · modelo errado (2 takes) · modelo certo (2 takes) · encerramento (1 take). Total: ~8 takes.</div>
+          <span class="take-badge tb-camera">câmera standard · roteiro_youtube_v2.html</span>
+        </div>
+        <div class="take-dur">~30 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num camera">C2</div>
+        <div class="take-info">
+          <div class="take-titulo">V4 — "Médico com 20mil seguidores, agenda vazia" · câmera inteira</div>
+          <div class="take-desc">Cenas 1–5 do V4. Anedota de abertura (leve, narrativa) → análise técnica → encerramento com pergunta. Gravar 3 takes da abertura (é o mais importante). Resto: 1-2 takes por seção.</div>
+          <span class="take-badge tb-camera">câmera standard · roteiro_youtube_v4.html</span>
+        </div>
+        <div class="take-dur">~30 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num camera">C3</div>
+        <div class="take-info">
+          <div class="take-titulo">V5 — partes câmera (cenas 2, 3 e 5)</div>
+          <div class="take-desc">V5 mistura câmera + tela. Gravar aqui: Cena 2 (como funciona agência genérica), Cena 3 (o que especialista perde), Cena 5 (encerramento da série). As cenas de tela (1 e 4) foram gravadas no Setup A.</div>
+          <span class="take-badge tb-camera">câmera standard · roteiro_youtube_v5.html · cenas 2, 3, 5</span>
+        </div>
+        <div class="take-dur">~20 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num camera">C4</div>
+        <div class="take-info">
+          <div class="take-titulo">Reels derivados — gravar hooks isolados</div>
+          <div class="take-desc">Enquanto está com câmera ligada, gravar os hooks para os Reels que vão derivar de V2, V4 e V5. Hook V2: "Médico não precisa virar criador. O problema é que alguém convenceu você de que sim." Hook V4: "[anedota dos 20mil seguidores em 30 segundos]". Hook V5: "Vou mostrar dois feeds — você tenta adivinhar a especialidade."</div>
+          <span class="take-badge tb-camera">câmera · 3 hooks · 3 takes cada</span>
+        </div>
+        <div class="take-dur">~15 min</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETUP D — BASTIDORES (quarto, câmera ainda ligada) -->
+  <div class="setup-box">
+    <div class="setup-header">
+      <div class="setup-num">D</div>
+      <div class="setup-info">
+        <div class="setup-tag">4 · Câmera ligada · 5 minutos · sem roteiro</div>
+        <div class="setup-nome">Bastidores da sessão</div>
+      </div>
+      <div class="setup-duracao">~5 min<br>sem prep</div>
+    </div>
+    <div class="setup-body">
+      <div class="take">
+        <div class="take-num bastidor">D1</div>
+        <div class="take-info">
+          <div class="take-titulo">Making-of da sessão de gravação</div>
+          <div class="take-desc">Câmera na mão (selfie) ou apoiada mostrando o setup: a câmera no tripé, o notebook aberto com o roteiro, a iluminação. Falar por ~60 segundos sobre o processo. Informal, sem roteiro. "Esse é o dia de gravar tudo de uma vez."</div>
+          <span class="take-badge tb-bastidor">bastidor · celular na mão · 9:16</span>
+        </div>
+        <div class="take-dur">~3 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num bastidor">D2</div>
+        <div class="take-info">
+          <div class="take-titulo">Tela do hub operacional (screen record)</div>
+          <div class="take-desc">Gravar o hub funcionando no desktop — mostrar os cards de clientes, o ritual de segunda, o painel financeiro. Narrar em voz over depois ou gravar ao vivo. "Isso aqui é o sistema operacional da Zyllah."</div>
+          <span class="take-badge tb-bastidor">bastidor · tela desktop</span>
+        </div>
+        <div class="take-dur">~3 min</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETUP E — VOZ OVER (qualquer hora) -->
+  <div class="setup-box">
+    <div class="setup-header">
+      <div class="setup-num">E</div>
+      <div class="setup-info">
+        <div class="setup-tag">5 · Qualquer horário tranquilo · só microfone</div>
+        <div class="setup-nome">Voz over — V1 e V3</div>
+      </div>
+      <div class="setup-duracao">~40 min<br>áudio puro</div>
+    </div>
+    <div class="setup-body">
+      <p style="font-size:12px;color:rgba(255,255,255,.35);margin-bottom:14px;">V1 e V3 são 100% voz over (sem câmera). Gravar o áudio com o roteiro na frente. Usar fone de ouvido como microfone ou mic externo. Quarto fechado, sem ventilador.</p>
+      <div class="take">
+        <div class="take-num voz">E1</div>
+        <div class="take-info">
+          <div class="take-titulo">V1 — "O que aparece no Google" · voz over completo</div>
+          <div class="take-desc">Ler o roteiro em voz pausada e clara. Gravar por seção (6 seções). Depois montar sobre a gravação de tela (Setup A1). Duração final: ~3 min.</div>
+          <span class="take-badge tb-voz">voz over · roteiro_youtube_v1.html</span>
+        </div>
+        <div class="take-dur">~20 min</div>
+      </div>
+      <div class="take">
+        <div class="take-num voz">E2</div>
+        <div class="take-info">
+          <div class="take-titulo">V3 — "O que o CFM proíbe" · voz over completo</div>
+          <div class="take-desc">Mesmo processo que V1. Montar sobre a gravação dos posts fictícios CFM (Setup A2). Tom mais sério, didático.</div>
+          <span class="take-badge tb-voz">voz over · roteiro_youtube_v3.html</span>
+        </div>
+        <div class="take-dur">~20 min</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUMO TOTAL -->
+  <div class="card destaque" style="margin-top:24px;">
+    <div class="card-meta">Resumo da sessão completa</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:4px;">
+      <div><div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);">5</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">vídeos YouTube gravados</div></div>
+      <div><div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);">5</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">cenas chroma Série 2</div></div>
+      <div><div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);">3</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">hooks para Reels derivados</div></div>
+      <div><div style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);">~3h</div><div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">tempo total de produção</div></div>
+    </div>
+    <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:16px;line-height:1.65;border-top:1px solid var(--border);padding-top:12px;">
+      <strong style="color:rgba(255,255,255,.6);">Conteúdo que sai desta sessão:</strong> 5 vídeos longos YT (V1–V5) · 1 vídeo manifesto Série 2 · ~8 Reels derivados · 2 conteúdos de bastidores · material para 6+ semanas de publicação em todas as plataformas.
+    </div>
+  </div>
+</section>
+
+<!-- ════ BACKLOG PRONTO ════ -->
+<section class="sec" id="sec-backlog">
+  <div class="sec-tit">Parte 2</div>
+  <h2 class="sec-h">Conteúdo <em>já pronto</em><br>para publicar</h2>
+  <p style="color:rgba(255,255,255,.45);max-width:640px;margin-bottom:28px;font-size:13px;">Tudo abaixo pode ser publicado agora, antes de qualquer nova gravação. Prioridade: destravar o algoritmo com frequência mínima 3×/semana no Instagram.</p>
+
+  <div class="backlog-lista">
+    <div class="bl-item"><div class="bl-plat bl-ig">Instagram<br>Reel</div><div class="bl-info"><div class="bl-titulo">Reel — Consistência sem estratégia é ruído (Card E2)</div><div class="bl-desc">Arquivo: Reel 9 16 Consistência.mp4 · 9:16 · legenda do banco de conteúdo IG</div></div><span class="bl-status bls-pronto">✓ pronto</span></div>
+    <div class="bl-item"><div class="bl-plat bl-ig">Instagram<br>Reel</div><div class="bl-info"><div class="bl-titulo">Reel — CFM pode sancionar por post no Instagram (Card E3)</div><div class="bl-desc">Arquivo: Reel CFM 2336.mp4 · 9:16 · legenda: "O que o CFM proíbe e por que a maioria das agências ignora"</div></div><span class="bl-status bls-pronto">✓ pronto</span></div>
+    <div class="bl-item"><div class="bl-plat bl-ig">Instagram<br>Reel</div><div class="bl-info"><div class="bl-titulo">Reel — Médico cansado do digital</div><div class="bl-desc">Arquivo: Reel Médico cansado.mp4 · 9:16</div></div><span class="bl-status bls-pronto">✓ pronto</span></div>
+    <div class="bl-item"><div class="bl-plat bl-yt">YouTube<br>Vídeo</div><div class="bl-info"><div class="bl-titulo">O Peso da Saúde — vídeo completo</div><div class="bl-desc">Arquivo: o-peso-da-saude-zyllah.mp4 · Thumbnail: o-peso-da-saude-zyllah-Cover.jpg</div></div><span class="bl-status bls-pronto">✓ pronto</span></div>
+    <div class="bl-item"><div class="bl-plat bl-ig">Instagram<br>Feed</div><div class="bl-info"><div class="bl-titulo">Card E1 — "Seguidores não são pacientes"</div><div class="bl-desc">card_E1_seguidores_9x16.html → screenshot · legenda do banco IG</div></div><span class="bl-status bls-pronto">✓ gravar tela</span></div>
+    <div class="bl-item"><div class="bl-plat bl-ig">Instagram<br>Feed</div><div class="bl-info"><div class="bl-titulo">Card E4 — "Ciclo de abandono"</div><div class="bl-desc">card_E4_ciclo_9x16.html → croma verde → usar como Reel</div></div><span class="bl-status bls-pronto">✓ gravar tela</span></div>
+    <div class="bl-item"><div class="bl-plat bl-ig">Instagram<br>Feed</div><div class="bl-info"><div class="bl-titulo">Card E5 — "CFM 2.336/2023 — o que você precisa saber"</div><div class="bl-desc">card_E5_cfm_resolucao_9x16.html → screenshot</div></div><span class="bl-status bls-pronto">✓ gravar tela</span></div>
+    <div class="bl-item"><div class="bl-plat bl-ig">Instagram<br>Feed</div><div class="bl-info"><div class="bl-titulo">Card E6 — "Sua presença digital não representa seu trabalho"</div><div class="bl-desc">card_E6_presenca_9x16.html → croma verde → Reel</div></div><span class="bl-status bls-pronto">✓ gravar tela</span></div>
+    <div class="bl-item"><div class="bl-plat bl-ig">Instagram<br>Feed</div><div class="bl-info"><div class="bl-titulo">Card E7 — "Curtidas não enchem agenda"</div><div class="bl-desc">card_E7_curtidas_9x16.html → screenshot</div></div><span class="bl-status bls-pronto">✓ gravar tela</span></div>
+    <div class="bl-item"><div class="bl-plat bl-ig">Instagram<br>Bastidor</div><div class="bl-info"><div class="bl-titulo">Post-its de bastidor</div><div class="bl-desc">bastidor_postits_9x16.html → screenshot · "como organizamos a estratégia editorial"</div></div><span class="bl-status bls-pronto">✓ gravar tela</span></div>
+    <div class="bl-item"><div class="bl-plat bl-li">LinkedIn<br>Post</div><div class="bl-info"><div class="bl-titulo">Post autoridade — primeiro texto sobre presença médica</div><div class="bl-desc">Usar conteúdo do banco zyllah_conteudo_linkedin.html · foto de perfil 31/03</div></div><span class="bl-status bls-pronto">✓ pronto</span></div>
+    <div class="bl-item"><div class="bl-plat bl-yt">YouTube<br>Thumb</div><div class="bl-info"><div class="bl-titulo">Thumbnails V1–V5 prontas para upload</div><div class="bl-desc">yt_thumb_01_google.png até yt_thumb_05_agencias.png · S2: yt_s2_thumb_01_cfm.html, yt_s2_thumb_03_seguidores.html</div></div><span class="bl-status bls-pronto">✓ pronto</span></div>
+  </div>
+</section>
+
+<!-- ════ PIRÂMIDE ════ -->
+<section class="sec" id="sec-piramide">
+  <div class="sec-tit">Parte 3</div>
+  <h2 class="sec-h">Pirâmide de <em>distribuição</em></h2>
+  <p style="color:rgba(255,255,255,.45);max-width:640px;margin-bottom:32px;font-size:13px;">Um vídeo YouTube → 6 a 8 peças de conteúdo distribuído. A lógica é: gravar uma vez, distribuir para todos os canais adaptando o formato, nunca duplicando.</p>
+
+  <div class="piramide">
+    <div class="pir-level pir-lv1">
+      <div class="pir-n">1</div>
+      <div class="pir-info">
+        <div class="pir-plat">YouTube · fundação</div>
+        <div class="pir-nome">Vídeo longo (3–5 min) — profundidade e autoridade</div>
+        <div class="pir-desc">É o ativo central. Cada roteiro V1–V5 e Série 2 vai aqui. SEO de longo prazo. Constrói autoridade com quem já está em modo de decisão. Não otimizar para viralidade — otimizar para encontrabilidade.</div>
+        <div class="pir-kpi">Métricas: tempo de exibição &gt; 40% · watch-through rate · cliques no link da descrição</div>
+      </div>
+    </div>
+    <div class="flecha">↓</div>
+    <div class="pir-level pir-lv2">
+      <div class="pir-n">2</div>
+      <div class="pir-info">
+        <div class="pir-plat">Instagram Reel · amplificação</div>
+        <div class="pir-nome">Clip de 30–60s do melhor trecho — gancho + argumento central</div>
+        <div class="pir-desc">Pegar o hook de abertura + a virada mais impactante de cada vídeo. Não resumir o vídeo — dar um motivo para assistir o completo. Legenda direciona para o YouTube.</div>
+        <div class="pir-kpi">Métricas: visualizações · saves · visitas ao perfil</div>
+      </div>
+    </div>
+    <div class="flecha">↓</div>
+    <div class="pir-level pir-lv3">
+      <div class="pir-n">3</div>
+      <div class="pir-info">
+        <div class="pir-plat">LinkedIn · autoridade B2B</div>
+        <div class="pir-nome">Texto reflexivo baseado no argumento central do vídeo</div>
+        <div class="pir-desc">Não copiar o vídeo — reescrever o argumento em formato de texto LinkedIn. Tom mais analítico, menos educativo. Terminar com pergunta aberta para comentários. Sem links na legenda (o LinkedIn penaliza).</div>
+        <div class="pir-kpi">Métricas: impressões · comentários · novos seguidores</div>
+      </div>
+    </div>
+    <div class="flecha">↓</div>
+    <div class="pir-level pir-lv4">
+      <div class="pir-n">4</div>
+      <div class="pir-info">
+        <div class="pir-plat">Instagram Feed · referência visual</div>
+        <div class="pir-nome">Card animado com a frase mais forte do vídeo</div>
+        <div class="pir-desc">Os cards E1–E7 já existem e mapeiam direto para os temas de V1–V5. Card vai para o feed como âncora visual da série. Salvo mais que curtido — é para guardar.</div>
+        <div class="pir-kpi">Métricas: saves · alcance · impressões de não-seguidores</div>
+      </div>
+    </div>
+    <div class="flecha">↓</div>
+    <div class="pir-level pir-lv5">
+      <div class="pir-n">5</div>
+      <div class="pir-info">
+        <div class="pir-plat">TikTok / YouTube Shorts · descoberta</div>
+        <div class="pir-nome">Clip de 15–30s — o gancho isolado, sem contexto</div>
+        <div class="pir-desc">Corte mais agressivo. Só o gancho, sem desenvolvimento. Objetivo: fazer o espectador ir buscar o resto. TikTok é descoberta pura — não se espera conversão direta daqui.</div>
+        <div class="pir-kpi">Métricas: alcance novo · cliques no perfil</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-meta">Multiplicação de 1 vídeo em peças</div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:4px;">
+      <div style="text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);">1</div><div style="font-size:10px;color:rgba(255,255,255,.35);">YT vídeo longo</div></div>
+      <div style="text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);">1–2</div><div style="font-size:10px;color:rgba(255,255,255,.35);">IG Reels (30–60s)</div></div>
+      <div style="text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);">1</div><div style="font-size:10px;color:rgba(255,255,255,.35);">LI texto</div></div>
+      <div style="text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);">1</div><div style="font-size:10px;color:rgba(255,255,255,.35);">Card feed IG</div></div>
+      <div style="text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);">1</div><div style="font-size:10px;color:rgba(255,255,255,.35);">Short / TikTok</div></div>
+    </div>
+    <div style="text-align:center;font-size:13px;color:rgba(255,255,255,.4);margin-top:14px;border-top:1px solid var(--border);padding-top:12px;">= <strong style="color:var(--gold-lt);">6 peças por vídeo gravado</strong> · 5 vídeos = 30 peças de conteúdo para 6–8 semanas</div>
+  </div>
+</section>
+
+<!-- ════ PLAYLISTS ════ -->
+<section class="sec" id="sec-playlists">
+  <div class="sec-tit">Parte 4</div>
+  <h2 class="sec-h">Playlists <em>YouTube</em></h2>
+  <p style="color:rgba(255,255,255,.45);max-width:640px;margin-bottom:28px;font-size:13px;">Estrutura de playlists que organiza o canal como uma biblioteca — não um feed aleatório. Cada playlist tem um propósito de funil diferente.</p>
+
+  <div class="pl-grid">
+    <div class="pl-card">
+      <div class="pl-header">
+        <div class="pl-tag">Playlist 01 · Série principal</div>
+        <div class="pl-nome">Fundamentos da Presença Digital Médica</div>
+        <div class="pl-desc">A série de 5 vídeos que constitui o núcleo do canal. Assistir em ordem. Narrativa contínua: cada vídeo indica o próximo.</div>
+      </div>
+      <div class="pl-lista">
+        <div class="pl-item"><span class="pl-ep">Ep 1</span>O que aparece no Google quando pesquisam seu nome<span class="pl-status pls-gravar">gravar</span></div>
+        <div class="pl-item"><span class="pl-ep">Ep 2</span>Por que médico não precisa virar criador de conteúdo<span class="pl-status pls-gravar">gravar</span></div>
+        <div class="pl-item"><span class="pl-ep">Ep 3</span>O que o CFM proíbe no Instagram do médico<span class="pl-status pls-gravar">gravar</span></div>
+        <div class="pl-item"><span class="pl-ep">Ep 4</span>Por que médico com 20mil seguidores tem agenda vazia<span class="pl-status pls-gravar">gravar</span></div>
+        <div class="pl-item"><span class="pl-ep">Ep 5</span>Por que agências genéricas entregam o mesmo para todos<span class="pl-status pls-gravar">gravar</span></div>
+      </div>
+    </div>
+
+    <div class="pl-card">
+      <div class="pl-header">
+        <div class="pl-tag">Playlist 02 · Série 2</div>
+        <div class="pl-nome">Análise Crítica — O Digital que não funciona</div>
+        <div class="pl-desc">Formato diferente: chroma key + análise mais pontual. Entrada de funil mais ampla, tom mais incisivo que a Série 1.</div>
+      </div>
+      <div class="pl-lista">
+        <div class="pl-item"><span class="pl-ep">Intro</span>Manifesto — 5 cenas compiladas (30s)<span class="pl-status pls-gravar">gravar+editar</span></div>
+        <div class="pl-item"><span class="pl-ep">Ep 1</span>CFM 2.336/2023 — Análise completa das vedações<span class="pl-status pls-gravar">gravar</span></div>
+        <div class="pl-item"><span class="pl-ep">Ep 2</span>O feed genérico que não converte<span class="pl-status pls-gravar">gravar</span></div>
+        <div class="pl-item"><span class="pl-ep">Ep 3</span>Seguidores vs. agenda cheia — a métrica errada<span class="pl-status pls-gravar">gravar</span></div>
+      </div>
+    </div>
+
+    <div class="pl-card">
+      <div class="pl-header">
+        <div class="pl-tag">Playlist 03 · Conteúdo já publicado</div>
+        <div class="pl-nome">O Peso da Saúde — Série 1</div>
+        <div class="pl-desc">Vídeos já publicados. Manter separado para preservar a sequência editorial e facilitar a navegação de novos visitantes.</div>
+      </div>
+      <div class="pl-lista">
+        <div class="pl-item"><span class="pl-ep">V1</span>O Peso da Saúde — vídeo completo<span class="pl-status pls-pronto">✓ publicado</span></div>
+        <div class="pl-item"><span class="pl-ep">+</span>Adicionar próximos vídeos desta série aqui conforme publicação<span class="pl-status pls-editar">dinâmica</span></div>
+      </div>
+    </div>
+
+    <div class="pl-card">
+      <div class="pl-header">
+        <div class="pl-tag">Playlist 04 · Bastidores</div>
+        <div class="pl-nome">Processo & Método Zyllah</div>
+        <div class="pl-desc">Conteúdo de bastidores, making-of e screencasts do processo de trabalho. Constrói confiança e diferencia a Zyllah de agências.</div>
+      </div>
+      <div class="pl-lista">
+        <div class="pl-item"><span class="pl-ep">B1</span>Making-of da sessão de gravação<span class="pl-status pls-gravar">gravar (D1)</span></div>
+        <div class="pl-item"><span class="pl-ep">B2</span>O hub operacional da Zyllah (screencast)<span class="pl-status pls-gravar">gravar (D2)</span></div>
+        <div class="pl-item"><span class="pl-ep">B3</span>Como organizamos o calendário editorial<span class="pl-status pls-gravar">futuro</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-meta">Lógica de funil das playlists</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.45);line-height:1.75;margin-top:4px;">
+      <strong style="color:rgba(255,255,255,.65);">Playlist 1 — Fundamentos:</strong> quem busca "como fazer marketing médico" → este é o caminho certo para converter em lead.<br>
+      <strong style="color:rgba(255,255,255,.65);">Playlist 2 — Análise Crítica:</strong> quem já tem agência e está insatisfeito → reconhece o diagnóstico e busca alternativa.<br>
+      <strong style="color:rgba(255,255,255,.65);">Playlist 4 — Bastidores:</strong> quem já conhece a Zyllah e quer ver o processo → converte quem está em dúvida na decisão final.
+    </div>
+  </div>
+</section>
+
+<!-- ════ DESTAQUES IG ════ -->
+<section class="sec" id="sec-destaques">
+  <div class="sec-tit">Parte 5</div>
+  <h2 class="sec-h">Destaques <em>Instagram</em></h2>
+  <p style="color:rgba(255,255,255,.45);max-width:640px;margin-bottom:28px;font-size:13px;">Os Destaques funcionam como o menu de navegação do perfil. Um prospect que chega pela primeira vez deve conseguir entender a Zyllah em 30 segundos olhando os Destaques.</p>
+
+  <div class="dest-grid">
+    <div class="dest-card">
+      <div class="dest-icon">⚖️</div>
+      <div class="dest-nome">CFM</div>
+      <div class="dest-item"><strong>Card E3</strong> — CFM pode sancionar</div>
+      <div class="dest-item"><strong>Card E5</strong> — Resolução 2.336/2023</div>
+      <div class="dest-item"><strong>Reel CFM 2336</strong> — o que é proibido</div>
+      <div class="dest-item"><strong>V3 clip</strong> — quando publicar</div>
+      <div class="dest-item" style="color:rgba(255,255,255,.2);font-style:italic;">Quiz conselhos (story)</div>
+    </div>
+    <div class="dest-card">
+      <div class="dest-icon">🧠</div>
+      <div class="dest-nome">Método</div>
+      <div class="dest-item"><strong>Card E1</strong> — Seguidores ≠ pacientes</div>
+      <div class="dest-item"><strong>Card E2</strong> — Consistência vs. ruído</div>
+      <div class="dest-item"><strong>Card E4</strong> — Ciclo de abandono</div>
+      <div class="dest-item"><strong>Card E7</strong> — Curtidas ≠ agenda</div>
+      <div class="dest-item"><strong>V4 clip</strong> — 20mil seguidores</div>
+    </div>
+    <div class="dest-card">
+      <div class="dest-icon">🔍</div>
+      <div class="dest-nome">Presença</div>
+      <div class="dest-item"><strong>Card E6</strong> — Presença ≠ trabalho</div>
+      <div class="dest-item"><strong>V1 clip</strong> — O que aparece no Google</div>
+      <div class="dest-item"><strong>V5 clip</strong> — Feeds idênticos</div>
+      <div class="dest-item"><strong>o-peso-da-saude clip</strong></div>
+      <div class="dest-item" style="color:rgba(255,255,255,.2);font-style:italic;">Futuro: case clínica</div>
+    </div>
+    <div class="dest-card">
+      <div class="dest-icon">🎬</div>
+      <div class="dest-nome">Bastidores</div>
+      <div class="dest-item"><strong>Post-its</strong> — planejamento editorial</div>
+      <div class="dest-item"><strong>Making-of</strong> — sessão de gravação</div>
+      <div class="dest-item"><strong>Hub</strong> — screencast do sistema</div>
+      <div class="dest-item" style="color:rgba(255,255,255,.2);font-style:italic;">Futuro: visita a cliente</div>
+      <div class="dest-item" style="color:rgba(255,255,255,.2);font-style:italic;">Futuro: sessão fotográfica</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div class="card-meta">Regra dos Destaques</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.45);line-height:1.75;margin-top:4px;">
+      Máx. <strong style="color:rgba(255,255,255,.65);">5–6 Destaques</strong> visíveis sem scroll. Cobrir sempre apenas o conteúdo que ainda é válido. Desativar destaques antigos, não apagar. Capas dos Destaques: usar o padrão visual gold+ink já definido no brandbook.
+    </div>
+  </div>
+</section>
+
+<!-- ════ CALENDÁRIO ════ -->
+<section class="sec" id="sec-calendario">
+  <div class="sec-tit">Parte 6</div>
+  <h2 class="sec-h">Calendário <em>de publicação</em></h2>
+
+  <div class="legenda-cores">
+    <div class="leg"><div class="leg-dot" style="background:rgba(225,48,108,.5);"></div>Instagram</div>
+    <div class="leg"><div class="leg-dot" style="background:rgba(0,119,181,.5);"></div>LinkedIn</div>
+    <div class="leg"><div class="leg-dot" style="background:rgba(255,0,0,.4);"></div>YouTube</div>
+    <div class="leg"><div class="leg-dot" style="background:rgba(105,201,208,.5);"></div>TikTok/Short</div>
+    <div class="leg"><div class="leg-dot" style="background:rgba(184,151,106,.4);"></div>Gravação/Produção</div>
+    <div class="leg" style="margin-left:8px;border-left:1px solid var(--border);padding-left:12px;"><span style="color:#6aaf7a;">●</span>&nbsp;pronto&nbsp;&nbsp;<span style="color:var(--gold);">●</span>&nbsp;gravar&nbsp;&nbsp;<span style="color:#70a8d8;">●</span>&nbsp;editar&nbsp;&nbsp;<span style="color:#c890f8;">●</span>&nbsp;publicar</div>
+  </div>
+
+  <!-- Semana 1: 28 abr – 02 mai -->
+  <div class="cal-semana">
+    <div class="cal-semana-titulo">Semana 1 · 28 abr – 02 mai · Reativação</div>
+    <div class="cal-dias">
+      <div class="cal-dia"><div class="cal-dia-label">Seg 28/04</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Reel</div><div class="cp-txt">Reel Médico cansado</div><div class="cp-status cps-publicar">publicar agora</div></div>
+        <div class="cal-post cp-li"><div class="cp-tipo">LinkedIn</div><div class="cp-txt">1º post — O que médico deve ter no digital</div><div class="cp-status cps-pronto">pronto</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Ter 29/04</div><div class="cal-posts">
+        <div class="cal-post cp-gravar"><div class="cp-tipo">Produção</div><div class="cp-txt">Setup A — gravação de tela (V1, V3, V5, cards)</div><div class="cp-status cps-gravar">fazer hoje</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Qua 30/04</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Feed</div><div class="cp-txt">Card E1 — Seguidores não são pacientes</div><div class="cp-status cps-publicar">publicar</div></div>
+        <div class="cal-post cp-gravar"><div class="cp-tipo">Produção</div><div class="cp-txt">Setup B+C — câmera (chroma + V2 + V4)</div><div class="cp-status cps-gravar">gravar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Qui 01/05</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Reel</div><div class="cp-txt">Reel CFM 2336 — o que é proibido</div><div class="cp-status cps-publicar">publicar</div></div>
+        <div class="cal-post cp-tt"><div class="cp-tipo">Short / TikTok</div><div class="cp-txt">Clip CFM (15s) → descoberta</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Sex 02/05</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Feed</div><div class="cp-txt">Card E5 — CFM 2.336/2023</div><div class="cp-status cps-publicar">publicar</div></div>
+        <div class="cal-post cp-li"><div class="cp-tipo">LinkedIn</div><div class="cp-txt">Texto — Resolução CFM e o que agências ignoram</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Semana 2: 05 mai – 09 mai -->
+  <div class="cal-semana">
+    <div class="cal-semana-titulo">Semana 2 · 05–09 mai · Série 1 começa</div>
+    <div class="cal-dias">
+      <div class="cal-dia"><div class="cal-dia-label">Seg 05/05</div><div class="cal-posts">
+        <div class="cal-post cp-yt"><div class="cp-tipo">YouTube</div><div class="cp-txt">V1 — O que aparece no Google (publicar)</div><div class="cp-status cps-editar">editar antes</div></div>
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Reel</div><div class="cp-txt">Card E7 — Curtidas ≠ agenda</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Ter 06/05</div><div class="cal-posts">
+        <div class="cal-post cp-gravar"><div class="cp-tipo">Edição</div><div class="cp-txt">Editar V1 + V2 + bastidores (CapCut)</div><div class="cp-status cps-editar">editar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Qua 07/05</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Reel</div><div class="cp-txt">Hook V1 — "Pesquise seu nome agora" (30s)</div><div class="cp-status cps-editar">derivar do V1</div></div>
+        <div class="cal-post cp-li"><div class="cp-tipo">LinkedIn</div><div class="cp-txt">Texto — O que o Google encontra sobre você</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Qui 08/05</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Feed</div><div class="cp-txt">Card E2 — Consistência vs. ruído</div><div class="cp-status cps-publicar">publicar</div></div>
+        <div class="cal-post cp-tt"><div class="cp-tipo">Short</div><div class="cp-txt">Clip V1 (20s) — hook do Google</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Sex 09/05</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Bastidor</div><div class="cp-txt">Post-its — planejamento editorial</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Semana 3: 12–16 mai -->
+  <div class="cal-semana">
+    <div class="cal-semana-titulo">Semana 3 · 12–16 mai · V2 + V3</div>
+    <div class="cal-dias">
+      <div class="cal-dia"><div class="cal-dia-label">Seg 12/05</div><div class="cal-posts">
+        <div class="cal-post cp-yt"><div class="cp-tipo">YouTube</div><div class="cp-txt">V2 — Médico não precisa virar criador</div><div class="cp-status cps-editar">editar antes</div></div>
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Reel</div><div class="cp-txt">Reel Consistência (E2 já editado)</div><div class="cp-status cps-pronto">publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Ter 13/05</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Reel</div><div class="cp-txt">Hook V2 — "Ciclo de abandono" (30s câmera)</div><div class="cp-status cps-editar">derivar</div></div>
+        <div class="cal-post cp-li"><div class="cp-tipo">LinkedIn</div><div class="cp-txt">Texto — Modelo de blocos vs. modelo influenciador</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Qua 14/05</div><div class="cal-posts">
+        <div class="cal-post cp-yt"><div class="cp-tipo">YouTube</div><div class="cp-txt">V3 — O que o CFM proíbe (voz over)</div><div class="cp-status cps-editar">editar+publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Qui 15/05</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Feed</div><div class="cp-txt">Card E3 — CFM pode sancionar (croma)</div><div class="cp-status cps-publicar">publicar</div></div>
+        <div class="cal-post cp-tt"><div class="cp-tipo">Short</div><div class="cp-txt">Clip V3 — "3 coisas proibidas no Instagram" (30s)</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Sex 16/05</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Bastidor</div><div class="cp-txt">Making-of da sessão de gravação</div><div class="cp-status cps-publicar">publicar</div></div>
+        <div class="cal-post cp-li"><div class="cp-tipo">LinkedIn</div><div class="cp-txt">Texto — CFM e o que agências de volume não checam</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Semana 4: 19–23 mai -->
+  <div class="cal-semana">
+    <div class="cal-semana-titulo">Semana 4 · 19–23 mai · V4 + V5 + Série 2 lança</div>
+    <div class="cal-dias">
+      <div class="cal-dia"><div class="cal-dia-label">Seg 19/05</div><div class="cal-posts">
+        <div class="cal-post cp-yt"><div class="cp-tipo">YouTube</div><div class="cp-txt">V4 — 20mil seguidores, agenda vazia</div><div class="cp-status cps-editar">editar+publicar</div></div>
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Reel</div><div class="cp-txt">Hook V4 — anedota dos 20mil (30s)</div><div class="cp-status cps-editar">derivar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Ter 20/05</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Feed</div><div class="cp-txt">Card E4 — Ciclo de abandono (croma)</div><div class="cp-status cps-publicar">publicar</div></div>
+        <div class="cal-post cp-li"><div class="cp-tipo">LinkedIn</div><div class="cp-txt">Texto — A métrica que importa não é seguidores</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Qua 21/05</div><div class="cal-posts">
+        <div class="cal-post cp-yt"><div class="cp-tipo">YouTube</div><div class="cp-txt">V5 — Agências genéricas (último da Série 1)</div><div class="cp-status cps-editar">editar+publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Qui 22/05</div><div class="cal-posts">
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Reel</div><div class="cp-txt">Hook V5 — feeds idênticos (30s)</div><div class="cp-status cps-editar">derivar</div></div>
+        <div class="cal-post cp-ig"><div class="cp-tipo">IG Feed</div><div class="cp-txt">Card E6 — Presença ≠ trabalho (croma)</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+      <div class="cal-dia"><div class="cal-dia-label">Sex 23/05</div><div class="cal-posts">
+        <div class="cal-post cp-yt"><div class="cp-tipo">YouTube Série 2</div><div class="cp-txt">Manifesto — 5 cenas compiladas (30s)</div><div class="cp-status cps-editar">editar+publicar</div></div>
+        <div class="cal-post cp-li"><div class="cp-tipo">LinkedIn</div><div class="cp-txt">Texto — Por que toda agência entrega o mesmo</div><div class="cp-status cps-publicar">publicar</div></div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- Semana 5-8: Junho -->
+  <div class="cal-semana">
+    <div class="cal-semana-titulo">Semanas 5–8 · Junho · Série 2 + bastidores + primeiro cliente</div>
+    <div class="card" style="margin-top:0;">
+      <div class="card-texto">
+        A partir de junho, o calendário se alimenta da Série 2 (S2 Ep01–03) e dos bastidores. Se o primeiro cliente ativo estiver em operação, entra o primeiro conteúdo de case (sem identificação — só resultados agregados).<br><br>
+        <strong style="color:rgba(255,255,255,.65);">Jun/Semana 1:</strong> Série 2 Ep01 — CFM Análise · + IG Reel derivado + Short<br>
+        <strong style="color:rgba(255,255,255,.65);">Jun/Semana 2:</strong> Série 2 Ep02 — Feed genérico · + Bastidor hub operacional<br>
+        <strong style="color:rgba(255,255,255,.65);">Jun/Semana 3:</strong> Série 2 Ep03 — Seguidores vs. agenda · + LinkedIn B2B<br>
+        <strong style="color:rgba(255,255,255,.65);">Jun/Semana 4:</strong> Conteúdo sazonal (aniversários de consultório, novas especialidades) · revisão de estratégia
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ REGRAS EDITORIAIS ════ -->
+<section class="sec" id="sec-regras">
+  <div class="sec-tit">Parte 7</div>
+  <h2 class="sec-h">Regras <em>editoriais</em><br>inegociáveis</h2>
+
+  <div class="regras">
+    <div class="regra-card">
+      <div class="regra-n">01</div>
+      <div class="regra-texto"><strong>Nunca mostrar perfis reais de médicos sem autorização.</strong> Todos os exemplos de perfis desatualizados, feeds genéricos e posts proibidos são simulacros fictícios criados para o vídeo.</div>
+    </div>
+    <div class="regra-card">
+      <div class="regra-n">02</div>
+      <div class="regra-texto"><strong>Nunca citar concorrentes por nome.</strong> Agências genéricas são sempre "a maioria das agências", nunca nomeadas. Isso evita processo e mantém o foco no argumento.</div>
+    </div>
+    <div class="regra-card">
+      <div class="regra-n">03</div>
+      <div class="regra-texto"><strong>Nunca revelar prazo ou custo em cases.</strong> A prova de método existe (Relatório Encantarys v1). O que impressiona é profundidade — não velocidade e não preço. A questão do "setor" (festas) não é mencionada.</div>
+    </div>
+    <div class="regra-card">
+      <div class="regra-n">04</div>
+      <div class="regra-texto"><strong>Cada vídeo começa com o problema, não com a Zyllah.</strong> Nenhum vídeo começa com "Olá, eu sou Guilherme da Zyllah". Começar sempre com o problema do espectador.</div>
+    </div>
+    <div class="regra-card">
+      <div class="regra-n">05</div>
+      <div class="regra-texto"><strong>CTA do YouTube aponta para o próximo vídeo da série, não para o site.</strong> Exceto no V5 (último), onde aponta para o link de contato. Criar dependência serial para aumentar watch time do canal.</div>
+    </div>
+    <div class="regra-card">
+      <div class="regra-n">06</div>
+      <div class="regra-texto"><strong>Todo conteúdo CFM passa pelo gate antes de publicar.</strong> O hub v3 tem o CFM Gate automático — usar. Qualquer dúvida sobre interpretação da Resolução 2.336/2023: não publicar antes de confirmar.</div>
+    </div>
+    <div class="regra-card">
+      <div class="regra-n">07</div>
+      <div class="regra-texto"><strong>Frequência mínima: 3 posts/semana no Instagram.</strong> Abaixo disso o algoritmo penaliza. A semana de zero publicação (17–23/abr) causou queda de -86% no YouTube. Usar o backlog de conteúdo pronto antes de começar a produzir novo.</div>
+    </div>
+    <div class="regra-card">
+      <div class="regra-n">08</div>
+      <div class="regra-texto"><strong>LinkedIn: sem links na legenda.</strong> O LinkedIn penaliza alcance de posts com links externos. Mencionar o vídeo no texto ("comentei isso com mais detalhe num vídeo — me pergunte nos comentários") mas nunca colar a URL no post.</div>
+    </div>
+  </div>
+</section>
+
+<script>
+function irSec(id, btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('ativa'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('ativo'));
+  document.getElementById('sec-'+id).classList.add('ativa');
+  if(btn) btn.classList.add('ativo');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
