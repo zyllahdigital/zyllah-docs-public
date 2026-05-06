@@ -1,0 +1,48 @@
+# ── Segurança — nunca commitar ──────────────────────────────
+.env
+.env.*
+*.key
+*.pem
+secrets/
+
+# Memória e configurações locais do Claude Code
+.claude/
+
+# ── Dependências ─────────────────────────────────────────────
+node_modules/
+.wrangler/
+__pycache__/
+*.pyc
+*.pyo
+
+# ── Mídia pesada — só para Drive ─────────────────────────────
+05_PRODUCAO_AV/BRUTO/
+05_PRODUCAO_AV/EDITADO/
+05_PRODUCAO_AV/ASSETS/FOTOS_IA/
+*.mp4
+*.mov
+*.avi
+*.wav
+*.mp3
+
+# ── Dados de clientes — privado ──────────────────────────────
+06_CLIENTES/
+09_FINANCEIRO/
+10_JURÍDICO/
+
+# ── Outros projetos na mesma pasta pai ───────────────────────
+../ENCANTARYS/
+../MESALONGA/
+
+# ── Sistema ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.log
+
+# ── Arquivos pesados de cache ─────────────────────────────────
+*.cache
+.next/
+dist/
+build/
