@@ -28,7 +28,9 @@ __pycache__/
 # ── Dados de clientes — privado ──────────────────────────────
 06_CLIENTES/
 09_FINANCEIRO/
-10_JURÍDICO/
+# 10_JURÍDICO/ — templates são públicos; contratos assinados ficam só no Drive
+10_JURÍDICO/*_assinado*.html
+10_JURÍDICO/*_assinado*.pdf
 
 # ── Outros projetos na mesma pasta pai ───────────────────────
 ../ENCANTARYS/
