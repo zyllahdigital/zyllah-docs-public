@@ -1,5 +1,5 @@
 # ZYLLAH DIGITAL — VAULT DO PROJETO
-## Memória operacional · Atualizado em 05 de maio de 2026
+## Memória operacional · Atualizado em 09 de maio de 2026
 
 ---
 
@@ -9,8 +9,10 @@
 **Fundador:** Guilherme Caetano  
 **Nicho:** Presença digital para profissionais de saúde (médicos, dentistas, psicólogos)  
 **Localização:** Nova Friburgo, RJ — opera remotamente  
-**Fase atual:** Pré-receita · Prospectando clientes · Hub operacional funcional  
+**Fase atual:** Pré-receita · Prospectando clientes · Sprint de conteúdo concluído  
 **Marco (04/05/2026):** Base operacional da agência construída em ~2 meses — brand, hub, contratos, sistema de 7 papéis, conteúdo, infraestrutura técnica. Fundação sólida, ainda a ser aprimorada.  
+**Marco (07/05/2026):** Sprint de gravação realizado. 3 vídeos (~28 min de bruto editado) em CapCut. Falta: montar com b-rolls + exportar SRT para YouTube.  
+**Empreendimento iniciado em:** ~15 de fevereiro de 2026 (83 dias até hoje, 09/05).  
 **Email:** zyllah.digital@gmail.com  
 **Site:** zyllah.com.br (index.html com GA4 + Meta Pixel instalado)  
 **Instagram:** @zyllahdigital (18 seguidores em 24/04/2026)  
@@ -220,14 +222,16 @@ https://script.google.com/macros/s/AKfycbxXdfQFOWFb3xjBaQnc6Bk9sWfXAsx2cdidVXiV0
 
 ---
 
-## PROSPECTS ATIVOS (em 05/05/2026 — atualizar após cada contato)
+## PROSPECTS ATIVOS (em 09/05/2026 — atualizar após cada contato)
 
 | Nome | Status | Próxima ação |
 |---|---|---|
-| Kelly Purger | A cadastrar no hub | Iniciar aquecimento IG |
-| Cleonicio Cordeiro | A cadastrar no hub | Comentar no IG |
-| Fabricia Corbett | A cadastrar no hub | Comentar no IG |
+| Kelly Purger | **BLOQUEOU** (Instagram) | Arquivada. Aprendizado: abordagem feita antes da voz Zyllah estar definida. Não repetir. |
+| Cleonicio Cordeiro | A cadastrar no hub | Comentar no feed IG (não seguir) |
+| Fabricia Corbett | A cadastrar no hub | Comentar no feed IG (não seguir) |
 | Mônica (psicóloga) | DM diagnóstica enviada | Aguardar resposta |
+
+**Lição Kelly:** abordagem fria antes das skills de voz estarem prontas. As skills `zyllah-voz` + `zyllah-comentario-publico` + `zyllah-dm-abertura` existem exatamente para isso nunca mais acontecer. Risco de "queimar mercado" em NF: baixo, mas manter postura impecável com prospects restantes.
 
 ---
 
@@ -446,6 +450,8 @@ https://script.google.com/macros/s/AKfycbxXdfQFOWFb3xjBaQnc6Bk9sWfXAsx2cdidVXiV0
 | **21** | **27/abr** | **Brain dump matinal: 6 frentes novas adicionadas ao vault (CNAE MEI, engajamento escalável, contrato sem "advogado", protocolo gravação one-day, apresentações pré-feitas, roleplay+objeções IA, manual gestor)** |
 | **22** | **04/mai** | **Classificação features, skills em ZyllahOS, pipeline prospectar.py, arquitetura 7 contas Claude, ✦ Comentar no hub, GAS gerarComentarioProspect, layout hub v10** |
 | **23** | **05/mai** | **Sessão longa: Cloudia sem pressão, checklist_prospeccao, hub_proxima_iteracao, sprint_gravacao_e_runway (20 roteiros), emergency_mode, audit Instagram/LinkedIn, estratégia de volume e runway** |
+| **22** | **05/mai** | **Auditoria vault · Roupas chegaram (Shein) · Cabelo cortado · Grava amanhã · Pipeline Qwen+Python localizado (`ZyllahOS/prospectar.py`) · Análise IG/LinkedIn · sprint_gravacao_e_runway.md criado · estratégia runway + prospecção volume** |
+| **24** | **09/mai** | **Pós-sprint: gravação feita (07/05), bruto editado no CapCut (~28min). Kelly bloqueou (aprendizado). API Anthropic sem créditos (repor em console.anthropic.com). prospectar.py corrigido (paths ZyllahOS) + função editorial adicionada. painel_prospeccao.html criado. GitHub: 3 commits locais pendentes de push. Drive: auto-sync ativo (8GB). YouTube: SRT para vídeos longos, burn-in para Shorts.** |
 | **22** | **05/mai** | **Auditoria vault · Roupas chegaram (Shein) · Cabelo cortado · Grava amanhã · Pipeline Qwen+Python localizado (`ZyllahOS/prospectar.py`) · Análise IG/LinkedIn · sprint_gravacao_e_runway.md criado · estratégia runway + prospecção volume** |
 
 ---
