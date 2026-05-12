@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<title>Zyllah · Roteiro Vídeo 5 — YouTube</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"><style>
+  :root { --ink:#1A1714;--ink-soft:#3D3830;--gold:#B8976A;--gold-light:#D4B896;--cream:#FAF7F2;--red:#8B3A3A; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--cream);font-family:'Jost',sans-serif;font-weight:300;color:var(--ink);padding:0 0 100px;}
+  .header{background:var(--ink);padding:56px 80px 48px;}
+  .header-tag{font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:block;}
+  .header-titulo{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:white;line-height:1.05;margin-bottom:12px;}
+  .header-titulo em{font-style:italic;color:var(--gold-light);}
+  .header-sub{font-size:14px;color:rgba(255,255,255,.45);max-width:580px;line-height:1.85;}
+  .header-meta{display:flex;gap:32px;margin-top:28px;flex-wrap:wrap;}
+  .meta-item{text-align:left;}
+  .meta-valor{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--gold-light);}
+  .meta-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:2px;}
+  .container{max-width:860px;margin:0 auto;padding:0 48px;}
+  .secao-tag{font-size:11px;letter-spacing:.45em;text-transform:uppercase;color:var(--gold);margin:56px 0 12px;display:flex;align-items:center;gap:12px;}
+  .secao-tag::after{content:'';flex:1;height:1px;background:rgba(184,151,106,.2);}
+  .secao-titulo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--ink);margin-bottom:24px;}
+  .secao-titulo em{font-style:italic;color:var(--gold);}
+  .intro-box{background:var(--ink);padding:28px 32px;margin:40px 0 0;}
+  .intro-box p{font-size:14px;color:rgba(255,255,255,.55);line-height:1.85;}
+  .intro-box p+p{margin-top:10px;}
+  .intro-box strong{color:var(--gold-light);font-weight:400;}
+  .cena{background:white;border:1px solid rgba(184,151,106,.12);margin-bottom:12px;overflow:hidden;}
+  .cena-header{display:flex;align-items:stretch;}
+  .cena-num{background:var(--ink);padding:20px 24px;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold);line-height:1;display:flex;align-items:center;min-width:72px;justify-content:center;flex-shrink:0;}
+  .cena-info{padding:16px 20px;flex:1;}
+  .cena-titulo{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+  .cena-tipo{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);}
+  .cena-tempo{font-size:11px;color:rgba(61,56,48,.4);margin-left:auto;padding:16px 20px;display:flex;align-items:center;flex-shrink:0;}
+  .cena-corpo{padding:0 20px 20px 72px;display:flex;flex-direction:column;gap:12px;}
+  .bloco-label{font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:rgba(61,56,48,.4);margin-bottom:6px;}
+  .voz{background:rgba(184,151,106,.06);border-left:3px solid var(--gold);padding:14px 18px;font-size:15px;color:var(--ink);line-height:1.9;font-style:italic;}
+  .voz::before{content:'🎙 ';font-style:normal;}
+  .cam{background:rgba(26,100,60,.05);border-left:3px solid rgba(26,100,60,.4);padding:14px 18px;font-size:15px;color:var(--ink);line-height:1.9;font-style:italic;}
+  .cam::before{content:'🎥 ';font-style:normal;}
+  .tela{background:rgba(26,23,20,.04);border-left:3px solid rgba(61,56,48,.2);padding:14px 18px;font-size:13px;color:var(--ink-soft);line-height:1.75;}
+  .tela::before{content:'🖥 ';}
+  .nota{background:rgba(139,58,58,.05);border-left:3px solid rgba(139,58,58,.3);padding:12px 16px;font-size:12px;color:var(--red);line-height:1.7;}
+  .nota::before{content:'⚠ ';}
+  .dica{background:rgba(184,151,106,.07);border-left:3px solid rgba(184,151,106,.4);padding:12px 16px;font-size:12px;color:var(--ink-soft);line-height:1.7;}
+  .dica::before{content:'💡 ';}
+  .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+  .prod-card{background:white;border:1px solid rgba(184,151,106,.12);padding:20px;}
+  .prod-card-titulo{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:8px;letter-spacing:.05em;}
+  .prod-card-texto{font-size:13px;color:var(--ink-soft);line-height:1.7;}
+  .yt-box{background:var(--ink);padding:28px 32px;margin-top:4px;}
+  .yt-label{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;display:block;}
+  .yt-titulo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:white;margin-bottom:8px;line-height:1.3;}
+  .yt-desc{font-size:13px;color:rgba(255,255,255,.5);line-height:1.8;}
+  .yt-tags{margin-top:12px;font-size:12px;color:rgba(184,151,106,.7);}
+  .divisor{height:1px;background:rgba(184,151,106,.12);margin:40px 0;}
+  .data{font-size:11px;color:rgba(61,56,48,.4);margin-top:48px;padding-top:24px;border-top:1px solid rgba(184,151,106,.1);}
+  .cfm-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:4px;}
+  .cfm-card{padding:20px 24px;}
+  .cfm-card.ok{background:rgba(26,100,60,.06);border-left:3px solid rgba(26,100,60,.4);}
+  .cfm-card.no{background:rgba(139,58,58,.06);border-left:3px solid rgba(139,58,58,.35);}
+  .cfm-title{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px;}
+  .cfm-title.ok{color:rgba(26,100,60,.7);}
+  .cfm-title.no{color:var(--red);}
+  .cfm-item{font-size:13px;color:var(--ink-soft);line-height:1.7;padding:4px 0;border-bottom:1px solid rgba(184,151,106,.08);}
+  .cfm-item:last-child{border-bottom:none;}
+</style></head><body>
+<div class="header">
+  <span class="header-tag">YouTube · Vídeo 5 de 5 · Roteiro completo</span>
+  <h1 class="header-titulo">Por que a maioria das agências<br><em>entrega o mesmo para todo mundo</em></h1>
+  <p class="header-sub">Câmera + tela. Você explica o modelo de agência genérica, mostra como os feeds se parecem, e apresenta o que é diferente quando a presença é construída para um especialista específico. Último vídeo da série — encerra com proposta clara.</p>
+  <div class="header-meta">
+    <div class="meta-item"><div class="meta-valor">4'00"–4'30"</div><div class="meta-label">Duração estimada</div></div>
+    <div class="meta-item"><div class="meta-valor">Câmera + tela</div><div class="meta-label">Formato</div></div>
+    <div class="meta-item"><div class="meta-valor">Sim — câmera e tela</div><div class="meta-label">Câmera</div></div>
+    <div class="meta-item"><div class="meta-valor">Médicos especialistas</div><div class="meta-label">Público</div></div>
+  </div>
+</div>
+<div class="container">
+
+<div class="intro-box">
+  <p><strong>Conceito:</strong> este é o vídeo de fechamento da série. Você usa câmera + gravação de tela mostrando feeds fictícios que parecem idênticos — e explica o modelo industrial de agência genérica. O tom é de diagnóstico, não ataque. Termina com a proposta da Zyllah sem ser um anúncio.</p>
+  <p><strong>Regra:</strong> nunca mencionar concorrente pelo nome. O argumento é sobre modelo — não sobre empresa específica. Isso protege juridicamente e é mais elegante.</p>
+</div>
+
+<div class="secao-tag">Roteiro</div>
+<h2 class="secao-titulo">Cena a cena —<br><em>câmera e tela</em></h2>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">1</div>
+  <div class="cena-info"><div class="cena-titulo">Abertura — o feed que poderia ser de qualquer um</div><div class="cena-tipo">Tela gravada · Voz over</div></div>
+  <div class="cena-tempo">0:00 – 0:40</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Tela</div><div class="tela">Mostrar dois feeds fictícios lado a lado — um de "Dr. Carlos, cardiologista" e outro de "Dra. Ana, dermatologista". Mesmas cores genéricas (azul claro e branco), mesmos tipos de post (dica de saúde, frase motivacional, bastidor de consultório com a mesma composição). Difícil distinguir um do outro à primeira vista.</div>
+    <div class="bloco-label">Voz</div><div class="voz">Estes são dois feeds de médicos diferentes. Especialidades diferentes. Cidades diferentes. Pacientes diferentes. E no entanto — se você tirar os nomes — você não consegue distinguir um do outro. Mesma paleta. Mesmo estilo de post. Mesmo tipo de conteúdo. Isso não é coincidência. É o resultado de um modelo de produção em escala.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">2</div>
+  <div class="cena-info"><div class="cena-titulo">Como funciona a agência genérica</div><div class="cena-tipo">Câmera · Explicação</div></div>
+  <div class="cena-tempo">0:40 – 1:40</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Câmera</div><div class="cam">A agência genérica tem um modelo simples: uma biblioteca de templates. Carrossel educativo, quote de motivação, foto do médico com fundo limpo, chamada para agendamento. Esse pacote serve para dentista, médico, nutricionista, fisioterapeuta — qualquer profissional de saúde. É eficiente para a agência. É barato de produzir. Cabe no preço de R$ 600, R$ 800 por mês. O problema não é o preço. O problema é que um cardiologista de 50 anos com 20 anos de mercado e um nutricionista recém-formado não podem ter a mesma presença digital. Mas na agência genérica, têm.</div>
+    <div class="nota">Tom: sem julgamento moral. É um modelo de negócio que funciona para o público que serve. O argumento é que não serve para o especialista que quer presença à altura da sua autoridade clínica.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">3</div>
+  <div class="cena-info"><div class="cena-titulo">O que o especialista perde com esse modelo</div><div class="cena-tipo">Câmera · Consequências</div></div>
+  <div class="cena-tempo">1:40 – 2:30</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Câmera</div><div class="cam">O que o especialista perde é diferenciação. Quando o digital não reflete quem ele é — a especialidade que construiu, o tipo de paciente que atende, o nível do seu trabalho — ele compete em preço com médicos muito menos experientes. Porque digitalmente ele parece igual. E o paciente que pesquisa online não tem como saber a diferença. Ele vai escolher por localização, por conveniência, às vezes por preço. Não pela qualidade clínica — que é o único critério que deveria importar.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">4</div>
+  <div class="cena-info"><div class="cena-titulo">O que é diferente — posicionamento sob medida</div><div class="cena-tipo">Câmera + tela · Proposta</div></div>
+  <div class="cena-tempo">2:30 – 3:30</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Tela</div><div class="tela">Mostrar o contraste: feed fictício bem posicionado (Dra. Helena Souza — dermatologista, mockup que já temos) vs. feed genérico. A diferença deve ser visível — identidade coesa, tom de voz específico, conteúdo que só poderia ser daquela médica.</div>
+    <div class="bloco-label">Câmera</div><div class="cam">O que é diferente é começar pela pergunta certa: quem é esse médico, para quem ele atende, o que ele quer comunicar, e quem ele quer atrair? A identidade visual, o tom de voz, a estratégia de conteúdo — tudo isso é construído a partir dessas respostas. O resultado é uma presença que ninguém poderia confundir com outra. Porque foi feita para uma pessoa específica.</div>
+    <div class="dica">Aqui entra a CTA natural — sem ser agressiva. Você não está vendendo. Está concluindo um argumento que o médico já terminou de comprar.</div>
+  </div>
+</div>
+
+<div class="cena">
+  <div class="cena-header"><div class="cena-num">5</div>
+  <div class="cena-info"><div class="cena-titulo">Encerramento — fechamento da série</div><div class="cena-tipo">Câmera · CTA final</div></div>
+  <div class="cena-tempo">3:30 – 4:20</div></div>
+  <div class="cena-corpo">
+    <div class="bloco-label">Câmera</div><div class="cam">Isso é o que a Zyllah Digital faz. Presença digital para especialistas de saúde que já são referência no que fazem — mas ainda não são encontrados por quem precisa deles. Se você chegou até aqui, já sabe o que o Google encontra quando pesquisam seu nome. Já sabe o que o CFM permite e o que proíbe. Já sabe a diferença entre seguidores e pacientes certos. O próximo passo é uma conversa. O link está na descrição.</div>
+    <div class="nota">Esta é a única CTA de conversão direta da série toda. As anteriores eram educativas. Esta pode ter o link para contato — mas sem agressividade. Quem chegou até aqui está qualificado.</div>
+  </div>
+</div>
+
+<div class="divisor"></div>
+<div class="secao-tag">Produção</div>
+<h2 class="secao-titulo">Setup — câmera + tela</h2>
+<div class="prod-grid">
+  <div class="prod-card"><div class="prod-card-titulo">Estrutura</div><div class="prod-card-texto">Alternar câmera e gravação de tela. Cenas 1 e 4: tela. Cenas 2, 3 e 5: câmera. Editar para que as transições sejam limpas — corte direto, sem efeito de dissolução.</div></div>
+  <div class="prod-card"><div class="prod-card-titulo">Feeds fictícios</div><div class="prod-card-texto">Criar dois feeds genéricos no Canva antes de gravar — ou usar os mockups que já existem. Nunca usar prints de perfis reais de agências concorrentes.</div></div>
+  <div class="prod-card"><div class="prod-card-titulo">Tom final</div><div class="prod-card-texto">Cena 5 é o fechamento de uma série de 5 vídeos. Tom mais sóbrio e direto do que os outros. Menos energia — mais peso. É o momento do argumento completo.</div></div>
+  <div class="prod-card"><div class="prod-card-titulo">CTA na descrição</div><div class="prod-card-texto">Link para página de contato ou WhatsApp da Zyllah. Incluir também links para os vídeos anteriores da série — aumenta retenção no canal.</div></div>
+</div>
+
+<div class="divisor"></div>
+<div class="secao-tag">YouTube</div>
+<h2 class="secao-titulo">Título e descrição</h2>
+<div class="yt-box">
+  <span class="yt-label">Título principal</span>
+  <div class="yt-titulo">Por que a maioria das agências entrega o mesmo para todo médico (e o que fazer diferente)</div>
+</div>
+<div class="yt-box" style="margin-top:8px;">
+  <span class="yt-label">Descrição</span>
+  <div class="yt-desc">Agência genérica usa o mesmo template para cardiologista, dentista e nutricionista. O resultado é um feed que parece igual ao do concorrente. Neste vídeo explico o modelo industrial de produção de conteúdo médico — e o que é diferente quando a presença é construída para um especialista específico.</div>
+  <div class="yt-tags">#MarketingMédico #AgênciasDigitais #PresençaDigital #MédicoEmpreendedor #ZyllahDigital #PosicionamentoMédico</div>
+</div>
+<p class="data">Roteiro criado em 31 de março de 2026 · Zyllah Digital · Série YouTube — Vídeo 5 de 5</p>
+</div></body></html>
