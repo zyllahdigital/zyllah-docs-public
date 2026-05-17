@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyllah · Hub de Vendas</title>
+<meta name="description" content="Referência completa de vendas da Zyllah Digital. Script de abordagem, tratamento de objeções, planos e base contratual para especialistas de saúde.">
+<meta name="author" content="Zyllah Digital">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Zyllah Digital · Hub de Vendas">
+<meta property="og:description" content="Script de abordagem, objeções, planos e treinamento. Referência do vendedor Zyllah.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1A1714;
+  --ink-soft: #3D3830;
+  --gold: #B8976A;
+  --gold-light: #D4B896;
+  --cream: #FAF7F2;
+  --cream-mid: #F0EBE1;
+  --border: rgba(184,151,106,.15);
+  --green: #2D6A4F;
+  --red: #8B2020;
+  --blue: #1A3A5C;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; color: var(--ink); font-size: 15px; line-height: 1.7; }
+
+/* NAV */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--ink); border-bottom: 2px solid var(--gold);
+  display: flex; align-items: center; gap: 0; overflow-x: auto;
+  padding: 0 24px;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--gold);
+  letter-spacing: .08em; white-space: nowrap; padding: 14px 20px 14px 0;
+  border-right: 1px solid rgba(184,151,106,.2); margin-right: 8px; flex-shrink: 0;
+}
+.nav a {
+  color: rgba(255,255,255,.55); text-decoration: none; font-size: 11px;
+  letter-spacing: .25em; text-transform: uppercase; padding: 16px 14px;
+  white-space: nowrap; transition: color .2s; flex-shrink: 0;
+}
+.nav a:hover { color: var(--gold-light); }
+
+/* HERO */
+.hero {
+  background: var(--ink); padding: 56px 64px 48px;
+  border-bottom: 1px solid rgba(184,151,106,.12);
+}
+.hero-tag { font-size: 10px; letter-spacing: .5em; text-transform: uppercase; color: var(--gold); opacity: .7; display: block; margin-bottom: 12px; }
+.hero-titulo { font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: #fff; line-height: 1.05; margin-bottom: 10px; }
+.hero-titulo em { font-style: italic; color: var(--gold-light); }
+.hero-sub { font-size: 14px; color: rgba(255,255,255,.4); max-width: 580px; line-height: 1.85; }
+
+/* LAYOUT */
+.page { max-width: 860px; margin: 0 auto; padding: 0 48px 80px; }
+
+/* SEÇÕES */
+.secao { margin-top: 56px; }
+.secao-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.secao-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: rgba(184,151,106,.3); line-height: 1; }
+.secao-titulo { font-size: 18px; font-weight: 600; color: var(--ink); }
+.secao-desc { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+
+/* CARDS */
+.card { background: #fff; border: 1px solid var(--border); margin-bottom: 10px; border-radius: 2px; }
+.card-inner { padding: 20px 24px; }
+
+/* LISTAS SIM/NÃO */
+.lista-dupla { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+.lista-bloco { padding: 16px 20px; border-radius: 2px; }
+.lista-bloco.sim { background: rgba(45,106,79,.06); border: 1px solid rgba(45,106,79,.2); }
+.lista-bloco.nao { background: rgba(139,32,32,.05); border: 1px solid rgba(139,32,32,.18); }
+.lista-titulo { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; font-weight: 600; margin-bottom: 10px; }
+.lista-titulo.sim { color: var(--green); }
+.lista-titulo.nao { color: var(--red); }
+.lista-bloco li { font-size: 13px; line-height: 1.6; margin-bottom: 5px; list-style: none; padding-left: 16px; position: relative; }
+.lista-bloco.sim li::before { content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 600; }
+.lista-bloco.nao li::before { content: '✗'; position: absolute; left: 0; color: var(--red); font-weight: 600; }
+
+/* PLANOS */
+.planos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.plano { background: #fff; border: 1px solid var(--border); padding: 24px; }
+.plano.destaque { border-color: rgba(184,151,106,.4); background: rgba(184,151,106,.04); }
+.plano-nome { font-size: 11px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.plano-valor { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; color: var(--ink); line-height: 1; }
+.plano-valor span { font-size: 16px; color: var(--ink-soft); }
+.plano-impl { font-size: 12px; color: var(--ink-soft); margin: 4px 0 16px; }
+.plano-itens { list-style: none; }
+.plano-itens li { font-size: 13px; padding: 5px 0; border-bottom: 1px solid var(--border); padding-left: 14px; position: relative; }
+.plano-itens li::before { content: '·'; position: absolute; left: 0; color: var(--gold); }
+.plano-itens li:last-child { border-bottom: none; }
+.ancora { background: rgba(184,151,106,.08); border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 14px 18px; margin-top: 16px; font-size: 13px; line-height: 1.7; }
+.ancora strong { color: var(--ink); }
+
+/* SCRIPT DE ABORDAGEM */
+.passo { display: flex; gap: 16px; margin-bottom: 16px; }
+.passo-num { width: 32px; height: 32px; background: var(--ink); color: var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 16px; flex-shrink: 0; border-radius: 2px; margin-top: 2px; }
+.passo-corpo { flex: 1; }
+.passo-titulo { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.fala { background: rgba(184,151,106,.07); border-left: 3px solid var(--gold); padding: 12px 16px; font-size: 14px; font-style: italic; color: var(--ink); line-height: 1.7; margin: 6px 0; }
+.nunca { background: rgba(139,32,32,.05); border-left: 3px solid var(--red); padding: 8px 14px; font-size: 13px; color: var(--red); margin: 6px 0; }
+.nunca::before { content: 'Nunca: '; font-weight: 600; }
+.dica { background: rgba(26,58,92,.05); border-left: 3px solid var(--blue); padding: 8px 14px; font-size: 13px; color: var(--blue); margin: 6px 0; line-height: 1.6; }
+
+/* OBJEÇÕES */
+.obj { background: #fff; border: 1px solid var(--border); margin-bottom: 8px; border-radius: 2px; overflow: hidden; }
+.obj-trigger { width: 100%; background: none; border: none; cursor: pointer; text-align: left; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.obj-trigger:hover { background: rgba(184,151,106,.04); }
+.obj-pergunta { font-size: 15px; font-weight: 600; color: var(--ink); }
+.obj-seta { color: var(--gold); font-size: 18px; transition: transform .25s; flex-shrink: 0; }
+.obj.open .obj-seta { transform: rotate(180deg); }
+.obj-body { display: none; padding: 0 24px 20px; border-top: 1px solid var(--border); }
+.obj.open .obj-body { display: block; }
+.obj-resposta { margin: 16px 0 10px; }
+.obj-resposta .fala { font-size: 15px; }
+.obj-contexto { font-size: 13px; color: var(--ink-soft); line-height: 1.7; margin-top: 10px; }
+
+/* PRAZOS */
+.prazos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 4px; }
+.prazo-item { background: rgba(26,23,20,.04); padding: 16px 18px; }
+.prazo-tempo { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 300; color: var(--gold); line-height: 1; }
+.prazo-desc { font-size: 12px; color: var(--ink-soft); margin-top: 4px; line-height: 1.5; }
+
+/* CONTRATUAL */
+.contrato-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.modelo { background: #fff; border: 1px solid var(--border); padding: 18px 20px; }
+.modelo.rec { border-color: rgba(184,151,106,.4); }
+.modelo-nome { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.modelo-tag { display: inline-block; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; padding: 2px 8px; border: 1px solid var(--gold); color: var(--gold); margin-bottom: 10px; }
+.modelo-desc { font-size: 13px; color: var(--ink-soft); line-height: 1.6; }
+
+/* PRÓXIMOS PASSOS */
+.steps { counter-reset: steps; }
+.step { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+.step:last-child { border-bottom: none; }
+.step-n { width: 28px; height: 28px; background: var(--gold); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; border-radius: 50%; margin-top: 2px; }
+.step-corpo { flex: 1; }
+.step-titulo { font-weight: 600; font-size: 14px; }
+.step-desc { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+
+/* RODAPÉ */
+.rodape { font-size: 11px; color: rgba(26,23,20,.3); margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); }
+
+@media (max-width: 680px) {
+  .hero, .page { padding-left: 24px; padding-right: 24px; }
+  .lista-dupla, .planos-grid, .prazos, .contrato-grid { grid-template-columns: 1fr; }
+  .hero-titulo { font-size: 32px; }
+  .nav { padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">Zyllah · Vendas</div>
+  <a href="#quem">Para quem</a>
+  <a href="#planos">Planos</a>
+  <a href="#script">Script</a>
+  <a href="#objecoes">Objeções</a>
+  <a href="#prazos">Prazos</a>
+  <a href="#contrato">Contrato</a>
+  <a href="#fechamento">Fechamento</a>
+  <a href="#treinamento" style="color:var(--gold-light);font-weight:500;">Treinamento ↗</a>
+</nav>
+
+<div class="hero">
+  <span class="hero-tag">Zyllah Digital · Referência Interna de Vendas · 2026</span>
+  <h1 class="hero-titulo">Hub de<br><em>Vendas</em></h1>
+  <p class="hero-sub">Tudo que você precisa para conduzir uma conversa de vendas com segurança. Apresentações por prospect são geradas separadamente — não estão aqui.</p>
+</div>
+
+<div class="page">
+
+<!-- ══ O QUE É ══ -->
+<div class="secao" id="quem">
+  <div class="secao-header">
+    <div class="secao-num">01</div>
+    <div>
+      <div class="secao-titulo">O que é a Zyllah — e para quem é</div>
+      <div class="secao-desc">Posicionamento e filtro de prospect</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-inner">
+      <p style="font-size:14px;line-height:1.85;margin-bottom:16px;">A Zyllah Digital é uma agência de marketing médico especializada em especialistas de saúde que já são referência clínica — mas ainda não são encontrados por quem precisa deles. Não fazemos marketing genérico. Não usamos templates. Conhecemos o CFM.</p>
+      <div class="lista-dupla">
+        <div class="lista-bloco sim">
+          <div class="lista-titulo sim">Para quem é</div>
+          <ul>
+            <li>Especialista que já é bom — e quer que o digital reflita isso</li>
+            <li>Quem perdeu pacientes para concorrentes menos qualificados digitalmente</li>
+            <li>Quem quer autoridade sem virar criador de conteúdo</li>
+            <li>Quem entende que presença digital é investimento, não custo</li>
+          </ul>
+        </div>
+        <div class="lista-bloco nao">
+          <div class="lista-titulo nao">Para quem não é</div>
+          <ul>
+            <li>Quem quer resultado em 30 dias</li>
+            <li>Quem busca o menor preço do mercado</li>
+            <li>Quem ainda precisa ser convencido de que presença digital importa</li>
+            <li>Quem não vai colaborar com o processo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PLANOS ══ -->
+<div class="secao" id="planos">
+  <div class="secao-header">
+    <div class="secao-num">02</div>
+    <div>
+      <div class="secao-titulo">Planos e valores</div>
+      <div class="secao-desc">Nunca apresente tabela antes de mostrar o problema</div>
+    </div>
+  </div>
+
+  <div class="planos-grid">
+    <div class="plano">
+      <div class="plano-nome">Essencial</div>
+      <div class="plano-valor">R$ 1.800<span>/mês</span></div>
+      <div class="plano-impl">+ R$ 1.800 implantação</div>
+      <ul class="plano-itens">
+        <li>Brand Book exclusivo</li>
+        <li>Site profissional (SEO local)</li>
+        <li>Instagram — 3 posts/semana</li>
+        <li>Calendário editorial mensal</li>
+        <li>Relatório mensal com dados reais</li>
+      </ul>
+    </div>
+    <div class="plano destaque">
+      <div class="plano-nome">Presença Completa ★</div>
+      <div class="plano-valor">R$ 2.800<span>/mês</span></div>
+      <div class="plano-impl">+ R$ 1.800 implantação</div>
+      <ul class="plano-itens">
+        <li>Tudo do Essencial</li>
+        <li>Produção de vídeos e Reels</li>
+        <li>LinkedIn gerenciado</li>
+        <li>WhatsApp com atendimento automático</li>
+        <li>Reunião mensal de estratégia</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ancora">
+    <strong>Âncora de retorno:</strong> Plano Essencial = R$ 60/dia — menos que uma consulta particular. Para se pagar: 6 a 10 pacientes novos/mês que não viriam de outra forma. Plano Presença Completa = menos de 10 consultas/mês.
+  </div>
+
+  <div class="card" style="margin-top:12px;">
+    <div class="card-inner">
+      <div style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Projeto Piloto — uso com critério</div>
+      <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">Para casos selecionados com fit real mas barreira financeira genuína: mensalidade reduzida à metade + implantação isenta. Contrapartida: liberdade criativa + depoimento após 60 dias. <strong style="color:var(--ink);">Não é oferta padrão — não ofereça antes do prospect demonstrar interesse real.</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SCRIPT ══ -->
+<div class="secao" id="script">
+  <div class="secao-header">
+    <div class="secao-num">03</div>
+    <div>
+      <div class="secao-titulo">Script de abordagem</div>
+      <div class="secao-desc">Sequência recomendada — do primeiro contato ao fechamento</div>
+    </div>
+  </div>
+
+  <div class="passo">
+    <div class="passo-num">1</div>
+    <div class="passo-corpo">
+      <div class="passo-titulo">Primeiro contato (após interação real)</div>
+      <div class="fala">"Vi seu conteúdo sobre [tema específico] — faz sentido com o que a gente trabalha aqui na Zyllah. Quando quiser conversar sobre presença digital para especialistas de saúde, é só falar."</div>
+      <div class="nunca">pitch direto sem contexto. "Oi, tudo bem?" seguido de oferta.</div>
+    </div>
+  </div>
+
+  <div class="passo">
+    <div class="passo-num">2</div>
+    <div class="passo-corpo">
+      <div class="passo-titulo">Diagnóstico — reunião de 20 min (objetivo: revelar o problema, não vender)</div>
+      <div class="dica">Acesse o Google ao vivo com o prospect. Pesquise o nome dele na frente dele.</div>
+      <div class="fala">"Vou pesquisar seu nome agora, como faria seu próximo paciente."</div>
+      <p style="font-size:13px;color:var(--ink-soft);margin:8px 0 4px;">Mostrar em sequência: Google → CRM → Instagram → site (se existir). Identificar os 3 sinais:</p>
+      <ul style="font-size:13px;color:var(--ink-soft);padding-left:16px;line-height:1.8;">
+        <li>Foto de perfil sem autoridade</li>
+        <li>Bio que lista mas não posiciona</li>
+        <li>Feed inconsistente, sem identidade</li>
+      </ul>
+      <div class="fala">"Isso não é culpa sua. É ausência de sistema."</div>
+      <div class="nunca">apresentar tabela de preços antes que o problema fique evidente para o prospect.</div>
+    </div>
+  </div>
+
+  <div class="passo">
+    <div class="passo-num">3</div>
+    <div class="passo-corpo">
+      <div class="passo-titulo">Apresentação do método (após diagnóstico)</div>
+      <p style="font-size:13px;color:var(--ink-soft);margin-bottom:8px;">Três pilares — apresentar nessa ordem:</p>
+      <ul style="font-size:13px;color:var(--ink-soft);padding-left:16px;line-height:1.9;">
+        <li><strong style="color:var(--ink);">Identidade</strong> — Brand Book, quem você é visualmente e estrategicamente</li>
+        <li><strong style="color:var(--ink);">Conteúdo</strong> — o médico não cria, a Zyllah cria. 2h/mês de gravação, o resto é com a gente</li>
+        <li><strong style="color:var(--ink);">Consistência</strong> — sistema que não para quando o médico está ocupado</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="passo">
+    <div class="passo-num">4</div>
+    <div class="passo-corpo">
+      <div class="passo-titulo">Fechamento</div>
+      <div class="fala">"Faz sentido dedicarmos 20 minutos para eu te mostrar esse cenário real, sem pressão nenhuma?"</div>
+      <div class="dica">Se positivo: marque data concreta — nunca "depois a gente vê".</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ OBJEÇÕES ══ -->
+<div class="secao" id="objecoes">
+  <div class="secao-header">
+    <div class="secao-num">04</div>
+    <div>
+      <div class="secao-titulo">Tratamento de objeções</div>
+      <div class="secao-desc">Clique para expandir — frase de resposta em destaque</div>
+    </div>
+  </div>
+
+  <div class="obj" id="o1">
+    <button class="obj-trigger" onclick="toggle('o1')">
+      <span class="obj-pergunta">"Está caro."</span>
+      <span class="obj-seta">▾</span>
+    </button>
+    <div class="obj-body">
+      <div class="obj-resposta">
+        <div class="fala">"Entendo. Uma consulta particular sua vale quanto hoje? O plano Essencial custa R$ 60 por dia. Se trouxer um paciente novo a cada três dias que você não teria de outra forma, ele já está pago — o resto é construção de reputação."</div>
+      </div>
+      <div class="obj-contexto">Não discuta o preço. Volte sempre para o retorno. Nunca ofereça desconto no primeiro sinal de resistência. Se persistir, ofereça o Diagnóstico gratuito — não o Projeto Piloto ainda.</div>
+    </div>
+  </div>
+
+  <div class="obj" id="o2">
+    <button class="obj-trigger" onclick="toggle('o2')">
+      <span class="obj-pergunta">"Vou pensar."</span>
+      <span class="obj-seta">▾</span>
+    </button>
+    <div class="obj-body">
+      <div class="obj-resposta">
+        <div class="fala">"Claro. O que ainda ficou sem resposta para você? Às vezes uma dúvida específica é o que trava — e resolve rápido."</div>
+      </div>
+      <div class="obj-contexto">Identifique o que está travando. Não agende follow-up vago — combine uma data concreta. "Posso te ligar na quinta às 14h?"</div>
+    </div>
+  </div>
+
+  <div class="obj" id="o3">
+    <button class="obj-trigger" onclick="toggle('o3')">
+      <span class="obj-pergunta">"Já tenho uma agência."</span>
+      <span class="obj-seta">▾</span>
+    </button>
+    <div class="obj-body">
+      <div class="obj-resposta">
+        <div class="fala">"Faz sentido. O que você está medindo hoje — o que chegou de resultado concreto nos últimos 3 meses?"</div>
+      </div>
+      <div class="obj-contexto">Se não souber responder, o problema está evidente. Não ataque a agência — deixe o silêncio trabalhar. Nunca fale mal de concorrente diretamente.</div>
+    </div>
+  </div>
+
+  <div class="obj" id="o4">
+    <button class="obj-trigger" onclick="toggle('o4')">
+      <span class="obj-pergunta">"A agência genérica é mais barata."</span>
+      <span class="obj-seta">▾</span>
+    </button>
+    <div class="obj-body">
+      <div class="obj-resposta">
+        <div class="fala">"É. E a razão é simples: elas não conhecem o CFM. Quando o Conselho bate na porta por um post inadequado, é o seu CRM que está em risco — não o CNPJ da agência."</div>
+      </div>
+      <div class="obj-contexto">Não compare preço com preço. Compare consequência com consequência. A Resolução CFM 2.336/2023 é o diferencial real.</div>
+    </div>
+  </div>
+
+  <div class="obj" id="o5">
+    <button class="obj-trigger" onclick="toggle('o5')">
+      <span class="obj-pergunta">"Tenho medo de gastar e não ver resultado."</span>
+      <span class="obj-seta">▾</span>
+    </button>
+    <div class="obj-body">
+      <div class="obj-resposta">
+        <div class="fala">"Esse medo é o motivo pelo qual a Zyllah existe. A maioria das agências começa postando. A gente começa definindo quem você é — Brand Book, identidade, voz. Só depois publica. Se o material não representar você, não sai."</div>
+      </div>
+      <div class="obj-contexto">Aqui é o momento certo para oferecer o Projeto Piloto — se o prospect tiver fit real. Apresente como "troca consciente", não como desconto.</div>
+    </div>
+  </div>
+
+  <div class="obj" id="o6">
+    <button class="obj-trigger" onclick="toggle('o6')">
+      <span class="obj-pergunta">"Não preciso de marketing" / "Minha agenda está cheia."</span>
+      <span class="obj-seta">▾</span>
+    </button>
+    <div class="obj-body">
+      <div class="obj-resposta">
+        <div class="fala">"Totalmente válido. Se um dia a percepção mudar, pode me chamar."</div>
+      </div>
+      <div class="obj-contexto">Esse prospect não está no momento certo. Não force. Mantenha o relacionamento — não queime o contato com insistência. Registre para follow-up em 3 meses.</div>
+    </div>
+  </div>
+
+  <div class="obj" id="o7">
+    <button class="obj-trigger" onclick="toggle('o7')">
+      <span class="obj-pergunta">"Não quero aparecer em câmera."</span>
+      <span class="obj-seta">▾</span>
+    </button>
+    <div class="obj-body">
+      <div class="obj-resposta">
+        <div class="fala">"Não precisa. Existem formatos que constroem autoridade sem rosto — voz over, tela, texto animado. A câmera entra só quando e se você quiser."</div>
+      </div>
+      <div class="obj-contexto">Isso elimina uma barreira real para muitos especialistas. Reforça o diferencial: a Zyllah tem um sistema de produção que não depende de o médico aparecer toda semana.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PRAZOS ══ -->
+<div class="secao" id="prazos">
+  <div class="secao-header">
+    <div class="secao-num">05</div>
+    <div>
+      <div class="secao-titulo">O que prometemos — e em quanto tempo</div>
+      <div class="secao-desc">Nunca prometa prazo além do que está aqui</div>
+    </div>
+  </div>
+
+  <div class="prazos">
+    <div class="prazo-item">
+      <div class="prazo-tempo">30–60 dias</div>
+      <div class="prazo-desc">Primeiros seguidores orgânicos e consistência de publicação</div>
+    </div>
+    <div class="prazo-item">
+      <div class="prazo-tempo">3–6 meses</div>
+      <div class="prazo-desc">Primeiros pacientes rastreáveis via presença digital</div>
+    </div>
+    <div class="prazo-item">
+      <div class="prazo-tempo">12 meses</div>
+      <div class="prazo-desc">Presença digital como fonte consistente de indicações</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px;">
+    <div class="card-inner">
+      <div style="font-size:12px;font-weight:600;color:var(--red);margin-bottom:8px;">Nunca prometer:</div>
+      <ul style="font-size:13px;color:var(--ink-soft);padding-left:16px;line-height:1.9;">
+        <li>Resultado em menos de 3 meses</li>
+        <li>Número exato de pacientes novos</li>
+        <li>Posição específica no Google em prazo definido</li>
+        <li>Que o conteúdo "vai viralizar"</li>
+        <li>Qualquer coisa que dependa exclusivamente do algoritmo</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONTRATO ══ -->
+<div class="secao" id="contrato">
+  <div class="secao-header">
+    <div class="secao-num">06</div>
+    <div>
+      <div class="secao-titulo">Base contratual</div>
+      <div class="secao-desc">Cláusula 5 — Aprovação de conteúdo</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-inner" style="margin-bottom:12px;">
+      <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;"><strong style="color:var(--ink);">Prazo de aprovação:</strong> 5 dias úteis. <strong style="color:var(--ink);">Aprovação tácita:</strong> silêncio após 5 dias = aprovação integral do material. A responsabilidade final pelo conteúdo publicado é do Contratante — não da Zyllah.</p>
+    </div>
+  </div>
+
+  <div class="contrato-grid" style="margin-top:12px;">
+    <div class="modelo">
+      <div class="modelo-nome">Modelo A</div>
+      <div class="modelo-tag">Recomendado após 1º mês</div>
+      <div class="modelo-desc">Opt-out — cliente recebe preview e tem 5 dias úteis para vetar. Silêncio = conteúdo vai.</div>
+    </div>
+    <div class="modelo rec">
+      <div class="modelo-nome">Modelo B</div>
+      <div class="modelo-tag">★ 1º mês</div>
+      <div class="modelo-desc">WhatsApp com 1 toque. 1 = aprovado. 2 = pedir ajuste. Mínimo de fricção.</div>
+    </div>
+    <div class="modelo">
+      <div class="modelo-nome">Modelo C</div>
+      <div class="modelo-tag">Carteira com 3+ clientes</div>
+      <div class="modelo-desc">Aprovação do calendário mensal inteiro em reunião de 20 min. Sem revisão por post.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FECHAMENTO ══ -->
+<div class="secao" id="fechamento">
+  <div class="secao-header">
+    <div class="secao-num">07</div>
+    <div>
+      <div class="secao-titulo">Após o fechamento</div>
+      <div class="secao-desc">O que acontece quando o contrato é assinado</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-inner">
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">1</div>
+          <div class="step-corpo">
+            <div class="step-titulo">Contrato assinado</div>
+            <div class="step-desc">Zyllah envia Brand Book brief — questionário de identidade (cores, fontes, tom de voz, especialidade)</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">2</div>
+          <div class="step-corpo">
+            <div class="step-titulo">Sessão de foto/vídeo</div>
+            <div class="step-desc">Agendada presencialmente ou com orientação remota (smartphone + instruções de luz e enquadramento)</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">3</div>
+          <div class="step-corpo">
+            <div class="step-titulo">Primeiros materiais</div>
+            <div class="step-desc">Entregues em até 15 dias úteis da assinatura</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">4</div>
+          <div class="step-corpo">
+            <div class="step-titulo">Reunião mensal de estratégia</div>
+            <div class="step-desc">Agendada no calendário — diagnóstico do mês anterior + calendário do próximo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TREINAMENTO ══ -->
+<div class="secao" id="treinamento">
+  <div class="secao-header">
+    <div class="secao-num">08</div>
+    <div>
+      <div class="secao-titulo">Treinamento</div>
+      <div class="secao-desc">Quizzes gerados por IA — situações reais, sem decoreba</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+    <a href="../01_MARCA/REFERENCIAS_VISUAIS/TREINAMENTO/zyllah_quiz_vendas.html" target="_blank" style="text-decoration:none;">
+      <div class="card" style="cursor:pointer;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div class="card-inner">
+          <div style="font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Quiz 01</div>
+          <div style="font-size:17px;font-weight:600;color:var(--ink);margin-bottom:6px;">Script de Vendas &amp; Objeções</div>
+          <div style="font-size:13px;color:var(--ink-soft);line-height:1.6;">Situações reais de reunião, abordagem e fechamento. Você escolhe a melhor resposta — avaliado pela metodologia Zyllah.</div>
+          <div style="margin-top:12px;font-size:12px;color:var(--gold);font-weight:500;">Abrir quiz →</div>
+        </div>
+      </div>
+    </a>
+    <a href="../01_MARCA/REFERENCIAS_VISUAIS/TREINAMENTO/zyllah_quiz_conselhos.html" target="_blank" style="text-decoration:none;">
+      <div class="card" style="cursor:pointer;transition:border-color .2s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div class="card-inner">
+          <div style="font-size:11px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Quiz 02</div>
+          <div style="font-size:17px;font-weight:600;color:var(--ink);margin-bottom:6px;">Conselhos de Saúde &amp; Publicidade</div>
+          <div style="font-size:13px;color:var(--ink-soft);line-height:1.6;">CFM, CFP, CFO e CRN aplicados ao marketing digital. Estilo FGV — raciocínio, não decoreba.</div>
+          <div style="margin-top:12px;font-size:12px;color:var(--gold);font-weight:500;">Abrir quiz →</div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="rodape">Zyllah Digital · Nova Friburgo, RJ · zyllah.com.br · Atualizado: maio 2026<br>Referência interna de vendas — apresentações por prospect geradas separadamente sob diagnóstico</div>
+
+</div><!-- /page -->
+
+<script>
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// Highlight da seção ativa no nav
+const sections = document.querySelectorAll('.secao[id]');
+const navLinks = document.querySelectorAll('.nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.style.color = '');
+      const active = document.querySelector(`.nav a[href="#${entry.target.id}"]`);
+      if (active) active.style.color = 'var(--gold-light)';
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
