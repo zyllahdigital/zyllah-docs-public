@@ -148,11 +148,20 @@ body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 3
 /* RODAPÉ */
 .rodape { font-size: 11px; color: rgba(26,23,20,.3); margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border); }
 
+/* SLA TABLE */
+.sla-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.sla-table th { font-size: 11px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); background: var(--cream-mid); }
+.sla-table td { font-size: 13px; color: var(--ink-soft); padding: 12px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.sla-table td:first-child { color: var(--ink); font-weight: 400; }
+.sla-table tr:last-child td { border-bottom: none; }
+.sla-table tr:hover td { background: rgba(184,151,106,.03); }
+
 @media (max-width: 680px) {
   .hero, .page { padding-left: 24px; padding-right: 24px; }
   .lista-dupla, .planos-grid, .prazos, .contrato-grid { grid-template-columns: 1fr; }
   .hero-titulo { font-size: 32px; }
   .nav { padding: 0 16px; }
+  .sla-table th:last-child, .sla-table td:last-child { display: none; }
 }
 </style>
 </head>
@@ -165,6 +174,7 @@ body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 3
   <a href="#script">Script</a>
   <a href="#objecoes">Objeções</a>
   <a href="#prazos">Prazos</a>
+  <a href="#entregas">Entregas</a>
   <a href="#contrato">Contrato</a>
   <a href="#fechamento">Fechamento</a>
   <a href="#treinamento" style="color:var(--gold-light);font-weight:500;">Treinamento ↗</a>
@@ -464,10 +474,81 @@ body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 3
   </div>
 </div>
 
+<!-- ══ COMO ENTREGAMOS ══ -->
+<div class="secao" id="entregas">
+  <div class="secao-header">
+    <div class="secao-num">06</div>
+    <div>
+      <div class="secao-titulo">Como entregamos</div>
+      <div class="secao-desc">SLA por entrega — nunca prometa prazo além do que está aqui</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-inner">
+      <p style="font-size:14px;line-height:1.85;color:var(--ink-soft);">Cada entrega Zyllah passa por três etapas internas antes de chegar ao cliente: estratégia, produção e revisão editorial. Não existe entrega imediata — existe entrega correta. <strong style="color:var(--ink);">O prazo começa a contar quando o cliente entrega o que foi solicitado</strong> — briefing preenchido, materiais enviados, sessão de captação realizada.</p>
+    </div>
+  </div>
+
+  <table class="sla-table" style="margin-top:12px;">
+    <thead>
+      <tr>
+        <th>Entrega</th>
+        <th>Prazo</th>
+        <th>A partir de</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Brand Book completo</td>
+        <td>12–15 dias úteis</td>
+        <td>Briefing preenchido pelo cliente</td>
+      </tr>
+      <tr>
+        <td>Site (estrutura + copy)</td>
+        <td>15–20 dias úteis</td>
+        <td>Brand Book aprovado</td>
+      </tr>
+      <tr>
+        <td>Calendário editorial mensal</td>
+        <td>Entregue até dia 20</td>
+        <td>Do mês anterior</td>
+      </tr>
+      <tr>
+        <td>Posts de feed (Instagram / LinkedIn)</td>
+        <td>Conforme calendário aprovado</td>
+        <td>Sem demandas avulsas</td>
+      </tr>
+      <tr>
+        <td>Vídeos e Reels</td>
+        <td>Ciclo mensal — finalizados 10 dias antes da publicação</td>
+        <td>Sessão de captação realizada</td>
+      </tr>
+      <tr>
+        <td>Relatório mensal</td>
+        <td>Até dia 5</td>
+        <td>Do mês seguinte</td>
+      </tr>
+      <tr>
+        <td>Revisões solicitadas</td>
+        <td>48–72h úteis</td>
+        <td>Solicitação documentada por escrito</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="card" style="margin-top:12px;">
+    <div class="card-inner">
+      <div style="font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Produção de vídeos — como funciona</div>
+      <p style="font-size:13px;color:var(--ink-soft);line-height:1.7;">Os vídeos do mês são planejados, roteirizados e produzidos em uma única sessão de captação mensal. Nessa sessão, gravamos tudo de uma vez — diferentes temas, diferentes abordagens, diferentes roupas. A equipe de produção processa o material após a sessão e entrega cada vídeo finalizado conforme o calendário editorial aprovado. Não existe pedido avulso de vídeo — o sistema funciona em ciclo, o que garante consistência e qualidade.</p>
+    </div>
+  </div>
+</div>
+
 <!-- ══ CONTRATO ══ -->
 <div class="secao" id="contrato">
   <div class="secao-header">
-    <div class="secao-num">06</div>
+    <div class="secao-num">07</div>
     <div>
       <div class="secao-titulo">Base contratual</div>
       <div class="secao-desc">Cláusula 5 — Aprovação de conteúdo</div>
@@ -502,7 +583,7 @@ body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 3
 <!-- ══ FECHAMENTO ══ -->
 <div class="secao" id="fechamento">
   <div class="secao-header">
-    <div class="secao-num">07</div>
+    <div class="secao-num">08</div>
     <div>
       <div class="secao-titulo">Após o fechamento</div>
       <div class="secao-desc">O que acontece quando o contrato é assinado</div>
@@ -548,7 +629,7 @@ body { background: var(--cream); font-family: 'Jost', sans-serif; font-weight: 3
 <!-- ══ TREINAMENTO ══ -->
 <div class="secao" id="treinamento">
   <div class="secao-header">
-    <div class="secao-num">08</div>
+    <div class="secao-num">09</div>
     <div>
       <div class="secao-titulo">Treinamento</div>
       <div class="secao-desc">Quizzes gerados por IA — situações reais, sem decoreba</div>
