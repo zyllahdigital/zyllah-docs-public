@@ -18,7 +18,7 @@ Aqui ficam apenas documentos de compartilhamento com parceiros e colaboradores.
 | Arquivo | Para quem | Por quê |
 |---|---|---|
 | `ZYLLAH/brandbook.html` | colaboradores visuais | precisam do padrão para produzir |
-| `ZYLLAH/contratos.html` | parceiros jurídicos | leitura do pacote contratual |
+| `ZYLLAH/contratos.html` | parceiros jurídicos | pacote contratual **v2.0**, versão de revisão jurídica |
 | `ZYLLAH/mapa_riscos.html` | parceiros jurídicos | leitura dos riscos do contrato |
 | `roteiro_youtube_v1..v5.html` | editor/colaborador de vídeo | viram vídeo público de qualquer forma |
 
@@ -44,7 +44,15 @@ Aqui ficam apenas documentos de compartilhamento com parceiros e colaboradores.
 ⚠️ **Remoção não apaga o passado:** os dois seguem legíveis no histórico de commits deste
 repositório, que é público. Fechar isso exige reescrever o histórico.
 
-🔴 **Decisão em aberto:** `contratos.html` traz uma tela de acesso com `var SENHA = '2026'` **no
-próprio código-fonte**, o que a torna decorativa, e expõe a escada completa de preços. Para envio a
-parceiro jurídico existe ferramenta própria no vault — `08_TECNICO/gerar_contrato_para_advogado.py`,
-que gera a versão de envio externo **sem a tela de senha**.
+**12/08/2026 — `ZYLLAH/contratos.html` substituído pela versão de revisão jurídica.**
+A anterior trazia `var SENHA = '2026'` **no próprio código-fonte**, o que tornava a tela de acesso
+decorativa, e carimbava "Uso interno" num documento que ia para terceiro. Pior: **declarava a versão
+`v2.7`, que nunca existiu** — um número fantasma que o vault já havia corrigido internamente e que
+tinha sobrevivido aqui fora.
+
+A nova é derivada do contrato vivo por `08_TECNICO/gerar_contrato_para_advogado.py`, e o script
+confere sozinho antes de entregar: **v2.0 · sem bloco de senha · sem tela de senha · sem carimbo de
+uso interno · 5 documentos · 20 cláusulas · divs balanceadas.**
+
+> ⛔ **Não editar este arquivo à mão.** Mudou o contrato, rode o script de novo e substitua.
+> Editar aqui recria a cópia que envelhece, que é a doença que este saneamento veio curar.
